@@ -3,16 +3,19 @@ import React, {useState} from 'react';
 import { Formik } from 'formik';
 import Colors from "@const/Colors";
 import Button from '@components/Button';
+import {getOTP, login} from '@apis'
 
+const mockNumber = '03123456789';
+const mockOTP = '789456';
 export default function LoginCard() {
   const [isSelected, setSelection] = useState(false);
-
+  
   return (
     <View >
       <View style={styles.container}>
         <Formik
           initialValues={{ phoneNumber: '', OTP: '' }}
-          onSubmit={values => console.log(values)}
+          onSubmit={values => login(mockNumber, mockOTP)}
         >
           {({ handleChange, handleBlur, handleSubmit, values }) => (
             <>
@@ -40,7 +43,7 @@ export default function LoginCard() {
                     keyboardType="phoneNumber"
                   />
                 
-                <Pressable onPress={() => console.log("1111")} style={{
+                <Pressable onPress={() => getOTP('03123456789')} style={{
                   position: 'absolute', right: '15px'
                 }}>
                     <View style={{

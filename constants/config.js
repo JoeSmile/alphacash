@@ -1,7 +1,7 @@
 import Constants from 'expo-constants'
 
 const baseURL = {
-    dev: 'dev',
+    dev: 'https://alphacashapi.tangbull.com',
     prod: 'prod'
 }[Constants.manifest.extra.ENV];
 

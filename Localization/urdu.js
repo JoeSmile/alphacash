@@ -1,4 +1,4 @@
-export const zh = {
+export const urdu = {
   welcome: "欢迎",
   name: "姓名",
   loans: "贷款",

@@ -10,7 +10,7 @@ const data = [
   },
   {
     title: "Urdu",
-    locale: "zh",
+    locale: "urdu",
   },
 ];
 

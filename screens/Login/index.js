@@ -6,37 +6,45 @@ import Colors from "../../constants/Colors";
 import Switcher from './Switcher';
 import Avatar from '@components/Avatar';
 
-const image = {uri: 'https://legacy.reactjs.org/logo-og.png'};
+const image = {uri: require('@assets/images/bg.png')};
 
 export default function Login({ navigation: { goBack } }) {
   return (
-    <SafeAreaView style={{
-      backgroundColor: Colors.primary
-    }}>
-      <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-        <View style={styles.container}>
-          {/* <Pressable onPress={() => goBack()}>
-            <Text style={styles.text}>back</Text>
-          </Pressable>
-          <Text style={styles.text}>Login</Text> */}
-          <Switcher />
-          <Avatar title='Alphacash' />
-          <LoginCard />
-        </View>
-      </ImageBackground>
+    <SafeAreaView>
+      <View style={{
+        width: '100vw',
+        height: '240px',
+        backgroundColor: Colors.light.primary
+      }}>
+        <ImageBackground source={image} resizeMode="cover" style={styles.image}>
+          <View style={styles.container}>
+            {/* <Pressable onPress={() => goBack()}>
+              <Text style={styles.text}>back</Text>
+            </Pressable>
+            <Text style={styles.text}>Login</Text> */}
+            <Switcher />
+            <Avatar title='Alphacash' style={{
+              marginTop: '15px'
+            }}/>
+          </View>
+        </ImageBackground>
+      </View>
+     
+      <LoginCard />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   image: {
-    flex: 1,
-    height: '260px',
+    height: '100%',
+    width: '100%',
   },
   container: {
-    backgroundColor: '#0825B8',
     color: 'white',
-    padding: '15px'
+    paddingVertical:'30px',
+    paddingHorizontal:'20px',
+    backgroundColor: 'transparent'
   },
   text: {
     color: 'white'

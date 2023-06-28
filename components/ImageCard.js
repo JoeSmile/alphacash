@@ -14,7 +14,11 @@ export default function ImageCard({
         contentFit="cover"
         transition={1000}
       />
-      <Text>{title}</Text>
+      <Text style={{
+        fontSize: '20px',
+        marginTop: '8px',
+        color: 'white'
+      }}>{title}</Text>
     </View>
   );
 }
@@ -27,7 +31,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   image: {
-    height: "100%",
-    width: "100px",
+    height: "75px",
+    width: "75px",
   },
 });

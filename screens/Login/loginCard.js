@@ -1,4 +1,4 @@
-import { SafeAreaView, TextInput, StyleSheet } from "react-native";
+import { View, TextInput, StyleSheet } from "react-native";
 import React from 'react';
 
 export default function LoginCard() {
@@ -6,7 +6,7 @@ export default function LoginCard() {
   const [number, onChangeNumber] = React.useState('');
 
   return (
-    <SafeAreaView>
+    <View style={styles.container}>
       <TextInput
         style={styles.input}
         onChangeText={onChangeText}
@@ -19,11 +19,14 @@ export default function LoginCard() {
         placeholder="useless placeholder"
         keyboardType="numeric"
       />
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'transparent',
+  }, 
   input: {
     height: 40,
     margin: 12,

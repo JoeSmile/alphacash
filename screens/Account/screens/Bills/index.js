@@ -3,7 +3,7 @@ import { View, useWindowDimensions } from "react-native";
 import { TabView, SceneMap } from "react-native-tab-view";
 import Processing from "./Processing";
 import Completed from "./Completed";
-import { useI18nStore } from "@hooks/useI18nStore";
+import { i18n } from "@hooks/useI18nStore";
 
 const renderScene = SceneMap({
   Processing: Processing,
@@ -12,7 +12,7 @@ const renderScene = SceneMap({
 
 export default function TabViewExample() {
   const layout = useWindowDimensions();
-  const { i18n } = useI18nStore();
+
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: "Processing", title: i18n.t("processing") },

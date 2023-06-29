@@ -3,10 +3,13 @@ import React, {useState} from 'react';
 import { Formik } from 'formik';
 import Colors from "@const/Colors";
 import Button from '@components/Button';
-import {getOTP, login} from '@apis'
+import {getOTP, login, encodeSHA} from '@apis'
+
 
 const mockNumber = '03123456789';
 const mockOTP = '789456';
+
+encodeSHA()
 export default function LoginCard() {
   const [isSelected, setSelection] = useState(false);
   

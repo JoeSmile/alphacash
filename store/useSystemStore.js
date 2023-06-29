@@ -4,6 +4,7 @@ import { AsyncStorage } from 'react-native';
 
 import { isDev } from "../constants/config";
 
+
 export const useSystemStore = create(persist(
 (set, get) => ({
   isReadPolicy: false,

@@ -13,7 +13,7 @@ export const LocaleTypes = {
 };
 
 export const i18n = new I18n(translations)
-
+console.log('isDev --------------',isDev )
 export const useI18nStore = create(persist(
   (set, get) => ({
     locale: LocaleTypes.en,

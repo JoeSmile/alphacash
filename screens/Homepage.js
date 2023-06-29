@@ -1,12 +1,14 @@
 import { Pressable, StyleSheet } from "react-native";
 import { Text, View } from "../components/Themed";
-import { i18n } from "../hooks/useI18nStore";
+import { useI18n, LocaleTypes } from "@hooks/useI18n";
 
 export default function Homepage() {
+  const { i18n, setLocale, locale }= useI18n();
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{i18n.t("welcome")}</Text>
-      <Pressable onPress={() => setLocale(LocaleTypes.urdu)}>
+      <Pressable onPress={() => setLocale(locale === LocaleTypes.en ? LocaleTypes.urdu : LocaleTypes.en)}>
         <Text>switch language</Text>
       </Pressable>
     </View>

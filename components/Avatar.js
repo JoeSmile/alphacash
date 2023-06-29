@@ -15,8 +15,8 @@ export default function Avatar ({title, style={}}) {
 				}}
 				imgSource={
 					isLogin
-					? require("@assets/images/mac.png")
-					: require("@assets/images/logo.jpeg")
+					? require("@assets/images/2.png")
+					: require("@assets/images/1.png")
 			}/>
 		</View>
 	)

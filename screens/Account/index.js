@@ -39,8 +39,8 @@ const Account = ({ navigation }) => {
           title="产品名称"
           imgSource={
             isLogin
-              ? require("@assets/images/mac.png")
-              : require("@assets/images/logo.jpeg")
+              ? require("@assets/images/2.png")
+              : require("@assets/images/1.png")
           }
         />
       </View>

@@ -1,5 +1,5 @@
 import { View,Text, Pressable, StyleSheet } from 'react-native';
-import { useI18nStore, LocaleTypes } from "@hooks/useI18nStore";
+import { useI18nStore, LocaleTypes } from "@store/useI18nStore";
 
 
 export default function Switcher () {

@@ -48,7 +48,8 @@
     "react-query": "^3.39.3",
     "yup": "^1.2.0",
     "zustand": "^4.3.8",
-    "expo-crypto": "~12.2.1"
+    "expo-crypto": "~12.2.1",
+    "@react-native-community/netinfo": "9.3.7"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

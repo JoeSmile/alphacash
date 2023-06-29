@@ -1,7 +1,6 @@
 import { Text, Pressable, View, FlatList } from "react-native";
-import { useI18nStore } from "@hooks/useI18nStore";
+import { useI18nStore } from "@store/useI18nStore";
 import { Ionicons } from "@expo/vector-icons";
-import { currentLocale } from "i18n-js";
 
 const data = [
   {

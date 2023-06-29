@@ -7,7 +7,7 @@ import { useColorScheme } from "react-native";
 import Colors from "../constants/Colors";
 
 import Homepage from "../screens/Homepage";
-import { i18n } from "../hooks/useI18nStore";
+import { useI18n } from "@hooks/useI18n";
 
 import { MineNavigator } from "./MineNavigator";
 import { pageHeader } from "../styles/pageHeader";
@@ -16,6 +16,7 @@ const BottomTab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
+  const {i18n} = useI18n()
 
   return (
     <BottomTab.Navigator

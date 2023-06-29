@@ -8,9 +8,9 @@ export function getOTP(phoneNumber) {
         });
 }
 
-export function login(phoneNumber, otp) {
+export function login(parameters) {
     return axios.post(`${baseURL}/api/app/login`, {
-            phoneNumber, otp}).then((response) => {
+            ...parameters}).then((response) => {
           console.log('response.data', response);
           return response
         });

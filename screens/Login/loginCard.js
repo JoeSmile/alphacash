@@ -3,14 +3,11 @@ import React, {useState} from 'react';
 import { Formik } from 'formik';
 import Colors from "@const/Colors";
 import Button from '@components/Button';
-import {getOTP, login, encodeSHA, getNetInfo} from '@apis'
-
+import {getOTP, login, encodeSHA, getNetInfo } from '@apis'
 
 const mockLoginParameters = {
-  app:'alphacash',
-  sign:'123dsabnwe2',
   phoneNumber:'01238137213',
-  otp: 789456,
+  otp: '789456',
 }
 
 encodeSHA();

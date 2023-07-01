@@ -62,8 +62,12 @@ const image = {uri: require('@assets/images/bg.png')};
 
 const Account = ({ navigation }) => {
   const [isLogin, login] = useUserInfo((s) => [s.isLogin, s.login]);
+  console.log('isLogin', isLogin)
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{
+      maxHeight: '100vh',
+      overflow: 'hidden'
+    }}>
       <View style={{
         width: '100vw',
         height: '240px',
@@ -84,13 +88,10 @@ const Account = ({ navigation }) => {
         <FList data={data} itemStyle={styles.FList}/>
       </View>
 
-      <View
-        style={{
-          width: "100%",
-          alignItems: "center",
-          marginTop: "50px",
-        }}
-      >
+      <View style={{
+         transform: 'translateY(-50px)',
+         alignItems: "center"
+      }}>
         {!isLogin && (
           <Pressable
             style={{

@@ -4,6 +4,7 @@ import { Formik } from 'formik';
 import Colors from "@const/Colors";
 import Button from '@components/Button';
 import {getOTP, login, encodeSHA, getNetInfo } from '@apis'
+import { useUserInfo } from '@store/useUserInfo';
 
 const mockLoginParameters = {
   phoneNumber:'01238137213',
@@ -14,13 +15,17 @@ encodeSHA();
 getNetInfo();
 export default function LoginCard() {
   const [isSelected, setSelection] = useState(false);
-  
+  const [isLogin, setLogin] = useUserInfo((s) => [s.isLogin, s.setLogin]);
+
   return (
     <View >
       <View style={styles.container}>
         <Formik
           initialValues={{ phoneNumber: '', OTP: '' }}
-          onSubmit={values => login(mockLoginParameters)}
+          onSubmit={values => {
+            login(mockLoginParameters);
+            setLogin(!isLogin);
+            }}
         >
           {({ handleChange, handleBlur, handleSubmit, values }) => (
             <>

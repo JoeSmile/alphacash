@@ -11,6 +11,7 @@ import { useI18n } from "@hooks/useI18n";
 
 import { MineNavigator } from "./MineNavigator";
 import { pageHeader } from "../styles/pageHeader";
+import Account from "../screens/Account";
 
 const BottomTab = createBottomTabNavigator();
 
@@ -36,8 +37,8 @@ export default function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="Mine"
-        component={MineNavigator}
+        name="Account"
+        component={Account}
         options={{
           title: i18n.t("mine"),
           headerShown: false,

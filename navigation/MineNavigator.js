@@ -1,31 +1,22 @@
-import Account from "../screens/Account";
-import { createStackNavigator } from "@react-navigation/stack";
-
-import { SettingsNavigator } from "./SettingNavigator";
-import { MyCardsNavigator } from "./MyCardsNavigator";
+import Settings from "@screens/Settings";
 import { BillsNavigator } from "./BillsNavigator";
-import { CredentialsNavigator } from "./CredentialsNavigator";
-
+import Credentials from "@screens/Account/screens/Credentials";
 import ContactUs from "@screens/Account/screens/ContactUs";
+import MyCards from "@screens/Account/screens/MyCards/index";
 
-const MineStack = createStackNavigator();
-
-const MineScreens = [
-  {
-    name: "Account",
-    component: Account,
-  },
+export const MineScreens = [
   {
     name: "Bills",
     component: BillsNavigator,
   },
   {
     name: "Credentials",
-    component: CredentialsNavigator,
+    component: Credentials,
+    headerTitle: "Credentials",
   },
   {
     name: "MyCards",
-    component: MyCardsNavigator,
+    component: MyCards,
   },
   {
     name: "ContactUs",
@@ -34,25 +25,7 @@ const MineScreens = [
   },
   {
     name: "Settings",
-    component: SettingsNavigator,
-    headerShown: false,
+    component: Settings,
+    headerTitle: "设置",
   },
 ];
-
-export function MineNavigator() {
-  return (
-    <MineStack.Navigator>
-      {MineScreens.map((screen) => (
-        <MineStack.Screen
-          key={screen.name}
-          name={screen.name}
-          options={{
-            headerTitle: screen.headerTitle,
-            headerShown: !!screen.headerTitle,
-          }}
-          component={screen.component}
-        />
-      ))}
-    </MineStack.Navigator>
-  );
-}

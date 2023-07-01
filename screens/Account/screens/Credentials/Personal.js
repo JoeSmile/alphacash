@@ -43,7 +43,12 @@ export default function PersonalInfo({navigation}) {
                   keyboardType="phoneNumber"
                 />
               </View>
-              <FDatePicker />
+              <View>
+                <View>
+                  <Text>Date of Birth</Text>
+                  
+                </View>
+              </View>
             </>
           )}
         </Formik>

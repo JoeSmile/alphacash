@@ -1,17 +1,10 @@
-import { createStackNavigator } from "@react-navigation/stack";
+ import { createStackNavigator } from "@react-navigation/stack";
 
-import Settings from "@screens/Settings";
 import { Language } from "@screens/Settings/Language";
 import { PrivatePolicy } from "@screens/Settings/PrivatePolicy";
 
-const SettingsStack = createStackNavigator();
+export const SettingsScreens = [
 
-const SettingsScreens = [
-  {
-    name: "Settings",
-    component: Settings,
-    headerTitle: "设置",
-  },
   {
     name: "Language",
     component: Language,
@@ -23,21 +16,3 @@ const SettingsScreens = [
     headerTitle: "隐私协议",
   },
 ];
-
-export function SettingsNavigator() {
-  return (
-    <SettingsStack.Navigator>
-      {SettingsScreens.map((screen) => (
-        <SettingsStack.Screen
-          key={screen.name}
-          name={screen.name}
-          options={{
-            headerTitle: screen.headerTitle,
-            headerShown: screen.headerShow,
-          }}
-          component={screen.component}
-        />
-      ))}
-    </SettingsStack.Navigator>
-  );
-}

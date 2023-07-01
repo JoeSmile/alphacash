@@ -5,7 +5,7 @@ import BillDetail from "@screens/Account/screens/Bills/BillDetail";
 
 const BillsStack = createStackNavigator();
 
-const BillsScreens = [
+export const BillsScreens = [
   {
     name: "Bills",
     component: Bills,

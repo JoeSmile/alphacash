@@ -13,7 +13,11 @@ import LinkingConfiguration from "./LinkingConfiguration";
 
 import Start from "../screens/Start";
 import Login from "../screens/Login";
-import {pageHeader} from "@styles";
+import { pageHeader } from "@styles";
+import { MineScreens } from './MineNavigator';
+import { CredentialsScreens } from './CredentialsNavigator';
+import { MyCardsScreens } from './MyCardsNavigator';
+import { SettingsScreens } from './SettingNavigator';
 
 export default function Navigation({ colorScheme }) {
   return (
@@ -35,27 +39,39 @@ function RootNavigator() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Group>
         <Stack.Screen name="Start" component={Start}  options={{
-          headerStyle: {
            ...pageHeader
-          },
         }}/>
         <Stack.Screen name="Login" component={Login}  options={{
-          headerStyle: {
            ...pageHeader
-          },
         }}/>
       </Stack.Group>
 
       <Stack.Screen name="Homepage" component={BottomTabNavigator} />
-
+      {
+        [
+          ...MineScreens, 
+          ...CredentialsScreens, 
+          ...MyCardsScreens, 
+          ...SettingsScreens
+        ].map((screen) => (
+          <Stack.Screen
+            key={screen.name}
+            name={screen.name}
+            options={{
+              headerTitle: screen.headerTitle,
+              headerShown: !!screen.headerTitle,
+              ...pageHeader
+            }}
+            component={screen.component}
+          />
+        ))
+      }
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}
         options={{
           title: "Oops!",
-          headerStyle: {
-           ...pageHeader
-          },
+          ...pageHeader
         }}
       />
     </Stack.Navigator>

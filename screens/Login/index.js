@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, Pressable, ImageBackground, StyleSheet } from "react-native";
+import { SafeAreaView, Image, Pressable, ImageBackground, StyleSheet } from "react-native";
 import React from 'react';
 import LoginCard from './loginCard';
 import { View } from "../../components/Themed";
@@ -16,12 +16,26 @@ export default function Login({ navigation: { goBack } }) {
         height: '240px',
         backgroundColor: Colors.light.primary
       }}>
+      <Pressable style={{
+        zIndex: '1000',
+        height: '30px',
+        width: '30px',
+        position: 'absolute',
+        left: '20px',
+        top: '20px',
+      }} onPress={()=> goBack()}>
+        <Image
+            source={require('@assets/images/arrow_left.svg')}
+            contentFit="cover"
+            transition={1000}
+            style={{
+              width: "20px",
+              height: '20px',
+            }}
+          />
+      </Pressable>
         <ImageBackground source={image} resizeMode="cover" style={styles.image}>
           <View style={styles.container}>
-            {/* <Pressable onPress={() => goBack()}>
-              <Text style={styles.text}>back</Text>
-            </Pressable>
-            <Text style={styles.text}>Login</Text> */}
             <Switcher />
             <Avatar title='Alphacash' style={{
               marginTop: '15px'

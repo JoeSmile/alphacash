@@ -1,14 +1,14 @@
-import { Text, FlatList, Pressable } from "react-native";
+import { Text, FlatList, Pressable, Image } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 const Item = (props) => {
-  const { title, screen, leftItem, displayIcon = true } = props;
+  const { title, screen, leftItem, displayIcon = true, itemStyle={} } = props;
   const navigation = useNavigation();
+  console.log('itemStyle', itemStyle)
   return (
     <Pressable
-      style={{
-        borderBottomWidth: "1px",
+      style={[{
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
@@ -16,28 +16,38 @@ const Item = (props) => {
         alignItems: "center",
         marginBottom: "20px",
         paddingHorizontal: "20px",
-      }}
+      }, itemStyle]}
       onPress={() => {
         screen && navigation.push(screen);
       }}
     >
+
       {!!leftItem ? (
         leftItem(props)
       ) : (
-        <Text style={{ fontSize: "18px" }}>{title}</Text>
+        <Text style={{ fontSize: "16px" }}>{title}</Text>
       )}
 
-      {displayIcon && <AntDesign name="right" size={24} color="black" />}
+      {displayIcon && <Image
+        source={require('@assets/images/triangle_right.svg')}
+        contentFit="cover"
+        transition={1000}
+        style={{
+          width: '16px',
+          height: '16px'
+        }}
+      />}
+
     </Pressable>
   );
 };
 
-const FList = ({ data, ...restProps }) => {
+const FList = ({ data, itemStyle, ...restProps }) => {
   return (
     <FlatList
       data={data}
       renderItem={({ item }) =>
-        item.render ? item.render(item) : <Item {...item} />
+        item.render ? item.render(item) : <Item {...item} itemStyle={itemStyle}/>
       }
       keyExtractor={(item) => item.id || item.title}
       {...restProps}

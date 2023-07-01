@@ -20,7 +20,3 @@ export async function login(parameters) {
           return response
         });
 }
-
-
-string: `app=alphacash&otp=789456&phoneNumber=01238137213&https://alphacashapi.tangbull.com/api/app/loginPOST{0ojkUdVrny#BN3RRH63P}`
-sign: '1d5389e7fe6b0263ce4c0b0b0859e4bc56526a71'

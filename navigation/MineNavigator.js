@@ -14,7 +14,6 @@ const MineScreens = [
   {
     name: "Account",
     component: Account,
-    headerTitle: "我的",
   },
   {
     name: "Bills",

@@ -8,7 +8,7 @@ export default function Start({ navigation, navigator }) {
   const [modalVisible, setModalVisible] = useState(!isReadPolicy);
   useEffect(() => {
     if(isReadPolicy) {
-      navigation.replace("Login");
+      navigation.replace("Homepage");
     }
   }, [])
   return ( 

@@ -1,9 +1,12 @@
-import { View, Text } from "react-native";
+import { View, Text, Pressable } from "react-native";
 
-export default function PersonalInfo() {
+export default function PersonalInfo({navigation}) {
   return (
     <View>
-      <Text>PersonalInfo</Text>
+      <Pressable onPress={() => navigation.push("Credentials")}>
+        <Text>PersonalInfo</Text>
+
+      </Pressable>
     </View>
   );
 }

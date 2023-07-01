@@ -2,7 +2,7 @@ import { View,Text, Pressable, StyleSheet } from 'react-native';
 import { useI18nStore, LocaleTypes } from "@store/useI18nStore";
 
 
-export default function Switcher () {
+export default function LanguageSwitcher () {
 const { locale, setLocale } = useI18nStore();
 return (
     <View style={{ display: 'flex', flexDirection: 'row', gap:'4px', justifyContent: 'flex-end'}}>

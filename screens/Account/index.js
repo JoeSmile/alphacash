@@ -1,11 +1,8 @@
-import { View, Text, Pressable, StyleSheet, SafeAreaView, ImageBackground, Image } from "react-native";
+import { View, Text, Pressable, StyleSheet, Image } from "react-native";
 import React from 'react';
-import Colors from "@const/Colors";
-import Avatar from '@components/Avatar';
 import { useUserInfo } from "@store/useUserInfo";
 import FList from "@components/FList";
-import Switcher from '@screens/Login/Switcher';
-
+import UserLayout from '@components/UserLayout';
 
 const Item = (item) => {
   return (
@@ -23,7 +20,6 @@ const Item = (item) => {
     </View>
   );
 }
-
 
 const data = [
   {
@@ -64,24 +60,7 @@ const Account = ({ navigation }) => {
   const [isLogin, login] = useUserInfo((s) => [s.isLogin, s.login]);
   console.log('isLogin', isLogin)
   return (
-    <SafeAreaView style={{
-      maxHeight: '100vh',
-      overflow: 'hidden'
-    }}>
-      <View style={{
-        width: '100vw',
-        height: '240px',
-        backgroundColor: Colors.light.primary
-      }}>
-        <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-          <View style={styles.container}>
-            <Switcher />
-            <Avatar title='Alphacash' style={{
-              marginTop: '15px'
-            }}/>
-          </View>
-        </ImageBackground>
-      </View>
+    <UserLayout> 
       <View
         style={styles.itemsContainer}
       >
@@ -115,7 +94,7 @@ const Account = ({ navigation }) => {
           </Pressable>
         )}
       </View>
-    </SafeAreaView>
+    </UserLayout>
   );
 };
 

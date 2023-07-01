@@ -1,4 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
+import {pageHeader} from "@styles";
 
 import Credentials from "@screens/Account/screens/Credentials";
 import Personal from "@screens/Account/screens/Credentials/Personal";
@@ -46,6 +47,7 @@ export function CredentialsNavigator() {
           options={{
             headerTitle: screen.headerTitle,
             headerShown: !!screen.headerTitle,
+            ...pageHeader
           }}
           component={screen.component}
         />

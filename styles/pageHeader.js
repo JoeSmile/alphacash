@@ -5,5 +5,7 @@ export const pageHeader =  {
     },
     headerTitleStyle: {
         color: 'white'
-    }
+    },
+    headerTitleAlign: 'center',
+    headerTintColor: 'white'
 }

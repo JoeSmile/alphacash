@@ -18,7 +18,7 @@ const CredentialsScreens = [
   {
     name: "Personal",
     component: Personal,
-    headerTitle: "个人信息",
+    headerTitle: "Personal Info",
   },
   {
     name: "Job",

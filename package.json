@@ -14,7 +14,9 @@
     "@expo/vector-icons": "^13.0.0",
     "@expo/webpack-config": "^18.0.1",
     "@react-native-async-storage/async-storage": "^1.18.2",
+    "@react-native-community/datetimepicker": "^6.7.3",
     "@react-native-community/masked-view": "^0.1.11",
+    "@react-native-community/netinfo": "9.3.7",
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
@@ -23,6 +25,7 @@
     "expo": "~48.0.15",
     "expo-asset": "^8.9.1",
     "expo-constants": "~14.2.1",
+    "expo-crypto": "~12.2.1",
     "expo-font": "^11.1.1",
     "expo-image": "~1.0.1",
     "expo-linking": "^4.0.1",
@@ -47,9 +50,7 @@
     "react-native-web": "~0.18.10",
     "react-query": "^3.39.3",
     "yup": "^1.2.0",
-    "zustand": "^4.3.8",
-    "expo-crypto": "~12.2.1",
-    "@react-native-community/netinfo": "9.3.7"
+    "zustand": "^4.3.8"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

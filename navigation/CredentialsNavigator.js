@@ -1,9 +1,8 @@
 
-import Personal from "@screens/Account/screens/Credentials/Personal";
 import Job from "@screens/Account/screens/Credentials/Job";
 import Emergency from "@screens/Account/screens/Credentials/Emergency";
 import Certificate from "@screens/Account/screens/Credentials/Certificate";
-
+import Personal from '@screens/Account/screens/Credentials/Personal'
 
 export const CredentialsScreens = [
   {

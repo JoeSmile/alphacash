@@ -4,9 +4,10 @@ import { FDatePicker} from '@components/FDatePicker';
 import { Picker } from '@react-native-picker/picker';
 import { FTextInput, FSelect } from '@components/Inputs';
 
-import {genderOptions, marriageOptions, educationOptions} from './consts';
-import { provincesOptions } from '@const/provinces';
-import { citiesOptions } from '@const/cities';
+import { 
+    provincesOptions, citiesOptions, genderOptions,
+    marriageOptions, educationOptions 
+} from '@const';
 
 const initialValues = {
   name: '',
@@ -81,12 +82,11 @@ export default function Personal({navigation}) {
                   gap: '10px'
                 }}>
                   <FSelect name="provinceId" label="Province" options={provincesOptions}
-                    valueKey='province_id' labelKey='province_name' containerStyle={{paddingTop: 0}}
+                    valueKey='province_id' labelKey='province_name'
                   />
 
                   <FSelect name="cityId" label="City" options={citiesOptions.filter(city => values['provinceId'] ? city.province_id == values['provinceId'] : true)}
                     valueKey='city_id' labelKey='city_name' 
-                    containerStyle={{paddingTop: 0}}
                   />
                 </View>
               </View>
@@ -99,7 +99,7 @@ export default function Personal({navigation}) {
               </View>
             </>
           )}
-        </Formik>
+      </Formik>
         <Pressable onPress={() => navigation.goBack()}>
           <Text style={{color: '#4F5E6F', textAlign: 'center', marginVertical: '15px'}}>Return</Text>
         </Pressable>

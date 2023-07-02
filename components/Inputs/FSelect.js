@@ -28,6 +28,7 @@ export function FSelect ({
       style={{
         height: '50px',
         borderRadius: '10px',
+        backgroundColor: 'white'
       }}
       >
       {options.map((item, index) => 

@@ -8,6 +8,7 @@ import {
     provincesOptions,
     otherLoanOptions  
 } from '@const';
+import Return from './Return';
 
 const initialValues = {
   "workField": 1,
@@ -108,6 +109,7 @@ export default function Job({navigation}) {
           </>
         )}
       </Formik>
+      <Return />
     </View>
   );
 }

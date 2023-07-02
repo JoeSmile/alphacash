@@ -3,7 +3,7 @@ import { Formik, Field, Form } from 'formik';
 import { FDatePicker} from '@components/FDatePicker';
 import { Picker } from '@react-native-picker/picker';
 import { FTextInput, FSelect } from '@components/Inputs';
-
+import Return from '../Return';
 import { 
     provincesOptions, citiesOptions, genderOptions,
     marriageOptions, educationOptions 
@@ -100,9 +100,7 @@ export default function Personal({navigation}) {
             </>
           )}
       </Formik>
-        <Pressable onPress={() => navigation.goBack()}>
-          <Text style={{color: '#4F5E6F', textAlign: 'center', marginVertical: '15px'}}>Return</Text>
-        </Pressable>
+      <Return />
     </View>
     </SafeAreaView>
   );

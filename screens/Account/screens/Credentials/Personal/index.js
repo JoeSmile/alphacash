@@ -4,6 +4,7 @@ import { FDatePicker} from '@components/FDatePicker';
 import { Picker } from '@react-native-picker/picker';
 import { FTextInput, FSelect } from '@components/Inputs';
 import Return from '../Return';
+import SafeIntro from '../SafeIntro';
 import { 
     provincesOptions, citiesOptions, genderOptions,
     marriageOptions, educationOptions 
@@ -27,22 +28,8 @@ export default function Personal({navigation}) {
   return (
     <SafeAreaView >
     <View style={styles.container}>
-        <View style={styles.safeTextContainer}>
-        <View >
-          <Image 
-            source={require('@assets/images/mine_info_ic_safe.svg')}
-            contentFit="cover"
-            transition={1000}
-            style={{
-              width: '22px',
-              height: '22px',
-            }}/>
-        </View>
-          <Text style={styles.safeText}>
-            The information you fill in is only used for credit
-    evaluation and will never be used for other purposes.We use encryption to ensure your information security!
-          </Text>
-        </View>
+      <SafeIntro safeText=" The information you fill in is only used for credit
+      evaluation and wi ll never be used for other purposes.We use encryption to ensure your information security!"/>
       {/* form */}
 
       <Formik

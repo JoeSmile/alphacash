@@ -3,7 +3,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 const Item = (props) => {
-  const { title, screen, leftItem, displayIcon = true, itemStyle={} } = props;
+  const { title, screen, leftItem, displayIcon = true, itemStyle = {} } = props;
   const navigation = useNavigation();
   console.log('itemStyle', itemStyle)
   return (
@@ -25,7 +25,7 @@ const Item = (props) => {
       {!!leftItem ? (
         leftItem(props)
       ) : (
-        <Text style={{ fontSize: "16px" }}>{title}</Text>
+        <Text style={{ fontSize: 16 }}>{title}</Text>
       )}
 
       {displayIcon && <Image
@@ -47,7 +47,7 @@ const FList = ({ data, itemStyle, ...restProps }) => {
     <FlatList
       data={data}
       renderItem={({ item }) =>
-        item.render ? item.render(item) : <Item {...item} itemStyle={itemStyle}/>
+        item.render ? item.render(item) : <Item {...item} itemStyle={itemStyle} />
       }
       keyExtractor={(item) => item.id || item.title}
       {...restProps}

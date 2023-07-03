@@ -7,11 +7,11 @@ export default function Start({ navigation, navigator }) {
   const [isReadPolicy, setReadPolicy] = useSystemStore(s => [s.isReadPolicy, s.setReadPolicy])
   const [modalVisible, setModalVisible] = useState(!isReadPolicy);
   useEffect(() => {
-    if(isReadPolicy) {
+    if (isReadPolicy) {
       navigation.replace("Homepage");
     }
   }, [])
-  return ( 
+  return (
     <View>
       <Text>License No: XXXXXXX</Text>
       <FModal
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   modalHeader: {
-    fontSize: "28px",
+    fontSize: 28,
     marginBottom: "20px",
   },
   modalText: {

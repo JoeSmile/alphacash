@@ -1,13 +1,13 @@
 import { View, TextInput, StyleSheet, Text, Pressable, CheckBox } from "react-native";
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
 import Colors from "@const/Colors";
 import Button from '@components/Button';
-import {getOTP, login, encodeSHA, getNetInfo } from '@apis'
+import { getOTP, login, encodeSHA, getNetInfo } from '@apis'
 import { useUserInfo } from '@store/useUserInfo';
 
 const mockLoginParameters = {
-  phoneNumber:'01238137213',
+  phoneNumber: '01238137213',
   otp: '789456',
 }
 
@@ -25,7 +25,7 @@ export default function LoginCard() {
           onSubmit={values => {
             login(mockLoginParameters);
             setLogin(!isLogin);
-            }}
+          }}
         >
           {({ handleChange, handleBlur, handleSubmit, values }) => (
             <>
@@ -43,7 +43,7 @@ export default function LoginCard() {
               </View>
               <View style={styles.inputContainer}>
                 <Text style={styles.label}>OTP</Text>
-                <View style={{position: 'relative'}}>
+                <View style={{ position: 'relative' }}>
                   <TextInput
                     name="OTP"
                     style={styles.textInput}
@@ -52,10 +52,10 @@ export default function LoginCard() {
                     value={values.OTP}
                     keyboardType="phoneNumber"
                   />
-                
-                <Pressable onPress={() => getOTP('03123456789')} style={{
-                  position: 'absolute', right: '15px'
-                }}>
+
+                  <Pressable onPress={() => getOTP('03123456789')} style={{
+                    position: 'absolute', right: '15px'
+                  }}>
                     <View style={{
                       display: 'flex',
                       flexDirection: 'row',
@@ -66,13 +66,13 @@ export default function LoginCard() {
                         borderRightWidth: '1px',
                         borderRightColor: '#E1E3E8',
                         height: "20px"
-                      }}/>
+                      }} />
                       <Text style={styles.otpText}>Get OTP</Text>
                     </View>
-                
+
                   </Pressable>
                 </View>
-          
+
               </View>
               <Button style={styles.loginButton} onPress={handleSubmit} title="Log In" />
             </>
@@ -80,7 +80,7 @@ export default function LoginCard() {
         </Formik>
         <Text style={{
           color: '#8899AC',
-          fontSize: '12px',
+          fontSize: 12,
           marginTop: '10px',
           width: "95%",
           alignSelf: 'center',
@@ -92,30 +92,30 @@ export default function LoginCard() {
       <View flexDirection='row'>
         <Text style={{
           transform: 'translateY(-30px)',
-          fontSize: '12px',
+          fontSize: 12,
           textAlign: 'center',
           verticalAlign: 'sub'
         }}>
-        <CheckBox
-          value={isSelected}
-          onValueChange={setSelection}
-          style={styles.checkbox}
-        />
-        Agree 
-        <Pressable style={{display: 'inline-block', marginRight: '2px', marginLeft: '2px'}}>
-          <Text style={{fontWeight: 600, color: Colors.light.primary}}>
-            Privacy Agreement 
-          </Text>
-        </Pressable>
-        and 
-        <Pressable style={{display: 'inline-block', marginRight: '2px', marginLeft: '2px'}}>
-          <Text style={{fontWeight: 600, color: Colors.light.primary}}>
-            Terms&Service
-          </Text>
-        </Pressable>
+          <CheckBox
+            value={isSelected}
+            onValueChange={setSelection}
+            style={styles.checkbox}
+          />
+          Agree
+          <Pressable style={{ display: 'inline-block', marginRight: '2px', marginLeft: '2px' }}>
+            <Text style={{ fontWeight: 600, color: Colors.light.primary }}>
+              Privacy Agreement
+            </Text>
+          </Pressable>
+          and
+          <Pressable style={{ display: 'inline-block', marginRight: '2px', marginLeft: '2px' }}>
+            <Text style={{ fontWeight: 600, color: Colors.light.primary }}>
+              Terms&Service
+            </Text>
+          </Pressable>
         </Text>
       </View>
-     
+
     </View>
 
   );
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     transform: 'translateY(-50px)',
     boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1),0 1px 2px 0 rgba(0, 0, 0, 0.06)'
-  }, 
+  },
   input: {
     height: 40,
     margin: 12,
@@ -147,17 +147,17 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: '100%',
     marginBottom: '20px'
-  }, 
+  },
   otpText: {
     color: Colors.light.primary,
-    fontSize: '16px',
+    fontSize: 16,
     fontWeight: 600,
     height: '50px',
     lineHeight: '50px'
   },
   label: {
-    marginBottom:'10px'
-  }, 
+    marginBottom: '10px'
+  },
   textInput: {
     paddingLeft: '15px',
     height: 50,
@@ -171,10 +171,10 @@ const styles = StyleSheet.create({
     height: '50px',
     width: '95%',
     backgroundColor: Colors.light.primary,
-    alignSelf:'center'
+    alignSelf: 'center'
   },
   checkbox: {
-   marginRight: '5px',
-   textAlignVertical: 'sub'
+    marginRight: '5px',
+    textAlignVertical: 'sub'
   },
 })

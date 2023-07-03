@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   modalHeader: {
-    fontSize: "28px",
+    fontSize: 28,
     marginBottom: "20px",
   },
   modalText: {

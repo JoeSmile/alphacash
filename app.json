@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "financeExpo",
-    "slug": "financeExpo",
+    "name": "financeexpo",
+    "slug": "financeexpo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,21 +21,22 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.alphacash.easy.credit.loan.paisa"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "447b47a8-8521-476d-a954-dee3f4761a6d"
+        "projectId": "462bceb9-15ba-4d76-bcad-d93ef54c4c31"
       }
     },
     "runtimeVersion": {
       "policy": "sdkVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/447b47a8-8521-476d-a954-dee3f4761a6d"
+      "url": "https://u.expo.dev/462bceb9-15ba-4d76-bcad-d93ef54c4c31"
     },
     "plugins": [
       "expo-localization",

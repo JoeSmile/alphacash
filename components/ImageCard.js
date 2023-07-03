@@ -15,7 +15,7 @@ export default function ImageCard({
         transition={1000}
       />
       <Text style={{
-        fontSize: '20px',
+        fontSize: 20,
         marginTop: '8px',
         color: 'white'
       }}>{title}</Text>

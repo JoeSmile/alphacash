@@ -1,20 +1,20 @@
 import { SafeAreaView, View, Text, Pressable, StyleSheet, Image, TextInput, Button } from "react-native";
 
-export default function SafeIntro ({safeText}) {
+export default function SafeIntro({ safeText }) {
   return (
     <View style={styles.safeTextContainer}>
       <View >
-        <Image 
+        <Image
           source={require('@assets/images/mine_info_ic_safe.svg')}
           contentFit="cover"
           transition={1000}
           style={{
             width: '22px',
             height: '22px',
-          }}/>
+          }} />
       </View>
       <Text style={styles.safeText}>
-      {safeText}
+        {safeText}
       </Text>
     </View>
   )
@@ -27,11 +27,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#F6F9FD',
     paddingHorizontal: '15px',
     paddingVertical: '15px',
-    flexDirection:'row'
-  },  
+    flexDirection: 'row'
+  },
   safeText: {
     marginLeft: '10px',
-    fontSize: '12px',
-    color:'#4F5E6F'
+    fontSize: 12,
+    color: '#4F5E6F'
   },
 });

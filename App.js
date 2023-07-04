@@ -13,7 +13,7 @@ import { isDev } from "@const/config";
 export default function App() {
   const isLoadingComplete = useLoadedAssets();
   const colorScheme = useColorScheme();
-  useInitialStore();  
+  useInitialStore();
   if (!isLoadingComplete) {
     return null;
   } else {

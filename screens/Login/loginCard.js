@@ -1,4 +1,5 @@
-import { View, TextInput, StyleSheet, Text, Pressable, CheckBox } from "react-native";
+import { View, TextInput, StyleSheet, Text, Pressable } from "react-native";
+import { CheckBox } from "@react-native-community/checkbox";
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import Colors from "@const/Colors";
@@ -63,9 +64,9 @@ export default function LoginCard() {
                       alignItems: 'center'
                     }} >
                       <Text style={{
-                        borderRightWidth: '1px',
+                        borderRightWidth: 1,
                         borderRightColor: '#E1E3E8',
-                        height: "20px"
+                        height: 20
                       }} />
                       <Text style={styles.otpText}>Get OTP</Text>
                     </View>
@@ -81,10 +82,10 @@ export default function LoginCard() {
         <Text style={{
           color: '#8899AC',
           fontSize: 12,
-          marginTop: '10px',
+          marginTop: 10,
           width: "95%",
           alignSelf: 'center',
-          lineHeight: '20px'
+          lineHeight: 20
         }}>
           If the unregistered mobile phone number is verified, an account will be automatically created!
         </Text>
@@ -123,11 +124,11 @@ export default function LoginCard() {
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: '4px',
-    paddingTop: '56px',
-    paddingBottom: '30px',
-    paddingHorizontal: '15px',
-    margin: '15px',
+    borderRadius: 4,
+    paddingTop: 56,
+    paddingBottom: 30,
+    paddingHorizontal: 15,
+    margin: 15,
     backgroundColor: 'white',
     transform: 'translateY(-50px)',
     boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1),0 1px 2px 0 rgba(0, 0, 0, 0.06)'
@@ -146,20 +147,20 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: '100%',
-    marginBottom: '20px'
+    marginBottom: 20
   },
   otpText: {
     color: Colors.light.primary,
     fontSize: 16,
     fontWeight: 600,
-    height: '50px',
-    lineHeight: '50px'
+    height: 50,
+    lineHeight: 50
   },
   label: {
-    marginBottom: '10px'
+    marginBottom: 10
   },
   textInput: {
-    paddingLeft: '15px',
+    paddingLeft: 15,
     height: 50,
     width: 'auto',
     backgroundColor: '#F4F5F7',
@@ -168,13 +169,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   loginButton: {
-    height: '50px',
+    height: 50,
     width: '95%',
     backgroundColor: Colors.light.primary,
     alignSelf: 'center'
   },
   checkbox: {
-    marginRight: '5px',
+    marginRight: 5,
     textAlignVertical: 'sub'
   },
 })

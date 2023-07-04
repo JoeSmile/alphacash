@@ -1,5 +1,6 @@
-import { View, Text, StyleSheet, Image, SafeAreaView } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 import FList from "@components/FList";
+import { Image } from 'expo-image';
 
 const Item = (item) => {
   return (

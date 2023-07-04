@@ -46,9 +46,9 @@ export default function UserLayout({ displayGoBack = false, children }) {
             style={styles.image}>
             <View style={styles.container}>
               <LanguageSwitcher />
-              {/* <Avatar title='Alphacash' style={{
+              <Avatar title='Alphacash' style={{
                 marginTop: 15
-              }} /> */}
+              }} />
             </View>
           </ImageBackground>
         </View>

@@ -7,7 +7,7 @@ const BillsStack = createStackNavigator();
 
 export const BillsScreens = [
   {
-    name: "Bills",
+    name: "CurrentBills",
     component: Bills,
     headerTitle: "账单",
   },

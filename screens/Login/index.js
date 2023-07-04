@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   container: {
-    color: 'white',
     paddingVertical: 30,
     paddingHorizontal: 20,
     backgroundColor: 'transparent'

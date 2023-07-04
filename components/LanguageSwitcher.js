@@ -12,7 +12,6 @@ export default function LanguageSwitcher() {
             }}>
                 <Text style={{
                     opacity: locale === LocaleTypes.en ? 1 : 0.5,
-
                     color: 'white',
                     fontSize: 14
                 }}>EN</Text>

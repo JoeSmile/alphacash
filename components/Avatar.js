@@ -24,7 +24,6 @@ export default function Avatar({ title, style = {} }) {
 
 const styles = StyleSheet.create({
 	container: {
-		color: 'white',
 		padding: 15
 	},
 });

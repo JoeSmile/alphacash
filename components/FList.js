@@ -1,6 +1,6 @@
-import { Text, FlatList, Pressable, Image } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+import { Text, FlatList, Pressable, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { Image } from 'expo-image';
 
 const Item = (props) => {
   const { title, screen, leftItem, displayIcon = true, itemStyle = {} } = props;
@@ -12,31 +12,26 @@ const Item = (props) => {
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
-        height: 30,
-        alignItems: "center",
-        marginBottom: 20,
-        paddingHorizontal: 20,
+        marginBottom: 10,
+
       }, itemStyle]}
       onPress={() => {
         screen && navigation.push(screen);
       }}
     >
-
-      {!!leftItem ? (
+    {!!leftItem ? (
         leftItem(props)
       ) : (
         <Text style={{ fontSize: 16 }}>{title}</Text>
       )}
 
-      {displayIcon && <Image
+      <Image
         source={require('@assets/images/triangle_right.svg')}
         contentFit="cover"
-        transition={1000}
-        style={{
-          width: 16,
-          height: 16
-        }}
-      />}
+        transition={200}
+        style={{ width: 20, height: 20 }}
+      />
+    
 
     </Pressable>
   );

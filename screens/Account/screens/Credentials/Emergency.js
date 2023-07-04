@@ -1,4 +1,4 @@
-import { SafeAreaView, View, Text, Pressable, StyleSheet, Image, TextInput, Button } from "react-native";
+import { SafeAreaView, View, Text, Pressable, StyleSheet, TextInput, Button } from "react-native";
 import { Formik, Field, Form } from 'formik';
 
 import { FTextInput, FSelect } from "@components/Inputs";

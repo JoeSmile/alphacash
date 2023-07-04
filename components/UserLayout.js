@@ -1,9 +1,10 @@
-import { SafeAreaView, Image, Pressable, ImageBackground, StyleSheet, View } from "react-native";
+import { SafeAreaView, Pressable, ImageBackground, StyleSheet, View } from "react-native";
 import React from 'react';
 import {Colors} from "@const/Colors";
 import Avatar from '@components/Avatar';
 import { useNavigation } from "@react-navigation/native";
 import LanguageSwitcher from '@components/LanguageSwitcher';
+import { Image } from 'expo-image';
 
 const image = { uri: require('@assets/images/bg.png') };
 
@@ -58,7 +59,6 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   container: {
-    color: 'white',
     paddingVertical: 30,
     paddingHorizontal: 20,
     backgroundColor: 'transparent'

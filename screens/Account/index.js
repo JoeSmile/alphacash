@@ -1,8 +1,9 @@
-import { View, Text, Pressable, StyleSheet, Image } from "react-native";
+import { View, Text, Pressable, StyleSheet } from "react-native";
 import React from 'react';
 import { useUserInfo } from "@store/useUserInfo";
 import FList from "@components/FList";
 import UserLayout from '@components/UserLayout';
+import { Image } from 'expo-image';
 
 const Item = (item) => {
   return (
@@ -104,7 +105,6 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   container: {
-    color: 'white',
     paddingVertical: 30,
     paddingHorizontal: 20,
     backgroundColor: 'transparent'
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   FList: {
     backgroundColor: 'white',
     paddingHorizontal: 12,
-    paddingVertical: 30,
+    paddingVertical: 12,
     borderRadius: 4,
     boxShadow: '1px 1px 3px 0 rgba(0, 0, 0, 0.1),1px 1px 2px 0 rgba(0, 0, 0, 0.06)'
   },

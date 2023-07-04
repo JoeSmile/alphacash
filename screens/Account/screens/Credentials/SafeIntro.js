@@ -1,4 +1,5 @@
-import { SafeAreaView, View, Text, Pressable, StyleSheet, Image, TextInput, Button } from "react-native";
+import { SafeAreaView, View, Text, Pressable, StyleSheet, TextInput, Button } from "react-native";
+import { Image } from 'expo-image';
 
 export default function SafeIntro({ safeText }) {
   return (

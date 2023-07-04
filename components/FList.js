@@ -9,7 +9,6 @@ const Item = (props) => {
   return (
     <Pressable
       style={[{
-        display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
         marginBottom: 10,

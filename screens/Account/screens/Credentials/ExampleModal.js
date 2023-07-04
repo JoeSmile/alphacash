@@ -1,4 +1,5 @@
-import { Modal, View, Text, Pressable, StyleSheet, Image } from 'react-native';
+import { Modal, View, Text, Pressable, StyleSheet } from 'react-native';
+import { Image } from 'expo-image'
 
 export const EXAMPLE_TYPES = {
   CNIC_CARD: 'CNIC_CARD',
@@ -11,7 +12,6 @@ function ExampleImage({ type }) {
   switch (type) {
     case EXAMPLE_TYPES.CNIC_CARD:
       example = <View style={{
-        display: 'flex',
         flexDirection: 'column',
         gap: 15
       }}>
@@ -37,7 +37,6 @@ function ExampleImage({ type }) {
       break;
     case EXAMPLE_TYPES.CNIC_IN_HAND:
       example = <View style={{
-        display: 'flex',
         flexDirection: 'column',
       }}>
         <Image
@@ -53,7 +52,6 @@ function ExampleImage({ type }) {
       break;
     case EXAMPLE_TYPES.PROOF_EMPLOYMENT:
       example = <View style={{
-        display: 'flex',
         flexDirection: 'column',
         gap: 15
       }}>
@@ -117,7 +115,7 @@ export function ExampleModal({ isVisible, onClose, type }) {
 
 const styles = StyleSheet.create({
   container: {
-    height: '100vh',
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#25292e',

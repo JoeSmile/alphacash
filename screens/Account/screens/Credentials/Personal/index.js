@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   safeTextContainer: {
-    border: "1px solid #698EC7",
     borderRadius: 4,
     backgroundColor: '#F6F9FD',
     paddingHorizontal: 15,
@@ -124,12 +123,11 @@ const styles = StyleSheet.create({
     height: 50,
     width: 'auto',
     backgroundColor: '#F4F5F7',
-    borderColor: 'gray',
+    borderColor: 'grey',
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 10,
   },
   picker: {
-    // flex: 1,
     width: "100%",
     height: 44,
     borderRadius: 4,

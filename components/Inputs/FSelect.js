@@ -15,7 +15,7 @@ export function FSelect({
 }) {
   const [field, meta, helpers] = useField(props);
   return <View style={{
-    flex: '1',
+    flex: 1,
     marginBottom: 15,
     ...containerStyle,
   }}>

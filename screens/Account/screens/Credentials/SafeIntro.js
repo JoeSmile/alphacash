@@ -23,7 +23,6 @@ export default function SafeIntro({ safeText }) {
 
 const styles = StyleSheet.create({
   safeTextContainer: {
-    border: "1px solid #698EC7",
     borderRadius: 4,
     backgroundColor: '#F6F9FD',
     paddingHorizontal: 15,

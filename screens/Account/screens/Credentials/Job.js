@@ -83,7 +83,7 @@ export default function Job({ navigation }) {
                     <View
                       key={item.label}
                       style={{
-                        flex: '1',
+                        flex: 1,
                       }}
                     >
                       <Pressable onPress={() => setFieldValue("haveOtherLoans", item.value)} >
@@ -123,14 +123,12 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   loanBtn: {
-    border: '1px solid #C8CAD9',
     borderRadius: 10,
     textAlign: 'center',
     paddingVertical: 10,
     color: '#99A5B4'
   },
   loanBtnSelected: {
-    border: '1px solid #032BB1',
     color: '#032BB1',
     backgroundColor: '#E6E8F7'
 

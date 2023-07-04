@@ -26,7 +26,7 @@ export const FTextInput = ({ label, containerStyle = {}, name }) => {
 
 const styles = StyleSheet.create({
   inputContainer: {
-    flex: '1',
+    flex: 1,
     marginBottom: 20
   },
   label: {

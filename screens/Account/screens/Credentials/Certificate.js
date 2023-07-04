@@ -30,7 +30,7 @@ export default function Certificate() {
           gap: 15
         }}>
           <Pressable style={{
-            flex: '1'
+            flex: 1
           }}>
             <View>
               <Image
@@ -46,7 +46,7 @@ export default function Certificate() {
 
           </Pressable>
           <Pressable style={{
-            flex: '1'
+            flex: 1
           }}>
             <View>
               <Image

@@ -36,7 +36,6 @@ export default function UserLayout({ displayGoBack = false, displayLanguageSwitc
             />
           </Pressable>
         }
-
         {/* <ImageBackground source={image} resizeMode="cover" style={styles.image}>
           <View style={styles.container}>
             {
@@ -47,7 +46,6 @@ export default function UserLayout({ displayGoBack = false, displayLanguageSwitc
             }} />
           </View>
         </ImageBackground> */}
-
       </View>
       {children}
     </SafeAreaView>

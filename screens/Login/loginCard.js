@@ -32,7 +32,7 @@ export default function LoginCard() {
             <>
               <View style={styles.inputContainer}>
                 <Text style={styles.label}>Phone Number</Text>
-                <TextInput
+                {/* <TextInput
                   name="phoneNumber"
                   placeholder="03x xxxx xxxx"
                   style={styles.textInput}
@@ -40,19 +40,19 @@ export default function LoginCard() {
                   onBlur={handleBlur('phoneNumber')}
                   value={values.phoneNumber}
                   keyboardType="phoneNumber"
-                />
+                /> */}
               </View>
               <View style={styles.inputContainer}>
                 <Text style={styles.label}>OTP</Text>
                 <View style={{ position: 'relative' }}>
-                  <TextInput
+                  {/* <TextInput
                     name="OTP"
                     style={styles.textInput}
                     onChangeText={handleChange('OTP')}
                     onBlur={handleBlur('OTP')}
                     value={values.OTP}
                     keyboardType="phoneNumber"
-                  />
+                  /> */}
 
                   <Pressable onPress={() => getOTP('03123456789')} style={{
                     position: 'absolute', right: '15px'
@@ -60,7 +60,7 @@ export default function LoginCard() {
                     <View style={{
                       display: 'flex',
                       flexDirection: 'row',
-                      gap: '5px',
+                      gap: 5,
                       alignItems: 'center'
                     }} >
                       <Text style={{
@@ -92,10 +92,9 @@ export default function LoginCard() {
       </View>
       <View flexDirection='row'>
         <Text style={{
-          transform: 'translateY(-30px)',
           fontSize: 12,
           textAlign: 'center',
-          verticalAlign: 'sub'
+          // verticalAlign: 'sub'属性不兼容
         }}>
           <CheckBox
             value={isSelected}

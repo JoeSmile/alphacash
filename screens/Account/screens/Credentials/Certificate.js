@@ -1,7 +1,10 @@
 import { SafeAreaView, View, Text, Pressable, StyleSheet, Image, Button } from "react-native";
 import SafeIntro from './SafeIntro';
+import { useState } from "react";
+import { EXAMPLE_TYPES, ExampleModal } from './ExampleModal';
 
 export default function Certificate() {
+  const [showModalType, setShowModalType] = useState('')
   return (
     <View style={styles.container}>
       <SafeIntro safeText="Upload credential information, only for user identity verification, we will encrypt and store it, and it will never be used for other purposes!"/>
@@ -16,7 +19,10 @@ export default function Certificate() {
         marginBottom: '15px'
       }}>
         <Text>CNIC Card</Text>
-        <Text>Example</Text>
+
+        <Pressable onPress={() => setShowModalType(EXAMPLE_TYPES.CNIC_CARD)}>
+          <Text>Example</Text>
+        </Pressable>
       </View>
       <View style={{
         flexDirection:"row",
@@ -64,7 +70,9 @@ export default function Certificate() {
           marginBottom: '15px'
         }}>
           <Text>Take photo with CNIC card in hand</Text>
-          <Text>Example</Text>
+          <Pressable onPress={() => setShowModalType(EXAMPLE_TYPES.CNIC_IN_HAND)}>
+            <Text>Example</Text>
+          </Pressable>
         </View>
         <View>
           <Image
@@ -87,7 +95,9 @@ export default function Certificate() {
           marginBottom: '15px'
         }}>
           <Text>Proof Employment</Text>
-          <Text>Example</Text>
+          <Pressable onPress={() => setShowModalType(EXAMPLE_TYPES.PROOF_EMPLOYMENT)}>
+            <Text>Example</Text>
+          </Pressable>
         </View>
         <View>
           <Image
@@ -104,6 +114,7 @@ export default function Certificate() {
       <View style={{width: '300px', alignSelf: 'center'}}>
         <Button type="submit" style={styles.submitBtn} title='Submit' />
       </View>
+      <ExampleModal isVisible={!!showModalType} onClose={() => setShowModalType('')} type={showModalType}/>
     </View>
   );
 }

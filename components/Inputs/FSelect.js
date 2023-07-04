@@ -1,22 +1,22 @@
 import { useField, Form, FormikProps, Formik } from 'formik';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
-import { FDatePicker} from '@components/FDatePicker';
+import { FDatePicker } from '@components/FDatePicker';
 import { Picker } from '@react-native-picker/picker';
 
-const defaultOptions = [{label: '男', value: '1'}, {label: '女', value: '2'}]
+const defaultOptions = [{ label: '男', value: '1' }, { label: '女', value: '2' }]
 
-export function FSelect ({
-  label, 
-  options=defaultOptions, 
-  containerStyle={},
-  labelKey='',
-  valueKey='',
+export function FSelect({
+  label,
+  options = defaultOptions,
+  containerStyle = {},
+  labelKey = '',
+  valueKey = '',
   ...props
 }) {
   const [field, meta, helpers] = useField(props);
-  return <View style={{ 
+  return <View style={{
     flex: '1',
-    marginBottom: '15px',
+    marginBottom: 15,
     ...containerStyle,
   }}>
     <Text style={styles.label}>{label}</Text>
@@ -26,16 +26,16 @@ export function FSelect ({
       onValueChange={field.onChange('gender')}
       selectedValue={field.value.gender}
       style={{
-        height: '50px',
-        borderRadius: '10px',
+        height: 50,
+        borderRadius: 10,
         backgroundColor: 'white'
       }}
-      >
-      {options.map((item, index) => 
+    >
+      {options.map((item, index) =>
         <Picker.Item
-            label={labelKey ? item[labelKey] : item.label}
-            value={valueKey ? item[valueKey] : item.value}
-            key={`${item.value}_${index}`} 
+          label={labelKey ? item[labelKey] : item.label}
+          value={valueKey ? item[valueKey] : item.value}
+          key={`${item.value}_${index}`}
         />)}
     </Picker>
     {meta.touched && meta.error ? (
@@ -46,6 +46,6 @@ export function FSelect ({
 
 const styles = StyleSheet.create({
   label: {
-    marginBottom:'5px'
-  }, 
+    marginBottom: 5
+  },
 });

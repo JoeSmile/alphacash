@@ -26,8 +26,8 @@ export default function FModal({
               display="inline-block"
               style={{
                 position: "absolute",
-                right: "10px",
-                top: "10px",
+                right: 10,
+                top: 10,
               }}
               color="black"
               onPress={() => toggle(false)}

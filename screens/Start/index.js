@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   },
   modalHeader: {
     fontSize: 28,
-    marginBottom: "20px",
+    marginBottom: 20,
   },
   modalText: {
     marginBottom: 15,

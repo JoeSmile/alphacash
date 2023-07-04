@@ -5,7 +5,7 @@ import { useI18nStore, LocaleTypes } from "@store/useI18nStore";
 export default function LanguageSwitcher() {
     const { locale, setLocale } = useI18nStore();
     return (
-        <View style={{ display: 'flex', flexDirection: 'row', gap: '4px', justifyContent: 'flex-end' }}>
+        <View style={{ display: 'flex', flexDirection: 'row', gap: 4, justifyContent: 'flex-end' }}>
             <Pressable onPress={() => setLocale(LocaleTypes.en)} style={{
                 display: 'inline-block',
                 width: 'fit-content'

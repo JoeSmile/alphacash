@@ -47,7 +47,7 @@ export default function Personal({ navigation }) {
               <View style={{
                 flexDirection: 'row',
                 justifyContent: "space-between",
-                gap: '10px'
+                gap: 10
               }}>
                 <FTextInput name="birth" label="Date of Birth" />
                 <FSelect name="gender" label="Gender" options={genderOptions} />
@@ -60,13 +60,13 @@ export default function Personal({ navigation }) {
               <FSelect name="maritalStatus" label="Marital Status" options={marriageOptions} />
 
               <View style={{
-                marginVertical: '15px'
+                marginVertical: 15
               }}>
                 <Text>Residential Address</Text>
                 <View style={{
                   flexDirection: 'row',
                   justifyContent: "space-between",
-                  gap: '10px'
+                  gap: 10
                 }}>
                   <FSelect name="provinceId" label="Province" options={provincesOptions}
                     valueKey='province_id' labelKey='province_name'
@@ -81,7 +81,7 @@ export default function Personal({ navigation }) {
               <FTextInput name="addressDetail" label="Detailed Address" />
 
               <FTextInput name="email" label="Email" />
-              <View style={{ width: '300px', alignSelf: 'center' }}>
+              <View style={{ width: 300, alignSelf: 'center' }}>
                 <Button type="submit" style={styles.submitBtn} onPress={handleSubmit} title='Next' />
               </View>
             </>
@@ -95,32 +95,32 @@ export default function Personal({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: "15px",
-    paddingVertical: "15px",
+    paddingHorizontal: 15,
+    paddingVertical: 15,
     backgroundColor: 'white'
   },
   safeTextContainer: {
     border: "1px solid #698EC7",
-    borderRadius: '4px',
+    borderRadius: 4,
     backgroundColor: '#F6F9FD',
-    paddingHorizontal: '15px',
-    paddingVertical: '15px',
+    paddingHorizontal: 15,
+    paddingVertical: 15,
     flexDirection: 'row'
   },
   safeText: {
-    marginLeft: '10px',
+    marginLeft: 10,
     fontSize: 12,
     color: '#4F5E6F'
   },
   inputContainer: {
     width: '100%',
-    marginBottom: '20px'
+    marginBottom: 20
   },
   label: {
-    marginBottom: '10px'
+    marginBottom: 10
   },
   textInput: {
-    paddingLeft: '15px',
+    paddingLeft: 15,
     height: 50,
     width: 'auto',
     backgroundColor: '#F4F5F7',
@@ -132,15 +132,15 @@ const styles = StyleSheet.create({
     // flex: 1,
     width: "100%",
     height: 44,
-    borderRadius: '4px',
-    paddingHorizontal: '4px'
+    borderRadius: 4,
+    paddingHorizontal: 4
   },
   pickerItem: {
     height: 44
   },
   submitBtn: {
-    height: '50px',
-    borderRadius: '3px',
+    height: 50,
+    borderRadius: 3,
     color: 'white'
   }
 });

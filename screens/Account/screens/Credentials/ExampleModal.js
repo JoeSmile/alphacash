@@ -6,32 +6,32 @@ export const EXAMPLE_TYPES = {
   PROOF_EMPLOYMENT: 'PROOF_EMPLOYMENT'
 }
 
-function ExampleImage({type}) {
-  let example=<></>
-  switch(type) {
+function ExampleImage({ type }) {
+  let example = <></>
+  switch (type) {
     case EXAMPLE_TYPES.CNIC_CARD:
       example = <View style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '15px'
+        gap: 15
       }}>
-         <Image
-            source={require('@assets/example/info_example_cnic_card_positive.png')}
-            contentFit="cover"
-            transition={1000}
-            style={{
-              width: "270px",
-              height: '170px',
-            }}
+        <Image
+          source={require('@assets/example/info_example_cnic_card_positive.png')}
+          contentFit="cover"
+          transition={1000}
+          style={{
+            width: 270,
+            height: 170,
+          }}
         />
-         <Image
-            source={require('@assets/example/info_example_cnic_card_negative.png')}
-            contentFit="cover"
-            transition={1000}
-            style={{
-              width: "270px",
-              height: '170px',
-            }}
+        <Image
+          source={require('@assets/example/info_example_cnic_card_negative.png')}
+          contentFit="cover"
+          transition={1000}
+          style={{
+            width: 270,
+            height: 170,
+          }}
         />
       </View>
       break;
@@ -40,14 +40,14 @@ function ExampleImage({type}) {
         display: 'flex',
         flexDirection: 'column',
       }}>
-         <Image
-            source={require('@assets/example/info_example_cnic_hand_held.png')}
-            contentFit="cover"
-            transition={1000}
-            style={{
-              width: "270px",
-              height: '170px',
-            }}
+        <Image
+          source={require('@assets/example/info_example_cnic_hand_held.png')}
+          contentFit="cover"
+          transition={1000}
+          style={{
+            width: 270,
+            height: 170,
+          }}
         />
       </View>
       break;
@@ -55,15 +55,15 @@ function ExampleImage({type}) {
       example = <View style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '15px'
+        gap: 15
       }}>
         <Image
           source={require('@assets/example/info_example_work_card.png')}
           contentFit="cover"
           transition={1000}
           style={{
-            width: "270px",
-            height: '170px',
+            width: 270,
+            height: 170,
           }}
         />
         <Image
@@ -71,8 +71,8 @@ function ExampleImage({type}) {
           contentFit="cover"
           transition={1000}
           style={{
-            width: "270px",
-            height: '170px',
+            width: 270,
+            height: 170,
           }}
         />
         <Image
@@ -80,8 +80,8 @@ function ExampleImage({type}) {
           contentFit="cover"
           transition={1000}
           style={{
-            width: "270px",
-            height: '170px',
+            width: 270,
+            height: 170,
           }}
         />
       </View>
@@ -95,7 +95,7 @@ function ExampleImage({type}) {
       }
     </View>
   )
- 
+
 }
 
 export function ExampleModal({ isVisible, onClose, type }) {
@@ -103,11 +103,11 @@ export function ExampleModal({ isVisible, onClose, type }) {
     <Modal animationType="fade" transparent={true} visible={isVisible}>
       <View style={styles.container} >
         <View style={styles.content}>
-          <ExampleImage type={type}/>
+          <ExampleImage type={type} />
           <Pressable onPress={() => onClose('')}>
             <Text style={
               styles.closeBtn
-            }>I Know</Text> 
+            }>I Know</Text>
           </Pressable>
         </View>
       </View>
@@ -121,30 +121,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#25292e',
-    borderRadius: '4px',
-    gap:'15px'
+    borderRadius: 4,
+    gap: 15
   },
   content: {
     backgroundColor: 'white',
-    borderRadius: '10px',
-    paddingHorizontal: '15px',
-    paddingVertical:"20px"
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 20
   },
   closeBtn: {
-    width: '250px',
-    height: '50px',
+    width: 250,
+    height: 50,
     backgroundColor: '#0825B8',
     color: 'white',
-    fontSize: '16px',
-    lineHeight: "50px",
+    fontSize: 16,
+    lineHeight: 50,
     textAlign: 'center',
-    marginTop: '20px',
+    marginTop: 20,
     alignSelf: 'center',
-    borderRadius: '4px'
+    borderRadius: 4
   },
   title: {
     textAlign: 'center',
-    marginBottom: '20px',
-    fontSize: '16px',
+    marginBottom: 20,
+    fontSize: 16,
   }
 });

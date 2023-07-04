@@ -9,8 +9,8 @@ export default function SafeIntro({ safeText }) {
           contentFit="cover"
           transition={1000}
           style={{
-            width: '22px',
-            height: '22px',
+            width: 22,
+            height: 22,
           }} />
       </View>
       <Text style={styles.safeText}>
@@ -23,14 +23,14 @@ export default function SafeIntro({ safeText }) {
 const styles = StyleSheet.create({
   safeTextContainer: {
     border: "1px solid #698EC7",
-    borderRadius: '4px',
+    borderRadius: 4,
     backgroundColor: '#F6F9FD',
-    paddingHorizontal: '15px',
-    paddingVertical: '15px',
+    paddingHorizontal: 15,
+    paddingVertical: 15,
     flexDirection: 'row'
   },
   safeText: {
-    marginLeft: '10px',
+    marginLeft: 10,
     fontSize: 12,
     color: '#4F5E6F'
   },

@@ -14,16 +14,16 @@ export default function TabViewExample() {
   const layout = useWindowDimensions();
   const { i18n } = useI18n();
   const [index, setIndex] = React.useState(0);
-  
+
   const routes = React.useMemo(() => [
     { key: "Processing", title: i18n.t("processing") },
     { key: "Completed", title: i18n.t("completed") },
-  ],[i18n])
+  ], [i18n])
 
   return (
     <View
       style={{
-        paddingTop: "40px",
+        paddingTop: 40,
       }}
     >
       <TabView

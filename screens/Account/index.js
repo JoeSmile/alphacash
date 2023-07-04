@@ -64,7 +64,7 @@ const Account = ({ navigation }) => {
       <View
         style={styles.itemsContainer}
       >
-        {/* <FList data={data} itemStyle={styles.FList} /> */}
+        <FList data={data} itemStyle={styles.FList} />
       </View>
 
       <View style={{
@@ -120,9 +120,9 @@ const styles = StyleSheet.create({
   },
   FList: {
     backgroundColor: 'white',
-    paddingHorizontal: '12px',
-    paddingVertical: '30px',
-    borderRadius: '4px',
+    paddingHorizontal: 12,
+    paddingVertical: 30,
+    borderRadius: 4,
     boxShadow: '1px 1px 3px 0 rgba(0, 0, 0, 0.1),1px 1px 2px 0 rgba(0, 0, 0, 0.06)'
   },
   text: {

@@ -1,5 +1,5 @@
-import { View, TextInput, StyleSheet, Text, Pressable } from "react-native";
-import { CheckBox } from "@react-native-community/checkbox";
+import { View, StyleSheet, Text, Pressable, TextInput } from "react-native";
+// import CheckBox from '@react-native-community/checkbox';
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import Colors from "@const/Colors";
@@ -32,30 +32,30 @@ export default function LoginCard() {
             <>
               <View style={styles.inputContainer}>
                 <Text style={styles.label}>Phone Number</Text>
-                {/* <TextInput
+                <TextInput
                   name="phoneNumber"
                   placeholder="03x xxxx xxxx"
                   style={styles.textInput}
                   onChangeText={handleChange('phoneNumber')}
                   onBlur={handleBlur('phoneNumber')}
                   value={values.phoneNumber}
-                  keyboardType="phoneNumber"
-                /> */}
+                // keyboardType="phoneNumber"//不兼容
+                />
               </View>
               <View style={styles.inputContainer}>
                 <Text style={styles.label}>OTP</Text>
                 <View style={{ position: 'relative' }}>
-                  {/* <TextInput
+                  <TextInput
                     name="OTP"
                     style={styles.textInput}
                     onChangeText={handleChange('OTP')}
                     onBlur={handleBlur('OTP')}
                     value={values.OTP}
-                    keyboardType="phoneNumber"
-                  /> */}
+                  // keyboardType="phoneNumber"不兼容
+                  />
 
                   <Pressable onPress={() => getOTP('03123456789')} style={{
-                    position: 'absolute', right: '15px'
+                    position: 'absolute', right: 15
                   }}>
                     <View style={{
                       display: 'flex',
@@ -96,19 +96,19 @@ export default function LoginCard() {
           textAlign: 'center',
           // verticalAlign: 'sub'属性不兼容
         }}>
-          <CheckBox
+          {/* <CheckBox//不兼容
             value={isSelected}
             onValueChange={setSelection}
             style={styles.checkbox}
-          />
+          /> */}
           Agree
-          <Pressable style={{ display: 'inline-block', marginRight: '2px', marginLeft: '2px' }}>
+          <Pressable style={{ display: 'inline-block', marginRight: 2, marginLeft: 2 }}>
             <Text style={{ fontWeight: 600, color: Colors.light.primary }}>
               Privacy Agreement
             </Text>
           </Pressable>
           and
-          <Pressable style={{ display: 'inline-block', marginRight: '2px', marginLeft: '2px' }}>
+          <Pressable style={{ display: 'inline-block', marginRight: 2, marginLeft: 2 }}>
             <Text style={{ fontWeight: 600, color: Colors.light.primary }}>
               Terms&Service
             </Text>

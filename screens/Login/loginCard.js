@@ -1,9 +1,8 @@
-import { View, TextInput, StyleSheet, Text, Pressable, CheckBox } from "react-native";
+import { View, TextInput, StyleSheet, Text, Pressable, CheckBox, Button } from "react-native";
 import React, {useState} from 'react';
 import { Formik } from 'formik';
-import Colors from "@const/Colors";
-import Button from '@components/Button';
-import {getOTP, login, encodeSHA, getNetInfo } from '@apis'
+import { Colors } from "@const/Colors";
+import { getOTP, login, encodeSHA, getNetInfo } from '@apis'
 import { useUserInfo } from '@store/useUserInfo';
 
 const mockLoginParameters = {
@@ -13,6 +12,7 @@ const mockLoginParameters = {
 
 encodeSHA();
 getNetInfo();
+
 export default function LoginCard() {
   const [isSelected, setSelection] = useState(false);
   const [isLogin, setLogin] = useUserInfo((s) => [s.isLogin, s.setLogin]);

@@ -4,7 +4,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useColorScheme } from "react-native";
-import Colors from "../constants/Colors";
+import {Colors} from "../constants/Colors";
 
 import Homepage from "../screens/Homepage";
 import { useI18n } from "@hooks/useI18n";

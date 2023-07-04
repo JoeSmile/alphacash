@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, Pressable } from 'react-native';
 
-export default function Button(props) {
+export function FButton(props) {
   const { onPress, title = 'Save', style = {} } = props;
   return (
     <Pressable style={[styles.button, style]} onPress={onPress}>

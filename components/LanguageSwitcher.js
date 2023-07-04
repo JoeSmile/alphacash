@@ -1,32 +1,23 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { useI18nStore, LocaleTypes } from "@store/useI18nStore";
+import { useI18n, LocaleTypes } from "@hooks/useI18n";
 
 
-export default function LanguageSwitcher() {
-    const { locale, setLocale } = useI18nStore();
+export function LanguageSwitcher() {
+    const {locale, setLocale} = useI18n()
     return (
-        <View style={{ display: 'flex', flexDirection: 'row', gap: 4, justifyContent: 'flex-end' }}>
-            <Pressable onPress={() => setLocale(LocaleTypes.en)} style={{
-                display: 'inline-block',
-                width: 'fit-content'
-            }}>
+        <View style={{ flexDirection: 'row', gap: 4, justifyContent: 'flex-end' }}>
+            <Pressable onPress={() => setLocale(LocaleTypes.en)}>
                 <Text style={{
-                    opacity: locale === LocaleTypes.en ? 1 : 0.5,
-                    color: 'white',
+                    color: locale ==LocaleTypes.en ?  'white' : 'grey',
                     fontSize: 14
                 }}>EN</Text>
             </Pressable>
             <Text style={{
                 color: 'white'
             }}>|</Text>
-            <Pressable onPress={() => setLocale(LocaleTypes.urdu)} style={{
-                display: 'inline-block',
-                width: 'fit-content'
-            }}>
+            <Pressable onPress={() => setLocale(LocaleTypes.urdu)} >
                 <Text style={{
-                    opacity: locale === LocaleTypes.urdu ? 1 : 0.5,
-
-                    color: 'white',
+                    color: locale ==LocaleTypes.urdu ?  'white' : 'grey',
                     fontSize: 14
                 }}>اردو</Text>
             </Pressable>

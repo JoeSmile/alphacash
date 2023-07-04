@@ -102,13 +102,13 @@ export default function LoginCard() {
             style={styles.checkbox}
           /> */}
           Agree
-          <Pressable style={{ display: 'inline-block', marginRight: 2, marginLeft: 2 }}>
+          <Pressable style={{marginRight: 2, marginLeft: 2 }}>
             <Text style={{ fontWeight: 600, color: Colors.light.primary }}>
               Privacy Agreement
             </Text>
           </Pressable>
           and
-          <Pressable style={{ display: 'inline-block', marginRight: 2, marginLeft: 2 }}>
+          <Pressable style={{marginRight: 2, marginLeft: 2 }}>
             <Text style={{ fontWeight: 600, color: Colors.light.primary }}>
               Terms&Service
             </Text>

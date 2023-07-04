@@ -3,12 +3,11 @@ import React from 'react';
 import {Colors} from "@const/Colors";
 import Avatar from '@components/Avatar';
 import { useNavigation } from "@react-navigation/native";
-import LanguageSwitcher from '@components/LanguageSwitcher';
+import { LanguageSwitcher } from '@components/LanguageSwitcher';
 import { Image } from 'expo-image';
+import { Asset } from "expo-asset";
 
-const image = { uri: require('@assets/images/bg.png') };
-
-export default function UserLayout({ displayGoBack = false, displayLanguageSwitcher = true, children }) {
+export default function UserLayout({ displayGoBack = false, children }) {
   const navigation = useNavigation();
   return (
     <SafeAreaView>
@@ -37,16 +36,22 @@ export default function UserLayout({ displayGoBack = false, displayLanguageSwitc
             />
           </Pressable>
         }
-        {/* <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-          <View style={styles.container}>
-            {
-              displayLanguageSwitcher && <LanguageSwitcher />
-            }
-            <Avatar title='Alphacash' style={{
-              marginTop: 15
-            }} />
-          </View>
-        </ImageBackground> */}
+        <View style={{ 
+          flex:1,
+        }}>
+          <ImageBackground 
+            source={{
+              uri: Asset.fromModule(require('@assets/images/bg.png')).uri,
+            }} 
+            style={styles.image}>
+            <View style={styles.container}>
+              <LanguageSwitcher />
+              {/* <Avatar title='Alphacash' style={{
+                marginTop: 15
+              }} /> */}
+            </View>
+          </ImageBackground>
+        </View>
       </View>
       {children}
     </SafeAreaView>
@@ -55,8 +60,8 @@ export default function UserLayout({ displayGoBack = false, displayLanguageSwitc
 
 const styles = StyleSheet.create({
   image: {
-    height: '100%',
-    width: '100%',
+   flex: 1,
+   resizeMode: 'cover',
   },
   container: {
     paddingVertical: 30,

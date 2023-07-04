@@ -23,7 +23,6 @@ export default function FModal({
             <Ionicons
               name="close-outline"
               size={24}
-              display="inline-block"
               style={{
                 position: "absolute",
                 right: 10,

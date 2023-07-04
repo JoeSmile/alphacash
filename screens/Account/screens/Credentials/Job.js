@@ -3,10 +3,10 @@ import { Formik, Field, Form } from 'formik';
 
 import { FTextInput, FSelect } from "@components/Inputs";
 import {
-    workFieldOptions, serviceLengthOptions, 
-    monthlyIncomeOptions, citiesOptions, 
-    provincesOptions,
-    otherLoanOptions  
+  workFieldOptions, serviceLengthOptions,
+  monthlyIncomeOptions, citiesOptions,
+  provincesOptions,
+  otherLoanOptions
 } from '@const';
 import Return from './Return';
 
@@ -25,7 +25,7 @@ const initialValues = {
   "loanAmount": ''
 }
 
-export default function Job({navigation}) {
+export default function Job({ navigation }) {
   return (
     <View style={styles.container}>
       <Formik
@@ -39,48 +39,48 @@ export default function Job({navigation}) {
         {({ handleChange, handleBlur, handleSubmit, values, setFieldValue }) => (
           <>
 
-            <FSelect name="workField" label="Working Field" options={workFieldOptions}/>
-            <FTextInput name="companyName" label="Company Name"/>
-            <FTextInput name="companyPhone" label="Company Phone"/>
-            <FSelect name="serviceLength" label="Length Service" options={serviceLengthOptions}/>
-            <FSelect name="monthlyIncome" label="Monthly Income" options={monthlyIncomeOptions}/>
-           
-            <View style={{
-                marginVertical: '15px'
-              }}>
-                <Text>Company Address</Text>
-                <View style={{
-                  flexDirection: 'row',
-                  justifyContent: "space-between",
-                  gap: '10px'
-                }}>
-                  <FSelect name="companyProvinceId" label="Province" options={provincesOptions}
-                    valueKey='province_id' labelKey='province_name'
-                  />
-
-                  <FSelect name="companyCityId" label="City" options={citiesOptions.filter(city => values['provinceId'] ? city.province_id == values['provinceId'] : true)}
-                    valueKey='city_id' labelKey='city_name' 
-                  />
-                </View>
-              </View>
-            
-            <FTextInput name="companyAddressDetail" label="Detail Address"/>
+            <FSelect name="workField" label="Working Field" options={workFieldOptions} />
+            <FTextInput name="companyName" label="Company Name" />
+            <FTextInput name="companyPhone" label="Company Phone" />
+            <FSelect name="serviceLength" label="Length Service" options={serviceLengthOptions} />
+            <FSelect name="monthlyIncome" label="Monthly Income" options={monthlyIncomeOptions} />
 
             <View style={{
-              marginBottom: '15px',
-              gap:'5px',
+              marginVertical: 15
             }}>
-                <Text>Have Other Loans</Text>
-                <View style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  gap:'10px',
-                
-                }}>
+              <Text>Company Address</Text>
+              <View style={{
+                flexDirection: 'row',
+                justifyContent: "space-between",
+                gap: 10
+              }}>
+                <FSelect name="companyProvinceId" label="Province" options={provincesOptions}
+                  valueKey='province_id' labelKey='province_name'
+                />
+
+                <FSelect name="companyCityId" label="City" options={citiesOptions.filter(city => values['provinceId'] ? city.province_id == values['provinceId'] : true)}
+                  valueKey='city_id' labelKey='city_name'
+                />
+              </View>
+            </View>
+
+            <FTextInput name="companyAddressDetail" label="Detail Address" />
+
+            <View style={{
+              marginBottom: 15,
+              gap: 5,
+            }}>
+              <Text>Have Other Loans</Text>
+              <View style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: 10,
+
+              }}>
                 {
-                  otherLoanOptions.map((item => 
-                    <View 
+                  otherLoanOptions.map((item =>
+                    <View
                       key={item.label}
                       style={{
                         flex: '1',
@@ -92,18 +92,18 @@ export default function Job({navigation}) {
                     </View>
                   ))
                 }
-                </View>
+              </View>
             </View>
-            
+
             {
-              values['haveOtherLoans'] == 2 && 
+              values['haveOtherLoans'] == 2 &&
               <>
-                <FTextInput name="lendingInstitution" label="Lending Institution"/>
-                <FTextInput name="loanAmount" label="Loan Amount"/>
+                <FTextInput name="lendingInstitution" label="Lending Institution" />
+                <FTextInput name="loanAmount" label="Loan Amount" />
               </>
             }
-                
-            <View style={{width: '300px', alignSelf: 'center'}}>
+
+            <View style={{ width: 300, alignSelf: 'center' }}>
               <Button type="submit" style={styles.submitBtn} onPress={handleSubmit} title='Next' />
             </View>
           </>
@@ -115,24 +115,24 @@ export default function Job({navigation}) {
 }
 const styles = StyleSheet.create({
   container: {
-    padding: '15px'
+    padding: 15
   },
   submitBtn: {
-    height:'50px',
-    borderRadius: '3px',
+    height: 50,
+    borderRadius: 3,
     color: 'white'
   },
   loanBtn: {
     border: '1px solid #C8CAD9',
-    borderRadius: '10px',
-    textAlign:'center',
-    paddingVertical: '10px',
+    borderRadius: 10,
+    textAlign: 'center',
+    paddingVertical: 10,
     color: '#99A5B4'
   },
   loanBtnSelected: {
     border: '1px solid #032BB1',
     color: '#032BB1',
-    backgroundColor: '#E6E8F7' 
+    backgroundColor: '#E6E8F7'
 
   }
 });

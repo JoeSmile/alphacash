@@ -1,13 +1,13 @@
 import { SafeAreaView, View, Text, Pressable, StyleSheet, Image, TextInput, Button } from "react-native";
 import { Formik, Field, Form } from 'formik';
-import { FDatePicker} from '@components/FDatePicker';
+import { FDatePicker } from '@components/FDatePicker';
 import { Picker } from '@react-native-picker/picker';
 import { FTextInput, FSelect } from '@components/Inputs';
 import Return from '../Return';
 import SafeIntro from '../SafeIntro';
-import { 
-    provincesOptions, citiesOptions, genderOptions,
-    marriageOptions, educationOptions 
+import {
+  provincesOptions, citiesOptions, genderOptions,
+  marriageOptions, educationOptions
 } from '@const';
 
 const initialValues = {
@@ -23,57 +23,57 @@ const initialValues = {
   addressDetail: '',
   email: ''
 }
-export default function Personal({navigation}) {
+export default function Personal({ navigation }) {
 
   return (
     <SafeAreaView >
-    <View style={styles.container}>
-      <SafeIntro safeText=" The information you fill in is only used for credit
+      <View style={styles.container}>
+        <SafeIntro safeText=" The information you fill in is only used for credit
       evaluation and wi ll never be used for other purposes.We use encryption to ensure your information security!"/>
-      {/* form */}
+        {/* form */}
 
-      <Formik
+        <Formik
           initialValues={initialValues}
           onSubmit={values => {
             console.log('values', values);
             navigation.push('Job')
           }}
           handleChange={values => console.log('values', values)}
-          
+
         >
           {({ handleChange, handleBlur, handleSubmit, values }) => (
             <>
-              <FTextInput name="name" label="Name" type="text"/>
+              <FTextInput name="name" label="Name" type="text" />
               <View style={{
                 flexDirection: 'row',
                 justifyContent: "space-between",
-                gap: '10px'
+                gap: 10
               }}>
-               <FTextInput name="birth" label="Date of Birth" />
-               <FSelect name="gender" label="Gender" options={genderOptions}/>
+                <FTextInput name="birth" label="Date of Birth" />
+                <FSelect name="gender" label="Gender" options={genderOptions} />
               </View>
 
               <FTextInput name="cnic" label="CNIC" />
-              
-              <FSelect name="education" label="Education" options={educationOptions}/>
 
-              <FSelect name="maritalStatus" label="Marital Status" options={marriageOptions}/>
+              <FSelect name="education" label="Education" options={educationOptions} />
+
+              <FSelect name="maritalStatus" label="Marital Status" options={marriageOptions} />
 
               <View style={{
-                marginVertical: '15px'
+                marginVertical: 15
               }}>
                 <Text>Residential Address</Text>
                 <View style={{
                   flexDirection: 'row',
                   justifyContent: "space-between",
-                  gap: '10px'
+                  gap: 10
                 }}>
                   <FSelect name="provinceId" label="Province" options={provincesOptions}
                     valueKey='province_id' labelKey='province_name'
                   />
 
                   <FSelect name="cityId" label="City" options={citiesOptions.filter(city => values['provinceId'] ? city.province_id == values['provinceId'] : true)}
-                    valueKey='city_id' labelKey='city_name' 
+                    valueKey='city_id' labelKey='city_name'
                   />
                 </View>
               </View>
@@ -81,46 +81,46 @@ export default function Personal({navigation}) {
               <FTextInput name="addressDetail" label="Detailed Address" />
 
               <FTextInput name="email" label="Email" />
-              <View style={{width: '300px', alignSelf: 'center'}}>
+              <View style={{ width: 300, alignSelf: 'center' }}>
                 <Button type="submit" style={styles.submitBtn} onPress={handleSubmit} title='Next' />
               </View>
             </>
           )}
-      </Formik>
-      <Return />
-    </View>
+        </Formik>
+        <Return />
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: "15px",
-    paddingVertical: "15px",
+    paddingHorizontal: 15,
+    paddingVertical: 15,
     backgroundColor: 'white'
   },
   safeTextContainer: {
     border: "1px solid #698EC7",
-    borderRadius: '4px',
+    borderRadius: 4,
     backgroundColor: '#F6F9FD',
-    paddingHorizontal: '15px',
-    paddingVertical: '15px',
-    flexDirection:'row'
-  },  
+    paddingHorizontal: 15,
+    paddingVertical: 15,
+    flexDirection: 'row'
+  },
   safeText: {
-    marginLeft: '10px',
-    fontSize: '12px',
-    color:'#4F5E6F'
+    marginLeft: 10,
+    fontSize: 12,
+    color: '#4F5E6F'
   },
   inputContainer: {
     width: '100%',
-    marginBottom: '20px'
-  }, 
+    marginBottom: 20
+  },
   label: {
-    marginBottom:'10px'
-  }, 
+    marginBottom: 10
+  },
   textInput: {
-    paddingLeft: '15px',
+    paddingLeft: 15,
     height: 50,
     width: 'auto',
     backgroundColor: '#F4F5F7',
@@ -130,17 +130,17 @@ const styles = StyleSheet.create({
   },
   picker: {
     // flex: 1,
-      width: "100%",
-      height: 44,
-      borderRadius: '4px',
-      paddingHorizontal: '4px'
-    },
-    pickerItem: {
-      height: 44
-    },
+    width: "100%",
+    height: 44,
+    borderRadius: 4,
+    paddingHorizontal: 4
+  },
+  pickerItem: {
+    height: 44
+  },
   submitBtn: {
-    height:'50px',
-    borderRadius: '3px',
+    height: 50,
+    borderRadius: 3,
     color: 'white'
   }
 });

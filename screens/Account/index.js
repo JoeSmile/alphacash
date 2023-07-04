@@ -7,15 +7,15 @@ import UserLayout from '@components/UserLayout';
 const Item = (item) => {
   return (
     <View style={styles.item}>
-      <Image 
+      <Image
         source={item.leftIcon}
         contentFit="cover"
         transition={1000}
         style={{
-          width: '32px',
-          height: '32px',
-          marginRight: '12px'
-        }}/>
+          width: 32,
+          height: 32,
+          marginRight: 12
+        }} />
       <Text>{item.title}</Text>
     </View>
   );
@@ -54,22 +54,22 @@ const data = [
   },
 ];
 
-const image = {uri: require('@assets/images/bg.png')};
+const image = { uri: require('@assets/images/bg.png') };
 
 const Account = ({ navigation }) => {
   const [isLogin, login] = useUserInfo((s) => [s.isLogin, s.login]);
   console.log('isLogin', isLogin)
   return (
-    <UserLayout> 
+    <UserLayout>
       <View
         style={styles.itemsContainer}
       >
-        <FList data={data} itemStyle={styles.FList}/>
+        <FList data={data} itemStyle={styles.FList} />
       </View>
 
       <View style={{
-         transform: 'translateY(-50px)',
-         alignItems: "center"
+        transform: 'translateY(-50px)',
+        alignItems: "center"
       }}>
         {!isLogin && (
           <Pressable
@@ -85,8 +85,8 @@ const Account = ({ navigation }) => {
             <Text
               style={{
                 textAlign: "center",
-                height: "30px",
-                lineHeight: "30px",
+                height: 30,
+                lineHeight: 30,
               }}
             >
               登录
@@ -105,24 +105,24 @@ const styles = StyleSheet.create({
   },
   container: {
     color: 'white',
-    paddingVertical:'30px',
-    paddingHorizontal:'20px',
+    paddingVertical: 30,
+    paddingHorizontal: 20,
     backgroundColor: 'transparent'
   },
   itemsContainer: {
-    margin: '15px',
+    margin: 15,
     transform: 'translateY(-50px)',
   },
   item: {
-    flexDirection:'row',
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-  },  
+  },
   FList: {
     backgroundColor: 'white',
-    paddingHorizontal: '12px',
-    paddingVertical: '30px',
-    borderRadius: '4px',
+    paddingHorizontal: 12,
+    paddingVertical: 30,
+    borderRadius: 4,
     boxShadow: '1px 1px 3px 0 rgba(0, 0, 0, 0.1),1px 1px 2px 0 rgba(0, 0, 0, 0.06)'
   },
   text: {

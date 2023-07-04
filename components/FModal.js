@@ -26,8 +26,8 @@ export default function FModal({
               display="inline-block"
               style={{
                 position: "absolute",
-                right: "10px",
-                top: "10px",
+                right: 10,
+                top: 10,
               }}
               color="black"
               onPress={() => toggle(false)}
@@ -70,8 +70,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   modalHeader: {
-    fontSize: "28px",
-    marginBottom: "20px",
+    fontSize: 28,
+    marginBottom: 20,
   },
   modalText: {
     marginBottom: 15,

@@ -15,8 +15,8 @@ export default function ImageCard({
         transition={1000}
       />
       <Text style={{
-        fontSize: '20px',
-        marginTop: '8px',
+        fontSize: 20,
+        marginTop: 8,
         color: 'white'
       }}>{title}</Text>
     </View>
@@ -25,13 +25,13 @@ export default function ImageCard({
 
 const styles = StyleSheet.create({
   container: {
-    height: "100px",
+    height: 100,
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
   },
   image: {
-    height: "75px",
-    width: "75px",
+    height: 75,
+    width: 75,
   },
 });

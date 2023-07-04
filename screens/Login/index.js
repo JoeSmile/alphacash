@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
   },
   container: {
     color: 'white',
-    paddingVertical:'30px',
-    paddingHorizontal:'20px',
+    paddingVertical: 30,
+    paddingHorizontal: 20,
     backgroundColor: 'transparent'
   },
   text: {

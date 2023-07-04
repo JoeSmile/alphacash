@@ -3,7 +3,7 @@ import { Formik, Field, Form } from 'formik';
 
 import { FTextInput, FSelect } from "@components/Inputs";
 import {
-  relationOptions  
+  relationOptions
 } from '@const';
 import Return from './Return';
 
@@ -16,7 +16,7 @@ const initialValues = {
   number2: '',
 }
 
-export default function Emergency({navigation}) {
+export default function Emergency({ navigation }) {
   return (
     <View style={styles.container}>
       <Formik
@@ -30,15 +30,15 @@ export default function Emergency({navigation}) {
         {({ handleChange, handleBlur, handleSubmit, values, setFieldValue }) => (
           <>
 
-            <FSelect name="relation1" label="Reference Relationship 1" options={relationOptions}/>
-            <FTextInput name="name1" label="Reference Name 1"/>
-            <FTextInput name="number1" label="Reference Number 1"/>
+            <FSelect name="relation1" label="Reference Relationship 1" options={relationOptions} />
+            <FTextInput name="name1" label="Reference Name 1" />
+            <FTextInput name="number1" label="Reference Number 1" />
 
-            <FSelect name="relation2" label="Reference Relationship 2" options={relationOptions}/>
-            <FTextInput name="name2" label="Reference Name 2"/>
-            <FTextInput name="number2" label="Reference Number 2"/>
-                
-            <View style={{width: '300px', alignSelf: 'center'}}>
+            <FSelect name="relation2" label="Reference Relationship 2" options={relationOptions} />
+            <FTextInput name="name2" label="Reference Name 2" />
+            <FTextInput name="number2" label="Reference Number 2" />
+
+            <View style={{ width: 300, alignSelf: 'center' }}>
               <Button type="submit" style={styles.submitBtn} onPress={handleSubmit} title='Next' />
             </View>
           </>
@@ -51,12 +51,12 @@ export default function Emergency({navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-    padding: '15px',
-    backgroundColor: 'white' 
+    padding: 15,
+    backgroundColor: 'white'
   },
   submitBtn: {
-    height:'50px',
-    borderRadius: '3px',
+    height: 50,
+    borderRadius: 3,
     color: 'white'
   },
 

@@ -7,67 +7,67 @@ export default function Certificate() {
   const [showModalType, setShowModalType] = useState('')
   return (
     <View style={styles.container}>
-      <SafeIntro safeText="Upload credential information, only for user identity verification, we will encrypt and store it, and it will never be used for other purposes!"/>
-   
-     {/* CNIC card */}
-    <View style={{
-      marginTop: '20px'
-    }}>
-      <View style={{
-        flexDirection:"row",
-        justifyContent: 'space-between',
-        marginBottom: '15px'
-      }}>
-        <Text>CNIC Card</Text>
+      <SafeIntro safeText="Upload credential information, only for user identity verification, we will encrypt and store it, and it will never be used for other purposes!" />
 
-        <Pressable onPress={() => setShowModalType(EXAMPLE_TYPES.CNIC_CARD)}>
-          <Text>Example</Text>
-        </Pressable>
-      </View>
+      {/* CNIC card */}
       <View style={{
-        flexDirection:"row",
-        gap: '15px'
+        marginTop: 20
       }}>
-        <Pressable style={{
-          flex: '1'
+        <View style={{
+          flexDirection: "row",
+          justifyContent: 'space-between',
+          marginBottom: 15
         }}>
-        <View>
-          <Image
-            style={{
-              height: "96px",
-              width: "150px",
-            }}
-            source={require('@assets/images/info_pic_cnic_card_positive.png')}
-            contentFit="cover"
-          />
-          <Text>CNIC Card Front</Text>
+          <Text>CNIC Card</Text>
+
+          <Pressable onPress={() => setShowModalType(EXAMPLE_TYPES.CNIC_CARD)}>
+            <Text>Example</Text>
+          </Pressable>
         </View>
- 
-        </Pressable>
-        <Pressable style={{
-          flex: '1'
+        <View style={{
+          flexDirection: "row",
+          gap: 15
         }}>
-       <View>
-          <Image
-            style={{
-              height: "96px",
-              width: "150px",
-            }}
-            source={require('@assets/images/info_pic_cnic_card_negative.png')}
-            contentFit="cover"
-          />
-          <Text>CNIC Card Back</Text>
+          <Pressable style={{
+            flex: '1'
+          }}>
+            <View>
+              <Image
+                style={{
+                  height: 96,
+                  width: 150,
+                }}
+                source={require('@assets/images/info_pic_cnic_card_positive.png')}
+                contentFit="cover"
+              />
+              <Text>CNIC Card Front</Text>
+            </View>
+
+          </Pressable>
+          <Pressable style={{
+            flex: '1'
+          }}>
+            <View>
+              <Image
+                style={{
+                  height: 96,
+                  width: 150,
+                }}
+                source={require('@assets/images/info_pic_cnic_card_negative.png')}
+                contentFit="cover"
+              />
+              <Text>CNIC Card Back</Text>
+            </View>
+          </Pressable>
         </View>
-        </Pressable>
       </View>
-     </View>
 
       {/* in hand */}
       <View>
         <View style={{
-          flexDirection:"row",
+          flexDirection: "row",
           justifyContent: 'space-between',
-          marginBottom: '15px'
+          marginBottom: 15
         }}>
           <Text>Take photo with CNIC card in hand</Text>
           <Pressable onPress={() => setShowModalType(EXAMPLE_TYPES.CNIC_IN_HAND)}>
@@ -77,22 +77,22 @@ export default function Certificate() {
         <View>
           <Image
             style={{
-              height: "96px",
-              width: "150px",
+              height: 96,
+              width: 150,
             }}
             source={require('@assets/images/info_pic_holding_id_card.png')}
             contentFit="cover"
           />
         </View>
       </View>
-  
+
 
       {/* proof employment */}
       <View>
         <View style={{
-          flexDirection:"row",
+          flexDirection: "row",
           justifyContent: 'space-between',
-          marginBottom: '15px'
+          marginBottom: 15
         }}>
           <Text>Proof Employment</Text>
           <Pressable onPress={() => setShowModalType(EXAMPLE_TYPES.PROOF_EMPLOYMENT)}>
@@ -102,8 +102,8 @@ export default function Certificate() {
         <View>
           <Image
             style={{
-              height: "96px",
-              width: "150px",
+              height: 96,
+              width: 150,
             }}
             source={require('@assets/images/info_pic_work_permit.png')}
             contentFit="cover"
@@ -111,22 +111,22 @@ export default function Certificate() {
         </View>
       </View>
 
-      <View style={{width: '300px', alignSelf: 'center'}}>
+      <View style={{ width: 300, alignSelf: 'center' }}>
         <Button type="submit" style={styles.submitBtn} title='Submit' />
       </View>
-      <ExampleModal isVisible={!!showModalType} onClose={() => setShowModalType('')} type={showModalType}/>
+      <ExampleModal isVisible={!!showModalType} onClose={() => setShowModalType('')} type={showModalType} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: '15px',
-    backgroundColor: 'white' 
+    padding: 15,
+    backgroundColor: 'white'
   },
   submitBtn: {
-    height:'50px',
-    borderRadius: '3px',
+    height: 50,
+    borderRadius: 3,
     color: 'white'
   },
 

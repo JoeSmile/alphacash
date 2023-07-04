@@ -3,7 +3,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 const Item = (props) => {
-  const { title, screen, leftItem, displayIcon = true, itemStyle={} } = props;
+  const { title, screen, leftItem, displayIcon = true, itemStyle = {} } = props;
   const navigation = useNavigation();
   console.log('itemStyle', itemStyle)
   return (
@@ -12,10 +12,10 @@ const Item = (props) => {
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
-        height: "30px",
+        height: 30,
         alignItems: "center",
-        marginBottom: "20px",
-        paddingHorizontal: "20px",
+        marginBottom: 20,
+        paddingHorizontal: 20,
       }, itemStyle]}
       onPress={() => {
         screen && navigation.push(screen);
@@ -25,7 +25,7 @@ const Item = (props) => {
       {!!leftItem ? (
         leftItem(props)
       ) : (
-        <Text style={{ fontSize: "16px" }}>{title}</Text>
+        <Text style={{ fontSize: 16 }}>{title}</Text>
       )}
 
       {displayIcon && <Image
@@ -33,8 +33,8 @@ const Item = (props) => {
         contentFit="cover"
         transition={1000}
         style={{
-          width: '16px',
-          height: '16px'
+          width: 16,
+          height: 16
         }}
       />}
 
@@ -47,7 +47,7 @@ const FList = ({ data, itemStyle, ...restProps }) => {
     <FlatList
       data={data}
       renderItem={({ item }) =>
-        item.render ? item.render(item) : <Item {...item} itemStyle={itemStyle}/>
+        item.render ? item.render(item) : <Item {...item} itemStyle={itemStyle} />
       }
       keyExtractor={(item) => item.id || item.title}
       {...restProps}

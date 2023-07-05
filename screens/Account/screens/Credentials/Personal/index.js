@@ -1,4 +1,5 @@
-import { SafeAreaView, View, Text, Pressable, StyleSheet, Image, TextInput, Button } from "react-native";
+import { SafeAreaView, View, Text, Pressable, StyleSheet, 
+  ScrollView, TextInput, Button } from "react-native";
 import { Formik, Field, Form } from 'formik';
 import { FDatePicker } from '@components/FDatePicker';
 import { Picker } from '@react-native-picker/picker';
@@ -27,12 +28,16 @@ export default function Personal({ navigation }) {
 
   return (
     <SafeAreaView >
-      <View style={styles.container}>
+    <ScrollView>
+    <View style={styles.container}>
         <SafeIntro safeText=" The information you fill in is only used for credit
       evaluation and wi ll never be used for other purposes.We use encryption to ensure your information security!"/>
         {/* form */}
-
-        <Formik
+        <View style={{
+      marginBottom: 15,
+      height: 800
+    }}>
+      <Formik
           initialValues={initialValues}
           onSubmit={values => {
             console.log('values', values);
@@ -43,24 +48,36 @@ export default function Personal({ navigation }) {
         >
           {({ handleChange, handleBlur, handleSubmit, values }) => (
             <>
-              <FTextInput name="name" label="Name" type="text" />
+              <View style={{height: 50, marginVertical: 20}}>
+                <FTextInput name="name" label="Name" type="text" />
+              </View>
               <View style={{
                 flexDirection: 'row',
                 justifyContent: "space-between",
-                gap: 10
+                gap: 10,
+                height: 50,
+                marginVertical: 20
               }}>
                 <FTextInput name="birth" label="Date of Birth" />
                 <FSelect name="gender" label="Gender" options={genderOptions} />
               </View>
-
-              <FTextInput name="cnic" label="CNIC" />
-
-              <FSelect name="education" label="Education" options={educationOptions} />
-
-              <FSelect name="maritalStatus" label="Marital Status" options={marriageOptions} />
+              <View style={{height: 50, marginVertical: 20}}>
+                <FTextInput name="cnic" label="CNIC" />
+              </View>
+              
+              <View style={{height: 50, marginVertical: 20}}>
+                <FSelect name="education" label="Education" options={educationOptions} />
+              </View>
 
               <View style={{
-                marginVertical: 15
+                height: 50,
+                marginVertical: 20
+              }}>
+                <FSelect name="maritalStatus" label="Marital Status" options={marriageOptions} />
+              </View>
+
+              <View style={{
+                marginVertical: 20
               }}>
                 <Text>Residential Address</Text>
                 <View style={{
@@ -78,17 +95,27 @@ export default function Personal({ navigation }) {
                 </View>
               </View>
 
-              <FTextInput name="addressDetail" label="Detailed Address" />
+              <View style={{height: 50, marginVertical: 20}}>
+                <FTextInput name="addressDetail" label="Detailed Address" />
+              </View>
+                
+              <View style={{height: 50, marginVertical: 20}}>
+                <FTextInput name="email" label="Email" />
+              </View>
 
-              <FTextInput name="email" label="Email" />
-              <View style={{ width: 300, alignSelf: 'center' }}>
+
+              <View style={{ height: 50, width: 300, marginVertical: 20, alignSelf: 'center' }}>
                 <Button type="submit" style={styles.submitBtn} onPress={handleSubmit} title='Next' />
               </View>
             </>
           )}
         </Formik>
+        </View>
+        
         <Return />
       </View>
+    </ScrollView>
+     
     </SafeAreaView>
   );
 }

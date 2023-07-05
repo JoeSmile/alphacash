@@ -10,13 +10,17 @@ export const FTextInput = ({ label, containerStyle = {}, name }) => {
       <Text style={styles.label}>
         {label}
       </Text>
-      <TextInput
-        style={styles.textInput}
-        value={context.values[name]}
-        onChangeText={(v) => {
-          context.setFieldValue(name, v)
-        }}
-      />
+      <View style={{
+        height: 30
+      }}>
+        <TextInput
+          style={styles.textInput}
+          value={context.values[name]}
+          onChangeText={(v) => {
+            context.setFieldValue(name, v)
+          }}
+        />
+      </View>
       {meta.touched && meta.error ? (
         <Text className="error">{meta.error}</Text>
       ) : null}
@@ -26,11 +30,11 @@ export const FTextInput = ({ label, containerStyle = {}, name }) => {
 
 const styles = StyleSheet.create({
   inputContainer: {
-    flex: 1,
-    marginBottom: 20
+    height: 45,
   },
   label: {
-    marginBottom: 5
+    marginBottom: 5,
+    height: 15
   },
   textInput: {
     paddingLeft: 15,

@@ -17,6 +17,7 @@ export function FSelect({
   return <View style={{
     flex: 1,
     marginBottom: 15,
+    height: 30,
     ...containerStyle,
   }}>
     <Text style={styles.label}>{label}</Text>

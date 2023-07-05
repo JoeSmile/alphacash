@@ -5,7 +5,6 @@ import { Image } from 'expo-image';
 const Item = (props) => {
   const { title, screen, leftItem, displayIcon = true, itemStyle = {} } = props;
   const navigation = useNavigation();
-  console.log('itemStyle', itemStyle)
   return (
     <Pressable
       style={[{
@@ -30,8 +29,6 @@ const Item = (props) => {
         transition={200}
         style={{ width: 20, height: 20 }}
       />
-    
-
     </Pressable>
   );
 };

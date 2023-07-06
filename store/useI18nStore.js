@@ -2,7 +2,7 @@ import * as Localization from "expo-localization";
 import { I18n } from "i18n-js";
 import { create } from "zustand";
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 import { translations } from "../Localization";
 import { isDev } from "../constants/config";

@@ -28,7 +28,7 @@ function filterParameters () {
 }
 
 // parameters is object
-export async function getAllParameters(parameters = {}, path) {
+export async function getAllParameters(path, parameters = {},) {
     // common parameters
     const rawString = getRawParameters(parameters, path);
 

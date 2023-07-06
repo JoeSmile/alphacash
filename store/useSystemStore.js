@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 import { isDev } from "../constants/config";
 import { LocaleTypes } from "@store/useI18nStore";
@@ -9,6 +9,7 @@ export const useSystemStore = create(persist(
 (set, get) => ({
   isReadPolicy: false,
   locale: LocaleTypes.en,
+  token: '',
   setReadPolicy: () => {
     set((state) => ({
       ...state,
@@ -19,6 +20,12 @@ export const useSystemStore = create(persist(
     set((state) => ({
       ...state,
       locale: newLocale
+    }))
+  },
+  setToken: (token) => {
+    set((state) => ({
+      ...state,
+      token
     }))
   }
 }), {

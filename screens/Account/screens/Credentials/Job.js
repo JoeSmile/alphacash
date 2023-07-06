@@ -1,4 +1,4 @@
-import { SafeAreaView, View, Text, Pressable, StyleSheet, Image, TextInput, Button } from "react-native";
+import { SafeAreaView, View, Text, Pressable, StyleSheet, ScrollView, TextInput, Button } from "react-native";
 import { Formik, Field, Form } from 'formik';
 
 import { FTextInput, FSelect } from "@components/Inputs";
@@ -27,7 +27,7 @@ const initialValues = {
 
 export default function Job({ navigation }) {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Formik
         initialValues={initialValues}
         onSubmit={values => {
@@ -38,15 +38,41 @@ export default function Job({ navigation }) {
       >
         {({ handleChange, handleBlur, handleSubmit, values, setFieldValue }) => (
           <>
+            <View style={{
+              height: 80,
+              marginBottom: 10
+            }}>
+              <FSelect name="workField" label="Working Field" options={workFieldOptions} />
+            </View>
 
-            <FSelect name="workField" label="Working Field" options={workFieldOptions} />
-            <FTextInput name="companyName" label="Company Name" />
-            <FTextInput name="companyPhone" label="Company Phone" />
-            <FSelect name="serviceLength" label="Length Service" options={serviceLengthOptions} />
-            <FSelect name="monthlyIncome" label="Monthly Income" options={monthlyIncomeOptions} />
+             <View style={{
+              height: 80,
+              marginBottom: 10
+            }}>
+              <FTextInput name="companyName" label="Company Name" />
+              </View>
+             <View style={{
+              height: 80,
+              marginBottom: 10
+            }}>
+              <FTextInput name="companyPhone" label="Company Phone" />
+              </View>
+             <View style={{
+              height: 80,
+              marginBottom: 10
+            }}>
+              <FSelect name="serviceLength" label="Length Service" options={serviceLengthOptions} />
+              </View>
+              <View style={{
+              height: 80,
+              marginBottom: 10
+            }}>
+                <FSelect name="monthlyIncome" label="Monthly Income" options={monthlyIncomeOptions} />
+              </View>
 
             <View style={{
-              marginVertical: 15
+              height: 100,
+              marginBottom: 15
             }}>
               <Text>Company Address</Text>
               <View style={{
@@ -64,9 +90,15 @@ export default function Job({ navigation }) {
               </View>
             </View>
 
-            <FTextInput name="companyAddressDetail" label="Detail Address" />
+            <View style={{
+              height: 80,
+              marginBottom: 10
+            }}>
+              <FTextInput name="companyAddressDetail" label="Detail Address" />
+            </View>
 
             <View style={{
+              height: 80,
               marginBottom: 15,
               gap: 5,
             }}>
@@ -97,10 +129,14 @@ export default function Job({ navigation }) {
 
             {
               values['haveOtherLoans'] == 2 &&
-              <>
-                <FTextInput name="lendingInstitution" label="Lending Institution" />
-                <FTextInput name="loanAmount" label="Loan Amount" />
-              </>
+              <View style={{height:180, marginBottom: 20}}>
+                <View style={{height: 80, marginBottom: 15}}>
+                  <FTextInput name="lendingInstitution" label="Lending Institution" />
+                </View>
+                <View style={{height: 80}}>
+                  <FTextInput name="loanAmount" label="Loan Amount" />
+                </View>
+              </View>
             }
 
             <View style={{ width: 300, alignSelf: 'center' }}>
@@ -110,12 +146,13 @@ export default function Job({ navigation }) {
         )}
       </Formik>
       <Return />
-    </View>
+    </ScrollView>
   );
 }
 const styles = StyleSheet.create({
   container: {
-    padding: 15
+    padding: 15,
+    height: 900
   },
   submitBtn: {
     height: 50,

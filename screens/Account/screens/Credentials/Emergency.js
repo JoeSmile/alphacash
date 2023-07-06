@@ -30,13 +30,30 @@ export default function Emergency({ navigation }) {
         {({ handleChange, handleBlur, handleSubmit, values, setFieldValue }) => (
           <>
 
-            <FSelect name="relation1" label="Reference Relationship 1" options={relationOptions} />
-            <FTextInput name="name1" label="Reference Name 1" />
-            <FTextInput name="number1" label="Reference Number 1" />
+            <View style={{height: 75, marginBottom: 15}}>
+              <FSelect name="relation1" label="Reference Relationship 1" options={relationOptions} />
+            </View>
+            
+            <View style={{height: 75, marginBottom: 15}}>
+              <FTextInput name="name1" label="Reference Name 1" />
+            </View>
+            
+            <View style={{height: 75, marginBottom: 15}}>
+              <FTextInput name="number1" label="Reference Number 1" />
+            </View>
+            
+            <View style={{height: 75, marginBottom: 15}}>
+              <FSelect name="relation2" label="Reference Relationship 2" options={relationOptions} />
+            </View>
+            
+            <View style={{height: 75, marginBottom: 15}}>
+              <FTextInput name="name2" label="Reference Name 2" />
+            </View>
+            
+            <View style={{height: 75, marginBottom: 15}}>
+              <FTextInput name="number2" label="Reference Number 2" />
+            </View>
 
-            <FSelect name="relation2" label="Reference Relationship 2" options={relationOptions} />
-            <FTextInput name="name2" label="Reference Name 2" />
-            <FTextInput name="number2" label="Reference Number 2" />
 
             <View style={{ width: 300, alignSelf: 'center' }}>
               <Button type="submit" style={styles.submitBtn} onPress={handleSubmit} title='Next' />

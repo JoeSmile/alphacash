@@ -7,9 +7,12 @@ export const FTextInput = ({ label, containerStyle = {}, name }) => {
   const meta = context.getFieldMeta(name);
   return (
     <View style={[styles.inputContainer, containerStyle]}>
-      <Text style={styles.label}>
-        {label}
-      </Text>
+      <View style={{height: 30}}>
+          <Text style={styles.label}>
+            {label}
+          </Text>
+      </View>
+
       <View style={{
         height: 30
       }}>

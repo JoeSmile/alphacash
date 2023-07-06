@@ -1,10 +1,15 @@
-import { View, StyleSheet, Text, Pressable, TextInput, Button } from "react-native";
 // import CheckBox from '@react-native-community/checkbox';
-import React, { useState } from 'react';
+import { View, TextInput, StyleSheet, Text, Pressable, CheckBox, Button } from "react-native";
+import {
+  useMutation,
+} from 'react-query'
+
+import React, {useState} from 'react';
 import { Formik } from 'formik';
 import { Colors } from "@const/Colors";
-import { getOTP, login, encodeSHA, getNetInfo } from '@apis'
+import { getOTP, login, encodeSHA, getNetInfo, getPersonalInfoDetail, updatePersonalInfo } from '@apis'
 import { useUserInfo } from '@store/useUserInfo';
+import { useLogin } from '@apis/hooks';
 
 const mockLoginParameters = {
   phoneNumber: '01238137213',
@@ -17,15 +22,19 @@ getNetInfo();
 export default function LoginCard() {
   const [isSelected, setSelection] = useState(false);
   const [isLogin, setLogin] = useUserInfo((s) => [s.isLogin, s.setLogin]);
-
+  // Mutations
+  const mutation = useLogin()
+  console.log(mutation.data)
   return (
     <View >
       <View style={styles.container}>
         <Formik
           initialValues={{ phoneNumber: '', OTP: '' }}
           onSubmit={values => {
-            login(mockLoginParameters);
-            setLogin(!isLogin);
+            // login()
+            // getPersonalInfoDetail();
+            // getWorkInfoDetail();
+            updatePersonalInfo();
           }}
         >
           {({ handleChange, handleBlur, handleSubmit, values }) => (

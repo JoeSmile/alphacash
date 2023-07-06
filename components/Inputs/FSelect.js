@@ -18,12 +18,13 @@ export function FSelect({
   const context = useFormikContext(name);
   const meta = context.getFieldMeta(name);
   return <View style={{
-    flex: 1,
     marginBottom: 15,
-    height: 30,
+    height: 60,
     ...containerStyle,
   }}>
-    <Text style={styles.label}>{label}</Text>
+    <View>
+      <Text style={styles.label}>{label}</Text>
+    </View>
     <Picker
       enabled={true}
       mode="dropdown"
@@ -31,12 +32,14 @@ export function FSelect({
         context.setFieldValue(name, v);
       }}
       selectedValue={context.values[name]}
-      style={{
-        height: 50,
+      style={[{
+        height: 35,
+        minHeight: 35,
         borderRadius: 10,
         backgroundColor: 'white'
-      }}
+      }, meta.touched && meta.error ? styles.error: {}]}
     >
+      <Picker.Item label=" " value="" /> 
       {options.map((item, index) =>
         <Picker.Item
           label={labelKey ? item[labelKey] : item.label}
@@ -44,14 +47,18 @@ export function FSelect({
           key={`${item.value}_${index}`}
         />)}
     </Picker>
-    {/* {meta.touched && meta.error ? (
-      <Text className="error">{meta.error}</Text>
-    ) : null} */}
+    {meta.touched && meta.error ? (
+      <Text className="error" style={{ color: '#E53F31' }}>{meta.error}</Text>
+    ) : null}
   </View>
 }
 
 const styles = StyleSheet.create({
   label: {
+    height: 15,
     marginBottom: 5
   },
+  error: {
+    color: '#E53F31'
+  }
 });

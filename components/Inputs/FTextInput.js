@@ -7,17 +7,17 @@ export const FTextInput = ({ label, containerStyle = {}, name }) => {
   const meta = context.getFieldMeta(name);
   return (
     <View style={[styles.inputContainer, containerStyle]}>
-      <View style={{height: 30}}>
-          <Text style={styles.label}>
-            {label}
-          </Text>
+      <View>
+        <Text style={styles.label}>
+          {label}
+        </Text>
       </View>
 
       <View style={{
-        height: 30
+         height: 35,
       }}>
         <TextInput
-          style={styles.textInput}
+          style={[styles.textInput, meta.touched && meta.error ? styles.error: {}]}
           value={context.values[name]}
           onChangeText={(v) => {
             context.setFieldValue(name, v)
@@ -25,7 +25,9 @@ export const FTextInput = ({ label, containerStyle = {}, name }) => {
         />
       </View>
       {meta.touched && meta.error ? (
-        <Text className="error">{meta.error}</Text>
+        <Text className="error" style={{
+          color: '#E53F31'
+        }}>{meta.error}</Text>
       ) : null}
     </View>
   );
@@ -33,19 +35,21 @@ export const FTextInput = ({ label, containerStyle = {}, name }) => {
 
 const styles = StyleSheet.create({
   inputContainer: {
-    height: 45,
+    height: 60,
   },
   label: {
-    marginBottom: 5,
-    height: 15
+    height: 15,
+    marginBottom: 5
   },
   textInput: {
     paddingLeft: 15,
-    height: 50,
     width: 'auto',
-    // backgroundColor: '#F4F5F7',
+    height: 35,
     borderColor: 'gray',
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 10,
   },
+  error: {
+    borderColor: '#E53F31'
+  }
 });

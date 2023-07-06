@@ -5,14 +5,13 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { useLoadedAssets } from "./hooks/useLoadedAssets";
 import Navigation from "./navigation";
-import { useColorScheme } from "react-native";
+import { useColorScheme, Platform } from "react-native";
 import { useInitialStore } from '@hooks/useInitialStore';
 import {
   QueryClient,
   QueryClientProvider,
   focusManager
 } from 'react-query'
-
 import { isDev } from "@const/config";
 import { useAppState } from '@hooks/useAppState';
 import { useOnlineManager } from '@hooks/useOnlineManager';

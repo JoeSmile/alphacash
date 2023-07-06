@@ -1,5 +1,5 @@
-import { SafeAreaView, View, Text, Pressable, StyleSheet, ScrollView, TextInput, Button } from "react-native";
-import { Formik, Field, Form } from 'formik';
+import { View, Text, Pressable, StyleSheet, ScrollView, Button } from "react-native";
+import { Formik } from 'formik';
 
 import { FTextInput, FSelect } from "@components/Inputs";
 import {
@@ -152,7 +152,8 @@ export default function Job({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     padding: 15,
-    height: 900
+    height: 900,
+    backgroundColor: 'white'
   },
   submitBtn: {
     height: 50,

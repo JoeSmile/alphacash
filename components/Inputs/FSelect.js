@@ -2,18 +2,21 @@ import { useField, Form, FormikProps, Formik } from 'formik';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { FDatePicker } from '@components/FDatePicker';
 import { Picker } from '@react-native-picker/picker';
+import { useFormikContext } from 'formik';
 
 const defaultOptions = [{ label: '男', value: '1' }, { label: '女', value: '2' }]
 
 export function FSelect({
   label,
+  name,
   options = defaultOptions,
   containerStyle = {},
   labelKey = '',
   valueKey = '',
   ...props
 }) {
-  const [field, meta, helpers] = useField(props);
+  const context = useFormikContext(name);
+  const meta = context.getFieldMeta(name);
   return <View style={{
     flex: 1,
     marginBottom: 15,
@@ -24,8 +27,10 @@ export function FSelect({
     <Picker
       enabled={true}
       mode="dropdown"
-      onValueChange={field.onChange('gender')}
-      selectedValue={field.value.gender}
+      onValueChange={(v) => {
+        context.setFieldValue(name, v);
+      }}
+      selectedValue={context.values[name]}
       style={{
         height: 50,
         borderRadius: 10,
@@ -39,9 +44,9 @@ export function FSelect({
           key={`${item.value}_${index}`}
         />)}
     </Picker>
-    {meta.touched && meta.error ? (
+    {/* {meta.touched && meta.error ? (
       <Text className="error">{meta.error}</Text>
-    ) : null}
+    ) : null} */}
   </View>
 }
 

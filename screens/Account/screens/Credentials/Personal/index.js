@@ -1,6 +1,6 @@
 import { SafeAreaView, View, Text, Pressable, StyleSheet, 
-  ScrollView, TextInput, Button } from "react-native";
-import { Formik, Field, Form } from 'formik';
+  ScrollView, Button } from "react-native";
+import { Formik } from 'formik';
 import { FDatePicker } from '@components/FDatePicker';
 import { Picker } from '@react-native-picker/picker';
 import { FTextInput, FSelect } from '@components/Inputs';
@@ -35,7 +35,7 @@ export default function Personal({ navigation }) {
         {/* form */}
         <View style={{
       marginBottom: 15,
-      height: 800
+      height: 1000
     }}>
       <Formik
           initialValues={initialValues}
@@ -48,29 +48,34 @@ export default function Personal({ navigation }) {
         >
           {({ handleChange, handleBlur, handleSubmit, values }) => (
             <>
-              <View style={{height: 50, marginVertical: 20}}>
+              <View style={{height: 80, marginVertical: 20}}>
                 <FTextInput name="name" label="Name" type="text" />
               </View>
               <View style={{
                 flexDirection: 'row',
                 justifyContent: "space-between",
                 gap: 10,
-                height: 50,
+                height: 80,
                 marginVertical: 20
               }}>
-                <FTextInput name="birth" label="Date of Birth" />
-                <FSelect name="gender" label="Gender" options={genderOptions} />
+                <View style={{height: 80, marginBottom: 15, flex: 1}}>
+                  <FTextInput name="birth" label="Date of Birth" />
+                </View>
+                <View style={{height: 80, marginBottom: 15, flex: 1}}>
+                  <FSelect name="gender" label="Gender" options={genderOptions} />
+                </View>
               </View>
-              <View style={{height: 50, marginVertical: 20}}>
+
+              <View style={{height: 80, marginVertical: 20}}>
                 <FTextInput name="cnic" label="CNIC" />
               </View>
               
-              <View style={{height: 50, marginVertical: 20}}>
+              <View style={{height: 80, marginVertical: 20}}>
                 <FSelect name="education" label="Education" options={educationOptions} />
               </View>
 
               <View style={{
-                height: 50,
+                height: 80,
                 marginVertical: 20
               }}>
                 <FSelect name="maritalStatus" label="Marital Status" options={marriageOptions} />
@@ -95,23 +100,22 @@ export default function Personal({ navigation }) {
                 </View>
               </View>
 
-              <View style={{height: 50, marginVertical: 20}}>
+              <View style={{height: 80, marginVertical: 20}}>
                 <FTextInput name="addressDetail" label="Detailed Address" />
               </View>
                 
-              <View style={{height: 50, marginVertical: 20}}>
+              <View style={{height: 80, marginVertical: 20}}>
                 <FTextInput name="email" label="Email" />
               </View>
 
 
-              <View style={{ height: 50, width: 300, marginVertical: 20, alignSelf: 'center' }}>
+              <View style={{ height: 80, width: 300, marginVertical: 20, alignSelf: 'center' }}>
                 <Button type="submit" style={styles.submitBtn} onPress={handleSubmit} title='Next' />
               </View>
             </>
           )}
         </Formik>
         </View>
-        
         <Return />
       </View>
     </ScrollView>
@@ -147,7 +151,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     paddingLeft: 15,
-    height: 50,
+    height: 80,
     width: 'auto',
     backgroundColor: '#F4F5F7',
     borderColor: 'grey',
@@ -164,7 +168,7 @@ const styles = StyleSheet.create({
     height: 44
   },
   submitBtn: {
-    height: 50,
+    height: 80,
     borderRadius: 3,
     color: 'white'
   }

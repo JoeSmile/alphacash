@@ -1,5 +1,5 @@
 import { View, StyleSheet, Text, Pressable, TextInput, Button } from "react-native";
-// import CheckBox from '@react-native-community/checkbox';
+import { CheckBox } from 'react-native-elements';
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { Colors } from "@const/Colors";
@@ -101,14 +101,18 @@ export default function LoginCard() {
             onValueChange={setSelection}
             style={styles.checkbox}
           /> */}
+          <CheckBox
+            checked={isSelected}
+            onPress={() => { setSelection(!isSelected) }}
+          />
           Agree
-          <Pressable style={{marginRight: 2, marginLeft: 2 }}>
+          <Pressable style={{ marginRight: 2, marginLeft: 2 }}>
             <Text style={{ fontWeight: 600, color: Colors.light.primary }}>
               Privacy Agreement
             </Text>
           </Pressable>
           and
-          <Pressable style={{marginRight: 2, marginLeft: 2 }}>
+          <Pressable style={{ marginRight: 2, marginLeft: 2 }}>
             <Text style={{ fontWeight: 600, color: Colors.light.primary }}>
               Terms&Service
             </Text>

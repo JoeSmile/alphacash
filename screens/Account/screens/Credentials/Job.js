@@ -9,21 +9,48 @@ import {
   otherLoanOptions
 } from '@const';
 import Return from './Return';
+import * as Yup from 'yup';
 
 const initialValues = {
-  "workField": 1,
-  "workName": "Farmer",
-  "companyName": "fdgdfsg",
-  "companyPhone": "02138293273",
-  "serviceLength": 1,
-  "monthlyIncome": 2,
-  "companyProvinceId": "1",
-  "companyCityId": "9",
-  "companyAddressDetail": "dsfafsdf",
-  "haveOtherLoans": 2,
-  "lendingInstitution": "gsdfgfsd",
-  "loanAmount": ''
+  "workField": '',
+  "workName": "",
+  "companyName": "",
+  "companyPhone": "",
+  "serviceLength": '',
+  "monthlyIncome": "",
+  "companyProvinceId": "",
+  "companyCityId": "",
+  "companyAddressDetail": "",
+  "haveOtherLoans": "",
+  "lendingInstitution": "",
+  "loanAmount": '',
+  "cityName": '',
+  "provinceName": ''
 }
+
+const JobFormSchema = Yup.object().shape({
+  workField: Yup.number()
+    .required('Required'),
+  workName: Yup.string()
+    .required('Required'),
+  companyName: Yup.string()
+    .required('Required'),
+  companyPhone: Yup.number()
+    .required('Required'),
+  serviceLength: Yup.number()
+    .required('Required'),
+  monthlyIncome: Yup.number()
+    .required('Required'),
+  companyProvinceId: Yup.number()
+    .required('Required'),
+  companyCityId: Yup.string()
+    .required('Required'),
+  companyAddressDetail: Yup.string()
+    .required('Required'),
+  haveOtherLoans: Yup.string(),
+  lendingInstitution: Yup.string(),
+  loanAmount: Yup.string(),
+});
 
 export default function Job({ navigation }) {
   return (
@@ -34,44 +61,31 @@ export default function Job({ navigation }) {
           console.log('values', values);
           navigation.push('Emergency')
         }}
+        validateOnChange={true}
+        validateOnBlur={true}
         handleChange={values => console.log('values', values)}
+        validationSchema={JobFormSchema}
       >
         {({ handleChange, handleBlur, handleSubmit, values, setFieldValue }) => (
           <>
-            <View style={{
-              height: 80,
-              marginBottom: 10
-            }}>
+            <View style={styles.module}>
               <FSelect name="workField" label="Working Field" options={workFieldOptions} />
             </View>
 
-             <View style={{
-              height: 80,
-              marginBottom: 10
-            }}>
+             <View style={styles.module}>
               <FTextInput name="companyName" label="Company Name" />
               </View>
-             <View style={{
-              height: 80,
-              marginBottom: 10
-            }}>
+             <View style={styles.module}>
               <FTextInput name="companyPhone" label="Company Phone" />
               </View>
-             <View style={{
-              height: 80,
-              marginBottom: 10
-            }}>
+             <View style={styles.module}>
               <FSelect name="serviceLength" label="Length Service" options={serviceLengthOptions} />
               </View>
-              <View style={{
-              height: 80,
-              marginBottom: 10
-            }}>
+              <View style={styles.module}>
                 <FSelect name="monthlyIncome" label="Monthly Income" options={monthlyIncomeOptions} />
               </View>
 
             <View style={{
-              height: 100,
               marginBottom: 15
             }}>
               <Text>Company Address</Text>
@@ -80,20 +94,20 @@ export default function Job({ navigation }) {
                 justifyContent: "space-between",
                 gap: 10
               }}>
-                <FSelect name="companyProvinceId" label="Province" options={provincesOptions}
-                  valueKey='province_id' labelKey='province_name'
-                />
-
-                <FSelect name="companyCityId" label="City" options={citiesOptions.filter(city => values['provinceId'] ? city.province_id == values['provinceId'] : true)}
-                  valueKey='city_id' labelKey='city_name'
-                />
+                <View style={{flex: 1}}>
+                  <FSelect name="companyProvinceId" label="Province" options={provincesOptions}
+                    valueKey='province_id' labelKey='province_name'
+                  />
+                </View>
+                <View style={{flex: 1}}>
+                  <FSelect name="companyCityId" label="City" options={citiesOptions.filter(city => values['provinceId'] ? city.province_id == values['provinceId'] : true)}
+                    valueKey='city_id' labelKey='city_name'
+                  />
+                </View>
               </View>
             </View>
 
-            <View style={{
-              height: 80,
-              marginBottom: 10
-            }}>
+            <View style={styles.module}>
               <FTextInput name="companyAddressDetail" label="Detail Address" />
             </View>
 
@@ -169,6 +183,9 @@ const styles = StyleSheet.create({
   loanBtnSelected: {
     color: '#032BB1',
     backgroundColor: '#E6E8F7'
-
+  },
+  module: {
+    height: 90,
+    marginBottom: 15
   }
 });

@@ -1,8 +1,6 @@
-import { SafeAreaView, View, Text, Pressable, StyleSheet, 
+import { SafeAreaView, View, Text, StyleSheet, 
   ScrollView, Button } from "react-native";
 import { Formik } from 'formik';
-import { FDatePicker } from '@components/FDatePicker';
-import { Picker } from '@react-native-picker/picker';
 import { FTextInput, FSelect } from '@components/Inputs';
 import Return from '../Return';
 import SafeIntro from '../SafeIntro';
@@ -22,17 +20,19 @@ const initialValues = {
   provinceId: '',
   provinceName: '',
   cityId: '',
+  cityName: '',
   addressDetail: '',
   email: ''
 }
 
-const PersonalForm = Yup.object().shape({
+const PersonalFormSchema = Yup.object().shape({
   name: Yup.string()
     .required('Required'),
   birth: Yup.string()
     .required('Required'),
   cnic: Yup.string()
-    .required('Required'),
+    .required('Required')
+    .test('len', 'Must be exactly 13 characters', val => val.length === 13),
   gender: Yup.number()
     .required('Required'),
   education: Yup.number()
@@ -40,8 +40,6 @@ const PersonalForm = Yup.object().shape({
   maritalStatus: Yup.number()
     .required('Required'),
   provinceId: Yup.number()
-    .required('Required'),
-  provinceName: Yup.string()
     .required('Required'),
   cityId: Yup.number()
     .required('Required'),
@@ -55,12 +53,15 @@ export default function Personal({ navigation }) {
   return (
     <SafeAreaView >
     <ScrollView>
-    <View style={styles.container}>
+    <View >
       <SafeIntro safeText=" The information you fill in is only used for credit
         evaluation and wi ll never be used for other purposes.We use encryption to ensure your information security!"/>
           <View style={{
               marginBottom: 15,
-              height: 750
+              height: 950,
+              backgroundColor: 'white',
+              paddingHorizontal: 15,
+              paddingVertical: 15
             }}
           >
           <Formik
@@ -69,19 +70,21 @@ export default function Personal({ navigation }) {
                 console.log('values', values);
                 navigation.push('Job')
               }}
+              validateOnChange={true}
+              validateOnBlur={true}
               handleChange={values => console.log('values', values)}
-              validationSchema={PersonalForm}
+              validationSchema={PersonalFormSchema}
             >
               {({ handleChange, handleBlur, handleSubmit, values }) => (
                 <>
-                  <View style={{height: 65, marginBottom: 15}}>
+                  <View style={styles.module}>
                     <FTextInput name="name" label="Name" type="text" />
                   </View>
                   <View style={{
                     flexDirection: 'row',
                     justifyContent: "space-between",
                     gap: 10,
-                    height: 65,
+                    height: 90,
                     marginBottom: 15
                   }}>
                     <View style={{height: 65, marginBottom: 15, flex: 1}}>
@@ -92,18 +95,15 @@ export default function Personal({ navigation }) {
                     </View>
                   </View>
 
-                  <View style={{height: 65, marginBottom: 15}}>
+                  <View style={styles.module}>
                     <FTextInput name="cnic" label="CNIC" />
                   </View>
                   
-                  <View style={{height: 65, marginBottom: 15}}>
+                  <View style={styles.module}>
                     <FSelect name="education" label="Education" options={educationOptions} />
                   </View>
 
-                  <View style={{
-                    height: 65,
-                    marginBottom: 15
-                  }}>
+                  <View style={styles.module}>
                     <FSelect name="maritalStatus" label="Marital Status" options={marriageOptions} />
                   </View>
 
@@ -130,11 +130,11 @@ export default function Personal({ navigation }) {
                     </View>
                   </View>
 
-                  <View style={{height: 65, marginBottom: 15}}>
+                  <View style={styles.module}>
                     <FTextInput name="addressDetail" label="Detailed Address" />
                   </View>
                     
-                  <View style={{height: 65, marginBottom: 15}}>
+                  <View style={styles.module}>
                     <FTextInput name="email" label="Email" />
                   </View>
 
@@ -154,11 +154,6 @@ export default function Personal({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 15,
-    paddingVertical: 15,
-    backgroundColor: 'white'
-  },
   safeTextContainer: {
     borderRadius: 4,
     backgroundColor: '#F6F9FD',
@@ -193,5 +188,9 @@ const styles = StyleSheet.create({
     height: 65,
     borderRadius: 3,
     color: 'white'
+  },
+  module: {
+    height: 90,
+    marginBottom: 15
   }
 });

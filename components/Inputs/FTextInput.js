@@ -14,7 +14,7 @@ export const FTextInput = ({ label, containerStyle = {}, name }) => {
       </View>
 
       <View style={{
-         height: 35,
+         height: 55,
       }}>
         <TextInput
           style={[styles.textInput, meta.touched && meta.error ? styles.error: {}]}
@@ -35,7 +35,7 @@ export const FTextInput = ({ label, containerStyle = {}, name }) => {
 
 const styles = StyleSheet.create({
   inputContainer: {
-    height: 60,
+    height: 80,
   },
   label: {
     height: 15,
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   textInput: {
     paddingLeft: 15,
     width: 'auto',
-    height: 35,
+    height: 55,
     borderColor: 'gray',
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 10,

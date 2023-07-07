@@ -4,7 +4,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useColorScheme } from "react-native";
-import {Colors} from "../constants/Colors";
+import { Colors } from "../constants/Colors";
 
 import Homepage from "../screens/Homepage";
 import { useI18n } from "@hooks/useI18n";
@@ -17,7 +17,7 @@ const BottomTab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
-  const {i18n} = useI18n()
+  const { i18n } = useI18n();
 
   return (
     <BottomTab.Navigator
@@ -68,10 +68,7 @@ function HomePageNavigator() {
       <HomePageStack.Screen
         name="Homepage"
         component={Homepage}
-        options={{ headerTitle: "首页",
-        ...pageHeader
-        }}
- 
+        options={{ headerTitle: "首页", ...pageHeader }}
       />
     </HomePageStack.Navigator>
   );

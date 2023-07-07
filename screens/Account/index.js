@@ -1,77 +1,78 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
-import React from 'react';
+import React from "react";
 import { useUserInfo } from "@store/useUserInfo";
 import FList from "@components/FList";
-import UserLayout from '@components/UserLayout';
-import { Image } from 'expo-image';
+import UserLayout from "@components/UserLayout";
+import { Image } from "expo-image";
 
 const Item = (item) => {
   return (
     <View style={styles.item}>
       <Image
-        source={item.leftIcon}
+        source={require("@assets/images/1.png")}
         contentFit="cover"
         transition={1000}
         style={{
           width: 32,
           height: 32,
-          marginRight: 12
-        }} />
+          marginRight: 12,
+        }}
+      />
       <Text>{item.title}</Text>
     </View>
   );
-}
+};
 
 const data = [
   {
     title: "账单",
     screen: "Bills",
-    leftIcon: require('@assets/images/mine_ic_bill.svg'),
+    leftIcon: require("@assets/images/mine_ic_bill.svg"),
     leftItem: Item,
   },
   {
     title: "认证信息",
     screen: "Credentials",
-    leftIcon: require('@assets/images/mine_ic_certification_info.svg'),
+    leftIcon: require("@assets/images/mine_ic_certification_info.svg"),
     leftItem: Item,
   },
   {
     title: "收款账号",
     screen: "MyCards",
-    leftIcon: require('@assets/images/mine_ic_contact_us.svg'),
+    leftIcon: require("@assets/images/mine_ic_contact_us.svg"),
     leftItem: Item,
   },
   {
     title: "联系我们",
     screen: "ContactUs",
-    leftIcon: require('@assets/images/mine_ic_contact_us.svg'),
+    leftIcon: require("@assets/images/mine_ic_contact_us.svg"),
     leftItem: Item,
   },
   {
     title: "设置",
     screen: "Settings",
-    leftIcon: require('@assets/images/mine_ic_settings.svg'),
+    leftIcon: require("@assets/images/mine_ic_settings.svg"),
     leftItem: Item,
   },
 ];
 
-const image = { uri: require('@assets/images/bg.png') };
+const image = { uri: require("@assets/images/bg.png") };
 
 const Account = ({ navigation }) => {
   const [isLogin, login] = useUserInfo((s) => [s.isLogin, s.login]);
-  console.log('isLogin', isLogin)
+  console.log("isLogin", isLogin);
   return (
     <UserLayout>
-      <View
-        style={styles.itemsContainer}
-      >
+      <View style={styles.itemsContainer}>
         <FList data={data} itemStyle={styles.FList} />
       </View>
 
-      <View style={{
-        transform: 'translateY(-50px)',
-        alignItems: "center"
-      }}>
+      <View
+        style={{
+          transform: "translateY(-50px)",
+          alignItems: "center",
+        }}
+      >
         {!isLogin && (
           <Pressable
             style={{
@@ -101,33 +102,34 @@ const Account = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   image: {
-    height: '100%',
-    width: '100%',
+    height: "100%",
+    width: "100%",
   },
   container: {
     paddingVertical: 30,
     paddingHorizontal: 20,
-    backgroundColor: 'transparent'
+    backgroundColor: "transparent",
   },
   itemsContainer: {
     margin: 15,
-    transform: 'translateY(-50px)',
+    transform: "translateY(-50px)",
   },
   item: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
   FList: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     paddingHorizontal: 12,
     paddingVertical: 12,
     borderRadius: 4,
-    boxShadow: '1px 1px 3px 0 rgba(0, 0, 0, 0.1),1px 1px 2px 0 rgba(0, 0, 0, 0.06)'
+    boxShadow:
+      "1px 1px 3px 0 rgba(0, 0, 0, 0.1),1px 1px 2px 0 rgba(0, 0, 0, 0.06)",
   },
   text: {
-    color: 'white'
-  }
+    color: "white",
+  },
 });
 
 export default Account;

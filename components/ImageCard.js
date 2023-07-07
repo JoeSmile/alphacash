@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet } from "react-native";
-import { Image } from 'expo-image';
+import { View, Text, StyleSheet, Image } from "react-native";
+//import { Image } from 'expo-image';
 
 export default function ImageCard({
   containerStyle = {},
@@ -15,11 +15,15 @@ export default function ImageCard({
         contentFit="cover"
         transition={1000}
       />
-      <Text style={{
-        fontSize: 20,
-        marginTop: 8,
-        color: 'white'
-      }}>{title}</Text>
+      <Text
+        style={{
+          fontSize: 20,
+          marginTop: 8,
+          color: "white",
+        }}
+      >
+        {title}
+      </Text>
     </View>
   );
 }

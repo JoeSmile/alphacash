@@ -13,7 +13,7 @@ export default function SafeIntro({ safeText }) {
     <View style={styles.safeTextContainer}>
       <View>
         <Image
-          source={require("@assets/images/mine_info_ic_safe.svg")}
+          source={require("@assets/images/mine_info_ic_safe.png")}
           contentFit="cover"
           transition={1000}
           style={{

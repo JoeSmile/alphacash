@@ -7,7 +7,7 @@ import {
 import React, {useState} from 'react';
 import { Formik } from 'formik';
 import { Colors } from "@const/Colors";
-import { getOTP, login, encodeSHA, getNetInfo, getPersonalInfoDetail, updatePersonalInfo } from '@apis'
+import { getOTP, login, encodeSHA, getNetInfo, getUserFormStatus, getPersonalInfoDetail, updatePersonalInfo, getWorkInfoDetail } from '@apis'
 import { useUserInfo } from '@store/useUserInfo';
 import { useLogin } from '@apis/hooks';
 
@@ -31,10 +31,11 @@ export default function LoginCard() {
         <Formik
           initialValues={{ phoneNumber: '', OTP: '' }}
           onSubmit={values => {
-            // login()
+            login()
             // getPersonalInfoDetail();
-            // getWorkInfoDetail();
-            updatePersonalInfo();
+            //getUserFormStatus()
+            //getWorkInfoDetail();
+            //updatePersonalInfo();
           }}
         >
           {({ handleChange, handleBlur, handleSubmit, values }) => (

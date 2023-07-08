@@ -2,12 +2,13 @@ import axios from "axios";
 import { baseURL } from "../constants/config";
 import { getAllParameters } from './commonParameter';
 
-// async function axiosPost(path, parameters) {
-//   const allParameters = await getAllParameters(path, parameters);
-//   return axios.post(`${baseURL}/api/app${path}`, {...parameters}).then((response) => {
-//     return response
-//   });
-// }
+async function axiosPost(path, parameters) {
+  const allParameters = await getAllParameters(path, parameters);
+  return axios.post(`${baseURL}/api/app${path}`, {...parameters}).then((response) => {
+    console.log('response-----', response)
+    return response
+  }) .catch(error => console.log('error---', error));;
+}
 async function postJSON(path, parameters) {
   // const allParameters = await getAllParameters(path, parameters);
   try {
@@ -42,31 +43,32 @@ export async function login() {
 }
 
 export async function getUserFormStatus() {
-  return postJSON('/userFormStatus', {
-    token: "YMIQoeBldXWES0rY9s8uJ0oI4CPXTfn61688608523438974",
+  return axiosPost('/userFormStatus', {
+    token: "KGTeYE9LxwMGuxmo8j2tiujYGHMv9DMC1688713605317658",
     sign: '123dsabnwe',
     app:'alphacash'
   });
 }
 
+// 
 export async function getPersonalInfoDetail() {
-  return postJSON('/personalinfoDetail', {
-    token: "YMIQoeBldXWES0rY9s8uJ0oI4CPXTfn61688608523438974",
+  return axiosPost('/personalinfoDetail', {
+    token: "KGTeYE9LxwMGuxmo8j2tiujYGHMv9DMC1688713605317658",
     sign: '123dsabnwe',
     app:'alphacash'
   });
 }
 export async function getWorkInfoDetail() {
-  return postJSON('/workinfoDetail', {
-    token: "0XmSjfM7IsUT0OKvaXtuqAk3uhEBNPAd1688644279741535",
+  return axiosPost('/workinfoDetail', {
+    token: "KGTeYE9LxwMGuxmo8j2tiujYGHMv9DMC1688713605317658",
     sign: '123dsabnwe',
     app:'alphacash'
   });
 }
 
 export async function getReferenceContactDetail() {
-  return postJSON('/referenceContactDetail', {
-    token: "0XmSjfM7IsUT0OKvaXtuqAk3uhEBNPAd1688644279741535",
+  return axiosPost('/referenceContactDetail', {
+    token: "KGTeYE9LxwMGuxmo8j2tiujYGHMv9DMC1688713605317658",
     sign: '123dsabnwe',
     app:'alphacash'
   });
@@ -74,8 +76,8 @@ export async function getReferenceContactDetail() {
 
 
 export async function getIdentityInfoDetail() {
-  return postJSON('/identityinfoDetail', {
-    token: "0XmSjfM7IsUT0OKvaXtuqAk3uhEBNPAd1688644279741535",
+  return axiosPost('/identityinfoDetail', {
+    token: "KGTeYE9LxwMGuxmo8j2tiujYGHMv9DMC1688713605317658",
     sign: '123dsabnwe',
     app:'alphacash'
   });
@@ -85,7 +87,7 @@ export async function getIdentityInfoDetail() {
 
 export async function updatePersonalInfo() {
   return postJSON('/personalinfo', {
-    token: "0XmSjfM7IsUT0OKvaXtuqAk3uhEBNPAd1688644279741535",
+    token: "KGTeYE9LxwMGuxmo8j2tiujYGHMv9DMC1688713605317658",
     sign: '123dsabnwe',
     app:'alphacash',
     name: 'JJ',
@@ -107,7 +109,7 @@ export async function updatePersonalInfo() {
 
 export async function updateWorkInfo() {
   return postJSON('/workinfo', {
-    token: "0XmSjfM7IsUT0OKvaXtuqAk3uhEBNPAd1688644279741535",
+    token: "KGTeYE9LxwMGuxmo8j2tiujYGHMv9DMC1688713605317658",
     sign: '123dsabnwe',
     app:'alphacash',
     workField:  20,
@@ -130,7 +132,7 @@ export async function updateWorkInfo() {
 
 export async function updateReferenceContact() {
   return postJSON('/referenceContact', {
-    token: "0XmSjfM7IsUT0OKvaXtuqAk3uhEBNPAd1688644279741535",
+    token: "KGTeYE9LxwMGuxmo8j2tiujYGHMv9DMC1688713605317658",
     sign: '123dsabnwe',
     app:'alphacash',
     creditType: 1,

@@ -3,6 +3,7 @@ import { StyleSheet, Text, Pressable, View, BackHandler } from "react-native";
 import { A } from "@expo/html-elements";
 import FModal from "../../components/FModal";
 import { useSystemStore } from "../../store/useSystemStore";
+
 export default function Start({ navigation, navigator }) {
   const [isReadPolicy, setReadPolicy] = useSystemStore(s => [s.isReadPolicy, s.setReadPolicy])
   const [modalVisible, setModalVisible] = useState(!isReadPolicy);

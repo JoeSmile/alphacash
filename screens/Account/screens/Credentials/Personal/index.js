@@ -55,7 +55,7 @@ export default function Personal({ navigation }) {
     <ScrollView>
     <View >
       <SafeIntro safeText=" The information you fill in is only used for credit
-        evaluation and wi ll never be used for other purposes.We use encryption to ensure your information security!"/>
+        evaluation and will never be used for other purposes.We use encryption to ensure your information security!"/>
           <View style={{
               marginBottom: 15,
               height: 950,
@@ -145,10 +145,10 @@ export default function Personal({ navigation }) {
                 </>
               )}
             </Formik>
-            </View>
             <Return />
           </View>
-        </ScrollView>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

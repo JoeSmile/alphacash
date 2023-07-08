@@ -2,7 +2,6 @@ import {
   useMutation,
 } from 'react-query';
 import { login } from '../login';
-import { useEffect } from 'react';
 import { useSystemStore } from '../../store/useSystemStore';
 
 function mutationFactory (func, {afterSuccess}) {
@@ -18,11 +17,12 @@ function mutationFactory (func, {afterSuccess}) {
   }) 
 }
 
-export function useLogin () {
+export function useLogin ({onSuccess}) {
   const mutations = mutationFactory(login, {
     afterSuccess: (res => {
       if (res.error_code === 1) {
         useSystemStore.getState().setToken(res.data.token);
+        onSuccess && onSuccess()
       }
     })
   });

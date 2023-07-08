@@ -1,40 +1,36 @@
 import { View, StyleSheet, Text, Pressable, TextInput, Button } from "react-native";
 import { CheckBox } from 'react-native-elements';
 import React, { useState } from 'react';
-import {
-  useMutation,
-} from 'react-query'
+
 import { Formik } from 'formik';
 import { Colors } from "@const/Colors";
-import { getOTP, login, encodeSHA, getNetInfo, getUserFormStatus, getPersonalInfoDetail, updatePersonalInfo, getWorkInfoDetail } from '@apis'
-import { useUserInfo } from '@store/useUserInfo';
+import { getOTP, encodeSHA, getNetInfo } from '@apis'
 import { useLogin } from '@apis/hooks';
-
-const mockLoginParameters = {
-  phoneNumber: '01238137213',
-  otp: '789456',
-}
+import Spinner from 'react-native-loading-spinner-overlay';
+import { useNavigation } from "@react-navigation/native";
 
 encodeSHA();
 getNetInfo();
 
 export default function LoginCard() {
   const [isSelected, setSelection] = useState(false);
-  const [isLogin, setLogin] = useUserInfo((s) => [s.isLogin, s.setLogin]);
-  // Mutations
-  const mutation = useLogin()
-  console.log(mutation.data)
+  const navigation = useNavigation()
+  const mutation = useLogin({onSuccess: () => {
+    navigation.replace('Homepage')
+  }})
+
   return (
     <View >
+        <Spinner
+          visible={mutation.isLoading}
+          textContent={'login...'}
+          textStyle={styles.spinnerTextStyle}
+        />
       <View style={styles.container}>
         <Formik
           initialValues={{ phoneNumber: '', OTP: '' }}
           onSubmit={values => {
-            login()
-            // getPersonalInfoDetail();
-            //getUserFormStatus()
-            //getWorkInfoDetail();
-            //updatePersonalInfo();
+            mutation.mutate()
           }}
         >
           {({ handleChange, handleBlur, handleSubmit, values }) => (
@@ -48,7 +44,6 @@ export default function LoginCard() {
                   onChangeText={handleChange('phoneNumber')}
                   onBlur={handleBlur('phoneNumber')}
                   value={values.phoneNumber}
-                // keyboardType="phoneNumber"//不兼容
                 />
               </View>
               <View style={styles.inputContainer}>
@@ -60,7 +55,6 @@ export default function LoginCard() {
                     onChangeText={handleChange('OTP')}
                     onBlur={handleBlur('OTP')}
                     value={values.OTP}
-                  // keyboardType="phoneNumber"不兼容
                   />
 
                   <Pressable onPress={() => getOTP('03123456789')} style={{
@@ -84,7 +78,7 @@ export default function LoginCard() {
                 </View>
 
               </View>
-              <Button style={styles.loginButton} onPress={handleSubmit} title="Log In" />
+              <Button disabled={!isSelected} style={styles.loginButton} onPress={handleSubmit} title="Log In" />
             </>
           )}
         </Formik>
@@ -99,34 +93,35 @@ export default function LoginCard() {
           If the unregistered mobile phone number is verified, an account will be automatically created!
         </Text>
       </View>
-      <View flexDirection='row'>
-        <Text style={{
+      <View >
+        <View style={{
           fontSize: 12,
-          textAlign: 'center',
-          // verticalAlign: 'sub'属性不兼容
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 2
         }}>
-          {/* <CheckBox//不兼容
-            value={isSelected}
-            onValueChange={setSelection}
-            style={styles.checkbox}
-          /> */}
           <CheckBox
             checked={isSelected}
             onPress={() => { setSelection(!isSelected) }}
           />
-          Agree
+          <Text>
+            Agree
+          </Text>
           <Pressable style={{ marginRight: 2, marginLeft: 2 }}>
             <Text style={{ fontWeight: 600, color: Colors.light.primary }}>
               Privacy Agreement
             </Text>
           </Pressable>
-          and
+          <Text>
+            and
+          </Text>
           <Pressable style={{ marginRight: 2, marginLeft: 2 }}>
             <Text style={{ fontWeight: 600, color: Colors.light.primary }}>
               Terms&Service
             </Text>
           </Pressable>
-        </Text>
+        </View>
       </View>
 
     </View>
@@ -189,5 +184,8 @@ const styles = StyleSheet.create({
   checkbox: {
     marginRight: 5,
     textAlignVertical: 'sub'
+  },
+  spinnerTextStyle: {
+    color: '#FFF'
   },
 })

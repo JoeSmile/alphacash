@@ -2,7 +2,6 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
-import { isDev } from "../constants/config";
 import { LocaleTypes } from "@store/useI18nStore";
 
 export const useSystemStore = create(persist(
@@ -30,6 +29,5 @@ export const useSystemStore = create(persist(
   }
 }), {
   name: 'system',
-  storage: isDev ? createJSONStorage(() => localStorage) :
-  createJSONStorage(() => AsyncStorage)
+  storage: createJSONStorage(() => AsyncStorage)
 } ));

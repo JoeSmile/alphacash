@@ -12,7 +12,6 @@ import {
   QueryClientProvider,
   focusManager
 } from 'react-query'
-import { isDev } from "@const/config";
 import { useAppState } from '@hooks/useAppState';
 import { useOnlineManager } from '@hooks/useOnlineManager';
 

@@ -1,111 +1,118 @@
-import { Modal, View, Text, Pressable, StyleSheet } from 'react-native';
-import { Image } from 'expo-image'
+import { Modal, View, Text, Pressable, StyleSheet, Image } from "react-native";
+//import { Image } from 'expo-image'
 
 export const EXAMPLE_TYPES = {
-  CNIC_CARD: 'CNIC_CARD',
-  CNIC_IN_HAND: 'CNIC_IN_HAND',
-  PROOF_EMPLOYMENT: 'PROOF_EMPLOYMENT'
-}
+  CNIC_CARD: "CNIC_CARD",
+  CNIC_IN_HAND: "CNIC_IN_HAND",
+  PROOF_EMPLOYMENT: "PROOF_EMPLOYMENT",
+};
 
 function ExampleImage({ type }) {
-  let example = <></>
+  let example = <></>;
   switch (type) {
     case EXAMPLE_TYPES.CNIC_CARD:
-      example = <View style={{
-        flexDirection: 'column',
-        gap: 15
-      }}>
-        <Image
-          source={require('@assets/example/info_example_cnic_card_positive.png')}
-          contentFit="cover"
-          transition={1000}
+      example = (
+        <View
           style={{
-            width: 270,
-            height: 170,
+            flexDirection: "column",
+            gap: 15,
           }}
-        />
-        <Image
-          source={require('@assets/example/info_example_cnic_card_negative.png')}
-          contentFit="cover"
-          transition={1000}
-          style={{
-            width: 270,
-            height: 170,
-          }}
-        />
-      </View>
+        >
+          <Image
+            source={require("@assets/example/info_example_cnic_card_positive.png")}
+            contentFit="cover"
+            transition={1000}
+            style={{
+              width: 270,
+              height: 170,
+            }}
+          />
+          <Image
+            source={require("@assets/example/info_example_cnic_card_negative.png")}
+            contentFit="cover"
+            transition={1000}
+            style={{
+              width: 270,
+              height: 170,
+            }}
+          />
+        </View>
+      );
       break;
     case EXAMPLE_TYPES.CNIC_IN_HAND:
-      example = <View style={{
-        flexDirection: 'column',
-      }}>
-        <Image
-          source={require('@assets/example/info_example_cnic_hand_held.png')}
-          contentFit="cover"
-          transition={1000}
+      example = (
+        <View
           style={{
-            width: 270,
-            height: 170,
+            flexDirection: "column",
           }}
-        />
-      </View>
+        >
+          <Image
+            source={require("@assets/example/info_example_cnic_hand_held.png")}
+            contentFit="cover"
+            transition={1000}
+            style={{
+              width: 270,
+              height: 170,
+            }}
+          />
+        </View>
+      );
       break;
     case EXAMPLE_TYPES.PROOF_EMPLOYMENT:
-      example = <View style={{
-        flexDirection: 'column',
-        gap: 15
-      }}>
-        <Image
-          source={require('@assets/example/info_example_work_card.png')}
-          contentFit="cover"
-          transition={1000}
+      example = (
+        <View
           style={{
-            width: 270,
-            height: 170,
+            flexDirection: "column",
+            gap: 15,
           }}
-        />
-        <Image
-          source={require('@assets/example/info_example_work_scene.png')}
-          contentFit="cover"
-          transition={1000}
-          style={{
-            width: 270,
-            height: 170,
-          }}
-        />
-        <Image
-          source={require('@assets/example/info_example_business_card.png')}
-          contentFit="cover"
-          transition={1000}
-          style={{
-            width: 270,
-            height: 170,
-          }}
-        />
-      </View>
+        >
+          <Image
+            source={require("@assets/example/info_example_work_card.png")}
+            contentFit="cover"
+            transition={1000}
+            style={{
+              width: 270,
+              height: 170,
+            }}
+          />
+          <Image
+            source={require("@assets/example/info_example_work_scene.png")}
+            contentFit="cover"
+            transition={1000}
+            style={{
+              width: 270,
+              height: 170,
+            }}
+          />
+          <Image
+            source={require("@assets/example/info_example_business_card.png")}
+            contentFit="cover"
+            transition={1000}
+            style={{
+              width: 270,
+              height: 170,
+            }}
+          />
+        </View>
+      );
       break;
   }
   return (
     <View>
       <Text style={styles.title}>Example</Text>
-      {
-        example
-      }
+      {example}
     </View>
-  )
-
+  );
 }
 
 export function ExampleModal({ isVisible, onClose, type }) {
   return (
     <Modal animationType="fade" transparent={true} visible={isVisible}>
-      <View style={styles.container} >
+      <View style={styles.container}>
         <View style={styles.content}>
           <ExampleImage type={type} />
-          <Pressable onPress={() => onClose('')}>
-            <Text style={
-              styles.closeBtn
-            }>I Know</Text>
+          <Pressable onPress={() => onClose("")}>
+            <Text style={styles.closeBtn}>I Know</Text>
           </Pressable>
         </View>
       </View>
@@ -116,33 +123,33 @@ export function ExampleModal({ isVisible, onClose, type }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#25292e',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#25292e",
     borderRadius: 4,
-    gap: 15
+    gap: 15,
   },
   content: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 10,
     paddingHorizontal: 15,
-    paddingVertical: 20
+    paddingVertical: 20,
   },
   closeBtn: {
     width: 250,
     height: 50,
-    backgroundColor: '#0825B8',
-    color: 'white',
+    backgroundColor: "#0825B8",
+    color: "white",
     fontSize: 16,
     lineHeight: 50,
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 20,
-    alignSelf: 'center',
-    borderRadius: 4
+    alignSelf: "center",
+    borderRadius: 4,
   },
   title: {
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 20,
     fontSize: 16,
-  }
+  },
 });

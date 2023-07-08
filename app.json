@@ -27,11 +27,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "extra": {
-      "eas": {
-        "projectId": "462bceb9-15ba-4d76-bcad-d93ef54c4c31"
-      }
-    },
+    "scheme": "financeexpo",
     "runtimeVersion": {
       "policy": "sdkVersion"
     },

@@ -24,25 +24,25 @@ const data = [
   {
     title: "个人信息",
     screen: "Personal",
-    leftIcon: require("@assets/images/mine_ic_personal_info.svg"),
+    leftIcon: require("@assets/images/mine_ic_personal_info.png"),
     leftItem: Item,
   },
   {
     title: "工作信息",
     screen: "Job",
-    leftIcon: require("@assets/images/mine_ic_wok_info.svg"),
+    leftIcon: require("@assets/images/mine_ic_wok_info.png"),
     leftItem: Item,
   },
   {
     title: "紧急联系人",
     screen: "Emergency",
-    leftIcon: require("@assets/images/mine_ic_reference_contact.svg"),
+    leftIcon: require("@assets/images/mine_ic_reference_contact.png"),
     leftItem: Item,
   },
   {
     title: "Certificate",
     screen: "Certificate",
-    leftIcon: require("@assets/images/mine_ic_identity_info.svg"),
+    leftIcon: require("@assets/images/mine_ic_identity_info.png"),
     leftItem: Item,
   },
 ];

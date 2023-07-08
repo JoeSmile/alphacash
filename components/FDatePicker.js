@@ -1,44 +1,52 @@
 import { useState } from "react";
-import { SafeAreaView, Button, Text} from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useFormikContext } from 'formik';
+import dayjs from 'dayjs';
 
-export const FDatePicker = () => {
-    const [date, setDate] = useState(new Date(1598051730000));
-    const [mode, setMode] = useState('date');
+export const FDatePicker = ({label,
+  name}) => {
+    const context = useFormikContext(name);
+
+    const [date, setDate] = useState(
+      dayjs(context.values[name] || new Date(), 'DD/MM/YYYY').toDate()
+    );
     const [show, setShow] = useState(false);
-  
+    
     const onChange = (event, selectedDate) => {
-      const currentDate = selectedDate;
       setShow(false);
-      setDate(currentDate);
-    };
-  
-    const showMode = (currentMode) => {
-      setShow(true);
-      setMode(currentMode);
-    };
-  
-    const showDatepicker = () => {
-      showMode('date');
-    };
-  
-    const showTimepicker = () => {
-      showMode('time');
+      context.setFieldValue(name, dayjs(selectedDate).format('DD/MM/YYYY'));
+      setDate(selectedDate)
     };
   
     return (
-      <SafeAreaView>
-        <Button onPress={showDatepicker} title="Show date picker!" />
-        <Text>selected: {date.toLocaleString()}</Text>
+      <View style={{
+        marginBottom: 15,
+        height: 80,
+      }}>
+        <View style={{height: 20, marginBottom:10}}>
+          <Text>{label}</Text>
+        </View>
+        <Pressable onPress={()=> setShow(true)} >
+          <Text style={{
+            borderRadius: 10,
+            borderColor: '#C0C4D6',
+            justifyContent: 'center',
+            borderWidth: 1,
+            height: 55,
+            lineHeight: 55,
+            paddingHorizontal: 10,
+            fontSize: 14
+          }}>{date.toLocaleDateString()}</Text>
+        </Pressable>
         {show && (
           <DateTimePicker
             testID="dateTimePicker"
             value={date}
-            mode={mode}
-            is24Hour={true}
+            mode='date'
             onChange={onChange}
           />
         )}
-      </SafeAreaView>
+      </View>
     );
   };

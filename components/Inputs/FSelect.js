@@ -1,6 +1,5 @@
-import { useField, Form, FormikProps, Formik } from 'formik';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
-import { FDatePicker } from '@components/FDatePicker';
+import { View, Text, StyleSheet } from 'react-native';
+
 import { Picker } from '@react-native-picker/picker';
 import { useFormikContext } from 'formik';
 
@@ -22,7 +21,7 @@ export function FSelect({
     height: 80,
     ...containerStyle,
   }}>
-    <View style={{height: 15, marginBottom:5}}>
+    <View style={{height: 20, marginBottom:10}}>
       <Text style={styles.label}>{label}</Text>
     </View>
     <View style={{

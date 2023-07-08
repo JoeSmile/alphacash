@@ -24,6 +24,7 @@
     "@react-navigation/stack": "^6.3.16",
     "axios": "^1.4.0",
     "cross-env": "^7.0.3",
+    "dayjs": "^1.11.9",
     "expo": "~48.0.15",
     "expo-asset": "^8.9.1",
     "expo-constants": "~14.2.1",

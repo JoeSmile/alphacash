@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
   label: {
     height: 15,
-    marginBottom: 5
+    marginBottom: 10
   },
   textInput: {
     paddingLeft: 15,

@@ -1,15 +1,14 @@
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, Text, Pressable, StyleSheet, Image } from "react-native";
 import React from "react";
 import { useUserInfo } from "@store/useUserInfo";
 import FList from "@components/FList";
 import UserLayout from "@components/UserLayout";
-import { Image } from "expo-image";
 
 const Item = (item) => {
   return (
     <View style={styles.item}>
       <Image
-        source={require("@assets/images/1.png")}
+        source={item.leftIcon}
         contentFit="cover"
         transition={1000}
         style={{
@@ -27,31 +26,31 @@ const data = [
   {
     title: "账单",
     screen: "Bills",
-    leftIcon: require("@assets/images/mine_ic_bill.svg"),
+    leftIcon: require("@assets/images/mine_ic_bill.png"),
     leftItem: Item,
   },
   {
     title: "认证信息",
     screen: "Credentials",
-    leftIcon: require("@assets/images/mine_ic_certification_info.svg"),
+    leftIcon: require("@assets/images/mine_ic_certification_info.png"),
     leftItem: Item,
   },
   {
     title: "收款账号",
     screen: "MyCards",
-    leftIcon: require("@assets/images/mine_ic_contact_us.svg"),
+    leftIcon: require("@assets/images/mine_ic_contact_us.png"),
     leftItem: Item,
   },
   {
     title: "联系我们",
     screen: "ContactUs",
-    leftIcon: require("@assets/images/mine_ic_contact_us.svg"),
+    leftIcon: require("@assets/images/mine_ic_contact_us.png"),
     leftItem: Item,
   },
   {
     title: "设置",
     screen: "Settings",
-    leftIcon: require("@assets/images/mine_ic_settings.svg"),
+    leftIcon: require("@assets/images/mine_ic_settings.png"),
     leftItem: Item,
   },
 ];

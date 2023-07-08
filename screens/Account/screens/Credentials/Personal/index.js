@@ -5,6 +5,7 @@ import { FTextInput, FSelect } from '@components/Inputs';
 import Return from '../Return';
 import SafeIntro from '../SafeIntro';
 import * as Yup from 'yup';
+import { FDatePicker } from '@components/FDatePicker';
 import {
   provincesOptions, citiesOptions, genderOptions,
   marriageOptions, educationOptions
@@ -88,7 +89,7 @@ export default function Personal({ navigation }) {
                     marginBottom: 15
                   }}>
                     <View style={{height: 65, marginBottom: 15, flex: 1}}>
-                      <FTextInput name="birth" label="Date of Birth" />
+                      <FDatePicker name="birth" label="Date of Birth" />
                     </View>
                     <View style={{height: 65, marginBottom: 15, flex: 1}}>
                       <FSelect name="gender" label="Gender" options={genderOptions} />

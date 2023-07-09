@@ -5,7 +5,7 @@ import { mutationFactory } from './base';
 export function useLogin ({onSuccess}) {
   const mutations = mutationFactory(login, {
     afterSuccess: (res => {
-      if (res.error_code === 1) {
+      if (res.data.error_code === 1) {
         useSystemStore.getState().setToken(res.data.token);
         onSuccess && onSuccess()
       }

@@ -16,7 +16,7 @@ export default function LoginCard() {
   const [isSelected, setSelection] = useState(false);
   const navigation = useNavigation()
   const mutation = useLogin({onSuccess: () => {
-    navigation.replace('Homepage')
+    navigation.push('Homepage')
   }})
 
   return (
@@ -32,8 +32,8 @@ export default function LoginCard() {
           onSubmit={values => {
      
             mutation.mutate({
-              phoneNumber: values.phoneNumber,
-              otp: values.OTP
+              phoneNumber: '03123456789' || values.phoneNumber,
+              otp:'789456' || values.OTP
             })
           }}
         >

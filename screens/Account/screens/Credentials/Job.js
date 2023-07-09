@@ -68,7 +68,6 @@ export default function Job({ navigation }) {
     getWorkInfo();
     getWorkInfoOptions();
   }, []);
-
   useEffect(() => {
     if(workOptions && workOptions.data.error_code == 1) {
       setSMonthlyIncomeOptions(workOptions.data.data.monthlyIncomeOptions);

@@ -2,6 +2,7 @@ import { Image, View, Text, Pressable, StyleSheet, Button } from "react-native";
 import SafeIntro from "./SafeIntro";
 import { useState } from "react";
 import { EXAMPLE_TYPES, ExampleModal } from "./ExampleModal";
+import Return from './Return';
 
 export default function Certificate() {
   const [showModalType, setShowModalType] = useState("");
@@ -135,6 +136,7 @@ export default function Certificate() {
         onClose={() => setShowModalType("")}
         type={showModalType}
       />
+      <Return />
     </View>
   );
 }

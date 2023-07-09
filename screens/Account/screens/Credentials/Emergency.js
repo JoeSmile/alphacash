@@ -2,9 +2,7 @@ import { View, StyleSheet, Button, ScrollView } from "react-native";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { FTextInput, FSelect } from "@components/Inputs";
-import {
-  relationOptions
-} from '@const';
+
 import Return from './Return';
 import { useGetReferenceContactOptions, useGetReferenceContactDetail, useUpdateReferenceContact } from '@apis/hooks';
 import { useEffect, useState } from "react";

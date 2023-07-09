@@ -6,7 +6,7 @@ import {
   NavigationContainer,
 } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-
+import { Pressable, Text } from 'react-native';
 import NotFoundScreen from "../screens/NotFoundScreen";
 import BottomTabNavigator from "./BottomTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
@@ -57,10 +57,28 @@ function RootNavigator() {
           <Stack.Screen
             key={screen.name}
             name={screen.name}
-            options={{
-              headerTitle: screen.headerTitle,
-              headerShown: !!screen.headerTitle,
-              ...pageHeader
+            options={({navigation}) => {
+              return {
+                headerTitle: screen.headerTitle,
+                headerShown: !!screen.headerTitle,
+                headerLeft: () => {
+                  return (
+                    <Pressable
+                      onPress={() => {
+                        screen.goto ? 
+                        navigation.push(screen.goto) : 
+                        navigation.goBack()
+                      }}>
+                        <Text style={{
+                          color: 'white',
+                          padding: 20,
+                          fontSize: 16
+                        }}>{`<-`}</Text>
+                    </Pressable>
+                  )
+                },
+                ...pageHeader
+              }
             }}
             component={screen.component}
           />

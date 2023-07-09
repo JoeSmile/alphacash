@@ -5,7 +5,7 @@ import { Text, Pressable } from "react-native";
 export default function Return() {
   const navigation = useNavigation()
   return (
-    <Pressable onPress={() => navigation.push('Credentials')}>
+    <Pressable onPress={() => navigation.replace('Credentials')}>
       <Text style={{ color: '#4F5E6F', textAlign: 'center', marginVertical: 15, height:30 }}>Return</Text>
     </Pressable>
   )

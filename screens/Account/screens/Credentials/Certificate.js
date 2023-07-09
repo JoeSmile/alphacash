@@ -2,7 +2,6 @@ import { Image, View, Text, Pressable, StyleSheet, Button } from "react-native";
 import SafeIntro from "./SafeIntro";
 import { useState } from "react";
 import { EXAMPLE_TYPES, ExampleModal } from "./ExampleModal";
-//import { Image } from 'expo-image';
 
 export default function Certificate() {
   const [showModalType, setShowModalType] = useState("");

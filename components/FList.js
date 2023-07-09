@@ -1,6 +1,5 @@
-import { Text, FlatList, Pressable } from "react-native";
+import { Text, FlatList, Pressable, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Image } from "expo-image";
 
 const Item = (props) => {
   const { title, screen, leftItem, displayIcon = true, itemStyle = {} } = props;

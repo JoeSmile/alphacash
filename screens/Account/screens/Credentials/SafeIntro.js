@@ -6,7 +6,6 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
-//import { Image } from 'expo-image';
 
 export default function SafeIntro({ safeText }) {
   return (

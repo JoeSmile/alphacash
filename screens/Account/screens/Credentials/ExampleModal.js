@@ -1,5 +1,4 @@
 import { Modal, View, Text, Pressable, StyleSheet, Image } from "react-native";
-//import { Image } from 'expo-image'
 
 export const EXAMPLE_TYPES = {
   CNIC_CARD: "CNIC_CARD",

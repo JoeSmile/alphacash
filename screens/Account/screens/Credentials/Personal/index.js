@@ -54,12 +54,12 @@ const PersonalFormSchema = Yup.object().shape({
 export default function Personal({ navigation }) {
   const { mutate: getPersonalDetail, data } = useGetPersonalDetail();
   const updatePersonalInfoMutation = useUpdatePersonalInfo();
-  const getPersonalOptionsMutation = useGetPersonalOptions();
+  // const getPersonalOptionsMutation = useGetPersonalOptions();
   const [initialValues, setInitialValues] = useState();
 
   useEffect(() => {
     getPersonalDetail();
-    getPersonalOptionsMutation.mutate()
+    // getPersonalOptionsMutation.mutate()
   }, []);
 
   useEffect(() => {

@@ -5,7 +5,6 @@ import { getAllParameters } from './commonParameter';
 async function axiosPost(path, parameters) {
   const allParameters = await getAllParameters(path, parameters);
   return axios.post(`${baseURL}/api/app${path}`, {...parameters}).then((response) => {
-    console.log('response-----', response)
     return response
   }) .catch(error => console.log('error---', error));;
 }

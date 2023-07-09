@@ -87,7 +87,7 @@ export default function Job({ navigation }) {
   }, [workInfo]);
 
   useEffect(() => {
-    if (updateWorkInfoResponse && updateWorkInfoResponse.error_code == 1) {
+    if (updateWorkInfoResponse && updateWorkInfoResponse.data.error_code == 1) {
       navigation.push('Emergency');
     }
   }, [updateWorkInfoResponse])

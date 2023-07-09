@@ -11,7 +11,6 @@ import { Colors } from "@const/Colors";
 import Avatar from "@components/Avatar";
 import { useNavigation } from "@react-navigation/native";
 import { LanguageSwitcher } from "@components/LanguageSwitcher";
-//import { Image } from 'expo-image';
 import { Asset } from "expo-asset";
 
 export default function UserLayout({ displayGoBack = false, children }) {

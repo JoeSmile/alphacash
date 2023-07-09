@@ -1,7 +1,7 @@
 import { View, StyleSheet, Text, Pressable, TextInput, Button } from "react-native";
 import { CheckBox } from 'react-native-elements';
-import React, { useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
+import { useSystemStore } from '../../store/useSystemStore';
 import { Formik } from 'formik';
 import { Colors } from "@const/Colors";
 import { getOTP, encodeSHA, getNetInfo } from '@apis'
@@ -14,15 +14,22 @@ getNetInfo();
 
 export default function LoginCard() {
   const [isSelected, setSelection] = useState(false);
-  const navigation = useNavigation()
-  const mutation = useLogin({onSuccess: () => {
-    navigation.push('Homepage')
-  }})
+  const navigation = useNavigation();
+  const setToken = useSystemStore(s => s.setToken);
+  const {mutate: login, data, isLoading} = useLogin()
+
+  useEffect(() => {
+    if (data && data.data.error_code == 1) {
+      console.log('data.data.data.token', data.data.data.token);
+      setToken(data.data.data.token);
+      navigation.push('Homepage');
+    }
+  }, [data]);
 
   return (
     <View >
         <Spinner
-          visible={mutation.isLoading}
+          visible={isLoading}
           textContent={'login...'}
           textStyle={styles.spinnerTextStyle}
         />
@@ -30,8 +37,8 @@ export default function LoginCard() {
         <Formik
           initialValues={{ phoneNumber: '', OTP: '' }}
           onSubmit={values => {
-     
-            mutation.mutate({
+            // setToken('IAlKWtScF1Zgjohmc4OE6ogHI04WapiQ1688892525968584')
+            login({
               phoneNumber: '03123456789' || values.phoneNumber,
               otp:'789456' || values.OTP
             })

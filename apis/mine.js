@@ -75,26 +75,8 @@ export async function getIdentityInfoDetail() {
 }
 //  update
 
-
-export async function updatePersonalInfo() {
-  return postJSON('/personalinfo', {
-    token: "KGTeYE9LxwMGuxmo8j2tiujYGHMv9DMC1688713605317658",
-    sign: '123dsabnwe',
-    app:'alphacash',
-    name: 'JJ',
-    birth: '01/01/2000',
-    gender: 1,
-    cnic: '1234567890123',
-    education: 1,
-    maritalStatus: 1,
-    provinceId: 2,
-    provinceName: 'Balochistan',
-    cityId: 35,
-    cityName: 'Khuzdar'	,
-    addressDetail: 'xxxx'	,
-    email: 'xxx@aaa.com'	,
-    creditType: 1
-  });
+export async function updatePersonalInfo(parameters) {
+  return axiosPost('/personalinfo',parameters);
 }
 
 
@@ -131,3 +113,16 @@ export async function updateReferenceContact() {
 }
 
 
+// public
+export async function getPersonalOptions(parameters) {
+  return axiosPost('/referenceContactOptions', parameters);
+  // return axiosPost('/getpersonaloptions', parameters);
+}
+
+export async function getWorkInfoOptions(parameters) {
+  return axiosPost('/workinfooptions', parameters);
+}
+
+export async function getReferenceContactOptions(parameters) {
+  return axiosPost('/referenceContactOptions', parameters);
+}

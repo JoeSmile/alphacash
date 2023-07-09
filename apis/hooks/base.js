@@ -15,7 +15,7 @@ export function mutationFactory (func, options={}) {
         })
       }
       return func({
-        token: store.token,
+        token: 'KGTeYE9LxwMGuxmo8j2tiujYGHMv9DMC1688713605317658' || store.token,
         app: store.app,
         sign: store.sign,
         ...parameters

@@ -1,6 +1,6 @@
 import { SafeAreaView, View, Text, StyleSheet, 
   ScrollView, Button } from "react-native";
-import { Formik } from 'formik';
+import { Formik, Form } from 'formik';
 import { FTextInput, FSelect } from '@components/Inputs';
 import Return from '../Return';
 import SafeIntro from '../SafeIntro';
@@ -10,10 +10,10 @@ import {
   provincesOptions, citiesOptions, genderOptions,
   marriageOptions, educationOptions
 } from '@const';
-import { useEffect } from "react";
-import { useGetPersonalDetail } from '@apis/hooks'
+import { useEffect, useState } from "react";
+import { useGetPersonalDetail, useUpdatePersonalInfo, useGetPersonalOptions } from '@apis/hooks'
 
-const initialValues = {
+const emptyInitialValues= {
   name: '',
   birth: '',
   gender: '',
@@ -52,11 +52,31 @@ const PersonalFormSchema = Yup.object().shape({
 });
 
 export default function Personal({ navigation }) {
-  const {mutate, isLoading, data} = useGetPersonalDetail()
-  console.log('data', data);
+  const { mutate: getPersonalDetail, data } = useGetPersonalDetail();
+  const updatePersonalInfoMutation = useUpdatePersonalInfo();
+  const getPersonalOptionsMutation = useGetPersonalOptions();
+  const [initialValues, setInitialValues] = useState();
+
   useEffect(() => {
-    mutate()
-  }, [])
+    getPersonalDetail();
+    getPersonalOptionsMutation.mutate()
+  }, []);
+
+  useEffect(() => {
+    if(data && data.data && data.data.error_code === 1) {
+      const userInfo = data.data.data.userInfo;
+      setInitialValues({
+        ...emptyInitialValues,
+        ...userInfo
+      })
+    }
+  }, [data]);
+
+ useEffect(() => {
+  if(updatePersonalInfoMutation.data && updatePersonalInfoMutation.data.data.error_code === 1) {
+    navigation.push('Job')
+  }
+ }, [updatePersonalInfoMutation])
 
   return (
     <SafeAreaView >
@@ -72,19 +92,22 @@ export default function Personal({ navigation }) {
               paddingVertical: 15
             }}
           >
-          <Formik
+         {!!initialValues &&  <Formik
               initialValues={initialValues}
               onSubmit={values => {
-                console.log('values', values);
-                navigation.push('Job')
+                const provinceId = values['provinceId'];  
+                const cityId = values['cityId'];
+                const parameters = values;
+                parameters['provinceName'] = (provincesOptions.filter(province => province.province_id == provinceId))[0].province_name;
+                parameters['cityName'] = (citiesOptions.filter(province => province.city_id == cityId))[0].city_name;
+                updatePersonalInfoMutation.mutate({...parameters, birth: '4/14/2003'})
               }}
               validateOnChange={true}
               validateOnBlur={true}
-              handleChange={values => console.log('values', values)}
               validationSchema={PersonalFormSchema}
             >
               {({ handleChange, handleBlur, handleSubmit, values }) => (
-                <>
+                <Form>
                   <View style={styles.module}>
                     <FTextInput name="name" label="Name" type="text" />
                   </View>
@@ -150,9 +173,11 @@ export default function Personal({ navigation }) {
                   <View style={{ height: 65, width: 300, marginBottom: 15, alignSelf: 'center' }}>
                     <Button type="submit" style={styles.submitBtn} onPress={handleSubmit} title='Next' />
                   </View>
-                </>
+                </Form>
               )}
-            </Formik>
+          </Formik>
+          }
+         
             <Return />
           </View>
         </View>

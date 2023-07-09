@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
-import { useFormikContext } from 'formik';
+import { useFormikContext, useField } from 'formik';
 
 export const FTextInput = ({ label, containerStyle = {}, name }) => {
   const context = useFormikContext(name);
   const meta = context.getFieldMeta(name);
+
   return (
     <View style={[styles.inputContainer, containerStyle]}>
       <View>

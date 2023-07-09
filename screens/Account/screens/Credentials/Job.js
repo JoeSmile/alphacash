@@ -10,22 +10,24 @@ import {
 } from '@const';
 import Return from './Return';
 import * as Yup from 'yup';
+import { useWorkInfoOptions, useGetWorkInfoDetail, useUpdateWorkInfo} from '@apis'
+import { useEffect, useState } from "react";
 
-const initialValues = {
+const emptyJobFormValues = {
   "workField": '',
   "workName": "",
   "companyName": "",
   "companyPhone": "",
-  "serviceLength": '',
+  "seriveLength": '',
   "monthlyIncome": "",
-  "companyProvinceId": "",
+  "companyProviceId": "",
   "companyCityId": "",
   "companyAddressDetail": "",
   "haveOtherLoans": "",
   "lendingInstitution": "",
   "loanAmount": '',
-  "cityName": '',
-  "provinceName": ''
+  "companyProviceName": '',
+  "companyCityName": ''
 }
 
 const JobFormSchema = Yup.object().shape({
@@ -37,11 +39,11 @@ const JobFormSchema = Yup.object().shape({
     .required('Required'),
   companyPhone: Yup.number()
     .required('Required'),
-  serviceLength: Yup.number()
+  seriveLength: Yup.number()
     .required('Required'),
   monthlyIncome: Yup.number()
     .required('Required'),
-  companyProvinceId: Yup.number()
+  companyProviceId: Yup.number()
     .required('Required'),
   companyCityId: Yup.string()
     .required('Required'),
@@ -53,20 +55,61 @@ const JobFormSchema = Yup.object().shape({
 });
 
 export default function Job({ navigation }) {
+  const {mutate: getWorkInfoOptions, data: workOptions, isLoading: isOptionsDataLoading} = useWorkInfoOptions();
+  const {mutate: getWorkInfo, data: workInfo, isLoading: isWorkInfoLoading} = useGetWorkInfoDetail();
+  const {mutate: updateWorkInfo, data: updateWorkInfoResponse} = useUpdateWorkInfo();
+
+  const [initialValues, setInitialValues] = useState();
+  const [sMonthlyIncomeOptions, setSMonthlyIncomeOptions] = useState(monthlyIncomeOptions);
+  const [occupationOptions, setOccupationOptions] = useState(workFieldOptions);
+  const [serviceTimeOptions, setServiceTimeOptions] = useState(serviceLengthOptions);
+  
+  useEffect(() => {
+    getWorkInfo();
+    getWorkInfoOptions();
+  }, []);
+
+  useEffect(() => {
+    if(workOptions && workOptions.data.error_code == 1) {
+      setSMonthlyIncomeOptions(workOptions.data.data.monthlyIncomeOptions);
+      setOccupationOptions(workOptions.data.data.occupationOptions);
+      setServiceTimeOptions(workOptions.data.data.serviceTimeOptions);
+    }
+  }, [workOptions]);
+
+  useEffect(() => {
+    if(workInfo && workInfo.data.error_code == 1 ) {
+      setInitialValues({
+        ...emptyJobFormValues,
+        ...workInfo.data.data.workInfo
+      });
+    }
+  }, [workInfo]);
+
+  useEffect(() => {
+    if (updateWorkInfoResponse && updateWorkInfoResponse.error_code == 1) {
+      navigation.push('Emergency');
+    }
+  }, [updateWorkInfoResponse])
+
   return (
     <ScrollView style={styles.container}>
-      <Formik
+     {
+      (!isWorkInfoLoading && !isOptionsDataLoading && !!initialValues ) && <Formik
         initialValues={initialValues}
         onSubmit={values => {
-          console.log('values', values);
-          navigation.push('Emergency')
+          const provinceId = values['companyProviceId'];  
+          const cityId = values['companyCityId'];
+          const parameters = values;
+          parameters['companyProviceName'] = (provincesOptions.filter(province => province.province_id == provinceId))[0].province_name;
+          parameters['companyCityName'] = (citiesOptions.filter(province => province.city_id == cityId))[0].city_name;
+          updateWorkInfo(parameters);
         }}
         validateOnChange={true}
         validateOnBlur={true}
-        handleChange={values => console.log('values', values)}
         validationSchema={JobFormSchema}
       >
-        {({ handleChange, handleBlur, handleSubmit, values, setFieldValue }) => (
+        {({handleSubmit, values, setFieldValue }) => (
           <>
             <View style={styles.module}>
               <FSelect name="workField" label="Working Field" options={workFieldOptions} />
@@ -78,12 +121,12 @@ export default function Job({ navigation }) {
              <View style={styles.module}>
               <FTextInput name="companyPhone" label="Company Phone" />
               </View>
-             <View style={styles.module}>
-              <FSelect name="serviceLength" label="Length Service" options={serviceLengthOptions} />
-              </View>
-              <View style={styles.module}>
-                <FSelect name="monthlyIncome" label="Monthly Income" options={monthlyIncomeOptions} />
-              </View>
+            <View style={styles.module}>
+              <FSelect name="seriveLength" label="Length Service" options={serviceTimeOptions} />
+            </View>
+            <View style={styles.module}>
+              <FSelect name="monthlyIncome" label="Monthly Income" options={sMonthlyIncomeOptions} />
+            </View>
 
             <View style={{
               marginBottom: 15
@@ -95,12 +138,12 @@ export default function Job({ navigation }) {
                 gap: 10
               }}>
                 <View style={{flex: 1}}>
-                  <FSelect name="companyProvinceId" label="Province" options={provincesOptions}
+                  <FSelect name="companyProviceId" label="Province" options={provincesOptions}
                     valueKey='province_id' labelKey='province_name'
                   />
                 </View>
                 <View style={{flex: 1}}>
-                  <FSelect name="companyCityId" label="City" options={citiesOptions.filter(city => values['provinceId'] ? city.province_id == values['provinceId'] : true)}
+                  <FSelect name="companyCityId" label="City" options={citiesOptions.filter(city => values['companyProviceId'] ? city.province_id == values['companyProviceId'] : true)}
                     valueKey='city_id' labelKey='city_name'
                   />
                 </View>
@@ -159,6 +202,7 @@ export default function Job({ navigation }) {
           </>
         )}
       </Formik>
+     }
       <Return />
     </ScrollView>
   );

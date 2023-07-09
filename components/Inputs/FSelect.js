@@ -3,12 +3,12 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useFormikContext } from 'formik';
 
-const defaultOptions = [{ label: '男', value: '1' }, { label: '女', value: '2' }]
+// const defaultOptions = [{ label: '男', value: '1' }, { label: '女', value: '2' }]
 
 export function FSelect({
   label,
   name,
-  options = defaultOptions,
+  options=[],
   containerStyle = {},
   labelKey = '',
   valueKey = '',

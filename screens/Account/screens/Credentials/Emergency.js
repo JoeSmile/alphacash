@@ -6,40 +6,97 @@ import {
   relationOptions
 } from '@const';
 import Return from './Return';
+import { useGetReferenceContactOptions, useGetReferenceContactDetail, useUpdateReferenceContact } from '@apis/hooks';
+import { useEffect, useState } from "react";
 
 const initialValues = {
-  relation1: '',
+  relationship1: '',
   name1: '',
-  number1: '',
-  relation2: '',
+  phoneNumber1: '',
+  relationship2: '',
   name2: '',
-  number2: '',
+  phoneNumber2: '',
 }
 
 const EmergencyFormSchema = Yup.object().shape({
-  relation1: Yup.number()
+  relationship1: Yup.number()
     .required('Required'),
-  name1: Yup.number()
+  name1: Yup.string()
     .required('Required'),
-  number1: Yup.string()
+  phoneNumber1: Yup.string()
     .required('Required'),
-  relation2: Yup.number()
+  relationship2: Yup.number()
     .required('Required'),
-  name2: Yup.number()
+  name2: Yup.string()
     .required('Required'),
-  number2: Yup.string()
+  phoneNumber2: Yup.string()
     .required('Required')
 });
 
 export default function Emergency({ navigation }) {
+  const { mutate: getReferenceContacts, data: referenceContactsData, isLoading: isGetReferenceContactsLoading } = useGetReferenceContactDetail(); 
+  const { mutate: getOptions, data: options } = useGetReferenceContactOptions();
+  const { mutate: updateReferenceContacts, data: updateContactsResponse } = useUpdateReferenceContact();
+  const [initialReferenceContactInfo, setInitialReferenceContactInfo] = useState();
+  const [relationShipOptions, setRelationShipOptions]= useState();
+  const [relationShipOptions_1, setRelationShipOptions_1]= useState();
+
+  useEffect(()=> {
+    getReferenceContacts();
+    getOptions()
+  }, []);
+
+  useEffect(() => {
+    if (referenceContactsData && referenceContactsData.data) {
+      const referenceContactInfo = referenceContactsData.data.data.referenceContactInfo;
+      
+      referenceContactInfo.contacts.forEach((info, index) => {
+        initialValues[`relationship${index + 1}`] = info.relationship;
+        initialValues[`name${index + 1}`] = info.name;
+        initialValues[`phoneNumber${index + 1}`] = info. phoneNumber;
+      })
+
+      setInitialReferenceContactInfo({
+        ...initialValues
+      });
+    }
+  }, [referenceContactsData]);
+
+  useEffect(() => {
+    if (options && options.data) {
+      setRelationShipOptions(options.data.data.relationShipOptions);
+      setRelationShipOptions_1(options.data.data.relationShipOptions_1);
+    }
+  }, [options])
+
+  useEffect(() => {
+    if (updateContactsResponse && updateContactsResponse.data.error_code == 1) {
+      navigation.push('Certificate');
+    }
+  }, [updateContactsResponse])
+
+
   return (
+
     <ScrollView>
       <View style={styles.container}>
-        <Formik
-          initialValues={initialValues}
+      {
+        !isGetReferenceContactsLoading && initialReferenceContactInfo && !!relationShipOptions && <Formik
+          initialValues={initialReferenceContactInfo}
           onSubmit={values => {
-            console.log('values', values);
-            navigation.push('Certificate')
+            updateReferenceContacts({
+              creditType: 1,
+              contacts: JSON.stringify([{
+                relationship: values.relationship1,
+                name: values.name1,
+                phoneNumber: values.phoneNumber1
+              },{
+                relationship: values.relationship2,
+                name: values.name2,
+                phoneNumber: values.phoneNumber2
+              }])
+            })
+            // navigation.push('Certificate')
           }}
           validateOnChange={true}
           validateOnBlur={true}
@@ -49,7 +106,7 @@ export default function Emergency({ navigation }) {
           {({ handleChange, handleBlur, handleSubmit, values, setFieldValue }) => (
             <>
               <View style={styles.module}>
-                <FSelect name="relation1" label="Reference Relationship 1" options={relationOptions} />
+                <FSelect name="relationship1" label="Reference Relationship 1" options={relationShipOptions} />
               </View>
               
               <View style={styles.module}>
@@ -57,11 +114,11 @@ export default function Emergency({ navigation }) {
               </View>
               
               <View style={styles.module}>
-                <FTextInput name="number1" label="Reference Number 1" />
+                <FTextInput name="phoneNumber1" label="Reference Number 1" />
               </View>
               
               <View style={styles.module}>
-                <FSelect name="relation2" label="Reference Relationship 2" options={relationOptions} />
+                <FSelect name="relationship2" label="Reference Relationship 2" options={relationShipOptions_1} />
               </View>
               
               <View style={styles.module}>
@@ -69,7 +126,7 @@ export default function Emergency({ navigation }) {
               </View>
               
               <View style={styles.module}>
-                <FTextInput name="number2" label="Reference Number 2" />
+              <FTextInput name="phoneNumber2" label="Reference Number 2" />
               </View>
 
               <View style={{ width: 300, alignSelf: 'center' }}>
@@ -77,7 +134,7 @@ export default function Emergency({ navigation }) {
               </View>
             </>
           )}
-        </Formik>
+        </Formik>}
         <Return />
       </View>
     </ScrollView>

@@ -34,7 +34,7 @@ export function getOTP(phoneNumber) {
 }
 
 export async function login(parameters) {
-  return postJSON('/login', parameters);
+  return axiosPost('/login', parameters);
 }
 
 export async function getUserFormStatus() {
@@ -68,25 +68,16 @@ export async function getWorkInfoOptions(parameters) {
 }
 
 export async function updateWorkInfo(parameters) {
-  return postJSON('/workinfo', parameters);
+  return axiosPost('/workinfo', parameters);
 }
 
 // ReferenceContact form
-export async function getReferenceContactDetail() {
-  return axiosPost('/referenceContactDetail', {
-    token: "KGTeYE9LxwMGuxmo8j2tiujYGHMv9DMC1688713605317658",
-    sign: '123dsabnwe',
-    app:'alphacash'
-  });
+export async function getReferenceContactDetail(parameters) {
+  return axiosPost('/referenceContactDetail', parameters);
 }
 
-export async function updateReferenceContact() {
-  return postJSON('/referenceContact', {
-    token: "KGTeYE9LxwMGuxmo8j2tiujYGHMv9DMC1688713605317658",
-    sign: '123dsabnwe',
-    app:'alphacash',
-    creditType: 1,
-  });
+export async function updateReferenceContact(parameters) {
+  return axiosPost('/referenceContact', parameters);
 }
 
 export async function getReferenceContactOptions(parameters) {
@@ -94,7 +85,7 @@ export async function getReferenceContactOptions(parameters) {
 }
 
 // identity form
-export async function getIdentityInfoDetail() {
+export async function getIdentityInfoDetail(parameters) {
   return axiosPost('/identityinfoDetail', {
     token: "KGTeYE9LxwMGuxmo8j2tiujYGHMv9DMC1688713605317658",
     sign: '123dsabnwe',

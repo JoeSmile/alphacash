@@ -1,8 +1,8 @@
 import { View, Text, Pressable, StyleSheet, Image } from "react-native";
 import React from "react";
-import { useUserInfo } from "@store/useUserInfo";
 import FList from "@components/FList";
 import UserLayout from "@components/UserLayout";
+import { useSystemStore } from "@store/useSystemStore";
 
 const Item = (item) => {
   return (
@@ -55,11 +55,9 @@ const data = [
   },
 ];
 
-const image = { uri: require("@assets/images/bg.png") };
-
 const Account = ({ navigation }) => {
-  const [isLogin, login] = useUserInfo((s) => [s.isLogin, s.login]);
-  console.log("isLogin", isLogin);
+  const isLogin = useSystemStore(s => !!s.token);
+
   return (
     <UserLayout>
       <View style={styles.itemsContainer}>

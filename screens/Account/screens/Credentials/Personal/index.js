@@ -10,6 +10,8 @@ import {
   provincesOptions, citiesOptions, genderOptions,
   marriageOptions, educationOptions
 } from '@const';
+import { useEffect } from "react";
+import { useGetPersonalDetail } from '@apis/hooks'
 
 const initialValues = {
   name: '',
@@ -50,6 +52,11 @@ const PersonalFormSchema = Yup.object().shape({
 });
 
 export default function Personal({ navigation }) {
+  const {mutate, isLoading, data} = useGetPersonalDetail()
+  console.log('data', data);
+  useEffect(() => {
+    mutate()
+  }, [])
 
   return (
     <SafeAreaView >

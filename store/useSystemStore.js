@@ -9,6 +9,8 @@ export const useSystemStore = create(persist(
   isReadPolicy: false,
   locale: LocaleTypes.en,
   token: '',
+  sign: '123dsabnwe',
+  app:'alphacash',
   setReadPolicy: () => {
     set((state) => ({
       ...state,

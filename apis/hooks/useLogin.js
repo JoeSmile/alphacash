@@ -1,21 +1,6 @@
-import {
-  useMutation,
-} from 'react-query';
-import { login } from '../login';
+import { login } from '../mine';
 import { useSystemStore } from '../../store/useSystemStore';
-
-function mutationFactory (func, {afterSuccess}) {
-  return useMutation({
-    mutationFn: (parameters) => {
-      return func(parameters)
-    },
-    onSuccess: (res) => {
-      if (afterSuccess) {
-        afterSuccess(res);
-      }
-    }
-  }) 
-}
+import { mutationFactory } from './base';
 
 export function useLogin ({onSuccess}) {
   const mutations = mutationFactory(login, {
@@ -24,7 +9,8 @@ export function useLogin ({onSuccess}) {
         useSystemStore.getState().setToken(res.data.token);
         onSuccess && onSuccess()
       }
-    })
+    }),
+    needToken: false
   });
 
   return mutations

@@ -33,13 +33,8 @@ export function getOTP(phoneNumber) {
   return axiosPost('/otp', {phoneNumber})
 }
 
-export async function login() {
-  return postJSON('/login', {
-    sign: '123dsabnwe',
-    phoneNumber:'01238137213',
-    otp:'789456',
-    app:'alphacash'
-  });
+export async function login(parameters) {
+  return postJSON('/login', parameters);
 }
 
 export async function getUserFormStatus() {
@@ -51,12 +46,8 @@ export async function getUserFormStatus() {
 }
 
 // 
-export async function getPersonalInfoDetail() {
-  return axiosPost('/personalinfoDetail', {
-    token: "KGTeYE9LxwMGuxmo8j2tiujYGHMv9DMC1688713605317658",
-    sign: '123dsabnwe',
-    app:'alphacash'
-  });
+export async function getPersonalInfoDetail(parameters) {
+  return axiosPost('/personalinfoDetail', parameters);
 }
 export async function getWorkInfoDetail() {
   return axiosPost('/workinfoDetail', {

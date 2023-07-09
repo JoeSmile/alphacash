@@ -30,7 +30,11 @@ export default function LoginCard() {
         <Formik
           initialValues={{ phoneNumber: '', OTP: '' }}
           onSubmit={values => {
-            mutation.mutate()
+     
+            mutation.mutate({
+              phoneNumber: values.phoneNumber,
+              otp: values.OTP
+            })
           }}
         >
           {({ handleChange, handleBlur, handleSubmit, values }) => (

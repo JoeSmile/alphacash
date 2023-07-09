@@ -1,15 +1,14 @@
 import ImageCard from "@components/ImageCard";
 import { View, StyleSheet } from "react-native";
-import { useUserInfo } from '@store/useUserInfo';
+import { useSystemStore } from "@store/useSystemStore";
 
 export default function Avatar({ title, style = {} }) {
-	const isLogin = useUserInfo((s) => s.isLogin);
+	const isLogin = useSystemStore(s => !!s.token);
 
 	return (
 		<View style={[styles.container, style]}>
 			<ImageCard
 				title={title}
-
 				imageStyle={{
 					borderRadius: 50
 				}}

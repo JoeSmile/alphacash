@@ -36,12 +36,8 @@ export async function login(parameters) {
   return axiosPost('/login', parameters);
 }
 
-export async function getUserFormStatus() {
-  return axiosPost('/userFormStatus', {
-    token: "KGTeYE9LxwMGuxmo8j2tiujYGHMv9DMC1688713605317658",
-    sign: '123dsabnwe',
-    app:'alphacash'
-  });
+export async function getUserFormStatus(parameters) {
+  return axiosPost('/userFormStatus',parameters);
 }
 
 // personal form

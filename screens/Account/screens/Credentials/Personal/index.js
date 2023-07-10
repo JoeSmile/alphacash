@@ -15,7 +15,7 @@ import { useGetPersonalDetail, useUpdatePersonalInfo, useGetPersonalOptions } fr
 
 const emptyInitialValues= {
   name: '',
-  birth: '',
+  birth: '05/05/1999',
   gender: '',
   cnic: '',
   education: '',
@@ -227,3 +227,5 @@ const styles = StyleSheet.create({
     marginBottom: 15
   }
 });
+
+

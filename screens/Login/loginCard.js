@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, Pressable, TextInput, Button } from "react-native";
+import { View, StyleSheet, Text, Pressable, TextInput, Button,Image } from "react-native";
 import { CheckBox } from 'react-native-elements';
 import React, { useEffect, useState } from 'react';
 import { useSystemStore } from '../../store/useSystemStore';
@@ -168,6 +168,8 @@ export default function LoginCard() {
             checked={isSelected}
             onPress={() => { setSelection(!isSelected) }}
             checkedColor="#0825B8"
+            checkedIcon={<Image source={require('@assets/images/check_box_sel.png')} style={{width: 17, height: 17}}/>}
+            uncheckedIcon={<Image source={require('@assets/images/check_box_default.png')} style={{width: 17, height: 17}}/>}
           />
           <Text style={{marginLeft: -16}}>
             Agree

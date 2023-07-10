@@ -18,13 +18,37 @@ export default function LoginCard() {
   const setToken = useSystemStore(s => s.setToken);
   const {mutate: login, data, isLoading} = useLogin()
 
+  const [text, setText] = useState('Get OTP');
+  const [countdown, setCountdown] = useState(0);
+  const [isClickable, setIsClickable] = useState(true);
+  let timer = null;
+
   useEffect(() => {
+    clearInterval(timer);    
     if (data && data.data.error_code == 1) {
       console.log('data.data.data.token', data.data.data.token);
       setToken(data.data.data.token);
       navigation.push('Homepage');
     }
   }, [data]);
+
+  const handleTextClick = () => {
+    if (isClickable && countdown === 0) {
+      setText('60s');
+      setIsClickable(false);
+      let count = 60;
+      timer = setInterval(() => {
+        count--;
+        if (count >= 0) {
+          setText(`${count}s`);
+        } else {
+          clearInterval(timer);
+          setIsClickable(true);
+          setText('Get OTP');
+        }
+      }, 1000);
+    }
+  };
 
   return (
     <View >
@@ -55,6 +79,7 @@ export default function LoginCard() {
                   onChangeText={handleChange('phoneNumber')}
                   onBlur={handleBlur('phoneNumber')}
                   value={values.phoneNumber}
+                  maxLength={11}
                 />
               </View>
               <View style={styles.inputContainer}>
@@ -66,9 +91,13 @@ export default function LoginCard() {
                     onChangeText={handleChange('OTP')}
                     onBlur={handleBlur('OTP')}
                     value={values.OTP}
+                    maxLength={6}
                   />
 
-                  <Pressable onPress={() => getOTP('03123456789')} style={{
+                  <Pressable onPress={() => {
+                    getOTP('03123456789')
+                    handleTextClick()
+                  }} style={{
                     position: 'absolute', right: 15
                   }}>
                     <View style={{
@@ -82,14 +111,37 @@ export default function LoginCard() {
                         borderRightColor: '#E1E3E8',
                         height: 20
                       }} />
-                      <Text style={styles.otpText}>Get OTP</Text>
+                      <Text style={styles.otpText}>{text}</Text>
                     </View>
 
                   </Pressable>
                 </View>
 
               </View>
-              <Button disabled={!isSelected} style={styles.loginButton} onPress={handleSubmit} title="Log In" />
+      <Pressable
+        style={{
+          backgroundColor: "#0825B8",
+          borderRadius: 3,
+          marginHorizontal: 8,
+        }}
+        onPress={ handleSubmit }
+        disabled = {!isSelected}
+      >
+        <Text
+          style={{
+            textAlign: "center",
+            borderRadius: 3,
+            height: 46,
+            lineHeight: 46,
+            color: "#FFFFFF",
+            backgroundColor: isSelected ? Colors.light.primary : "#C0C4D6",
+            fontSize: 15,
+          }}
+        >
+          {"Log In"}
+        </Text>
+          </Pressable>
+              {/* <Button color={Colors.light.primary} disabled={!isSelected} style={styles.loginButton} onPress={handleSubmit} title="Log In" /> */}
             </>
           )}
         </Formik>
@@ -109,14 +161,15 @@ export default function LoginCard() {
           fontSize: 12,
           flexDirection: 'row',
           alignItems: 'center',
-          justifyContent: 'center',
+          marginTop: -36,
           gap: 2
         }}>
           <CheckBox
             checked={isSelected}
             onPress={() => { setSelection(!isSelected) }}
+            checkedColor="#0825B8"
           />
-          <Text>
+          <Text style={{marginLeft: -16}}>
             Agree
           </Text>
           <Pressable style={{ marginRight: 2, marginLeft: 2 }}>
@@ -168,13 +221,16 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   otpText: {
+    width: 64,
     color: Colors.light.primary,
-    fontSize: 16,
-    fontWeight: 600,
-    height: 50,
-    lineHeight: 50
+    fontSize: 15,
+    fontWeight: "bold",
+    textAlign: "center",
+    height: 52,
+    lineHeight: 52
   },
   label: {
+    color: '#595959',
     marginBottom: 10
   },
   textInput: {
@@ -187,7 +243,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   loginButton: {
-    height: 50,
+    height: 46,
     width: '95%',
     backgroundColor: Colors.light.primary,
     alignSelf: 'center'

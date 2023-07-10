@@ -11,6 +11,7 @@ const Item = (props) => {
         {
           flexDirection: "row",
           justifyContent: "space-between",
+          alignItems: "center",
           marginBottom: 10,
         },
         itemStyle,
@@ -25,10 +26,10 @@ const Item = (props) => {
         <Text style={{ fontSize: 16 }}>{title}</Text>
       )}
       <Image
-        source={rightIcon ? rightIcon : require("@assets/images/triangle_right.svg")}
+        source={rightIcon ? rightIcon : require("@assets/images/com_ic_right.png")}
         contentFit="cover"
         transition={200}
-        style={{ width: 20, height: 20 }}
+        style={{ width: 15, height: 15 }}
       />
      
     </Pressable>

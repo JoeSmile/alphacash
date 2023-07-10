@@ -38,7 +38,7 @@ const data = [
   {
     title: "收款账号",
     screen: "MyCards",
-    leftIcon: require("@assets/images/mine_ic_contact_us.png"),
+    leftIcon: require("@assets/images/mine_ic_my_bank_card.png"),
     leftItem: Item,
   },
   {
@@ -72,7 +72,8 @@ const Account = ({ navigation }) => {
       <Pressable
         style={{
           width: "75%",
-          backgroundColor: "#2196F3",
+          backgroundColor: "#0825B8",
+          borderRadius: 3,
         }}
         onPress={() => {
           isLogin ? setToken('') : navigation.push("Login");
@@ -81,8 +82,12 @@ const Account = ({ navigation }) => {
         <Text
           style={{
             textAlign: "center",
-            height: 30,
-            lineHeight: 30,
+            borderRadius: 3,
+            height: 46,
+            lineHeight: 46,
+            color: "#FFFFFF",
+            backgroundColor: "#0825B8",
+            fontSize: 15,
           }}
         >
           {isLogin ? '登出': '登录'}

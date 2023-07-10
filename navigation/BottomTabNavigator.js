@@ -3,7 +3,7 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useColorScheme } from "react-native";
+import { useColorScheme, Image } from "react-native";
 import { Colors } from "../constants/Colors";
 
 import Homepage from "../screens/Homepage";
@@ -22,7 +22,11 @@ export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       initialRouteName="HomePage"
-      screenOptions={{ tabBarActiveTintColor: Colors[colorScheme].tint }}
+      screenOptions={{ 
+        // tabBarActiveTintColor: Colors[colorScheme].tint
+        tabBarActiveTintColor: '#0825B8', // 选中状态下的字体颜色
+        tabBarInactiveTintColor: '#8899AC', // 未选中状态下的字体颜色 
+      }}
     >
       <BottomTab.Screen
         name="HomePage"
@@ -31,9 +35,17 @@ export default function BottomTabNavigator() {
           title: i18n.t("homepage"),
           headerShown: false,
           ...pageHeader,
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="ios-code" color={color} />
-          ),
+          tabBarIcon: ({ focused,color }) => {
+            const iconSource = focused
+            ? require('@assets/images/tab_ic_home_sel.png')
+            : require('@assets/images/tab_ic_home_nor.png');
+            return(
+          <Image
+          source={iconSource}
+          style={{ width: 26, height: 26 }}
+        />)
+            // <TabBarIcon name="ios-code" color={color} />
+            },
         }}
       />
       <BottomTab.Screen
@@ -43,9 +55,17 @@ export default function BottomTabNavigator() {
           title: i18n.t("mine"),
           headerShown: false,
           ...pageHeader,
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="ios-code" color={color} />
-          ),
+          tabBarIcon: ({ focused, color }) => {
+            const iconSource = focused
+              ? require('@assets/images/tab_ic_mine_sel.png')
+              : require('@assets/images/tab_ic_mine_nor.png');
+              return(
+            <Image
+            source={iconSource}
+            style={{ width: 26, height: 26 }}
+          />)
+            // <TabBarIcon name="ios-code" color={color} />
+        },
         }}
       />
     </BottomTab.Navigator>

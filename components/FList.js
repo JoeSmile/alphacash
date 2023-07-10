@@ -2,7 +2,7 @@ import { Text, FlatList, Pressable, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const Item = (props) => {
-  const { title, screen, leftItem, displayIcon = true, itemStyle = {} } = props;
+  const { title, screen, leftItem, displayIcon = true, itemStyle = {}, rightIcon='' } = props;
   const navigation = useNavigation();
 
   return (
@@ -24,13 +24,13 @@ const Item = (props) => {
       ) : (
         <Text style={{ fontSize: 16 }}>{title}</Text>
       )}
-
       <Image
-        source={require("@assets/images/triangle_right.svg")}
+        source={rightIcon ? rightIcon : require("@assets/images/triangle_right.svg")}
         contentFit="cover"
         transition={200}
         style={{ width: 20, height: 20 }}
       />
+     
     </Pressable>
   );
 };

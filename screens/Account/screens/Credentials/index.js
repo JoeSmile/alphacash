@@ -1,5 +1,7 @@
 import { View, Text, StyleSheet, SafeAreaView, Image } from "react-native";
 import FList from "@components/FList";
+import { useGetUserFormStatus } from '@apis';
+import { useEffect, useState } from "react";
 
 const Item = (item) => {
   return (
@@ -19,7 +21,7 @@ const Item = (item) => {
   );
 };
 
-const data = [
+const listItems = [
   {
     title: "个人信息",
     screen: "Personal",
@@ -47,9 +49,36 @@ const data = [
 ];
 
 export default function Credentials() {
+  const { mutate: getUserFormStatus, data, isLoading } = useGetUserFormStatus();
+  const [displayItems, setDisplayItems] = useState(listItems);
+
+  useEffect(() => {
+    getUserFormStatus()
+  }, []);
+
+  useEffect(() => {
+    if (data && data.data.error_code == 1) {
+      const status = data.data.data;
+   
+      if (status.isCompletedPersonal) {
+        listItems[0].rightIcon = require('/assets/images/checked.png');
+      } 
+      if (status.isCompletedWork) {
+        listItems[1].rightIcon = require('/assets/images/checked.png');
+      } 
+      if (status.isCompletedContact) {
+        listItems[2].rightIcon = require('/assets/images/checked.png');
+      } 
+      if (status.isCompletedIdentity) {
+        listItems[3].rightIcon = require('/assets/images/checked.png');
+      }
+      setDisplayItems([...listItems])
+    }
+  }, [data]);
+
   return (
     <SafeAreaView style={styles.itemsContainer}>
-      <FList data={data} itemStyle={styles.FList} />
+      <FList data={displayItems} itemStyle={styles.FList} />
     </SafeAreaView>
   );
 }

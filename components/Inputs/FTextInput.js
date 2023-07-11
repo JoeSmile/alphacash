@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { useFormikContext, useField } from 'formik';
 
-export const FTextInput = ({ label, containerStyle = {}, name }) => {
+export const FTextInput = ({ label, hintValue = "", containerStyle = {}, name }) => {
   const context = useFormikContext(name);
   const meta = context.getFieldMeta(name);
 
@@ -18,6 +18,7 @@ export const FTextInput = ({ label, containerStyle = {}, name }) => {
          height: 55,
       }}>
         <TextInput
+          placeholder={hintValue}
           style={[styles.textInput, meta.touched && meta.error ? styles.error: {}]}
           value={context.values[name]}
           onChangeText={(v) => {

@@ -1,4 +1,4 @@
-import { View, Text, Pressable, StyleSheet, ScrollView, Button } from "react-native";
+import { View, Text, Pressable, StyleSheet, ScrollView, Image,Button } from "react-native";
 import { Formik } from 'formik';
 
 import { FTextInput, FSelect } from "@components/Inputs";
@@ -195,9 +195,33 @@ export default function Job({ navigation }) {
               </View>
             }
 
-            <View style={{ width: 300, alignSelf: 'center' }}>
-              <Button type="submit" style={styles.submitBtn} onPress={handleSubmit} title='Next' />
-            </View>
+            <Pressable
+              style={{
+                 height: 46,
+                 marginBottom: 15,
+                 marginHorizontal: 16,
+                 backgroundColor: "#0825B8",
+                 borderRadius: 3,
+                 alignItems: 'center',
+                 justifyContent: 'center',
+                 display: 'flex',
+                 flexDirection: 'row',
+               }}
+               onPress={handleSubmit}
+               >
+               <Text
+                   style={{
+                   textAlign: "center",
+                   borderRadius: 3,
+                   height: 46,
+                   lineHeight: 46,
+                   color: "#FFFFFF",
+                   backgroundColor: "#0825B8",
+                   fontSize: 15,
+                      }}> Next </Text>
+                <Image source={require('@assets/images/btn_ic_right.png')} style={{width: 12, height: 12}}/>
+          
+            </Pressable>
           </>
         )}
       </Formik>

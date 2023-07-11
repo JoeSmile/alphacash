@@ -1,6 +1,5 @@
-import { SafeAreaView, View, Text, StyleSheet, 
-  ScrollView, Button } from "react-native";
-import { Formik, Form } from 'formik';
+import { SafeAreaView, View, Text, StyleSheet, ScrollView, Button,Image,Pressable } from "react-native";
+import { Formik } from 'formik';
 import { FTextInput, FSelect } from '@components/Inputs';
 import Return from '../Return';
 import SafeIntro from '../SafeIntro';
@@ -80,7 +79,7 @@ export default function Personal({ navigation }) {
 
   return (
     <SafeAreaView >
-    <ScrollView>
+    <ScrollView style={{backgroundColor: 'white'}}>
     <View >
       <SafeIntro safeText=" The information you fill in is only used for credit
         evaluation and will never be used for other purposes.We use encryption to ensure your information security!"/>
@@ -107,7 +106,7 @@ export default function Personal({ navigation }) {
               validationSchema={PersonalFormSchema}
             >
               {({ handleChange, handleBlur, handleSubmit, values }) => (
-                <Form>
+                <>
                   <View style={styles.module}>
                     <FTextInput name="name" label="Name" type="text" />
                   </View>
@@ -169,16 +168,38 @@ export default function Personal({ navigation }) {
                     <FTextInput name="email" label="Email" />
                   </View>
 
-
-                  <View style={{ height: 65, width: 300, marginBottom: 15, alignSelf: 'center' }}>
-                    <Button type="submit" style={styles.submitBtn} onPress={handleSubmit} title='Next' />
-                  </View>
-                </Form>
+                  <Pressable
+        style={{
+          height: 46,
+          marginBottom: 15,
+          marginHorizontal: 16,
+          backgroundColor: "#0825B8",
+          borderRadius: 3,
+          alignItems: 'center',
+          justifyContent: 'center',
+          display: 'flex',
+          flexDirection: 'row',
+        }}
+        onPress={handleSubmit}
+      >
+        <Text
+          style={{
+            textAlign: "center",
+            borderRadius: 3,
+            height: 46,
+            lineHeight: 46,
+            color: "#FFFFFF",
+            backgroundColor: "#0825B8",
+            fontSize: 15,
+          }}> Next </Text>
+          <Image source={require('@assets/images/btn_ic_right.png')} style={{width: 12, height: 12}}/>
+          </Pressable>
+                 
+                </>
               )}
           </Formik>
           }
          
-            <Return />
           </View>
         </View>
       </ScrollView>

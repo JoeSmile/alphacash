@@ -1,4 +1,4 @@
-import { View, StyleSheet, Button, ScrollView } from "react-native";
+import { View, StyleSheet, Button, ScrollView,Pressable,Image,Text } from "react-native";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { FTextInput, FSelect } from "@components/Inputs";
@@ -112,7 +112,7 @@ export default function Emergency({ navigation }) {
               </View>
               
               <View style={styles.module}>
-                <FTextInput name="phoneNumber1" label="Reference Number 1" />
+                <FTextInput name="phoneNumber1" label="Reference Number 1" hintValue="Please enter the number manually" />
               </View>
               
               <View style={styles.module}>
@@ -124,12 +124,35 @@ export default function Emergency({ navigation }) {
               </View>
               
               <View style={styles.module}>
-              <FTextInput name="phoneNumber2" label="Reference Number 2" />
+              <FTextInput name="phoneNumber2" label="Reference Number 2" hintValue="Please enter the number manually" />
               </View>
 
-              <View style={{ width: 300, alignSelf: 'center' }}>
-                <Button type="submit" style={styles.submitBtn} onPress={handleSubmit} title='Next' />
-              </View>
+              <Pressable
+        style={{
+          height: 46,
+          marginBottom: 15,
+          marginHorizontal: 16,
+          backgroundColor: "#0825B8",
+          borderRadius: 3,
+          alignItems: 'center',
+          justifyContent: 'center',
+          display: 'flex',
+          flexDirection: 'row',
+        }}
+        onPress={handleSubmit}
+      >
+        <Text
+          style={{
+            textAlign: "center",
+            borderRadius: 3,
+            height: 46,
+            lineHeight: 46,
+            color: "#FFFFFF",
+            backgroundColor: "#0825B8",
+            fontSize: 15,
+          }}> Next </Text>
+          <Image source={require('@assets/images/btn_ic_right.png')} style={{width: 12, height: 12}}/>
+          </Pressable>
             </>
           )}
         </Formik>}

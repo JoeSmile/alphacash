@@ -1,11 +1,12 @@
 import React from 'react';
-import { Text, View, StyleSheet, Pressable } from 'react-native';
+import { Text, View, StyleSheet, Pressable, Image } from 'react-native';
 
 export function FButton(props) {
   const { onPress, title = 'Save', style = {} } = props;
   return (
     <Pressable style={[styles.button, style]} onPress={onPress}>
       <Text style={styles.text}>{title}</Text>
+      <Image source={require('@assets/images/btn_ic_right.png')} style={{width: 12, height: 12}}/>
     </Pressable>
   );
 }
@@ -18,6 +19,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
+    boxShadow: 'none'
   },
   text: {
     fontSize: 16,

@@ -11,10 +11,12 @@ import {
 } from '@const';
 import { useEffect, useState } from "react";
 import { useGetPersonalDetail, useUpdatePersonalInfo, useGetPersonalOptions } from '@apis/hooks'
+import dayjs from 'dayjs';
+import { Toast } from '@ant-design/react-native';
 
 const emptyInitialValues= {
   name: '',
-  birth: '05/05/1999',
+  birth: '1999-01-01',
   gender: '',
   cnic: '',
   education: '',
@@ -99,7 +101,7 @@ export default function Personal({ navigation }) {
                 const parameters = values;
                 parameters['provinceName'] = (provincesOptions.filter(province => province.province_id == provinceId))[0].province_name;
                 parameters['cityName'] = (citiesOptions.filter(province => province.city_id == cityId))[0].city_name;
-                updatePersonalInfoMutation.mutate({...parameters, birth: '4/14/2003'})
+                updatePersonalInfoMutation.mutate({...parameters})
               }}
               validateOnChange={true}
               validateOnBlur={true}

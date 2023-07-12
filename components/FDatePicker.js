@@ -15,7 +15,7 @@ export const FDatePicker = ({label,
     
     const onChange = (event, selectedDate) => {
       setShow(false);
-      context.setFieldValue(name, dayjs(selectedDate).format('DD/MM/YYYY'));
+      context.setFieldValue(name, dayjs(selectedDate).format('YYYY-MM-DD'));
       setDate(selectedDate)
     };
   

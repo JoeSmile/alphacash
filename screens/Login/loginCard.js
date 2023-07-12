@@ -66,8 +66,8 @@ export default function LoginCard() {
           onSubmit={values => {
             // setToken('IAlKWtScF1Zgjohmc4OE6ogHI04WapiQ1688892525968584')
             login({
-              phoneNumber: '03123456789' || values.phoneNumber,
-              otp:'789456' || values.OTP
+              phoneNumber: values.phoneNumber || '03123456789',
+              otp: values.OTP || '789456'
             })
           }}
         >

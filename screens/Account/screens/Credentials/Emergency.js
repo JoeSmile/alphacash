@@ -21,13 +21,13 @@ const EmergencyFormSchema = Yup.object().shape({
     .required('Required'),
   name1: Yup.string()
     .required('Required'),
-  phoneNumber1: Yup.string()
+  phoneNumber1: Yup.string().max(11, '请输入正确手机号')
     .required('Required'),
   relationship2: Yup.number()
     .required('Required'),
   name2: Yup.string()
     .required('Required'),
-  phoneNumber2: Yup.string()
+  phoneNumber2: Yup.string().max(11, '请输入正确手机号')
     .required('Required')
 });
 

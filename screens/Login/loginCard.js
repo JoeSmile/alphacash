@@ -57,7 +57,7 @@ export default function LoginCard() {
     <View >
         <Spinner
           visible={isLoading}
-          textContent={'login...'}
+          textContent={'Loading...'}
           textStyle={styles.spinnerTextStyle}
         />
       <View style={styles.container}>

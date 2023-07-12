@@ -10,6 +10,7 @@
     "star:production": "cross-env ENV=production expo start"
   },
   "dependencies": {
+    "@ant-design/react-native": "^5.0.4",
     "@expo/html-elements": "^0.4.2",
     "@expo/vector-icons": "^13.0.0",
     "@expo/webpack-config": "^18.0.1",
@@ -64,6 +65,7 @@
     "@react-native-community/eslint-config": "^3.2.0",
     "@typescript-eslint/eslint-plugin": "^5.60.0",
     "@typescript-eslint/parser": "^5.60.0",
+    "babel-plugin-import": "^1.13.6",
     "babel-plugin-module-resolver": "^5.0.0",
     "eslint": "^8.43.0",
     "eslint-plugin-import": "^2.27.5",

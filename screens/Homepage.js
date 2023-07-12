@@ -3,18 +3,21 @@ import { Text, View } from "../components/Themed";
 import { useI18n, LocaleTypes } from "@hooks/useI18n";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { RFValue } from 'react-native-responsive-fontsize';
-
+import { Button, Toast, Provider } from '@ant-design/react-native';
 
 export default function Homepage() {
   const { i18n, setLocale, locale } = useI18n();
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{i18n.t("welcome")}</Text>
-      <Pressable onPress={() => setLocale(locale === LocaleTypes.en ? LocaleTypes.urdu : LocaleTypes.en)}>
-        <Text style={styles.test}>switch language</Text>
-      </Pressable>
-    </View>
+      <View style={styles.container}>
+        <Text style={styles.title}>{i18n.t("welcome")}</Text>
+        <Pressable onPress={() => setLocale(locale === LocaleTypes.en ? LocaleTypes.urdu : LocaleTypes.en)}>
+          <Text style={styles.test}>switch language</Text>
+        </Pressable>
+          <Button onPress={() => Toast.info('This is a toast tips')} color='black'>
+            Start111  
+          </Button>
+      </View>
   );
 }
 

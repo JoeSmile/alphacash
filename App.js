@@ -14,6 +14,7 @@ import {
 } from 'react-query'
 import { useAppState } from '@hooks/useAppState';
 import { useOnlineManager } from '@hooks/useOnlineManager';
+import { Provider } from '@ant-design/react-native';
 
 function onAppStateChange(status) {
   // React Query already supports in web browser refetch on window focus by default
@@ -39,7 +40,9 @@ export default function App() {
     return (
       <SafeAreaProvider>
         <QueryClientProvider client={queryClient}>
-          <Navigation colorScheme={colorScheme} />
+          <Provider>
+            <Navigation colorScheme={colorScheme} />
+          </Provider>
           <StatusBar />
         </QueryClientProvider>
       </SafeAreaProvider>

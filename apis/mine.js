@@ -59,7 +59,7 @@ export async function getWorkInfoDetail(parameters) {
 }
 
 export async function getWorkInfoOptions(parameters) {
-  return axiosPost('/workinfooptions', parameters);
+  return axiosPost('/workInfoOptions', parameters);
 }
 
 export async function updateWorkInfo(parameters) {

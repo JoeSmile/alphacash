@@ -24,7 +24,10 @@ export default function LoginCard() {
   let timer = null;
 
   useEffect(() => {
-    clearInterval(timer);    
+  clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
     if (data && data.data.error_code == 1) {
       console.log('data.data.data.token', data.data.data.token);
       setToken(data.data.data.token);

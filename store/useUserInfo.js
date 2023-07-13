@@ -12,14 +12,13 @@ export const useUserInfo = create((set, get) => ({
   setBasicInfo: (newInfo) => {
     set((state) => ({
       ...state,
-      ...newInfo,
-      isLogin: !!newInfo.token,
+      basicInfo: newInfo,
     }));
   },
   setLogin: (isLogin) => {
     set((state) => ({
       ...state,
-      isLogin,
+      isLogin: isLogin,
     }));
   },
   login: (status) => {

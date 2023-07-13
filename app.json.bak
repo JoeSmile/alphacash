@@ -28,10 +28,9 @@
       "favicon": "./assets/favicon.png"
     },
     "scheme": "financeexpo",
-    "runtimeVersion": {
-      "policy": "sdkVersion"
-    },
+    "runtimeVersion": "0.0.2",
     "updates": {
+      "fallbackToCacheTimeout": 0,
       "url": "https://u.expo.dev/462bceb9-15ba-4d76-bcad-d93ef54c4c31"
     },
     "plugins": [

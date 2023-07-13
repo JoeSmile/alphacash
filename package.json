@@ -4,10 +4,15 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "cross-env ENV=dev expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "cross-env ENV=dev expo start --android",
+    "ios": "cross-env ENV=dev expo start --ios",
     "web": "cross-env ENV=dev expo start --web",
-    "star:production": "cross-env ENV=production expo start"
+
+    "build:preview": "cross-env ENV=production eas build -p android --profile preview",
+    "build:live": "cross-env ENV=production eas build -p android --profile production",
+
+    "update:preview": "cross-env ENV=production eas update --branch preview --message 'update preview to 0.0.2-2'",
+    "update:live": "cross-env ENV=production eas update --branch production"
   },
   "dependencies": {
     "@ant-design/react-native": "^5.0.4",

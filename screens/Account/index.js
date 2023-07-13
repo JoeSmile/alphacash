@@ -56,7 +56,7 @@ const data = [
 ];
 
 const Account = ({ navigation }) => {
-  const [isLogin, setToken] = useSystemStore(s => [!!s.token, s.setToken]);
+  const [isLogin, setToken] = useSystemStore((s) => [!!s.token, s.setToken]);
   return (
     <UserLayout>
       <View style={styles.itemsContainer}>
@@ -69,30 +69,30 @@ const Account = ({ navigation }) => {
           alignItems: "center",
         }}
       >
-      <Pressable
-        style={{
-          width: "75%",
-          backgroundColor: "#0825B8",
-          borderRadius: 3,
-        }}
-        onPress={() => {
-          isLogin ? setToken('') : navigation.push("Login");
-        }}
-      >
-        <Text
+        <Pressable
           style={{
-            textAlign: "center",
-            borderRadius: 3,
-            height: 46,
-            lineHeight: 46,
-            color: "#FFFFFF",
+            width: "75%",
             backgroundColor: "#0825B8",
-            fontSize: 15,
+            borderRadius: 3,
+          }}
+          onPress={() => {
+            isLogin ? setToken("") : navigation.push("Login");
           }}
         >
-          {isLogin ? '登出': '登录'}
-        </Text>
-          </Pressable>
+          <Text
+            style={{
+              textAlign: "center",
+              borderRadius: 3,
+              height: 46,
+              lineHeight: 46,
+              color: "#FFFFFF",
+              backgroundColor: "#0825B8",
+              fontSize: 15,
+            }}
+          >
+            {isLogin ? "登出" : "登录"}
+          </Text>
+        </Pressable>
       </View>
     </UserLayout>
   );

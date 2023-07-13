@@ -1,11 +1,45 @@
 import { Image, View, Text, Pressable, StyleSheet } from "react-native";
 import SafeIntro from "./SafeIntro";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EXAMPLE_TYPES, ExampleModal } from "./ExampleModal";
 import Return from './Return';
+import { useGetIdentityInfoDetail, useUpdateIdentityInfo } from '@apis'
+
+const emptyIdentityFormValues = {
+  "cnicFront": "", 
+  "cnicBack": "", 
+  "cnicInHand": "", 
+  "employmentProof": "", 
+}
+
+const image = require("@assets/images/info_pic_cnic_card_positive.png")
 
 export default function Certificate() {
   const [showModalType, setShowModalType] = useState("");
+  const {mutate: getIdentityInfo, data: identityInfo, isLoading: isIdentityInfoLoading} = useGetIdentityInfoDetail();
+  const {mutate: updateIdentityInfo, data: updateIdentityInfoResponse} = useUpdateIdentityInfo();
+
+  // useEffect(() => {
+  //   getIdentityInfo();
+  // }, []);
+
+  useEffect(() => {
+    if(identityInfo && identityInfo.data.error_code == 1 ) {
+      setInitialValues({
+        ...emptyIdentityFormValues,
+        ...identityInfo.data.data.identityInfo
+      });
+    }
+  }, [identityInfo]);
+
+  useEffect(() => {
+    if (updateIdentityInfoResponse && updateIdentityInfoResponse.data.error_code == 1) {
+      console.log('Sun >>>>>>>>>> ')
+      // navigation.push('');
+    }
+  }, [updateIdentityInfoResponse])
+
+
   return (
     <View style={styles.container}>
       <SafeIntro safeText="Upload credential information, only for user identity verification, we will encrypt and store it, and it will never be used for other purposes!" />

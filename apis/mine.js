@@ -81,9 +81,9 @@ export async function getReferenceContactOptions(parameters) {
 
 // identity form
 export async function getIdentityInfoDetail(parameters) {
-  return axiosPost('/identityinfoDetail', {
-    token: "KGTeYE9LxwMGuxmo8j2tiujYGHMv9DMC1688713605317658",
-    sign: '123dsabnwe',
-    app:'alphacash'
-  });
+  return axiosPost('/identityinfoDetail', parameters);
+}
+
+export async function updateIdentityInfo(parameters) {
+  return axiosPost('/identityinfo', parameters);
 }

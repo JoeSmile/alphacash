@@ -18,7 +18,7 @@ const emptyJobFormValues = {
   "workName": "",
   "companyName": "",
   "companyPhone": "",
-  "seriveLength": '',
+  "serviceLength": '',
   "monthlyIncome": "",
   "companyProviceId": "",
   "companyCityId": "",
@@ -31,19 +31,19 @@ const emptyJobFormValues = {
 }
 
 const JobFormSchema = Yup.object().shape({
-  workField: Yup.number()
+  workField: Yup.string()
     .required('Required'),
   workName: Yup.string()
     .required('Required'),
   companyName: Yup.string()
     .required('Required'),
-  companyPhone: Yup.number()
+  companyPhone: Yup.string().matches(/^\d{11}$/, '请输入正确手机号')
     .required('Required'),
-  seriveLength: Yup.number()
+  serviceLength: Yup.string()
     .required('Required'),
-  monthlyIncome: Yup.number()
+  monthlyIncome: Yup.string()
     .required('Required'),
-  companyProviceId: Yup.number()
+  companyProviceId: Yup.string()
     .required('Required'),
   companyCityId: Yup.string()
     .required('Required'),
@@ -52,6 +52,11 @@ const JobFormSchema = Yup.object().shape({
   haveOtherLoans: Yup.string(),
   lendingInstitution: Yup.string(),
   loanAmount: Yup.string(),
+  companyProviceName: Yup.string()
+  .required('Required'),
+  companyCityName: Yup.string()
+  .required('Required'),
+  
 });
 
 export default function Job({ navigation }) {
@@ -99,7 +104,9 @@ export default function Job({ navigation }) {
         onSubmit={values => {
           const provinceId = values['companyProviceId'];  
           const cityId = values['companyCityId'];
+          const workId = values['workField']
           const parameters = values;
+          parameters['workName'] = (workFieldOptions.filter(work => work.value == workId))[0].label;
           parameters['companyProviceName'] = (provincesOptions.filter(province => province.province_id == provinceId))[0].province_name;
           parameters['companyCityName'] = (citiesOptions.filter(province => province.city_id == cityId))[0].city_name;
           updateWorkInfo(parameters);
@@ -121,7 +128,7 @@ export default function Job({ navigation }) {
               <FTextInput name="companyPhone" label="Company Phone" />
               </View>
             <View style={styles.module}>
-              <FSelect name="seriveLength" label="Length Service" options={serviceTimeOptions} />
+              <FSelect name="serviceLength" label="Length Service" options={serviceTimeOptions} />
             </View>
             <View style={styles.module}>
               <FSelect name="monthlyIncome" label="Monthly Income" options={sMonthlyIncomeOptions} />

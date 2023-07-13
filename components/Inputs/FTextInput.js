@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { useFormikContext, useField } from 'formik';
 
-export const FTextInput = ({ label, hintValue = "", containerStyle = {}, name }) => {
+export const FTextInput = ({ label, hintValue = "", containerStyle = {}, name ,keyboardType = "default", editable = true}) => {
   const context = useFormikContext(name);
   const meta = context.getFieldMeta(name);
 
@@ -18,6 +18,8 @@ export const FTextInput = ({ label, hintValue = "", containerStyle = {}, name })
          height: 55,
       }}>
         <TextInput
+          editable = {editable}
+          keyboardType={keyboardType}
           placeholderTextColor={'#8899AC'}
           placeholder={hintValue}
           style={[styles.textInput, meta.touched && meta.error ? styles.error: {}]}

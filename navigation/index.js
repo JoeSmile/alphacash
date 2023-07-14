@@ -13,6 +13,7 @@ import LinkingConfiguration from "./LinkingConfiguration";
 
 import Start from "../screens/Start";
 import Login from "../screens/Login";
+import Apply from "../screens/Apply";
 import { pageHeader } from "@styles";
 import { MineScreens } from './MineNavigator';
 import { CredentialsScreens } from './CredentialsNavigator';
@@ -43,6 +44,12 @@ function RootNavigator() {
         }}/>
         <Stack.Screen name="Login" component={Login}  options={{
            ...pageHeader
+        }}/>
+
+        <Stack.Screen name="Apply" component={Apply}  options={{
+           ...pageHeader,
+           headerTitle: 'Apply',
+           headerShown: true
         }}/>
       </Stack.Group>
 

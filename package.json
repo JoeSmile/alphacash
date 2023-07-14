@@ -7,10 +7,8 @@
     "android": "cross-env ENV=dev expo start --android",
     "ios": "cross-env ENV=dev expo start --ios",
     "web": "cross-env ENV=dev expo start --web",
-
     "build:preview": "cross-env ENV=production eas build -p android --profile preview",
     "build:live": "cross-env ENV=production eas build -p android --profile production",
-
     "update:preview": "cross-env ENV=production eas update --branch preview --message 'update preview to 0.0.2-2'",
     "update:live": "cross-env ENV=production eas update --branch production"
   },
@@ -63,7 +61,8 @@
     "react-native-web": "~0.18.10",
     "react-query": "^3.39.3",
     "yup": "^1.2.0",
-    "zustand": "^4.3.8"
+    "zustand": "^4.3.8",
+    "expo-linear-gradient": "~12.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

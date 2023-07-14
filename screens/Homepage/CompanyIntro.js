@@ -8,8 +8,17 @@ export function CompanyIntro() {
 
   return (
     <View style={styles.container}> 
-      <Text>AlphaCash</Text>
-      <Text>Fast arrival, loan and repayment</Text>
+      <Text style={{
+        fontSize: 18,
+        color: 'white',
+        fontWeight: 600,
+        marginBottom: 10
+      }}>AlphaCash</Text>
+      <Text style={{
+        fontSize: 14,
+        opacity: 0.8,
+        color: 'white'
+      }}>Fast arrival, loan and repayment</Text>
     </View>
   );
 }
@@ -17,8 +26,10 @@ export function CompanyIntro() {
 const styles = StyleSheet.create({
   container: {
     zIndex: 10,
-    height: hp(10),
-    width: '100%'
+    width: '100%',
+    backgroundColor:'transparent',
+    color: 'white',
+    paddingHorizontal: 15
   },
 
 });

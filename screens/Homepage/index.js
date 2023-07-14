@@ -6,11 +6,11 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { RFValue } from "react-native-responsive-fontsize";
-import { Button, Toast, Provider } from "@ant-design/react-native";
+import { Button, Toast } from "@ant-design/react-native";
 import { CompanyIntro } from "./CompanyIntro";
 import { Quota } from "./Quota";
 
-export default function Homepage() {
+export default function Homepage({navigation}) {
   const { i18n, setLocale, locale } = useI18n();
 
   return (
@@ -21,7 +21,7 @@ export default function Homepage() {
           position: "absolute",
           backgroundColor: "#0825B8",
           width: "100%",
-          height: hp(20),
+          height: 150,
           zIndex: 0,
         }}
       />
@@ -40,15 +40,13 @@ export default function Homepage() {
       <Button onPress={() => Toast.info("This is a toast tips")} color="black">
         Start111
       </Button>
-    </View>
+     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
     position: "relative",
   },
   title: {

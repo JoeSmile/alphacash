@@ -23,7 +23,7 @@ export function Advantage () {
         }}/>
         <Text style={{
           color: '#0A233E',
-          fontSize: '16px',
+          fontSize: 16,
           fontWeight: 'bold',
           paddingLeft: 10
         }}>Advantage</Text>

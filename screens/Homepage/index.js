@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { Text, View } from "../../components/Themed";
 import { useI18n, LocaleTypes } from "@hooks/useI18n";
 import {
@@ -10,12 +10,14 @@ import { Button, Toast } from "@ant-design/react-native";
 import { CompanyIntro } from "./CompanyIntro";
 import { Quota } from "./Quota";
 import { Advantage } from './Advantage';
+import { AntiFraudTips } from './AntiFraudTips';
+import { OnlineService } from './OnlineService';
 
 export default function Homepage({navigation}) {
   const { i18n, setLocale, locale } = useI18n();
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View
         style={{
           top: 0,
@@ -29,7 +31,9 @@ export default function Homepage({navigation}) {
       <CompanyIntro />
       <Quota />
       <Advantage />
-     </View>
+      <AntiFraudTips />
+      <OnlineService />
+    </ScrollView>
   );
 }
 
@@ -37,6 +41,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: "relative",
+    backgroundColor: "white",
   },
   title: {
     fontSize: 20,

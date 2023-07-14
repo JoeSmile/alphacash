@@ -9,6 +9,7 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { Button, Toast } from "@ant-design/react-native";
 import { CompanyIntro } from "./CompanyIntro";
 import { Quota } from "./Quota";
+import { Advantage } from './Advantage';
 
 export default function Homepage({navigation}) {
   const { i18n, setLocale, locale } = useI18n();
@@ -27,19 +28,7 @@ export default function Homepage({navigation}) {
       />
       <CompanyIntro />
       <Quota />
-      <Text style={styles.title}>{i18n.t("welcome")}</Text>
-      <Pressable
-        onPress={() =>
-          setLocale(
-            locale === LocaleTypes.en ? LocaleTypes.urdu : LocaleTypes.en
-          )
-        }
-      >
-        <Text style={styles.test}>switch language</Text>
-      </Pressable>
-      <Button onPress={() => Toast.info("This is a toast tips")} color="black">
-        Start111
-      </Button>
+      <Advantage />
      </View>
   );
 }

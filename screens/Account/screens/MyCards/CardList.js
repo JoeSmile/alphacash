@@ -5,13 +5,78 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   View,
+  Image
 } from "react-native";
 
 import { SwipeListView } from "react-native-swipe-list-view";
 import { useCardsInfo } from "./useCardsInfo";
 
+function BankCard ({card, selected}) {
+  return (
+    <View style={styles.cardContainer}>
+      <View style={{
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+      }}>
+        <Text style={styles.cardTitle}>{card.bankName}</Text>
+        <Image source={selected ? require("@assets/images/bank_card_radio_sel.png") :  require("@assets/images/unSelected.png")}
+          contentFit="cover"
+          transition={200}
+          style={{ width: 20, height: 20}} 
+        />
+      </View>
+      <View style={{
+        flexDirection: 'row',
+        alignItems: 'center'
+      }}>
+        <Image source={require("@assets/images/loan_ic_bank.png")}
+          contentFit="cover"
+          transition={200}
+          style={{ width: 32, height: 32, marginRight: 20 }} 
+        />
+        <Text style={styles.cardNumber}>{card.bankAccount.replace(/\s/g, '').replace(/(\d{4})/g, "$1 ").replace(/\s*$/,'')}</Text>
+      </View>
+    </View>
+  )
+}
+
+function EWalletCard({card, selected}) {
+  return (
+    <View style={styles.cardContainer}>
+      <View style={{
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+      }}>
+        <Text style={styles.cardTitle}>{card.ewalletId == 1 ? 'EasyPaisa' : 'Jazzcash'}</Text>
+        <Image source={selected ? require("@assets/images/bank_card_radio_sel.png") :  require("@assets/images/unSelected.png")}
+          contentFit="cover"
+          transition={200}
+          style={{ width: 20, height: 20}} 
+        />
+      </View>
+
+      <View style={{
+        flexDirection: 'row',
+        alignItems: 'center'
+      }}>
+        <Image source={
+          card.ewalletId == 1 ? require("@assets/images/loan_ic_easypaisa.png") : require("@assets/images/loan_ic_jazzcash.png")}
+          contentFit="cover"
+          transition={200}
+          style={{ width: 32, height: 32, marginRight: 20 }} 
+        />
+        <Text style={styles.cardNumber}>{card.ewalletAccount.replace(/\s/g, '').replace(/(\d{4})/g, "$1 ").replace(/\s*$/,'')}</Text>
+      </View>
+    </View>
+  )
+}
+
+
 export default function CardList() {
-  const [cards] = useCardsInfo((s) => [s.cards]);
+  const cards = useCardsInfo((s) => s.cards);
+  const [selectedCardId, setSelectedCardId] = useState();
   const [listData, setListData] = useState(
     cards.map((card, i) => ({
       key: `${i}`,
@@ -37,33 +102,38 @@ export default function CardList() {
     console.log("This row opened", rowKey);
   };
 
-  const renderItem = (card) => (
-    <TouchableHighlight
-      onPress={() => console.log("You touched me")}
-      style={styles.rowFront}
-      underlayColor={"#AAA"}
-    >
-      <View>
-        <Text>
-          I am {`${card.bankName}, ${card.bankAccount}, ${card.userName}`} in a
-          SwipeListView
-        </Text>
-      </View>
-    </TouchableHighlight>
-  );
+  const renderItem = (card) => {
+    return (
+      <TouchableHighlight
+        onPress={() => setSelectedCardId(card.item.type==1 ? card.item.bankAccount : card.item.ewalletAccount )}
+        style={styles.rowFront}
+        underlayColor={"#AAA"}
+      >
+        {
+          card.item.type == 1 ? 
+          <BankCard card={card.item} selected={card.item.bankAccount == selectedCardId}/> : 
+          <EWalletCard card={card.item} selected={card.item.ewalletAccount === selectedCardId}/>
+        }
+      </TouchableHighlight>
+    )
+  };
 
   const renderHiddenItem = (data, rowMap) => (
     <View style={styles.rowBack}>
-      <Text>Left</Text>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnLeft]}
-        onPress={() => closeRow(rowMap, data.item.key)}
+        onPress={() => {
+          //TODO: goto edit page
+        }}
       >
-        <Text style={styles.backTextWhite}>Close</Text>
+        <Text style={styles.backTextWhite}>Edit</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnRight]}
-        onPress={() => deleteRow(rowMap, data.item.key)}
+        onPress={() => {
+          //TODO: call delete function
+          deleteRow(rowMap, data.item.key)
+        }}
       >
         <Text style={styles.backTextWhite}>Delete</Text>
       </TouchableOpacity>
@@ -76,7 +146,7 @@ export default function CardList() {
         data={cards}
         renderItem={renderItem}
         renderHiddenItem={renderHiddenItem}
-        leftOpenValue={75}
+        leftOpenValue={0}
         rightOpenValue={-150}
         previewRowKey={"0"}
         previewOpenValue={-40}
@@ -90,21 +160,20 @@ export default function CardList() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-    flex: 1,
   },
   backTextWhite: {
     color: "#FFF",
   },
   rowFront: {
     alignItems: "center",
-    backgroundColor: "#CCC",
+    backgroundColor: "white",
     borderBottomColor: "black",
     justifyContent: "center",
-    height: 50,
+    marginVertical: 15,
   },
   rowBack: {
     alignItems: "center",
-    backgroundColor: "#DDD",
+    backgroundColor: "white",
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -115,15 +184,37 @@ const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: "center",
     position: "absolute",
-    top: 0,
+    top: 15,
     width: 75,
   },
   backRightBtnLeft: {
     backgroundColor: "blue",
+    height: 99,
     right: 75,
   },
   backRightBtnRight: {
     backgroundColor: "red",
+    height: 99,
     right: 0,
   },
+  cardContainer: {
+    height: 99,
+    padding: 15,
+    borderWidth: 1,
+    borderRadius: 4,
+    borderColor: '#C0C4D6',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    width: '100%',
+  },
+  cardTitle: {
+    color: '#4F5E6F',
+    fontSize: 16,
+    marginBottom: 10
+  },
+  cardNumber: {
+    color: '#0A233E',
+    fontSize: 20,
+    fontWeight: 'bold'
+  }
 });

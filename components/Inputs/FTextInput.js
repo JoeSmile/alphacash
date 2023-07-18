@@ -4,7 +4,7 @@ import { useFormikContext, useField } from 'formik';
 
 export const FTextInput = ({ 
     label, hintValue = "", containerStyle = {},
-    name ,keyboardType = "default", 
+    name, keyboardType = "default", 
     editable = true,
     rightIcon = ''
   }) => {
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     paddingRight: 35,
     width: 'auto',
     height: 55,
-    borderColor: 'gray',
+    borderColor: '#C0C4D6',
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 10,
   },

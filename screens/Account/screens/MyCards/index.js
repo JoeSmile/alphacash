@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Pressable, Image } from "react-native";
 import CardList from "./CardList";
 import { useCardsInfo } from "./useCardsInfo";
+import { useGetAccounts } from '@apis';
 
 export default function MyCards({ navigation }) {
   const cards = useCardsInfo((s) => s.cards);
+  const {mutate: getAccounts, data, isLoading} = useGetAccounts();
+  useEffect(() => {
+    getAccounts()
+  }, []);
+
   return (
     <View style={{
       paddingVertical: 20,
@@ -14,7 +20,8 @@ export default function MyCards({ navigation }) {
     }}>
 
     {
-      cards.length < 5 ? 
+      !isLoading 
+     ? 
       <Pressable onPress={() => navigation.push('AddNewAccount')}> 
         <View style={{
           height: 62,
@@ -40,7 +47,9 @@ export default function MyCards({ navigation }) {
       </Pressable>
       : <></>
     }
-      <CardList />
+    {
+      !!data && <CardList cards={data.data.data || []} />
+    }
     </View>
   );
 }

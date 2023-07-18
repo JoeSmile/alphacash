@@ -49,7 +49,7 @@ function EWalletCard({card, selected}) {
         flexDirection: 'row',
         justifyContent: 'space-between'
       }}>
-        <Text style={styles.cardTitle}>{card.ewalletId == 1 ? 'EasyPaisa' : 'Jazzcash'}</Text>
+        <Text style={styles.cardTitle}>{card.ewalletName}</Text>
         <Image source={selected ? require("@assets/images/bank_card_radio_sel.png") :  require("@assets/images/unSelected.png")}
           contentFit="cover"
           transition={200}
@@ -62,7 +62,7 @@ function EWalletCard({card, selected}) {
         alignItems: 'center'
       }}>
         <Image source={
-          card.ewalletId == 1 ? require("@assets/images/loan_ic_easypaisa.png") : require("@assets/images/loan_ic_jazzcash.png")}
+          card.ewalletType == 1 ? require("@assets/images/loan_ic_easypaisa.png") : require("@assets/images/loan_ic_jazzcash.png")}
           contentFit="cover"
           transition={200}
           style={{ width: 32, height: 32, marginRight: 20 }} 
@@ -73,9 +73,14 @@ function EWalletCard({card, selected}) {
   )
 }
 
+function getCardKey (card) {
+  if (card.type == 1) {
+    return `${card.type}_${card.bankAccount}`
+  }
+  return  `${card.type}_${card.ewalletAccount}`
+}
 
-export default function CardList() {
-  const cards = useCardsInfo((s) => s.cards);
+export default function CardList({cards = []}) {
   const [selectedCardId, setSelectedCardId] = useState();
   const [listData, setListData] = useState(
     cards.map((card, i) => ({
@@ -105,14 +110,14 @@ export default function CardList() {
   const renderItem = (card) => {
     return (
       <TouchableHighlight
-        onPress={() => setSelectedCardId(card.item.type==1 ? card.item.bankAccount : card.item.ewalletAccount )}
+        onPress={() => setSelectedCardId(getCardKey(card.item))}
         style={styles.rowFront}
         underlayColor={"#AAA"}
       >
         {
           card.item.type == 1 ? 
-          <BankCard card={card.item} selected={card.item.bankAccount == selectedCardId}/> : 
-          <EWalletCard card={card.item} selected={card.item.ewalletAccount === selectedCardId}/>
+          <BankCard card={card.item} selected={getCardKey(card.item) == selectedCardId}/> : 
+          <EWalletCard card={card.item} selected={getCardKey(card.item) === selectedCardId}/>
         }
       </TouchableHighlight>
     )

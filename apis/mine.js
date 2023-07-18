@@ -104,3 +104,8 @@ export async function deleteBankAccount (parameters) {
 export async function getAccounts (parameters) {
   return axiosPost('/user/bankEwalletList', parameters);
 }
+
+export async function getBankList (parameters) {
+  return axiosPost('/bank/list', parameters);
+}
+

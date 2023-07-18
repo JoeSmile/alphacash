@@ -26,11 +26,8 @@ export function FSelect({
     </View>
     <View style={{
       borderRadius: 10,
-      borderColor: '#C0C4D6',
       justifyContent: 'center',
-      borderWidth: 1,
-      height: 55,
-      padding: 2
+      backgroundColor: 'transparent'
     }}>
       <Picker
         enabled={true}
@@ -40,13 +37,16 @@ export function FSelect({
         }}
         selectedValue={context.values[name]}
         style={[{
-          height: 51,
+          borderColor: '#C0C4D6',
+          borderRadius: 10,
+          borderWidth: 1,
+          height: 55,
           padding: 0,
           paddingLeft: 15,
-          borderWidth: 0,
           color: '#0A233E'
         }, meta.touched && meta.error ? styles.error: {}]}
       >
+        {!context.values[name] && <Picker.Item label=" " value="" />}
         {options.map((item, index) =>
           <Picker.Item
             label={labelKey ? item[labelKey] : item.label}

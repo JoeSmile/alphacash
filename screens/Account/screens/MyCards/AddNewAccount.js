@@ -1,11 +1,13 @@
 /* tslint:disable:no-console */
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { ScrollView, Text, TouchableOpacity, View, Image, StyleSheet, Pressable } from 'react-native'
 import { Formik } from 'formik';
 import { FTextInput, FSelect } from '@components/Inputs';
 import { genderOptions } from '@const';
-import { useAddAccount } from '@apis';
+import { useAddAccount, useBankList } from '@apis';
 import { FButton } from '@components/FButton';
+import { Toast } from '@ant-design/react-native';
+import * as Yup from 'yup';
 
 const tabs = [{
   title: 'Easypaisa',
@@ -40,11 +42,31 @@ const noticeStyle = {
   lineHeight: 20
 }
 
+const AccountFormSchema = Yup.object().shape({
+  account: Yup.string()
+    .required('Required')
+    .test('len', 'Please input correct account number', (val, context) => {
+      if (context.parent.type == 1) {
+        //bank
+        return val.match('^[A-Za-z0-9]+$')
+      } else {
+        //ewallet
+        return val.match('^[0-9]*$')
+      }
+    }),
+
+});
+
+
 const defaultEmptyForm = {
-  account: '01238137215',
+  account: '',
   // bank
-  bankName: 'Askari Commercial Bank Limited',
-  bankAccountName: '22222'
+  bankId: '',
+  bankAccountName: '',
+  // common
+  name: 'EasyPaisa',
+  type: 2,
+  ewalletType: 1
 }
 
 function Notice () {
@@ -64,65 +86,53 @@ function Notice () {
   </View>
 }
 
-export function AddNewAccount() {
+export function AddNewAccount({navigation}) {
   const [selectedTab, setSelectedTab] = useState({
     type: 2,
     ewalletType: 1,
     name: 'EasyPaisa',
     id: 1
   });
-  const {mutate: addAccount} = useAddAccount();
+  const { mutate: addAccount, data: result } = useAddAccount();
+  const { mutate: getBankList, data: rawList, isLoading} = useBankList();
+
+  useEffect(() => {
+    getBankList();
+  }, []);
+  
+  const bankOptions = useMemo(() => {
+    if (!isLoading && rawList) {
+      return rawList.data.data
+    }
+    return []
+  }, [rawList])
+
+  useEffect(() => {
+    if (!result) return;
+    if (result.data.error_code == 1) {
+      navigation.push('MyCards');
+    } else {
+      Toast.info({
+        content: result.data.msg,
+        duration: 3,
+      })
+    }
+  }, [result])
+
   return (
     <View style={{ flex: 1,  backgroundColor: 'white', padding: 15 }}>
-      <View style={{
-        flexDirection: 'row', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        gap: 15, 
-        borderBottomColor: '#E0E3E8', 
-        borderBottomWidth: 2,
-        marginBottom: 30
-      }}>
-        {
-          tabs.map(tab => {
-            return (
-              <View key={tab.title} > 
-                <Pressable style={[styles.tab, selectedTab.id === tab.id && selectedTab.type === tab.type ? {borderBottomWidth: 3, borderBottomColor: '#0825B8'} : '']} 
-                  onPress={() => setSelectedTab({
-                    id: tab.id,
-                    name: tab.name,
-                    type: tab.type,
-                    ewalletType: selectedTab.ewalletType
-                  })}>
-                  <Image source={tab.source}
-                    contentFit="cover"
-                    transition={200}
-                    style={{ width: 32, height: 32, marginBottom: 10}} 
-                  />
-                  <Text style={{
-                    color: selectedTab.id === tab.id && selectedTab.type === tab.type ? '#0A233E' : '#8899AC',
-                    fontWeight: 'bold',
-                    fontSize: 16,
-                  }}>
-                  {tab.title}
-                  </Text>
-                </Pressable>
-              </View>
-            )
-          })
-        }
-      </View>
+  
 
       {!!defaultEmptyForm &&  <Formik
           initialValues={defaultEmptyForm}
           onSubmit={values => {
+            console.log('value---', values);
             let params = selectedTab.type == 1 ? {
               // bank
               type: selectedTab.type,
               bankAccountName: values.bankAccountName,
               bankAccount: values.account,
-              bankName: values.bankName || "Askari Commercial Bank Limited",
-              bankId: 2,
+              bankId: values.bankId,
               bankAccountId: selectedTab.id
             } : {
               type: selectedTab.type,
@@ -135,13 +145,60 @@ export function AddNewAccount() {
           }}
           validateOnChange={true}
           validateOnBlur={true}
-          // validationSchema={PersonalFormSchema}
+          validationSchema={AccountFormSchema}
         >
-          {({ handleChange, handleBlur, handleSubmit, values }) => (
+          {({ handleChange, handleBlur, handleSubmit, values, context, setValues }) => (
             <>
+            <View style={{
+              flexDirection: 'row', 
+              justifyContent: 'center', 
+              alignItems: 'center', 
+              gap: 15, 
+              borderBottomColor: '#E0E3E8', 
+              borderBottomWidth: 2,
+              marginBottom: 30
+            }}>
+              {
+                tabs.map(tab => {
+                  return (
+                    <View key={tab.title} > 
+                      <Pressable style={[styles.tab, selectedTab.id === tab.id && selectedTab.type === tab.type ? {borderBottomWidth: 3, borderBottomColor: '#0825B8'} : '']} 
+                        onPress={() => {
+                          setSelectedTab({
+                            id: tab.id,
+                            name: tab.name,
+                            type: tab.type,
+                            ewalletType: tab.ewalletType
+                          });
+                          setValues({
+                            ...values,
+                            name: tab.name,
+                            type: tab.type,
+                            ewalletType: tab.ewalletType
+                          })
+                        }
+                        }>
+                        <Image source={tab.source}
+                          contentFit="cover"
+                          transition={200}
+                          style={{ width: 32, height: 32, marginBottom: 10}} 
+                        />
+                        <Text style={{
+                          color: selectedTab.id === tab.id && selectedTab.type === tab.type ? '#0A233E' : '#8899AC',
+                          fontWeight: 'bold',
+                          fontSize: 16,
+                        }}>
+                        {tab.title}
+                        </Text>
+                      </Pressable>
+                    </View>
+                  )
+                })
+              }
+            </View>
             {
               selectedTab.type !== 1 && <View style={{
-                marginBottom: 15
+                marginBottom: 25
               }}>
                 <FTextInput 
                   name="account" 
@@ -170,9 +227,13 @@ export function AddNewAccount() {
                     rightIcon={require("@assets/images/loan_ic_edit.png")}  
                   />
                 </View>
-                <View style={styles.inputContainer}>
-                  <FSelect name="bankName" label="Bank Name" options={genderOptions} />
-                </View>
+                {
+                !isLoading && rawList && <View style={styles.inputContainer}>
+                    <FSelect name="bankId" label="Bank Name" 
+                       valueKey='bank_id' labelKey='full_name'
+                    options={bankOptions} />
+                  </View>
+                }
               </View>
             }
               <FButton

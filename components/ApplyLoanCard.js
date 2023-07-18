@@ -11,11 +11,6 @@ export default function ApplyLoanCard ({
   setAmountIndex,
  }) {
 
-  const renderItem = ({ item,index }) => (
-    <TouchableOpacity onPress={() => handleItemPress(item,index)}>
-    <Item title={item.days} index={index} isApply={item.isApply} />
-    </TouchableOpacity>
-  );
 
   const handleItemPress = (item,index) => {
     if(item.isApply){
@@ -82,17 +77,20 @@ export default function ApplyLoanCard ({
     <Text style={{color: '#0A233E',fontSize: 15, marginTop: 24,fontWeight: 500}}>Loan Term</Text>
 
     <View style={styles.loanTermBgStyle}>
-
-    <FlatList
-        data={optWithDaysConfig}
-        renderItem={renderItem}
-        keyExtractor={item => item.days}
-        numColumns={2}
-      />
-
-      <View style={{marginTop: 18}}></View>
-
+      {
+        optWithDaysConfig.map((item,index) => 
+        <TouchableOpacity key={item.days} onPress={() => handleItemPress(item,index)}>
+        <Item
+        title={item.days} 
+        index={index}
+        isApply={item.isApply}
+        ></Item>
+        </TouchableOpacity>
+        )
+      }
     </View>
+
+    <View style={{marginTop: 18}}></View>
 
     </View>
   );
@@ -100,7 +98,7 @@ export default function ApplyLoanCard ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
     zIndex: 10,
     width: '100%',
     alignItems: 'center',
@@ -124,9 +122,13 @@ const styles = StyleSheet.create({
   loanTermBgStyle: {
     marginTop: 18,
     width: '100%',
+    flexDirection: 'row',
     alignItems: 'center',
+    paddingHorizontal: 12,
     justifyContent: 'space-around',
+    flexWrap: 'wrap',
   },
+  
   loanTermCheckedStyle: {
     width: 135,
     height: 42,
@@ -135,7 +137,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
-    flexDirection: 'row',
     margin: 6
   },
 
@@ -147,7 +148,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
-    flexDirection: 'row',
     margin: 6,
   },
 

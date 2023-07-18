@@ -120,7 +120,7 @@ export default function LoanDetails ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
     zIndex: 10,
     width: '100%',
     alignItems: 'center',

@@ -90,6 +90,8 @@ export default function ApplyLoanCard ({
         numColumns={2}
       />
 
+      <View style={{marginTop: 18}}></View>
+
     </View>
 
     </View>
@@ -98,7 +100,6 @@ export default function ApplyLoanCard ({
 
 const styles = StyleSheet.create({
   container: {
-    height: 290,
     backgroundColor: 'white',
     zIndex: 10,
     width: '100%',
@@ -147,7 +148,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-
     margin: 6,
   },
 

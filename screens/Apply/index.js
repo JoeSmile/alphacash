@@ -27,8 +27,12 @@ export default function Apply () {
         setIsSpecialAccount(loanConfigInfo.isSpecialAccount)
         //默认金额下标
         setAmountIndex(loanConfigInfo.optWithDaysConfig[0].defaultAmountIndex)
-        console.log('Sun>>> ' + loanConfigInfo.optWithDaysConfig[0].defaultAmountIndex)
-        console.log('Sun>>> ' + loanConfigInfo.optWithDaysConfig[0].opt)
+        //默认天数下标
+        // setDaysOption(loanConfigInfo.defaultDayOption)
+        // console.log('Sun>>> ' + loanConfigInfo.optWithDaysConfig[0].defaultAmountIndex)
+        // console.log('Sun>>> ' + loanConfigInfo.optWithDaysConfig[0].opt)
+        // console.log('Sun>>> ' + loanConfigInfo.defaultDayOption)
+
       }
     },[loanProductConfigData])
 
@@ -46,15 +50,29 @@ export default function Apply () {
         }}
       />
        <View style={{padding: 12}}>
-        {!!optWithDaysConfig[daysOption] && <ApplyLoanCard 
+        
+        {
+        !!optWithDaysConfig[daysOption] && 
+        <ApplyLoanCard 
         optWithDaysConfig = {optWithDaysConfig} 
         setOptWithDaysConfig={setOptWithDaysConfig}
         daysOption = {daysOption}
         setDaysOption = {setDaysOption}
         amountIndex = {amountIndex}
         setAmountIndex = {setAmountIndex}
-        ></ApplyLoanCard>}
-        {/* <LoanDetails loanConfigInfo={loanConfigInfo.optWithDaysConfig}></LoanDetails> */}
+        ></ApplyLoanCard>
+        }
+
+        {!!optWithDaysConfig[daysOption] && 
+        <LoanDetails 
+        optWithDaysConfig = {optWithDaysConfig}
+        setOptWithDaysConfig={setOptWithDaysConfig}
+        daysOption = {daysOption}
+        setDaysOption = {setDaysOption}
+        amountIndex = {amountIndex}
+        setAmountIndex = {setAmountIndex}
+        ></LoanDetails>
+        }
 
        </View>
 

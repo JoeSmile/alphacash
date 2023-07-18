@@ -87,3 +87,8 @@ export async function getIdentityInfoDetail(parameters) {
 export async function updateIdentityInfo(parameters) {
   return axiosPost('/identityinfo', parameters);
 }
+
+// applyLoan form
+export async function getCashLoanProductConfig(parameters){
+  return axiosPost('/user/cashLoanProductConfig',parameters)
+}

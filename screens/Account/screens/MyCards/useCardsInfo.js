@@ -27,26 +27,30 @@ export const useCardsInfo = create((set, get) => ({
     {
         "ewalletId": 1,
         "ewalletType": 1,
-        "ewalletAccount": "01238137215",
         "type": 2,
+
+        "ewalletAccount": "01238137215",
         "ewalletName": "EasyPaisa"
     },
     {
         "ewalletId": 2,
         "ewalletType": 2,
-        "ewalletAccount": "01238137213",
         "type": 2,
+
+        "ewalletAccount": "01238137213",
         "ewalletName": "Jazzcash"
     },
     {
         "bankAccountId": 1,
         "bankId": 2,
         "bankName": "Askari Commercial Bank Limited",
+       
         "bankAccount": "546464646464",
+        
         "bankAccountName": "2",
         "type": 1
-    }
-],
+      }
+    ],
   add: (newCard) => {
     set(() => ({
       cards: [...get().cards, newCard],

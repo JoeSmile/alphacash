@@ -17,6 +17,7 @@ export const MineScreens = [
   {
     name: "MyCards",
     component: MyCards,
+    headerTitle: 'Collection Account'
   },
   {
     name: "ContactUs",

@@ -7,7 +7,7 @@ import {
 export function OnlineService () {
   return (
     <View style={{
-      marginTop: 20,
+      marginBottom: 40,
       flexDirection: 'row',
       height: 40,
       borderRadius: 4,

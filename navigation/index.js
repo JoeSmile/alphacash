@@ -14,11 +14,14 @@ import LinkingConfiguration from "./LinkingConfiguration";
 import Start from "../screens/Start";
 import Login from "../screens/Login";
 import Apply from "../screens/Apply";
-import { pageHeader } from "@styles";
+import { AddNewAccount } from '@screens/Account/screens/MyCards/AddNewAccount';
+
 import { MineScreens } from './MineNavigator';
 import { CredentialsScreens } from './CredentialsNavigator';
 import { MyCardsScreens } from './MyCardsNavigator';
 import { SettingsScreens } from './SettingNavigator';
+
+import { pageHeader } from "@styles";
 
 export default function Navigation({ colorScheme }) {
   return (
@@ -49,6 +52,11 @@ function RootNavigator() {
         <Stack.Screen name="Apply" component={Apply}  options={{
            ...pageHeader,
            headerTitle: 'Apply',
+           headerShown: true
+        }}/>
+          <Stack.Screen name="AddNewAccount" component={AddNewAccount}  options={{
+           ...pageHeader,
+           headerTitle: 'Add Collection Account',
            headerShown: true
         }}/>
       </Stack.Group>

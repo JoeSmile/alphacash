@@ -12,11 +12,11 @@ export function useDeleteEWalletAccount () {
 export function useDeleteBankAccount () {
   return mutationFactory(deleteBankAccount);
 }
+
 export function useGetAccounts () {
   return mutationFactory(getAccounts);
 }
 export function useBankList () {
-
   return mutationFactory(getBankList);
 }
 

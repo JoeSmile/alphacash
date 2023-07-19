@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
   TouchableOpacity,
   TouchableHighlight,
   View,
-  Image
+  Image,
+  Pressable
 } from "react-native";
-
+import {
+  Provider,
+  Button,
+  Modal,
+  Toast,
+  WhiteSpace,
+  WingBlank,
+} from '@ant-design/react-native'
 import { SwipeListView } from "react-native-swipe-list-view";
 import { useCardsInfo } from "./useCardsInfo";
+import { useDeleteEWalletAccount, useDeleteBankAccount, useGetAccounts } from '@apis';
 
 function BankCard ({card, selected}) {
   return (
@@ -80,14 +89,16 @@ function getCardKey (card) {
   return  `${card.type}_${card.ewalletAccount}`
 }
 
-export default function CardList({cards = []}) {
+export default function CardList() {
   const [selectedCardId, setSelectedCardId] = useState();
-  const [listData, setListData] = useState(
-    cards.map((card, i) => ({
-      key: `${i}`,
-      text: `card: #`,
-    }))
-  );
+  
+  const {mutate: getAccounts, data: cards, isLoading} = useGetAccounts();
+  const {mutate: deleteEWallet} = useDeleteEWalletAccount();
+  const {mutate: deleteBankAccount} = useDeleteBankAccount();
+
+  useEffect(() => {
+    getAccounts()
+  }, []);
 
   const closeRow = (rowMap, rowKey) => {
     // if (rowMap[rowKey]) {
@@ -95,7 +106,26 @@ export default function CardList({cards = []}) {
     // }
   };
 
-  const deleteRow = (rowMap, rowKey) => {
+  const deleteRow = (card, rowKey) => {
+    // ewalletAccount: "01238139121"ewalletId: 3ewalletName: "EasyPaisa"ewalletType: 1type: 2
+    console.log('rowMap', card);
+    Modal.alert('', `Are you sure you want to turn off ${card.ewalletName || card.bankName} the repayment tips?`, [
+      { text: 'Cancel', onPress: () => console.log('cancel'), style: {color: '#C0C4D6'} },
+      { text: 'Confirm', onPress: () => {
+        if (card.type == 1) {
+          deleteBankAccount({
+            bankAccountId: card.bankAccountId
+          });
+         
+        } else {
+          deleteEWallet({
+            ewalletId: card.ewalletId
+          })
+        };
+        getAccounts();
+      }, style: {color: '#0825B8'} },
+    ],)
+
     // closeRow(rowMap, rowKey);
     // const newData = [...listData];
     // const prevIndex = listData.findIndex((item) => item.key === rowKey);
@@ -136,8 +166,7 @@ export default function CardList({cards = []}) {
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnRight]}
         onPress={() => {
-          //TODO: call delete function
-          deleteRow(rowMap, data.item.key)
+          deleteRow(data.item, data.index);
         }}
       >
         <Text style={styles.backTextWhite}>Delete</Text>
@@ -146,19 +175,52 @@ export default function CardList({cards = []}) {
   );
 
   return (
-    <View style={styles.container}>
-      <SwipeListView
-        data={cards}
-        renderItem={renderItem}
-        renderHiddenItem={renderHiddenItem}
-        leftOpenValue={0}
-        rightOpenValue={-150}
-        previewRowKey={"0"}
-        previewOpenValue={-40}
-        previewOpenDelay={3000}
-        onRowDidOpen={onRowDidOpen}
-      />
-    </View>
+    <>
+    {
+      (!isLoading && !!cards && cards.data.data.length < 5)
+     ? 
+      <Pressable onPress={() => navigation.push('AddNewAccount')}> 
+        <View style={{
+          height: 62,
+          padding: 15,
+          borderWidth: 1,
+          borderRadius: 4,
+          borderColor: '#C0C4D6',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginBottom: 15
+        }}>
+          <Image source={require("@assets/images/loan_ic_add.png")}
+            contentFit="cover"
+            transition={200}
+            style={{ width: 15, height: 15, marginRight: 5 }}/>
+            <Text style={{
+              color: '#0A233E',
+              fontSize: 16,
+              fontWeight: 'bold'
+            }}>Add Collection Account</Text>
+        </View>
+      </Pressable>
+      : <></>
+    }
+    {
+      !!cards && <View style={styles.container}>
+        <SwipeListView
+          data={cards.data.data}
+          renderItem={renderItem}
+          renderHiddenItem={renderHiddenItem}
+          leftOpenValue={0}
+          rightOpenValue={-150}
+          previewRowKey={"0"}
+          previewOpenValue={-40}
+          previewOpenDelay={3000}
+          onRowDidOpen={onRowDidOpen}
+        />
+      </View>
+    }
+      
+    </>
   );
 }
 

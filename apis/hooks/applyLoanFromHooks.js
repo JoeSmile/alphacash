@@ -1,10 +1,14 @@
-import { getCashLoanProductConfig, getApplyLoanVoice } from '../mine';
+import { getCashLoanProductConfig, getApplyCheckParams,getApplyCreateBill } from '../mine';
 import { mutationFactory } from './base';
 
 export function useGetCashLoanProductConfig () {
   return mutationFactory(getCashLoanProductConfig);
 }
 
-export function useGetApplyLoanVoice () {
-  return mutationFactory(getApplyLoanVoice);
+export function useGetApplyCheckParams () {
+  return mutationFactory(getApplyCheckParams);
+}
+
+export function useGetApplyCreateBill () {
+  return mutationFactory(getApplyCreateBill);
 }

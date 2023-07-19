@@ -107,6 +107,10 @@ export async function getCashLoanProductConfig(parameters){
   return axiosPost('/user/cashLoanProductConfig',parameters)
 }
 
-export async function getApplyLoanVoice(parameters){
-  return axiosGet('/laon/voice',parameters)
+export async function getApplyCheckParams(parameters){
+  return axiosGet('/cashLoan/apply/checkParams',parameters)
+}
+
+export async function getApplyCreateBill(parameters){
+  return axiosGet('/cashLoan/createBill',parameters)
 }

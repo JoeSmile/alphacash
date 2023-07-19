@@ -1,28 +1,37 @@
-import { View, Text, ScrollView, StyleSheet,Image,TouchableOpacity,Pressable,SafeAreaView,Linking } from "react-native";
+import { View, Text, ScrollView, StyleSheet,Image,TouchableOpacity,Pressable,SafeAreaView,Linking ,Dimensions,Animated } from "react-native";
 import ApplyLoanCard from "@components/ApplyLoanCard";
 import LoanDetails from "@components/LoanDetails";
-import { useGetCashLoanProductConfig,useGetApplyLoanVoice } from '@apis';
-import { useEffect,useState } from "react";
+import { useGetCashLoanProductConfig,useGetApplyCreateBill,useGetApplyCheckParams } from '@apis';
+import { useEffect,useState,useRef  } from "react";
 import CollectionAccount from "@components/CollectionAccount";
 import FaceRecognition from "@components/FaceRecognition";
 import Checkbox from 'expo-checkbox';
+import { Audio } from 'expo-av';
+import MSlider from '@react-native-community/slider';
+import { Asset } from "expo-asset";
+import { useSystemStore } from '@store/useSystemStore'
 
-const initVoiceData = {
-  "language": "en",
-  "applyAmount": "6000",
-  "dayNum": "7",
-  "disburseMoney": "6000",
-  "dailyRate": "0",
-  "fineStrategyText": ""
+
+function buildGetRequest(url, params) {
+  if (params) {
+    const queryString = Object.keys(params)
+      .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
+      .join('&');
+    return url + '?' + queryString;
+  }
+  return url;
 }
 
+const windowHeight = Dimensions.get('window').height;
+const playImage = require('@assets/applyLoan/dialogs_ic_play.png')
+const stopImage = require('@assets/applyLoan/dialogs_ic_pause.png')
+const baseURL = 'https://alphacashapi.tangbull.com/api/app/laon/voice'
 
 export default function Apply () {
+  const store = useSystemStore()
+
   const { mutate: getCashLoanProductConfig, data: loanProductConfigData, 
     isLoading: isGetCashLoanProductConfigLoading} = useGetCashLoanProductConfig()
-
-    const { mutate: getApplyLoanVoice, data: applyLoanVoiceData, 
-      isLoading: isGetApplyLoanVoiceLoading} = useGetApplyLoanVoice()
 
     const [optWithDaysConfig, setOptWithDaysConfig] = useState([]);
     const [isSpecialAccount, setIsSpecialAccount] = useState(true);
@@ -32,11 +41,16 @@ export default function Apply () {
     const [isChecked, setChecked] = useState(false);
     const [faceData, setFaceData] = useState(false)
     const [toVoice,setToVoice] = useState(false)
-    const [voiceData,setVoiceData] = useState()
+    
+    //音频
+    const [sound, setSound] = useState(null);
+    const [isPlaying, setIsPlaying] = useState(true);
+    const [currentTime, setCurrentTime] = useState(0);
+    const [duration, setDuration] = useState(0);
+    const [isClickable, setIsClickable] = useState(true);
 
     useEffect(() => {
       getCashLoanProductConfig()
-      setVoiceData(initVoiceData)
     },[])
 
     const clickLoanAgreement = (() => {
@@ -56,9 +70,28 @@ export default function Apply () {
 
     const getLoan = (() => {
       if(isChecked){
-        console.log('Sun >>> getLoan')
+        console.log('Sun >>> getLoan' +  store.locale)
+        startAnimation()
         setToVoice(true)
-        getApplyLoanVoice(voiceData)
+        if(optWithDaysConfig[daysOption].days === 30){
+          setIsClickable(false)
+        }
+        //拼接参数
+        const params = {
+          "app": store.app,
+          "sign": store.sign,
+          "token":  store.token,
+          "language": "en",
+          "applyAmount": optWithDaysConfig[daysOption].opt[amountIndex].applyAmount,
+          "dayNum": optWithDaysConfig[daysOption].days,
+          "disburseMoney":  optWithDaysConfig[daysOption].opt[amountIndex].disburseMoney,
+          "dailyRate": optWithDaysConfig[daysOption].opt[amountIndex].dailyRate,
+          "fineStrategyText": optWithDaysConfig[daysOption].opt[amountIndex].fineStrategyText
+        } 
+        const audioFileUri = buildGetRequest(baseURL,params)
+        console.log('Sun >>> ====' + audioFileUri)
+        loadAudio(audioFileUri)
+        
       } else {
         return
       }
@@ -72,6 +105,132 @@ export default function Apply () {
       console.log('Sun >>> clickFaceRecognition')
     })
 
+    const goBack = (() => {
+      console.log('Sun >>> goback')
+      unloadAudio()
+      setToVoice(false)
+
+    })
+
+    const getApplyLoan = (() => {
+      if(isClickable){
+        console.log('Sun >>> getApplyLoan')
+      }else {
+        return
+      }
+    })
+
+    const playVoice = (() => {
+      console.log('Sun >>> playVoice')
+      setIsPlaying(!isPlaying)
+      playSound()
+    })
+
+    const onPlaybackStatusUpdate = (status) => {
+      if (status.isLoaded && !status.isBuffering) {
+        setCurrentTime(status.positionMillis);
+        console.log('status.durationMillis' + status.durationMillis)
+      }
+
+       //报错 status.durationMillis = infinity 以及调用了后会引起音频卡顿
+        // setDuration(status.durationMillis)
+    
+
+       // 判断是否音频播放结束
+       if (status.didJustFinish && !status.isLooping) {
+        // 重置所有状态
+        setIsClickable(true)
+        setIsPlaying(!isPlaying);
+        setCurrentTime(0);
+        if (sound) {
+          sound.setPositionAsync(0);
+        }
+      }
+    };
+
+    const loadAudio = async (audioFileUri) => {
+      try {
+        const { sound } = await Audio.Sound.createAsync({ 
+          uri: audioFileUri,
+          downloadFirst:false,
+          initialStatus: {
+            shouldPlay: true
+          }
+
+        });
+        setSound(sound);
+        sound.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
+        await sound.playAsync();
+      } catch (error) {
+        console.log('Error loading audio:', error);
+      }
+    };
+
+    const handleSliderChange = (value) => {
+      if (sound) {
+        sound.setPositionAsync(value);
+      }
+    };
+
+    const formatTime = (timeInMillis) => {
+      const minutes = Math.floor(timeInMillis / 60000);
+      const seconds = ((timeInMillis % 60000) / 1000).toFixed(0);
+      return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    };
+
+    const playSound = async () => {
+      if (sound) {
+        try {
+          if (isPlaying) {
+            await sound.pauseAsync();
+          } else {
+            await sound.playAsync();
+          }
+          setIsPlaying(!isPlaying);
+        } catch (error) {
+          console.log('Error playing/pausing audio:', error);
+        }
+      }
+    };
+  
+    const unloadAudio = async () => {
+      try {
+        if (sound) {
+          await sound.unloadAsync();
+        }
+      } catch (error) {
+        console.log('Error unloading audio:', error);
+      }
+    };
+
+    //动画
+    const slideAnimation = useRef(new Animated.Value(0)).current;
+    const startAnimation = (() => {
+      Animated.timing(slideAnimation, {
+        toValue: 1,
+        duration: 800, // 动画时长，单位是毫秒
+        useNativeDriver: false, // 如果使用了'flex'属性，则必须设置为false
+      }).start(); // 开始动画
+    })
+
+    useEffect(() => {
+      if(toVoice){
+        startAnimation()
+      } else {
+        // 如果View不可见，则停止动画
+      slideAnimation.setValue(0);
+      }
+    },[toVoice])
+
+    useEffect(() => {
+      return sound
+        ? () => {
+            console.log('Unloading Sound');
+            sound.unloadAsync();
+          }
+        : undefined;
+    }, [sound]);
+
     useEffect(() => {
       if(loanProductConfigData && loanProductConfigData.data.error_code == 1){
         const loanConfigInfo = loanProductConfigData.data.data.cashLoan
@@ -83,9 +242,6 @@ export default function Apply () {
         setAmountIndex(loanConfigInfo.optWithDaysConfig[0].defaultAmountIndex)
         //默认天数下标
         // setDaysOption(loanConfigInfo.defaultDayOption)
-        // console.log('Sun>>> ' + loanConfigInfo.optWithDaysConfig[0].defaultAmountIndex)
-        // console.log('Sun>>> ' + loanConfigInfo.optWithDaysConfig[0].opt)
-        // console.log('Sun>>> ' + loanConfigInfo.defaultDayOption)
 
       }
     },[loanProductConfigData])
@@ -93,7 +249,7 @@ export default function Apply () {
 
   return (
     <SafeAreaView >
-      <View style={[styles.container,toVoice === true && styles.otherContainer]}>
+      <View style={[styles.container,toVoice === true && styles.noneContainer]}>
        <ScrollView>
         <View
         style={{
@@ -191,9 +347,94 @@ export default function Apply () {
       </View>
 
       {/* 语音 */}
-      <View>
+      { !!optWithDaysConfig[daysOption] && toVoice === true &&
 
-      </View>
+       <View style={styles.otherContainer}>
+        <Animated.View
+          style={{
+          transform: [
+            {
+                translateY: slideAnimation.interpolate({
+                inputRange: [0, 1],
+                outputRange: [windowHeight/2, 0], // 从下往上偏移
+               }),
+             },
+           ],
+         }}
+        >
+        <View style={styles.voiceViewStyle}>
+
+          <View style={styles.voiceItemStyle}>
+            <TouchableOpacity onPress={goBack}>
+             <Image source={require('@assets/applyLoan/com_nav_ic_back_black.png')} style={{width: 21,height: 21}}></Image>
+            </TouchableOpacity>
+            <View style={{flex: 1,alignItems: 'center',backgroundColor: '#F4F5F7',}}>
+           <Text style={{fontWeight: 'bold', color: '#0A233E',marginLeft: -21}}>Confirm Payment Info</Text>
+           </View>
+          </View>
+
+          <View style={styles.voiceContentStyle}>
+
+            <View style={styles.voicecontentItemStyle}>
+              <Text style={{fontSize: 15,color: '#4F5E6F',fontWeight:'500'}}>Loan Amount</Text>
+              <Text style={{fontSize: 15,color: '#0A233E',fontWeight:'800'}}>RS.{optWithDaysConfig[daysOption].opt[amountIndex].applyAmount}</Text>
+            </View>
+
+            <View style={styles.voicecontentItemStyle}>
+              <Text style={{fontSize: 15,color: '#4F5E6F',fontWeight:'500'}}>Loan Term</Text>
+              <Text style={{fontSize: 15,color: '#0A233E',fontWeight:'800'}}>{optWithDaysConfig[daysOption].days} Days</Text>
+            </View>
+
+            <View style={styles.voicecontentItemStyle}>
+              <Text style={{fontSize: 15,color: '#4F5E6F',fontWeight:'500'}}>Disburse Amount</Text>
+              <Text style={{fontSize: 15,color: '#0A233E',fontWeight:'800'}}>RS.{optWithDaysConfig[daysOption].opt[amountIndex].disburseMoney}</Text>
+            </View>
+            
+          </View>
+
+          <View style={styles.voicePlayStyle}>
+            <Pressable onPress={playVoice}>
+            <Image source={isPlaying === false ? playImage : stopImage} style={{width: 24,height: 24}}></Image>
+            </Pressable>
+           
+            <View style={{marginHorizontal: 15,flexDirection: 'column',flex: 1,justifyContent: 'center'}}>
+              <MSlider
+              style = {{marginTop: 6}}
+              value={currentTime}
+              minimumValue={0}
+              maximumValue={duration}
+              onValueChange={handleSliderChange}
+              minimumTrackTintColor="#00B295" // 设置走过的进度的颜色
+              maximumTrackTintColor="#00B2954D" // 设置进度条的颜色
+              thumbTintColor="transparent" // 将滑块颜色设为透明
+              thumbStyle={{ width: 0, height: 0 }} // 设置滑块样式为空对象，使其不占用空间
+              ></MSlider>
+              <View style ={{flexDirection: 'row',justifyContent: 'space-between',marginTop: 3}}>
+                <Text style={{color: '#8899AC', fontSize: 11}}>{formatTime(currentTime)}</Text>
+                <Text  style={{color: '#8899AC', fontSize: 11}}>{formatTime(duration)}</Text>
+              </View>
+            </View>
+
+          </View>
+
+          <Text style={{color: '#4F5E6F', fontSize: 12,marginTop: 12,fontWeight: 500,lineHeight: 17}}>
+          {'I have read and fully understood the Markup charges and terms of the loan product, and I agree that when the loan is approved, the funds will be transferred directly to the account I provided!'}
+          </Text>
+
+          <View style={{flexDirection: 'row',justifyContent: 'space-between',marginTop: 24}}>
+           <TouchableOpacity onPress={goBack} style={{flex: 1,borderRadius:3,backgroundColor: '#C0C4D6',height: 46,justifyContent: 'center',alignItems: 'center',marginRight: 8}}>
+              <Text style={{color: '#FFFFFF', fontSize: 15}}>Cancel</Text>
+           </TouchableOpacity>
+
+            <TouchableOpacity onPress={getApplyLoan}  activeOpacity={isClickable ? 0.2 : 1} style={{flex: 1,borderRadius:3,backgroundColor: '#0825B8',height: 46,justifyContent: 'center',alignItems: 'center',marginLeft: 8}}>
+              <Text style={{color: '#FFFFFF', fontSize: 15}}>Disburse Now</Text>
+            </TouchableOpacity>
+          </View>
+
+        </View>
+        </Animated.View>
+        </View>
+      }
 
     </SafeAreaView>
        
@@ -203,11 +444,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: "relative",
-    backgroundColor: "#F4F5F7",
+    backgroundColor: '#F4F5F7'
+  },
+
+  noneContainer: {
+   display: 'none'
   },
 
   otherContainer: {
-    display: 'none'
+    height: windowHeight,
+    position: "relative",
+    flex: 1,
+    backgroundColor: '#00000080'
   },
 
   loanAgreementStyle: {
@@ -215,6 +463,52 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     alignItems: 'center',
   },
+
+  voiceViewStyle: {
+    marginTop: windowHeight/2,
+    opacity: 1,
+    backgroundColor: '#F4F5F7',
+    padding: 14,
+    flex: 1,
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    flexDirection: 'column',
+  },
+
+  voiceItemStyle: {
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    flexDirection: 'row',
+    backgroundColor: '#F4F5F7',
+    marginTop: 10
+  },
+
+  voiceContentStyle: {
+    borderRadius:4,
+    backgroundColor: '#FFFFFF',
+    marginTop:24,
+    paddingHorizontal: 12,
+    paddingTop: 15,
+    flexDirection: 'column'
+  },
+
+  voicecontentItemStyle: {
+    flexDirection:'row',
+    justifyContent: 'space-between',
+    height: 35
+  },
+
+  voicePlayStyle: {
+    height: 54,
+    borderRadius:4,
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 12,
+    marginTop: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+
 
   
 });

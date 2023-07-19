@@ -47,7 +47,7 @@ export default function LoanDetails ({
      <View style={styles.listItemStyle}>
       <View style={styles.feeItemStyle}>
       <Text>Fee</Text>
-      <Text style={{color: '#0A233E',fontWeight: 800}}>RS. {optWithDaysConfig[daysOption].opt[amountIndex].manageFee}</Text>
+      <Text style={{color: '#0A233E',fontWeight: 800}}>RS.{optWithDaysConfig[daysOption].opt[amountIndex].manageFee}</Text>
       </View>
       <TouchableOpacity onPress={() => handleFeePress()}>
       <Image source={image} style={styles.imageStyle}></Image>
@@ -88,17 +88,17 @@ export default function LoanDetails ({
 
      <View style={styles.listItemStyle}>
       <Text>Markup</Text>
-      <Text style={{color: '#0A233E',fontWeight: 800}}>RS.  {optWithDaysConfig[daysOption].opt[amountIndex].totalInterest}</Text>
+      <Text style={{color: '#0A233E',fontWeight: 800}}>RS.{optWithDaysConfig[daysOption].opt[amountIndex].totalInterest}</Text>
      </View>
 
      <View style={styles.listItemStyle}>
       <Text>Disburse Amount</Text>
-      <Text style={{color: '#0A233E',fontWeight: 800}}>RS.  {optWithDaysConfig[daysOption].opt[amountIndex].disburseMoney}</Text>
+      <Text style={{color: '#0A233E',fontWeight: 800}}>RS.{optWithDaysConfig[daysOption].opt[amountIndex].disburseMoney}</Text>
      </View>
 
      <View style={styles.listItemStyle}>
       <Text>Lump Sum Repayment Amount</Text>
-      <Text style={{color: '#0A233E',fontWeight: 800}}>RS.  {optWithDaysConfig[daysOption].opt[amountIndex].dueRepayAmount}</Text>
+      <Text style={{color: '#0A233E',fontWeight: 800}}>RS.{optWithDaysConfig[daysOption].opt[amountIndex].dueRepayAmount}</Text>
      </View>
 
      <View style={styles.listItemStyle}>
@@ -109,7 +109,7 @@ export default function LoanDetails ({
      { isVisiable === true && 
       <View style={styles.listItemStyle}>
       <Text style={{color: '#00B295',fontWeight: 'bold'}}>Late Payment Charges</Text>
-      <Text style={{color: '#00B295',fontWeight: 'bold'}}>RS.  {(optWithDaysConfig[daysOption].opt[amountIndex].dailyLateFee)}</Text>
+      <Text style={{color: '#00B295',fontWeight: 'bold'}}>RS.{(optWithDaysConfig[daysOption].opt[amountIndex].dailyLateFee)}</Text>
      </View>
      }
 

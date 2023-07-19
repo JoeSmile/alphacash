@@ -2,7 +2,7 @@
     "cSpell.words": [
         "Formik"
     ],
-    "files.autoSave": "onWindowChange",
+    "files.autoSave": "off",
     "files.autoSaveDelay": 2000,
     // 配置 Tab 空格数
     "editor.tabSize": 2,

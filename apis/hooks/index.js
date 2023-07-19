@@ -4,3 +4,4 @@ export * from './jobFormHooks';
 export * from './emergencyFormHooks';
 export * from './certificateFormHooks';
 export * from './accountHooks';
+export * from './applyLoanFromHooks';

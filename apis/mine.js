@@ -28,6 +28,20 @@ async function postJSON(path, parameters) {
   }
 }
 
+// get 方式
+async function axiosGet(path, parameters) {
+  try {
+    // const allParameters = await getAllParameters(path, parameters);
+    const response = await axios.get(`${baseURL}/api/app${path}`, {
+      params: { ...parameters },
+    });
+    return response;
+  } catch (error) {
+    console.log('error---', error);
+    return null; // Handle the error as needed or return an error object
+  }
+}
+
 export function getOTP(phoneNumber) {
   return axiosPost('/otp', {phoneNumber})
 }
@@ -109,3 +123,11 @@ export async function getBankList (parameters) {
   return axiosPost('/bank/list', parameters);
 }
 
+// applyLoan form
+export async function getCashLoanProductConfig(parameters){
+  return axiosPost('/user/cashLoanProductConfig',parameters)
+}
+
+export async function getApplyLoanVoice(parameters){
+  return axiosGet('/laon/voice',parameters)
+}

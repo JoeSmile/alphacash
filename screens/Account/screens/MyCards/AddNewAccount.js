@@ -139,7 +139,7 @@ export function AddNewAccount({navigation, route}) {
   }, [result])
 
   return (
-    <View style={{ flex: 1,  backgroundColor: 'white', padding: 15 }}>
+    <ScrollView style={{ flex: 1,  backgroundColor: 'white', padding: 15 }}>
       {!!initialData &&  <Formik
           initialValues={initialData}
           onSubmit={values => {
@@ -170,6 +170,7 @@ export function AddNewAccount({navigation, route}) {
               justifyContent: 'center', 
               alignItems: 'center', 
               gap: 15, 
+              height: 80,
               borderBottomColor: '#E0E3E8', 
               borderBottomWidth: 2,
               marginBottom: 30
@@ -262,7 +263,7 @@ export function AddNewAccount({navigation, route}) {
           </Formik>
       }
       <Notice/> 
-    </View>
+    </ScrollView>
   )
 }
 

@@ -27,7 +27,10 @@ export function FSelect({
     <View style={{
       borderRadius: 10,
       justifyContent: 'center',
-      backgroundColor: 'transparent'
+      borderColor: '#C0C4D6',
+      borderRadius: 10,
+      borderWidth: 1,
+      height: 55,
     }}>
       <Picker
         enabled={true}
@@ -37,10 +40,6 @@ export function FSelect({
         }}
         selectedValue={context.values[name]}
         style={[{
-          borderColor: '#C0C4D6',
-          borderRadius: 10,
-          borderWidth: 1,
-          height: 55,
           padding: 0,
           paddingLeft: 15,
           color: '#0A233E'

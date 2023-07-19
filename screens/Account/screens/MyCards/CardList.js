@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   View,
+  ScrollView,
   Image,
   Pressable
 } from "react-native";
@@ -119,13 +120,15 @@ export default function CardList({navigation, route}) {
   }, [isFocused]);
 
   useEffect(() => {
-    if (cards) {
+    if (cards && cards.data && Array.isArray(cards.data.data)) {
       setListData(cards.data.data.map((item, index) => {
         return {
           ...item,
           key: `${index}_account`
         }
       }))
+    } else {
+      setListData([])
     }
   }, [cards]);
 
@@ -245,6 +248,8 @@ export default function CardList({navigation, route}) {
           previewOpenValue={-40}
           previewOpenDelay={3000}
           onRowDidOpen={onRowDidOpen}
+          scrollEnabled={true}
+          showsVerticalScrollIndicator={false}
         />
       </View>
     }
@@ -255,6 +260,7 @@ export default function CardList({navigation, route}) {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: "white",
   },
   backTextWhite: {

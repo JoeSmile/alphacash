@@ -3,7 +3,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { ScrollView, Text, TouchableOpacity, View, Image, StyleSheet, Pressable } from 'react-native'
 import { Formik } from 'formik';
 import { FTextInput, FSelect } from '@components/Inputs';
-import { genderOptions } from '@const';
 import { useAddAccount, useBankList } from '@apis';
 import { FButton } from '@components/FButton';
 import { Toast } from '@ant-design/react-native';
@@ -15,7 +14,7 @@ const tabs = [{
   name: 'EasyPaisa',
   type: 2,
   ewalletType: 1,
-  id: 1
+  tabId: 1,
 },
 {
   title: 'Jazzcash',
@@ -23,12 +22,12 @@ const tabs = [{
   type: 2,
   name: 'Jazzcash',
   ewalletType: 2,
-  id: 2
+  tabId: 2,
 },{
   title: 'Bank Card',
   source: require("@assets/images/loan_ic_bank.png"),
   type: 1,
-  id: 1
+  tabId: 3,
 }]
 
 const style = {
@@ -86,13 +85,10 @@ function Notice () {
   </View>
 }
 
-export function AddNewAccount({navigation}) {
-  const [selectedTab, setSelectedTab] = useState({
-    type: 2,
-    ewalletType: 1,
-    name: 'EasyPaisa',
-    id: 1
-  });
+export function AddNewAccount({navigation, route}) {
+  const [initialData, setInitialData] = useState();
+
+  const [selectedTab, setSelectedTab] = useState({});
   const { mutate: addAccount, data: result } = useAddAccount();
   const { mutate: getBankList, data: rawList, isLoading} = useBankList();
 
@@ -100,6 +96,29 @@ export function AddNewAccount({navigation}) {
     getBankList();
   }, []);
   
+  React.useEffect(() => {
+    const card = route.params ? route.params.card : {};
+    setInitialData(
+      {
+        account: card.bankAccount || card.ewalletAccount || defaultEmptyForm.account,
+        // bank
+        bankId: card.bankId || defaultEmptyForm.bankId,
+        bankAccountName: card.bankAccountName || defaultEmptyForm.bankAccountName,
+        // common
+        name: card.ewalletName || 'EasyPaisa',
+        type: card.type || defaultEmptyForm.type,
+        ewalletType: card.ewalletId || 'EasyPaisa'.ewalletType,
+        id: card.bankAccountId || card.ewalletId || ''
+      }
+    )
+    setSelectedTab({
+      type: card.type || 2,
+      ewalletType: card.ewalletType || 1,
+      name: card.ewalletName || 'EasyPaisa',
+      tabId: card.type ? (card.type == 1 ? 3 : card.ewalletType): 1
+    })
+  }, [route]);
+
   const bankOptions = useMemo(() => {
     if (!isLoading && rawList) {
       return rawList.data.data
@@ -110,7 +129,7 @@ export function AddNewAccount({navigation}) {
   useEffect(() => {
     if (!result) return;
     if (result.data.error_code == 1) {
-      navigation.push('MyCards');
+      navigation.goBack();
     } else {
       Toast.info({
         content: result.data.msg,
@@ -121,24 +140,21 @@ export function AddNewAccount({navigation}) {
 
   return (
     <View style={{ flex: 1,  backgroundColor: 'white', padding: 15 }}>
-  
-
-      {!!defaultEmptyForm &&  <Formik
-          initialValues={defaultEmptyForm}
+      {!!initialData &&  <Formik
+          initialValues={initialData}
           onSubmit={values => {
-            console.log('value---', values);
             let params = selectedTab.type == 1 ? {
               // bank
               type: selectedTab.type,
               bankAccountName: values.bankAccountName,
               bankAccount: values.account,
               bankId: values.bankId,
-              bankAccountId: selectedTab.id
+              bankAccountId: values.id
             } : {
               type: selectedTab.type,
               ewalletType: selectedTab.ewalletType,
               ewalletAccount: values.account,
-              ewalletId: selectedTab.id,
+              ewalletId: values.id,
               ewalletName: selectedTab.name
             };
             addAccount(params);
@@ -162,10 +178,10 @@ export function AddNewAccount({navigation}) {
                 tabs.map(tab => {
                   return (
                     <View key={tab.title} > 
-                      <Pressable style={[styles.tab, selectedTab.id === tab.id && selectedTab.type === tab.type ? {borderBottomWidth: 3, borderBottomColor: '#0825B8'} : '']} 
+                      <Pressable style={[styles.tab, selectedTab.tabId === tab.tabId ? {borderBottomWidth: 3, borderBottomColor: '#0825B8'} : '']} 
                         onPress={() => {
                           setSelectedTab({
-                            id: tab.id,
+                            tabId: tab.tabId,
                             name: tab.name,
                             type: tab.type,
                             ewalletType: tab.ewalletType
@@ -184,7 +200,7 @@ export function AddNewAccount({navigation}) {
                           style={{ width: 32, height: 32, marginBottom: 10}} 
                         />
                         <Text style={{
-                          color: selectedTab.id === tab.id && selectedTab.type === tab.type ? '#0A233E' : '#8899AC',
+                          color: selectedTab.tabId === tab.tabId ? '#0A233E' : '#8899AC',
                           fontWeight: 'bold',
                           fontSize: 16,
                         }}>

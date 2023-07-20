@@ -4,8 +4,8 @@ export const en = {
   loans: "loans",
   bills: "bills",
   account: "account",
-  processing: "Processing",
-  completed: "Completed",
+  processing: "Current Bill",
+  completed: "Old Bill",
   homepage: "Homepage",
   mine: "Mine",
 };

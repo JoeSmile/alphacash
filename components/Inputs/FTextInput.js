@@ -1,8 +1,13 @@
 import React from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Image } from 'react-native';
 import { useFormikContext, useField } from 'formik';
 
-export const FTextInput = ({ label, hintValue = "", containerStyle = {}, name ,keyboardType = "default", editable = true}) => {
+export const FTextInput = ({ 
+    label, hintValue = "", containerStyle = {},
+    name, keyboardType = "default", 
+    editable = true,
+    rightIcon = ''
+  }) => {
   const context = useFormikContext(name);
   const meta = context.getFieldMeta(name);
 
@@ -15,7 +20,8 @@ export const FTextInput = ({ label, hintValue = "", containerStyle = {}, name ,k
       </View>
 
       <View style={{
-         height: 55,
+        height: 55,
+        position: "relative"
       }}>
         <TextInput
           editable = {editable}
@@ -28,6 +34,20 @@ export const FTextInput = ({ label, hintValue = "", containerStyle = {}, name ,k
             context.setFieldValue(name, v)
           }}
         />
+        {
+          !!rightIcon && <View style={{
+            position: "absolute",
+            right: 12,
+            top: 13
+          }}>
+            <Image
+              source={rightIcon}
+              contentFit="cover"
+              transition={200}
+              style={{ width: 25, height: 25 }}
+            />
+          </View>
+        }
       </View>
       {meta.touched && meta.error ? (
         <Text className="error" style={{
@@ -44,13 +64,16 @@ const styles = StyleSheet.create({
   },
   label: {
     height: 15,
-    marginBottom: 10
+    marginBottom: 10,
+    color: '#4F5E6F',
+    fontSize: 14
   },
   textInput: {
     paddingLeft: 15,
+    paddingRight: 35,
     width: 'auto',
     height: 55,
-    borderColor: 'gray',
+    borderColor: '#C0C4D6',
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 10,
   },

@@ -1,17 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
   TouchableOpacity,
   TouchableHighlight,
   View,
-  Image
+  ScrollView,
+  Image,
+  Pressable
 } from "react-native";
-
+import {
+  Provider,
+  Button,
+  Modal,
+  Toast,
+  WhiteSpace,
+  WingBlank,
+} from '@ant-design/react-native'
 import { SwipeListView } from "react-native-swipe-list-view";
-import { useCardsInfo } from "./useCardsInfo";
+import { useDeleteEWalletAccount, useDeleteBankAccount, useGetAccounts } from '@apis';
+import { useIsFocused } from '@react-navigation/native';
 
-function BankCard ({card, selected}) {
+function BankCard ({card, selected, isSelectAccount}) {
   return (
     <View style={styles.cardContainer}>
       <View style={{
@@ -20,11 +30,14 @@ function BankCard ({card, selected}) {
         justifyContent: 'space-between'
       }}>
         <Text style={styles.cardTitle}>{card.bankName}</Text>
-        <Image source={selected ? require("@assets/images/bank_card_radio_sel.png") :  require("@assets/images/unSelected.png")}
+        {
+          isSelectAccount && <Image source={selected ? require("@assets/images/bank_card_radio_sel.png") :  require("@assets/images/unSelected.png")}
           contentFit="cover"
           transition={200}
           style={{ width: 20, height: 20}} 
         />
+        }
+        
       </View>
       <View style={{
         flexDirection: 'row',
@@ -41,7 +54,7 @@ function BankCard ({card, selected}) {
   )
 }
 
-function EWalletCard({card, selected}) {
+function EWalletCard({card, selected, isSelectAccount}) {
   return (
     <View style={styles.cardContainer}>
       <View style={{
@@ -49,12 +62,14 @@ function EWalletCard({card, selected}) {
         flexDirection: 'row',
         justifyContent: 'space-between'
       }}>
-        <Text style={styles.cardTitle}>{card.ewalletId == 1 ? 'EasyPaisa' : 'Jazzcash'}</Text>
-        <Image source={selected ? require("@assets/images/bank_card_radio_sel.png") :  require("@assets/images/unSelected.png")}
-          contentFit="cover"
-          transition={200}
-          style={{ width: 20, height: 20}} 
-        />
+        <Text style={styles.cardTitle}>{card.ewalletName}</Text>
+        {
+          isSelectAccount && <Image source={selected ? require("@assets/images/bank_card_radio_sel.png") :  require("@assets/images/unSelected.png")}
+            contentFit="cover"
+            transition={200}
+            style={{ width: 20, height: 20}} 
+          />
+        }
       </View>
 
       <View style={{
@@ -62,7 +77,7 @@ function EWalletCard({card, selected}) {
         alignItems: 'center'
       }}>
         <Image source={
-          card.ewalletId == 1 ? require("@assets/images/loan_ic_easypaisa.png") : require("@assets/images/loan_ic_jazzcash.png")}
+          card.ewalletType == 1 ? require("@assets/images/loan_ic_easypaisa.png") : require("@assets/images/loan_ic_jazzcash.png")}
           contentFit="cover"
           transition={200}
           style={{ width: 32, height: 32, marginRight: 20 }} 
@@ -73,29 +88,73 @@ function EWalletCard({card, selected}) {
   )
 }
 
+function getCardKey (card) {
+  if (card.type == 1) {
+    return `${card.type}_${card.bankAccount}`
+  }
+  return  `${card.type}_${card.ewalletAccount}`
+}
 
-export default function CardList() {
-  const cards = useCardsInfo((s) => s.cards);
+export default function CardList({navigation, route}) {
   const [selectedCardId, setSelectedCardId] = useState();
-  const [listData, setListData] = useState(
-    cards.map((card, i) => ({
-      key: `${i}`,
-      text: `card: #`,
-    }))
-  );
+  const [listData, setListData] = useState();
+  const [isSelectAccount, setIsSelectAccount] = useState(false);
+  const {mutate: getAccounts, data: cards, isLoading} = useGetAccounts();
+  const {mutate: deleteEWallet} = useDeleteEWalletAccount();
+  const {mutate: deleteBankAccount} = useDeleteBankAccount();
+
+  React.useEffect(() => {
+    const editAccountId = route.params ? route.params.accountId : '';
+    const editAccountType = route.params ? route.params.type : '';
+    console.log("editAccountId", editAccountId);
+    console.log("editAccountType", editAccountType);
+    if (editAccountId && editAccountType) {
+      setIsSelectAccount(true);
+    }
+  }, [route]);
+
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    getAccounts();
+  }, [isFocused]);
+
+  useEffect(() => {
+    if (cards && cards.data && Array.isArray(cards.data.data)) {
+      setListData(cards.data.data.map((item, index) => {
+        return {
+          ...item,
+          key: `${index}_account`
+        }
+      }))
+    } else {
+      setListData([])
+    }
+  }, [cards]);
 
   const closeRow = (rowMap, rowKey) => {
-    // if (rowMap[rowKey]) {
-    //   rowMap[rowKey].closeRow();
-    // }
+    if (rowMap[rowKey]) {
+      rowMap[rowKey].closeRow();
+    }
   };
 
-  const deleteRow = (rowMap, rowKey) => {
-    // closeRow(rowMap, rowKey);
-    // const newData = [...listData];
-    // const prevIndex = listData.findIndex((item) => item.key === rowKey);
-    // newData.splice(prevIndex, 1);
-    // setListData(newData);
+  const deleteRow = (card, rowKey) => {
+    Modal.alert('', `Are you sure you want to turn off ${card.ewalletName || card.bankName} the repayment tips?`, [
+      { text: 'Cancel', onPress: () => console.log('cancel'), style: {color: '#C0C4D6'} },
+      { text: 'Confirm', onPress: () => {
+        if (card.type == 1) {
+          deleteBankAccount({
+            bankAccountId: card.bankAccountId
+          });
+         
+        } else {
+          deleteEWallet({
+            ewalletId: card.ewalletId
+          })
+        };
+        getAccounts();
+      }, style: {color: '#0825B8'} },
+    ])
   };
 
   const onRowDidOpen = (rowKey) => {
@@ -105,25 +164,32 @@ export default function CardList() {
   const renderItem = (card) => {
     return (
       <TouchableHighlight
-        onPress={() => setSelectedCardId(card.item.type==1 ? card.item.bankAccount : card.item.ewalletAccount )}
+        onPress={() => setSelectedCardId(getCardKey(card.item))}
         style={styles.rowFront}
         underlayColor={"#AAA"}
       >
         {
           card.item.type == 1 ? 
-          <BankCard card={card.item} selected={card.item.bankAccount == selectedCardId}/> : 
-          <EWalletCard card={card.item} selected={card.item.ewalletAccount === selectedCardId}/>
+          <BankCard card={card.item} selected={getCardKey(card.item) == selectedCardId} isSelectAccount={isSelectAccount}/> : 
+          <EWalletCard card={card.item} selected={getCardKey(card.item) === selectedCardId} isSelectAccount={isSelectAccount}/>
         }
       </TouchableHighlight>
     )
   };
 
-  const renderHiddenItem = (data, rowMap) => (
-    <View style={styles.rowBack}>
+  const renderHiddenItem = (data, rowMap) => {
+    return (
+      <View style={styles.rowBack}>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnLeft]}
         onPress={() => {
+          closeRow(rowMap, data.item.key);
           //TODO: goto edit page
+          navigation.navigate({
+            name: 'AddNewAccount',
+            params: { card: data.item },
+            merge: true,
+          });
         }}
       >
         <Text style={styles.backTextWhite}>Edit</Text>
@@ -131,34 +197,70 @@ export default function CardList() {
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnRight]}
         onPress={() => {
-          //TODO: call delete function
-          deleteRow(rowMap, data.item.key)
+          deleteRow(data.item, data.index);
         }}
       >
         <Text style={styles.backTextWhite}>Delete</Text>
       </TouchableOpacity>
     </View>
-  );
+    )
+  };
 
   return (
-    <View style={styles.container}>
-      <SwipeListView
-        data={cards}
-        renderItem={renderItem}
-        renderHiddenItem={renderHiddenItem}
-        leftOpenValue={0}
-        rightOpenValue={-150}
-        previewRowKey={"0"}
-        previewOpenValue={-40}
-        previewOpenDelay={3000}
-        onRowDidOpen={onRowDidOpen}
-      />
-    </View>
+    <>
+    {
+      (!isLoading && !!listData && listData.length < 5)
+     ? 
+      <Pressable onPress={() => navigation.push('AddNewAccount')}> 
+        <View style={{
+          height: 62,
+          padding: 15,
+          borderWidth: 1,
+          borderRadius: 4,
+          borderColor: '#C0C4D6',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginBottom: 15
+        }}>
+          <Image source={require("@assets/images/loan_ic_add.png")}
+            contentFit="cover"
+            transition={200}
+            style={{ width: 15, height: 15, marginRight: 5 }}/>
+            <Text style={{
+              color: '#0A233E',
+              fontSize: 16,
+              fontWeight: 'bold'
+            }}>Add Collection Account</Text>
+        </View>
+      </Pressable>
+      : <></>
+    }
+    {
+      !isLoading && <View style={styles.container}>
+        <SwipeListView
+          data={listData}
+          renderItem={renderItem}
+          renderHiddenItem={renderHiddenItem}
+          leftOpenValue={0}
+          rightOpenValue={-150}
+          previewRowKey={"0"}
+          previewOpenValue={-40}
+          previewOpenDelay={3000}
+          onRowDidOpen={onRowDidOpen}
+          scrollEnabled={true}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
+    }
+      
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: "white",
   },
   backTextWhite: {

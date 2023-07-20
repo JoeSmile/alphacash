@@ -26,8 +26,9 @@ export function FSelect({
     </View>
     <View style={{
       borderRadius: 10,
-      borderColor: '#C0C4D6',
       justifyContent: 'center',
+      borderColor: '#C0C4D6',
+      borderRadius: 10,
       borderWidth: 1,
       height: 55,
     }}>
@@ -39,11 +40,12 @@ export function FSelect({
         }}
         selectedValue={context.values[name]}
         style={[{
-          flex:1,
           padding: 0,
-          paddingVertical: 0
+          paddingLeft: 15,
+          color: '#0A233E'
         }, meta.touched && meta.error ? styles.error: {}]}
       >
+        {!context.values[name] && <Picker.Item label=" " value="" />}
         {options.map((item, index) =>
           <Picker.Item
             label={labelKey ? item[labelKey] : item.label}
@@ -61,6 +63,7 @@ export function FSelect({
 const styles = StyleSheet.create({
   label: {
     height: 15,
+    color: '#4F5E6F',
   },
   error: {
     color: '#E53F31'

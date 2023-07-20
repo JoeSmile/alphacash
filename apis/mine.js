@@ -102,6 +102,27 @@ export async function updateIdentityInfo(parameters) {
   return axiosPost('/identityinfo', parameters);
 }
 
+// account 
+export async function addAccount (parameters) {
+  return axiosPost('/user/addAccount', parameters);
+}
+
+export async function deleteEWalletAccount (parameters) {
+  return axiosPost('/user/account/delEwallet', parameters);
+}
+
+export async function deleteBankAccount (parameters) {
+  return axiosPost('/user/account/delBank', parameters);
+}
+
+export async function getAccounts (parameters) {
+  return axiosPost('/user/bankEwalletList', parameters);
+}
+
+export async function getBankList (parameters) {
+  return axiosPost('/bank/list', parameters);
+}
+
 // applyLoan form
 export async function getCashLoanProductConfig(parameters){
   return axiosPost('/user/cashLoanProductConfig',parameters)

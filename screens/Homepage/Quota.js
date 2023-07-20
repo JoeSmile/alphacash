@@ -39,8 +39,6 @@ export function Quota() {
         }}>Rs. 60,000</Text>
       </View>
       <FButton style={{
-          borderWidth: 0, 
-          backgroundColor: '#0825B8',
           marginBottom: 45,
           marginRight: 15,
           marginLeft: 15

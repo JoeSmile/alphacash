@@ -20,7 +20,10 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     boxShadow: 'none',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    borderWidth: 0, 
+    backgroundColor: '#0825B8',
+
   },
   text: {
     fontSize: 16,

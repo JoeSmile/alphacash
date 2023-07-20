@@ -14,12 +14,13 @@ module.exports = function (api) {
             "@hooks": "./hooks",
             "@apis": "./apis",
             "@styles": "./styles",
-            "@const": "./constants"
+            "@const": "./constants",
+            "@utils": "./utils",
           },
           extensions: [".js", ".jsx", ".ts", ".tsx"],
         },
       ],
-      ['import', {libraryName: '@ant-design/react-native'}]
+      ["import", { libraryName: "@ant-design/react-native" }],
     ],
   };
 };

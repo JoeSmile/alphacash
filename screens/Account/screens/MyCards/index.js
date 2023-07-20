@@ -13,6 +13,8 @@ import { Modal } from '@ant-design/react-native'
 import { SwipeListView } from "react-native-swipe-list-view";
 import { useDeleteEWalletAccount, useDeleteBankAccount, useGetAccounts } from '@apis';
 import { useIsFocused } from '@react-navigation/native';
+import { useSystemStore } from '@store/useSystemStore'
+
 
 function BankCard ({card, selected, isSelectAccount}) {
   return (
@@ -97,13 +99,19 @@ export default function MyCards({navigation, route}) {
   const {mutate: deleteBankAccount} = useDeleteBankAccount();
   // TODO: 1. 选择某个 wallet  2. confirm (xxxStore -> useXXXStore)
 
+  const [currentCard,setCurrentCard] = useState({})
+  const [isApplySelect,setIsApplySelect] = useState(false)
+
+  const store = useSystemStore()
+
   React.useEffect(() => {
     // const editAccountId = route.params ? route.params.accountId : '';
     // const editAccountType = route.params ? route.params.type : '';
-    const isApplySelect = route.params ? route.params.isApplySelect : true;
+    const isApplySelect = route.params ? route.params.isApplySelect : false;
     const isUpdateWallet = route.params ? route.params.isUpdateWallet : true;
     // console.log("editAccountId", editAccountId);
     // console.log("editAccountType", editAccountType);
+    setIsApplySelect(isApplySelect)
     if (isApplySelect) {
       setIsSelectAccount(true);
     }
@@ -114,6 +122,10 @@ export default function MyCards({navigation, route}) {
   useEffect(() => {
     getAccounts();
   }, [isFocused]);
+
+  // useEffect(() => {
+    
+  // }, [selectedCardId]);
 
   useEffect(() => {
     if (cards && cards.data && Array.isArray(cards.data.data)) {
@@ -157,10 +169,15 @@ export default function MyCards({navigation, route}) {
     console.log("This row opened", rowKey);
   };
 
+  const setSelectedCurrentCard = (card) => {
+    setSelectedCardId(getCardKey(card))
+    setCurrentCard(card)
+  };
+
   const renderItem = (card) => {
     return (
       <TouchableHighlight
-        onPress={() => setSelectedCardId(getCardKey(card.item))}
+        onPress={() => setSelectedCurrentCard(card.item)}
         style={styles.rowFront}
         underlayColor={"#AAA"}
       >
@@ -201,6 +218,13 @@ export default function MyCards({navigation, route}) {
     </View>
     )
   };
+
+  const confirm = (() => {
+    store.setCardInfo(currentCard)
+    if(isApplySelect){
+      navigation.goBack();   
+     }
+  })
 
   return (
     <View style={{
@@ -254,6 +278,28 @@ export default function MyCards({navigation, route}) {
         />
       </View>
     }
+
+    { isSelectAccount && <TouchableOpacity onPress={() => confirm()}>
+       <View
+        style={{
+          bottom: 36,
+          left: 12,
+          right: 12,
+          position: 'absolute',
+          backgroundColor: "#0825B8",
+          height: 46,
+          zIndex: 100,
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'row',
+          borderRadius: 3,
+        }}>
+          <Text style={{color: '#FFFFFF',fontSize: 15}}>Confirm</Text>
+          <Image source={require('@assets/applyLoan/btn_ic_right.png')} style={{width: 12, height: 12,marginLeft: 2}}></Image>
+
+        </View>
+    </TouchableOpacity>}
+
     </View>
   );
 }

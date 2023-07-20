@@ -95,13 +95,16 @@ export default function MyCards({navigation, route}) {
   const {mutate: getAccounts, data: cards, isLoading} = useGetAccounts();
   const {mutate: deleteEWallet} = useDeleteEWalletAccount();
   const {mutate: deleteBankAccount} = useDeleteBankAccount();
+  // TODO: 1. 选择某个 wallet  2. confirm (xxxStore -> useXXXStore)
 
   React.useEffect(() => {
-    const editAccountId = route.params ? route.params.accountId : '';
-    const editAccountType = route.params ? route.params.type : '';
-    console.log("editAccountId", editAccountId);
-    console.log("editAccountType", editAccountType);
-    if (editAccountId && editAccountType) {
+    // const editAccountId = route.params ? route.params.accountId : '';
+    // const editAccountType = route.params ? route.params.type : '';
+    const isApplySelect = route.params ? route.params.isApplySelect : true;
+    const isUpdateWallet = route.params ? route.params.isUpdateWallet : true;
+    // console.log("editAccountId", editAccountId);
+    // console.log("editAccountType", editAccountType);
+    if (isApplySelect) {
       setIsSelectAccount(true);
     }
   }, [route]);

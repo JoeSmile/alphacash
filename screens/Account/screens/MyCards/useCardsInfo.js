@@ -22,49 +22,44 @@ export const card = {
     "type": 2,
 };
 
+// [
+//   {
+//       "ewalletId": 1,
+//       "ewalletType": 1,
+//       "type": 2,
+
+//       "ewalletAccount": "01238137215",
+//       "ewalletName": "EasyPaisa"
+//   },
+//   {
+//       "ewalletId": 2,
+//       "ewalletType": 2,
+//       "type": 2,
+
+//       "ewalletAccount": "01238137213",
+//       "ewalletName": "Jazzcash"
+//   },
+//   {
+//       "bankAccountId": 1,
+//       "bankId": 2,
+//       "bankName": "Askari Commercial Bank Limited",
+     
+//       "bankAccount": "546464646464",
+      
+//       "bankAccountName": "2",
+//       "type": 1
+//     }
+//   ]
 export const useCardsInfo = create((set, get) => ({
-  cards: [
-    {
-        "ewalletId": 1,
-        "ewalletType": 1,
-        "type": 2,
-
-        "ewalletAccount": "01238137215",
-        "ewalletName": "EasyPaisa"
-    },
-    {
-        "ewalletId": 2,
-        "ewalletType": 2,
-        "type": 2,
-
-        "ewalletAccount": "01238137213",
-        "ewalletName": "Jazzcash"
-    },
-    {
-        "bankAccountId": 1,
-        "bankId": 2,
-        "bankName": "Askari Commercial Bank Limited",
-       
-        "bankAccount": "546464646464",
-        
-        "bankAccountName": "2",
-        "type": 1
-      }
-    ],
+  card: {},
   add: (newCard) => {
     set(() => ({
-      cards: [...get().cards, newCard],
+      card: newCard,
     }));
   },
-  remove: (index) => {
-    const currentCards = get().cards;
-    currentCards.splice(index, 1);
+  clean: () => {
     set(() => ({
-      cards: [...currentCards],
+      card: {},
     }));
-  },
-  update: (index, newCard) => {
-    get().remove(index);
-    get().add(newCard);
-  },
+  }
 }));

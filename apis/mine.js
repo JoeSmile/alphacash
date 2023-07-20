@@ -1,46 +1,4 @@
-import axios from "axios";
-import { baseURL } from "../constants/config";
-import { getAllParameters } from './commonParameter';
-
-async function axiosPost(path, parameters) {
-  const allParameters = await getAllParameters(path, parameters);
-  return axios.post(`${baseURL}/api/app${path}`, {...parameters}).then((response) => {
-    return response
-  }) .catch(error => console.log('error---', error));;
-}
-async function postJSON(path, parameters) {
-  // const allParameters = await getAllParameters(path, parameters);
-  try {
-    const response = await fetch(`${baseURL}/api/app${path}`, {
-      method: "POST", // or 'PUT'
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(parameters),
-    });
-
-    const result = await response.json();
-    console.log("Success:", result);
-    return result;
-  } catch (error) {
-    console.error("Error:", error);
-  }
-}
-
-// get 方式
-async function axiosGet(path, parameters) {
-  try {
-    // const allParameters = await getAllParameters(path, parameters);
-    const response = await axios.get(`${baseURL}/api/app${path}`, {
-      params: { ...parameters },
-    });
-    return response;
-  } catch (error) {
-    console.log('error---', error);
-    return null; // Handle the error as needed or return an error object
-  }
-}
+import { axiosPost, axiosGet } from './basic';
 
 export function getOTP(phoneNumber) {
   return axiosPost('/otp', {phoneNumber})
@@ -134,4 +92,8 @@ export async function getApplyCheckParams(parameters){
 
 export async function applyCreateBill(parameters){
   return axiosPost('/cashLoan/createBill',parameters)
+}
+// homepage
+export async function getUserQuota (parameters) {
+  return axiosPost('/userQuota', parameters);
 }

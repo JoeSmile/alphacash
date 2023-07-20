@@ -5,7 +5,6 @@ import { Formik } from 'formik';
 import { FTextInput, FSelect } from '@components/Inputs';
 import { useAddAccount, useBankList } from '@apis';
 import { FButton } from '@components/FButton';
-import { Toast } from '@ant-design/react-native';
 import * as Yup from 'yup';
 
 const tabs = [{
@@ -130,11 +129,6 @@ export function AddNewAccount({navigation, route}) {
     if (!result) return;
     if (result.data.error_code == 1) {
       navigation.goBack();
-    } else {
-      Toast.info({
-        content: result.data.msg,
-        duration: 3,
-      })
     }
   }, [result])
 

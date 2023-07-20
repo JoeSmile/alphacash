@@ -6,7 +6,6 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { RFValue } from "react-native-responsive-fontsize";
-import { Button, Toast } from "@ant-design/react-native";
 import { CompanyIntro } from "./CompanyIntro";
 import { Quota } from "./Quota";
 import { Advantage } from './Advantage';

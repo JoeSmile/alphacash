@@ -86,7 +86,7 @@ export default function Apply () {
           "dayNum": optWithDaysConfig[daysOption].days,
           "disburseMoney":  optWithDaysConfig[daysOption].opt[amountIndex].disburseMoney,
           "dailyRate": optWithDaysConfig[daysOption].opt[amountIndex].dailyRate,
-          "fineStrategyText": optWithDaysConfig[daysOption].opt[amountIndex].fineStrategyText
+          "fineStrategyText": optWithDaysConfig[daysOption].opt[amountIndex].fineStrategyText ?? ""
         } 
         const audioFileUri = buildGetRequest(baseURL,params)
         console.log('Sun >>> ====' + audioFileUri)
@@ -129,10 +129,10 @@ export default function Apply () {
     const onPlaybackStatusUpdate = (status) => {
       if (status.isLoaded && !status.isBuffering) {
         setCurrentTime(status.positionMillis);
-        console.log('status.durationMillis' + status.durationMillis)
       }
 
        //报错 status.durationMillis = infinity 以及调用了后会引起音频卡顿
+      //  console.log('status.durationMillis' + status.durationMillis)
         // setDuration(status.durationMillis)
     
 
@@ -152,7 +152,6 @@ export default function Apply () {
       try {
         const { sound } = await Audio.Sound.createAsync({ 
           uri: audioFileUri,
-          downloadFirst:false,
           initialStatus: {
             shouldPlay: true
           }
@@ -173,9 +172,11 @@ export default function Apply () {
     };
 
     const formatTime = (timeInMillis) => {
+      if(timeInMillis !== Infinity && timeInMillis !== NaN){
       const minutes = Math.floor(timeInMillis / 60000);
       const seconds = ((timeInMillis % 60000) / 1000).toFixed(0);
       return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+      }
     };
 
     const playSound = async () => {
@@ -426,7 +427,7 @@ export default function Apply () {
               <Text style={{color: '#FFFFFF', fontSize: 15}}>Cancel</Text>
            </TouchableOpacity>
 
-            <TouchableOpacity onPress={getApplyLoan}  activeOpacity={isClickable ? 0.2 : 1} style={{flex: 1,borderRadius:3,backgroundColor: '#0825B8',height: 46,justifyContent: 'center',alignItems: 'center',marginLeft: 8}}>
+           <TouchableOpacity onPress={getApplyLoan}  activeOpacity={isClickable ? 0.2 : 1} style={{flex: 1,borderRadius:3,backgroundColor: isClickable ? '#0825B8' : '#C0C4D6',height: 46,justifyContent: 'center',alignItems: 'center',marginLeft: 8}}>
               <Text style={{color: '#FFFFFF', fontSize: 15}}>Disburse Now</Text>
             </TouchableOpacity>
           </View>

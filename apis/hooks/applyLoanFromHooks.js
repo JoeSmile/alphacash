@@ -1,4 +1,4 @@
-import { getCashLoanProductConfig, getApplyCheckParams,getApplyCreateBill } from '../mine';
+import { getCashLoanProductConfig, getApplyCheckParams,applyCreateBill } from '../mine';
 import { mutationFactory } from './base';
 
 export function useGetCashLoanProductConfig () {
@@ -9,6 +9,6 @@ export function useGetApplyCheckParams () {
   return mutationFactory(getApplyCheckParams);
 }
 
-export function useGetApplyCreateBill () {
-  return mutationFactory(getApplyCreateBill);
+export function useApplyCreateBill () {
+  return mutationFactory(applyCreateBill);
 }

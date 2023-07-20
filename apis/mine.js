@@ -129,9 +129,9 @@ export async function getCashLoanProductConfig(parameters){
 }
 
 export async function getApplyCheckParams(parameters){
-  return axiosGet('/cashLoan/apply/checkParams',parameters)
+  return axiosPost('/cashLoan/apply/checkParams',parameters)
 }
 
-export async function getApplyCreateBill(parameters){
-  return axiosGet('/cashLoan/createBill',parameters)
+export async function applyCreateBill(parameters){
+  return axiosPost('/cashLoan/createBill',parameters)
 }

@@ -1,9 +1,22 @@
-import { View, Text, StyleSheet, Image,TouchableOpacity,Pressable } from "react-native";
+import { View, Text, StyleSheet, Image,TouchableOpacity } from "react-native";
 import { useEffect, useState } from "react";
 
-export default function FaceRecognition () {
+
+export default function FaceRecognition ({
+  faceDetected
+}) {
 
   const [faceState,setFaceState] = useState('please identify')
+  const [hasPermission, setHasPermission] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      if(!hasPermission){
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === 'granted');
+    }
+    })();
+  }, []);
 
   return(
     <View style={styles.container}>

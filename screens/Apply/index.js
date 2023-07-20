@@ -1,7 +1,7 @@
 import { View, Text, ScrollView, StyleSheet,Image,TouchableOpacity,Pressable,SafeAreaView,Linking ,Dimensions,Animated } from "react-native";
 import ApplyLoanCard from "@components/ApplyLoanCard";
 import LoanDetails from "@components/LoanDetails";
-import { useGetCashLoanProductConfig,useGetApplyCreateBill,useGetApplyCheckParams } from '@apis';
+import { useGetCashLoanProductConfig,useApplyCreateBill,useGetApplyCheckParams } from '@apis';
 import { useEffect,useState,useRef  } from "react";
 import CollectionAccount from "@components/CollectionAccount";
 import FaceRecognition from "@components/FaceRecognition";
@@ -10,6 +10,8 @@ import { Audio } from 'expo-av';
 import MSlider from '@react-native-community/slider';
 import { Asset } from "expo-asset";
 import { useSystemStore } from '@store/useSystemStore'
+import FaceDetectionScreen from "@components/FaceDetectionScreen";
+
 
 
 function buildGetRequest(url, params) {
@@ -33,15 +35,25 @@ export default function Apply () {
   const { mutate: getCashLoanProductConfig, data: loanProductConfigData, 
     isLoading: isGetCashLoanProductConfigLoading} = useGetCashLoanProductConfig()
 
+  const { mutate: getGetApplyCheckParams, data: applyCheckParamsData, 
+    isLoading: isGetApplyCheckParamsLoading} = useGetApplyCheckParams()
+
+  const { mutate: applyCreateBill, data: billData, 
+    isLoading: isApplyCreateBillLoading} = useApplyCreateBill()
+
     const [optWithDaysConfig, setOptWithDaysConfig] = useState([]);
     const [isSpecialAccount, setIsSpecialAccount] = useState(true);
     
     const [daysOption,setDaysOption] = useState(0)
     const [amountIndex,setAmountIndex] = useState(0)
     const [isChecked, setChecked] = useState(false);
-    const [faceData, setFaceData] = useState(false)
     const [toVoice,setToVoice] = useState(false)
-    
+
+    //人脸数据
+    const [faceImage, setFaceImage] = useState(null);
+    const [faceDetected, setFaceDetected] = useState(false);
+
+
     //音频
     const [sound, setSound] = useState(null);
     const [isPlaying, setIsPlaying] = useState(true);
@@ -52,6 +64,12 @@ export default function Apply () {
     useEffect(() => {
       getCashLoanProductConfig()
     },[])
+
+    useEffect(() => {
+      if(applyCheckParamsData && applyCheckParamsData.data.error_code == 1){
+        console.log('check params successful')
+      }
+    },[applyCheckParamsData])
 
     const clickLoanAgreement = (() => {
       console.log('Sun >>> clickLoanAgreement')
@@ -101,10 +119,6 @@ export default function Apply () {
       console.log('Sun >>> clickCollectionAccount')
     })
 
-    const clickFaceRecognition = (() => {
-      console.log('Sun >>> clickFaceRecognition')
-    })
-
     const goBack = (() => {
       console.log('Sun >>> goback')
       unloadAudio()
@@ -115,6 +129,17 @@ export default function Apply () {
     const getApplyLoan = (() => {
       if(isClickable){
         console.log('Sun >>> getApplyLoan')
+        //参数检查
+        const data = { 
+          "applyAmount": optWithDaysConfig[daysOption].opt[amountIndex].applyAmount,
+          "manageFee": optWithDaysConfig[daysOption].opt[amountIndex].manageFee,
+          "dailyRate": optWithDaysConfig[daysOption].opt[amountIndex].dailyRate,
+          "dayNum": optWithDaysConfig[daysOption].days,
+          "minLoanMoney": optWithDaysConfig[daysOption].minLoanMoney,
+          "maxLoanMoney": optWithDaysConfig[daysOption].maxLoanMoney
+        }
+        getGetApplyCheckParams(data)
+        //申请贷款
       }else {
         return
       }
@@ -248,9 +273,32 @@ export default function Apply () {
     },[loanProductConfigData])
 
 
+    const [isModalVisible, setModalVisible] = useState(false);
+    const [detectedFace, setDetectedFace] = useState(null);
+
+    
+  const clickFaceRecognition = (() => {
+    console.log('Sun >>> clickFaceRecognition')
+    setFaceDetected(true)
+ 
+  })
+  
+    const handleFaceDetected = (face) => {
+      if(face){
+        setFaceImage(face.uri);
+        setModalVisible(false);
+      }
+    };
+  
+    const handleShowModal = () => {
+      setFaceImage(null); // Reset detected face on showModal
+      setModalVisible(true);
+    };
+
+
   return (
     <SafeAreaView >
-      <View style={[styles.container,toVoice === true && styles.noneContainer]}>
+      <View style={[styles.container,toVoice === true && faceDetected === false && styles.noneContainer]}>
        <ScrollView>
         <View
         style={{
@@ -290,7 +338,9 @@ export default function Apply () {
         </Pressable>
 
         <Pressable onPress={() => clickFaceRecognition()}>
-        <FaceRecognition></FaceRecognition>
+        <FaceRecognition
+          faceDetected = {faceDetected}
+        ></FaceRecognition>
         </Pressable>
         
 
@@ -348,7 +398,7 @@ export default function Apply () {
       </View>
 
       {/* 语音 */}
-      { !!optWithDaysConfig[daysOption] && toVoice === true &&
+      { !!optWithDaysConfig[daysOption] && toVoice === true && faceDetected === false &&
 
        <View style={styles.otherContainer}>
         <Animated.View
@@ -437,6 +487,19 @@ export default function Apply () {
         </View>
       }
 
+      {/* 人脸识别 */}
+      { faceDetected === true && <View style={{flex: 1}}>
+       <TouchableOpacity onPress={handleShowModal}>
+         <Text>Show Face Recognition Modal</Text>
+       </TouchableOpacity>
+       <FaceDetectionScreen
+         visible={isModalVisible}
+         onClose={() => setModalVisible(false)}
+         onFaceDetected={handleFaceDetected}
+       />
+       </View>
+      }
+    
     </SafeAreaView>
        
 )}

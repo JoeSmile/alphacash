@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { View } from "react-native";
+import Spinner from "react-native-loading-spinner-overlay";
 import BillList from "./BillList";
 import { LOAN_STATUS } from "@const";
-import { getBills } from "@apis";
+import { useBillList } from "@apis/hooks";
 
 const curBillStatus = [
   LOAN_STATUS.checking,
@@ -12,24 +13,35 @@ const curBillStatus = [
   LOAN_STATUS.overdue,
 ];
 
-export default function Processing({ bills }) {
-  const [abills, setBills] = useState([]);
+export default function Processing() {
+  const { mutate: getBills, data: axiosRes, isLoading } = useBillList();
+  const bills = axiosRes?.data?.data;
+
+  //console.log("current bills: ", bills);
+
   useEffect(() => {
-    async function fetchBills() {
-      const bills = await getBills(1);
-      if (bills) {
-        console.log("current bills: ", bills);
-        setBills(bills);
-      }
-    }
-    fetchBills();
+    getBills({
+      tab: 1,
+      token: "E5kcl3IAR6dLtbozCV6fGJ78jDKZvEtM1689823255956013",
+    });
   }, []);
 
   return (
     <View style={{ flex: 1 }}>
-      <BillList
-        bills={bills.filter((it) => curBillStatus.includes(it.appStatus))}
+      <Spinner
+        visible={isLoading}
+        textContent={"Loading..."}
+        textStyle={{ color: "#FFF" }}
       />
+      {Array.isArray(bills?.orderList) && (
+        <View style={{ flex: 1 }}>
+          <BillList
+            bills={bills.orderList.filter((it) =>
+              curBillStatus.includes(it.appStatus)
+            )}
+          />
+        </View>
+      )}
     </View>
   );
 }

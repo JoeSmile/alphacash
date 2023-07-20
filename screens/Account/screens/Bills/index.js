@@ -7,7 +7,7 @@ import { useI18n } from "@hooks/useI18n";
 
 const mockBills = [
   {
-    id: "11111",
+    loanId: "11111",
     getAmount: "6000",
     loanTerm: "7",
     applyDate: "07/07/2023",
@@ -16,7 +16,7 @@ const mockBills = [
     repaymentDate: "07/17/2023",
   },
   {
-    id: "22222",
+    loanId: "22222",
     getAmount: "6000",
     loanTerm: "7",
     applyDate: "07/07/2023",
@@ -25,7 +25,7 @@ const mockBills = [
     repaymentDate: "07/17/2023",
   },
   {
-    id: "33333",
+    loanId: "33333",
     getAmount: "6000",
     loanTerm: "7",
     applyDate: "07/07/2023",
@@ -34,7 +34,7 @@ const mockBills = [
     repaymentDate: "07/17/2023",
   },
   {
-    id: "4444",
+    loanId: "4444",
     getAmount: "76000",
     loanTerm: "7",
     applyDate: "07/07/2023",
@@ -45,8 +45,8 @@ const mockBills = [
 ];
 
 const renderScene = SceneMap({
-  processing: () => <Processing bills={mockBills} />,
-  completed: () => <Completed bills={mockBills} />,
+  processing: Processing,
+  completed: Completed,
 });
 
 export default function BillList() {

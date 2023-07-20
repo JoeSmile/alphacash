@@ -20,7 +20,7 @@ const Item = ({ item }) => {
     <Pressable
       onPress={() => [
         navigation.push("BillDetail", {
-          billid: item.id,
+          loanId: item.loanId,
         }),
       ]}
     >
@@ -33,7 +33,7 @@ const Item = ({ item }) => {
         />
         <View>
           <Text style={styles.title}>Loan Amount: </Text>
-          <Text style={styles.amount}>{fn2f(item.getAmount)}</Text>
+          <Text style={styles.amount}>{fn2f(item.applyAmount)}</Text>
         </View>
         <View style={styles.line}></View>
         <View>
@@ -45,13 +45,13 @@ const Item = ({ item }) => {
             <Text style={styles.title}>Apply Date: </Text>
             <Text style={styles.titleValue}>{item.applyDate}</Text>
           </View>
-          {item.status === LOAN_STATUS.repaid && !!item.repaymentDate && (
+          {!!item.repaymentDate && (
             <View style={{ ...styles.info, marginTop: 12 }}>
               <Text style={styles.title}>Repayment Date: </Text>
-              <Text style={styles.titleValue}>{item.applyDate}</Text>
+              <Text style={styles.titleValue}>{item.repaymentDate}</Text>
             </View>
           )}
-          {hasDueDateBillStatus.includes(item.status) && !!item.dueDate && (
+          {hasDueDateBillStatus.includes(item.appStatus) && !!item.dueDate && (
             <View style={{ ...styles.info, marginTop: 12 }}>
               <Text style={styles.title}>Due Date: </Text>
               <Text style={styles.titleValue}>{item.dueDate}</Text>
@@ -69,7 +69,7 @@ export default function BillList({ bills }) {
       <FlatList
         data={bills}
         renderItem={({ item }) => <Item item={item} />}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.loanId}
       />
     </SafeAreaView>
   );
@@ -78,7 +78,7 @@ export default function BillList({ bills }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
+    //marginTop: StatusBar.currentHeight || 0,
   },
   item: {
     backgroundColor: "#ffffff",

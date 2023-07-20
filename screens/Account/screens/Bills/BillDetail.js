@@ -1,9 +1,16 @@
+import React, { useCallback, useEffect } from "react";
 import { View, StyleSheet, Text, StatusBar, Image } from "react-native";
 import { LOAN_STATUS, statusToImg } from "@const";
 import { FButton } from "@components/FButton";
-import { formatNumberToFinancial as fn2f } from "@utils";
+import {
+  formatNumberToFinancial as fn2f,
+  formatAccountToFinancial as fa2f,
+} from "@utils";
 
-const item = {
+import Spinner from "react-native-loading-spinner-overlay";
+import { useBillDetail } from "@apis/hooks";
+
+/*const item = {
   id: "11111",
   applyAmount: "5000",
   getAmount: "5000",
@@ -15,104 +22,151 @@ const item = {
   markup: "100",
   dueDate: "28/07/2023",
   lumpSum: "5000",
-  lateCharge: "200",
+  latePayFee: "200",
   repaymentDate: "30/07/2023",
-};
+};*/
 
 export default function BillDetail({ route }) {
-  const { billid } = route.params;
-  const hasDueDateBillStatus = [
-    LOAN_STATUS.using,
-    LOAN_STATUS.overdue,
-    LOAN_STATUS.repaid,
-  ];
+  const { loanId } = route.params;
+  const hasRepayBillStatus = [LOAN_STATUS.using, LOAN_STATUS.overdue];
+  const hasDueDateBillStatus = [...hasRepayBillStatus, LOAN_STATUS.repaid];
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.infoSection}>
-        <Image
-          source={statusToImg[item.status]}
-          contentFit="cover"
-          transition={1000}
-          style={styles.imgTag}
-        />
-        <View>
-          <Text style={styles.title}>Loan Amount: </Text>
-          <Text style={styles.amount}>{fn2f(item.getAmount)}</Text>
-        </View>
-        <View style={styles.line}></View>
-        <View style={styles.info}>
-          <Text style={styles.title}>Apply Date: </Text>
-          <Text style={styles.titleValue}>{item.applyDate}</Text>
-        </View>
-        <View style={styles.line}></View>
-        <View style={styles.info}>
-          <Text style={styles.title}>Loan Term: </Text>
-          <Text style={styles.titleValue}>{item.loanTerm + " Days"}</Text>
-        </View>
-        <View style={styles.line}></View>
-        <View style={styles.info}>
-          <Text style={styles.title}>Get Amount: </Text>
-          <Text style={styles.titleValue}>{fn2f(item.getAmount)}</Text>
-        </View>
-        <View style={[styles.line, { marginBottom: 12 }]}></View>
-        <View>
-          <Text style={[styles.title, { marginBottom: 8 }]}>
-            Collection Account:
-          </Text>
-          <Text style={styles.titleValue}>{item.account}</Text>
-        </View>
-        {hasDueDateBillStatus.includes(item.status) && !!item.dueDate && (
-          <>
-            <View style={[styles.line, { marginTop: 16 }]}></View>
-            <View style={styles.info}>
-              <Text style={styles.title}>Loan Date: </Text>
-              <Text style={styles.titleValue}>{item.loanDate}</Text>
-            </View>
-            <View style={styles.line}></View>
-            <View style={styles.info}>
-              <Text style={styles.title}>Markup: </Text>
-              <Text style={styles.titleValue}>{fn2f(item.markup)}</Text>
-            </View>
-            {item.status !== LOAN_STATUS.using &&
-              !!parseInt(item.lateCharge) && (
+  const { mutate: getBillDetail, data: axiosRes, isLoading } = useBillDetail();
+  const detail = axiosRes?.data?.data;
+
+  console.log("bill detail: ", detail);
+
+  useEffect(() => {
+    getBillDetail({
+      loanId,
+      token: "E5kcl3IAR6dLtbozCV6fGJ78jDKZvEtM1689823255956013",
+    });
+  }, []);
+
+  const renderDetail = useCallback((item) => {
+    if (!item) {
+      return null;
+    }
+
+    function renderAccount() {
+      const { type, bankAccount, ewalletAccount } =
+        item.disburseAccountInfo || {};
+      if (!type) {
+        return null;
+      }
+      return (
+        <>
+          <View style={[styles.line, { marginBottom: 12 }]} />
+          <View>
+            <Text style={[styles.title, { marginBottom: 8 }]}>
+              Collection Account:
+            </Text>
+            <Text style={styles.titleValue}>
+              {fa2f(type === 1 ? bankAccount : ewalletAccount)}
+            </Text>
+          </View>
+        </>
+      );
+    }
+
+    return (
+      <View style={styles.container}>
+        <View style={styles.infoSection}>
+          <Image
+            source={statusToImg[item.appStatus]}
+            contentFit="cover"
+            transition={1000}
+            style={styles.imgTag}
+          />
+          <View>
+            <Text style={styles.title}>Loan Amount: </Text>
+            <Text style={styles.amount}>{fn2f(item.applyAmount)}</Text>
+          </View>
+          <View style={styles.line}></View>
+          <View style={styles.info}>
+            <Text style={styles.title}>Apply Date: </Text>
+            <Text style={styles.titleValue}>{item.applyDate}</Text>
+          </View>
+          <View style={styles.line}></View>
+          <View style={styles.info}>
+            <Text style={styles.title}>Loan Term: </Text>
+            <Text style={styles.titleValue}>{item.loanTerm + " Days"}</Text>
+          </View>
+          <View style={styles.line}></View>
+          <View style={styles.info}>
+            <Text style={styles.title}>Get Amount: </Text>
+            <Text style={styles.titleValue}>{fn2f(item.getAmount)}</Text>
+          </View>
+          {renderAccount()}
+          {hasDueDateBillStatus.includes(item.appStatus) && !!item.dueDate && (
+            <>
+              <View style={[styles.line, { marginTop: 16 }]}></View>
+              <View style={styles.info}>
+                <Text style={styles.title}>Loan Date: </Text>
+                <Text style={styles.titleValue}>{item.disburseDate}</Text>
+              </View>
+              <View style={styles.line}></View>
+              <View style={styles.info}>
+                <Text style={styles.title}>Markup: </Text>
+                <Text style={styles.titleValue}>
+                  {fn2f(item.totalInterest)}
+                </Text>
+              </View>
+              {item.appStatus !== LOAN_STATUS.using &&
+                !!parseInt(item.latePayFee) && (
+                  <>
+                    <View style={styles.line}></View>
+                    <View style={styles.info}>
+                      <Text style={styles.title}>Late Payment Charges: </Text>
+                      <Text style={styles.titleValue}>
+                        {fn2f(item.latePayFee)}
+                      </Text>
+                    </View>
+                  </>
+                )}
+              <View style={styles.line}></View>
+              <View style={styles.info}>
+                <Text style={styles.title}>Lump Sum Repayment Amount: </Text>
+                <Text style={styles.titleValue}>
+                  {fn2f(item.currentAmountDue)}
+                </Text>
+              </View>
+              <View style={styles.line}></View>
+              <View style={styles.info}>
+                <Text style={styles.title}>Due Date: </Text>
+                <Text style={styles.titleValue}>{item.dueDate}</Text>
+              </View>
+              {item.repaymentDate && (
                 <>
                   <View style={styles.line}></View>
                   <View style={styles.info}>
-                    <Text style={styles.title}>Late Payment Charges: </Text>
-                    <Text style={styles.titleValue}>
-                      {fn2f(item.lateCharge)}
-                    </Text>
+                    <Text style={styles.title}>Repayment Date: </Text>
+                    <Text style={styles.titleValue}>{item.repaymentDate}</Text>
                   </View>
                 </>
               )}
-            <View style={styles.line}></View>
-            <View style={styles.info}>
-              <Text style={styles.title}>Lump Sum Repayment Amount: </Text>
-              <Text style={styles.titleValue}>{fn2f(item.lumpSum)}</Text>
-            </View>
-            <View style={styles.line}></View>
-            <View style={styles.info}>
-              <Text style={styles.title}>Due Date: </Text>
-              <Text style={styles.titleValue}>{item.dueDate}</Text>
-            </View>
-            {item.status === LOAN_STATUS.repaid && item.repaymentDate && (
-              <>
-                <View style={styles.line}></View>
-                <View style={styles.info}>
-                  <Text style={styles.title}>Repayment Date: </Text>
-                  <Text style={styles.titleValue}>{item.repaymentDate}</Text>
-                </View>
-              </>
-            )}
-          </>
+            </>
+          )}
+        </View>
+        {hasRepayBillStatus.includes(item.appStatus) && (
+          <FButton
+            style={styles.repayBtn}
+            onPress={() => navigation.push("Apply")}
+            title="Repay Now"
+          />
         )}
       </View>
-      {/*<FButton
-        style={styles.repayBtn}
-        onPress={() => navigation.push("Apply")}
-        title="Repay Now"
-      />*/}
+    );
+  }, []);
+
+  return (
+    <View>
+      <Spinner
+        visible={isLoading}
+        textContent={"Loading..."}
+        textStyle={{ color: "#FFF" }}
+      />
+      {renderDetail(detail)}
     </View>
   );
 }

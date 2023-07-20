@@ -2,6 +2,8 @@ import {
   useMutation,
 } from 'react-query';
 import { useSystemStore } from '@store/useSystemStore'
+import { Toast } from '@ant-design/react-native';
+
 export function mutationFactory (func, options={}) {
   const store = useSystemStore()
 
@@ -22,7 +24,22 @@ export function mutationFactory (func, options={}) {
       })
     },
     onSuccess: (res) => {
-      if (options && options.afterSuccess) {
+      console.log('res----', res);
+      if(!res.data) {
+        Toast.info({
+          content: res.message,
+          duration: 3,
+        })
+        return;
+      }
+
+      // 后台返回业务错误
+      if (res.data.error_code !== 1) {
+        Toast.info({
+          content: res.data.msg,
+          duration: 3,
+        })
+      } else if (options && options.afterSuccess) {
         options.afterSuccess(res);
       }
     }

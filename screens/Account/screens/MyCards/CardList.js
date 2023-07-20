@@ -9,14 +9,7 @@ import {
   Image,
   Pressable
 } from "react-native";
-import {
-  Provider,
-  Button,
-  Modal,
-  Toast,
-  WhiteSpace,
-  WingBlank,
-} from '@ant-design/react-native'
+import { Modal } from '@ant-design/react-native'
 import { SwipeListView } from "react-native-swipe-list-view";
 import { useDeleteEWalletAccount, useDeleteBankAccount, useGetAccounts } from '@apis';
 import { useIsFocused } from '@react-navigation/native';

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import BillList from "./BillList";
-import { LOAN_STATUS } from "@const/otherOptions";
+import { LOAN_STATUS } from "@const";
 import { getBills } from "@apis";
 
 const curBillStatus = [

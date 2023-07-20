@@ -221,14 +221,3 @@ export const relationOptions = [
     label: "Relative",
   },
 ];
-
-export const LOAN_STATUS = {
-  checking: 101,
-  refused: 102,
-  cancel: 103,
-  transferring: 201,
-  failed: 202,
-  using: 301,
-  overdue: 303,
-  repaid: 501,
-};

@@ -5,3 +5,4 @@ export * from './emergencyFormHooks';
 export * from './certificateFormHooks';
 export * from './accountHooks';
 export * from './applyLoanFromHooks';
+export * from './homepageHooks';

@@ -11,6 +11,7 @@ export const useSystemStore = create(persist(
   token: '',
   sign: '123dsabnwe',
   app:'alphacash',
+  cardInfo: {},
   setReadPolicy: () => {
     set((state) => ({
       ...state,
@@ -27,6 +28,11 @@ export const useSystemStore = create(persist(
     set((state) => ({
       ...state,
       token
+    }))
+  },
+  setCardInfo: (newCardInfo) => {
+    set(() => ({
+      cardInfo: newCardInfo
     }))
   }
 }), {

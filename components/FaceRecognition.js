@@ -7,16 +7,16 @@ export default function FaceRecognition ({
 }) {
 
   const [faceState,setFaceState] = useState('please identify')
-  const [hasPermission, setHasPermission] = useState(false);
+  // const [hasPermission, setHasPermission] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      if(!hasPermission){
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === 'granted');
-    }
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     if(!hasPermission){
+  //     const { status } = await Camera.requestCameraPermissionsAsync();
+  //     setHasPermission(status === 'granted');
+  //   }
+  //   })();
+  // }, []);
 
   return(
     <View style={styles.container}>

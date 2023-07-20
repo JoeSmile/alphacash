@@ -11,6 +11,8 @@ import MSlider from '@react-native-community/slider';
 import { Asset } from "expo-asset";
 import { useSystemStore } from '@store/useSystemStore'
 import FaceDetectionScreen from "@components/FaceDetectionScreen";
+import { useNavigation } from "@react-navigation/native";
+
 
 
 
@@ -31,6 +33,8 @@ const baseURL = 'https://alphacashapi.tangbull.com/api/app/laon/voice'
 
 export default function Apply () {
   const store = useSystemStore()
+  const navigation = useNavigation();
+
 
   const { mutate: getCashLoanProductConfig, data: loanProductConfigData, 
     isLoading: isGetCashLoanProductConfigLoading} = useGetCashLoanProductConfig()
@@ -52,6 +56,8 @@ export default function Apply () {
     //人脸数据
     const [faceImage, setFaceImage] = useState(null);
     const [faceDetected, setFaceDetected] = useState(false);
+    const [isModalVisible, setModalVisible] = useState(false);
+
 
 
     //音频
@@ -117,6 +123,9 @@ export default function Apply () {
 
     const clickCollectionAccount = (() => {
       console.log('Sun >>> clickCollectionAccount')
+      // navigation.push('MyCards')
+      // 参数通过第二个参数传递给目标页面
+      navigation.navigate('MyCards', { isApplySelect: true });
     })
 
     const goBack = (() => {
@@ -271,11 +280,6 @@ export default function Apply () {
 
       }
     },[loanProductConfigData])
-
-
-    const [isModalVisible, setModalVisible] = useState(false);
-    const [detectedFace, setDetectedFace] = useState(null);
-
     
   const clickFaceRecognition = (() => {
     console.log('Sun >>> clickFaceRecognition')
@@ -391,7 +395,7 @@ export default function Apply () {
           borderRadius: 3,
         }}>
           <Text style={{color: '#FFFFFF',fontSize: 15}}>Get Loan</Text>
-          <Image source={require('@assets/applyLoan/btn_ic_right.png')} style={{width: 15, height: 15,marginLeft: 2}}></Image>
+          <Image source={require('@assets/applyLoan/btn_ic_right.png')} style={{width: 12, height: 12,marginLeft: 2}}></Image>
 
         </View>
         </TouchableOpacity>

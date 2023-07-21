@@ -284,10 +284,17 @@ export default function Apply () {
   const clickFaceRecognition = (() => {
     console.log('Sun >>> clickFaceRecognition')
     setFaceDetected(true)
+    handleShowModal()
  
+  })
+
+  const onClose = (() => {
+    setModalVisible(false)
+    setFaceDetected(false)
   })
   
     const handleFaceDetected = (face) => {
+      console.log('Sun >>> face === ' + face)
       if(face){
         setFaceImage(face.uri);
         setModalVisible(false);
@@ -302,7 +309,7 @@ export default function Apply () {
 
   return (
     <SafeAreaView >
-      <View style={[styles.container,toVoice === true && faceDetected === false && styles.noneContainer]}>
+      <View style={[styles.container,toVoice === true && styles.noneContainer]}>
        <ScrollView>
         <View
         style={{
@@ -492,13 +499,10 @@ export default function Apply () {
       }
 
       {/* 人脸识别 */}
-      { faceDetected === true && <View style={{flex: 1}}>
-       <TouchableOpacity onPress={handleShowModal}>
-         <Text>Show Face Recognition Modal</Text>
-       </TouchableOpacity>
+      { faceDetected === true && <View>
        <FaceDetectionScreen
          visible={isModalVisible}
-         onClose={() => setModalVisible(false)}
+         onClose={() => onClose()}
          onFaceDetected={handleFaceDetected}
        />
        </View>

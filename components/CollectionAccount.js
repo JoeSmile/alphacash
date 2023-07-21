@@ -11,7 +11,7 @@ export default function CollectionAccount () {
       <Image source={require('@assets/applyLoan/loan_ic_collection_account.png')} style={{width: 35, height: 35}}></Image>
       <View style={styles.contentStyle}>
         <Text style={{ fontSize: 15,color: '#4F5E6F',fontWeight: 500,}}>Collection Account</Text>
-        <Text style={{color: '#0A233E', fontWeight: 'bold',fontSize: 15,marginTop: store.cardInfo && 8}}>{(store.cardInfo.bankAccount || store.cardInfo.ewalletAccount ) || ''}</Text>
+        <Text style={{color: '#0A233E', fontWeight: 'bold',fontSize: 15,marginTop: (store.cardInfo.bankAccount || store.cardInfo.ewalletAccount ) && 8}}>{(store.cardInfo.bankAccount || store.cardInfo.ewalletAccount ) || ''}</Text>
       </View>
       <Image source={require('@assets/applyLoan/com_ic_right.png')} style={{width: 15, height: 15}}></Image>
     </View>

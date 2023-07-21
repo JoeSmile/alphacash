@@ -34,6 +34,11 @@ export const useSystemStore = create(persist(
     set(() => ({
       cardInfo: newCardInfo
     }))
+  },
+  clean: () => {
+    set(() => ({
+      cardInfo: {},
+    }));
   }
 }), {
   name: 'system',

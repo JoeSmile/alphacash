@@ -150,6 +150,9 @@ export default function MyCards({navigation, route}) {
     Modal.alert('', `Are you sure you want to turn off ${card.ewalletName || card.bankName} the repayment tips?`, [
       { text: 'Cancel', onPress: () => console.log('cancel'), style: {color: '#C0C4D6'} },
       { text: 'Confirm', onPress: () => {
+        if(card.bankAccountId == store.cardInfo.bankAccountId || card.ewalletId == store.cardInfo.ewalletId){
+          store.clean()
+        }
         if (card.type == 1) {
           deleteBankAccount({
             bankAccountId: card.bankAccountId

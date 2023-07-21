@@ -1,5 +1,3 @@
-import { acc } from "react-native-reanimated";
-
 export function formatNumberToFinancial(number) {
   if (number === undefined || number === null) {
     return "";

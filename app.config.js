@@ -30,7 +30,7 @@ module.exports = ({ config }) => ({
       ? {
           policy: "sdkVersion",
         }
-      : "0.0.2",
+      : "0.0.3",
   updates: {
     fallbackToCacheTimeout: 0,
     url: "https://u.expo.dev/462bceb9-15ba-4d76-bcad-d93ef54c4c31",

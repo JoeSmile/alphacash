@@ -9,7 +9,7 @@
     "web": "cross-env ENV=dev expo start --web",
     "build:preview": "cross-env ENV=production eas build -p android --profile preview",
     "build:live": "cross-env ENV=production eas build -p android --profile production",
-    "update:preview": "cross-env ENV=production eas update --branch preview --message 'update preview to 0.0.2-2'",
+    "update:preview": "cross-env ENV=production eas update --branch preview --message 'update preview to 0.0.3-3'",
     "update:live": "cross-env ENV=production eas update --branch production"
   },
   "dependencies": {
@@ -64,7 +64,6 @@
     "react-native-svg": "^13.9.0",
     "react-native-swipe-list-view": "^3.2.9",
     "react-native-tab-view": "^3.5.1",
-    "react-native-vision-camera": "^2.15.4",
     "react-native-web": "~0.18.10",
     "react-query": "^3.39.3",
     "yup": "^1.2.0",

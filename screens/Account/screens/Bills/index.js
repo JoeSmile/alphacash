@@ -66,11 +66,16 @@ export default function BillList() {
     <TabBar
       {...props}
       indicatorStyle={{ backgroundColor: "#0825B8" }}
-      //indicatorContainerStyle={{ backgroundColor: "#0825B8" }}
+      indicatorContainerStyle={{
+        height: 2,
+        backgroundColor: "#E0E3E8",
+        top: 48,
+      }}
+      pressColor={"transparent"}
       style={{ backgroundColor: "transparent", marginBottom: 8 }}
       renderLabel={({ route, focused }) => (
         <Text style={{ color: focused ? "#0A233E" : "#8899AC", fontSize: 16 }}>
-          {route.title}
+          {route.title + ""}
         </Text>
       )}
     />
@@ -89,6 +94,7 @@ export default function BillList() {
         renderTabBar={renderTabBar}
         onIndexChange={setIndex}
         initialLayout={{ width: layout.width }}
+        style={{ flex: 1 }}
       />
     </View>
   );

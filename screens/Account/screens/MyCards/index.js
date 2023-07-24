@@ -282,26 +282,25 @@ export default function MyCards({navigation, route}) {
       </View>
     }
 
-    { isSelectAccount && <TouchableOpacity onPress={() => confirm()}>
-       <View
-        style={{
-          bottom: 36,
-          left: 12,
-          right: 12,
-          position: 'absolute',
-          backgroundColor: "#0825B8",
-          height: 46,
-          zIndex: 100,
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexDirection: 'row',
-          borderRadius: 3,
-        }}>
-          <Text style={{color: '#FFFFFF',fontSize: 15}}>Confirm</Text>
-          <Image source={require('@assets/applyLoan/btn_ic_right.png')} style={{width: 12, height: 12,marginLeft: 2}}></Image>
-
-        </View>
-    </TouchableOpacity>}
+    { isSelectAccount && <TouchableOpacity
+     onPress={() => confirm()}
+     style={{
+      bottom: 136,
+      left: 12,
+      right: 12,
+      position: 'absolute',
+      backgroundColor: "#0825B8",
+      height: 46,
+      zIndex: 100,
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'row',
+      borderRadius: 3,
+    }}>
+      <Text style={{color: '#FFFFFF',fontSize: 15}}>Confirm</Text>
+      <Image source={require('@assets/applyLoan/btn_ic_right.png')} style={{width: 12, height: 12,marginLeft: 2}}></Image>  
+    </TouchableOpacity>
+    }
 
     </View>
   );

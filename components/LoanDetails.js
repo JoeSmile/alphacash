@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image,TouchableOpacity,Pressable } from "react-native";
+import { View, Text, StyleSheet, Image,TouchableOpacity,Pressable,Modal,Dimensions } from "react-native";
 import { useEffect, useState } from "react";
 
 
@@ -18,6 +18,7 @@ export default function LoanDetails ({
   const [image,setImage] = useState(imageDown)
   //是否显示滞纳金
   const [isVisiable,setIsVisiable] = useState(false)
+  const [showTips,setShowTips] = useState(false)
 
 
   const handleFeePress = () => {
@@ -41,18 +42,21 @@ export default function LoanDetails ({
     handleVisiable()
   })
 
+  const showKindTips = (() => {
+    console.log('Sun >>> showKindTips')
+    setShowTips(!showTips)
+  })
+
   return (
     <View style={styles.container}>
 
-     <View style={styles.listItemStyle}>
+     <Pressable onPress={() => handleFeePress()} style={styles.listItemStyle}>
       <View style={styles.feeItemStyle}>
       <Text>Fee</Text>
       <Text style={{color: '#0A233E',fontWeight: 800}}>RS.{optWithDaysConfig[daysOption].opt[amountIndex].manageFee}</Text>
       </View>
-      <TouchableOpacity onPress={() => handleFeePress()}>
       <Image source={image} style={styles.imageStyle}></Image>
-      </TouchableOpacity>
-     </View>
+      </Pressable>
 
      {/* 费用明细 */}
      { isChecked &&
@@ -109,9 +113,41 @@ export default function LoanDetails ({
      { isVisiable === true && 
       <View style={styles.listItemStyle}>
       <Text style={{color: '#00B295',fontWeight: 'bold'}}>Late Payment Charges</Text>
+      <TouchableOpacity style={{flex: 1,marginHorizontal: 8,marginTop: 2}} onPress={showKindTips}>
+      <Image source={require('@assets/applyLoan/loan_ic_tips.png')} style={{width: 15,height: 15}}></Image>
+      </TouchableOpacity>
       <Text style={{color: '#00B295',fontWeight: 'bold'}}>RS.{(optWithDaysConfig[daysOption].opt[amountIndex].dailyLateFee)}</Text>
      </View>
      }
+
+     <Modal
+         visible={showTips}
+         animationType="none"
+         transparent={true}
+     >
+      <View style = {styles.otherContainer}>
+     
+        <View style ={styles.tipStyle}>
+          <Text>Kind Tips</Text>
+          <Text style={{marginTop: 12}}>1241241232112412321124123211241232112321</Text>
+          <TouchableOpacity 
+          style={{
+            marginTop: 24,
+            borderRadius: 3,
+            marginHorizontal: 12,
+            backgroundColor: '#0825B8',
+            width:'100%',
+            height: 46,
+            justifyContent: 'center',
+            alignItems: 'center'}}
+            onPress={() => setShowTips(false)}
+            >
+            <Text style={{color: '#ffffff'}}>I Know</Text>
+          </TouchableOpacity>
+        </View>
+
+     </View>
+     </Modal>
 
     </View>
   );
@@ -179,6 +215,23 @@ const styles = StyleSheet.create({
     fontWeight: 500,
     color: '#4F5E6F',
     fontWeight: 500,
-  }
+  },
+
+  tipStyle: {
+    width:'88%',
+    height: 264,
+    paddingHorizontal: 12,
+    paddingTop: 18,
+    borderRadius: 8,
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+  },
+
+  otherContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 
 });

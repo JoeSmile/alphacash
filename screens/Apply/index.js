@@ -8,12 +8,26 @@ import FaceRecognition from "@components/FaceRecognition";
 import Checkbox from 'expo-checkbox';
 import { Audio } from 'expo-av';
 import MSlider from '@react-native-community/slider';
-import { Asset } from "expo-asset";
 import { useSystemStore } from '@store/useSystemStore'
 import FaceDetectionScreen from "@components/FaceDetectionScreen";
 import { useNavigation } from "@react-navigation/native";
 
 
+
+
+const applyBillData = {
+  "applyAmount": "6000",
+  "manageFee": "100",
+  "dailyRate": "1",
+  "dayNum": "30",
+  "selfieImage": "",
+  "minLoanMoney": "3000",
+  "maxLoanMoney": "6000",
+  "paymentType": "2",
+  "ewalletType": "1",
+  "ewalletAccount": "01234569888",
+
+}
 
 
 function buildGetRequest(url, params) {
@@ -26,7 +40,6 @@ function buildGetRequest(url, params) {
   return url;
 }
 
-const windowHeight = Dimensions.get('window').height;
 const playImage = require('@assets/applyLoan/dialogs_ic_play.png')
 const stopImage = require('@assets/applyLoan/dialogs_ic_pause.png')
 const baseURL = 'https://alphacashapi.tangbull.com/api/app/laon/voice'
@@ -46,11 +59,12 @@ export default function Apply () {
     isLoading: isApplyCreateBillLoading} = useApplyCreateBill()
 
     const [optWithDaysConfig, setOptWithDaysConfig] = useState([]);
-    const [isSpecialAccount, setIsSpecialAccount] = useState(true);
+    //审核账号
+    const [isSpecialAccount, setIsSpecialAccount] = useState(false);
     
     const [daysOption,setDaysOption] = useState(0)
     const [amountIndex,setAmountIndex] = useState(0)
-    const [isChecked, setChecked] = useState(false);
+    const [isChecked, setChecked] = useState(true);
     const [toVoice,setToVoice] = useState(false)
 
     //人脸数据
@@ -73,13 +87,22 @@ export default function Apply () {
     },[])
 
     useEffect(() => {
-      if(applyCheckParamsData && applyCheckParamsData.data.error_code == 1){
-        console.log('check params successful')
+      if(applyCheckParamsData?.data?.error_code == 1){
+        applyCreateBill(applyBillData)
       }
     },[applyCheckParamsData])
 
-    const clickLoanAgreement = (() => {
-      console.log('Sun >>> clickLoanAgreement')
+    useEffect(() => {
+      if(billData?.data?.error_code == 1){
+        navigation.replace('Homepage')
+      }
+    },[applyCheckParamsData])
+
+    const clickLoanAgreement = (()=> {
+      openExternalLink()
+    })
+
+    const openExternalLink  = (() => {
       const url = 'https://www.baidu.com'
       Linking.canOpenURL(url)
       .then((supported) => {
@@ -141,7 +164,7 @@ export default function Apply () {
         const data = { 
           "applyAmount": optWithDaysConfig[daysOption].opt[amountIndex].applyAmount,
           "manageFee": optWithDaysConfig[daysOption].opt[amountIndex].manageFee,
-          "dailyRate": optWithDaysConfig[daysOption].opt[amountIndex].dailyRate,
+          "dailyRate": optWithDaysConfig[daysOption].opt[amountIndex].dailyRate/100,
           "dayNum": optWithDaysConfig[daysOption].days,
           "minLoanMoney": optWithDaysConfig[daysOption].minLoanMoney,
           "maxLoanMoney": optWithDaysConfig[daysOption].maxLoanMoney
@@ -270,7 +293,7 @@ export default function Apply () {
     
 
     useEffect(() => {
-      if(loanProductConfigData && loanProductConfigData.data.error_code == 1){
+      if(loanProductConfigData?.data?.error_code == 1){
         const loanConfigInfo = loanProductConfigData.data.data.cashLoan
         //产品配置信息
         setOptWithDaysConfig(loanConfigInfo.optWithDaysConfig)
@@ -383,15 +406,16 @@ export default function Apply () {
           {'\n'}
           {'address:XXXXXXXX'}
         </Text>
+        <View style={{height: 80}}></View>
 
        </View>
        }
        
         </ScrollView>
 
-        <TouchableOpacity onPress={getLoan}>
-        <View
-        style={{
+        <TouchableOpacity 
+         onPress={() => getLoan()}
+         style={{
           bottom: 36,
           left: 36,
           right: 36,
@@ -402,18 +426,19 @@ export default function Apply () {
           justifyContent: 'center',
           flexDirection: 'row',
           borderRadius: 3,
-        }}>
+        }}
+        >
           <Text style={{color: '#FFFFFF',fontSize: 15}}>Get Loan</Text>
           <Image source={require('@assets/applyLoan/btn_ic_right.png')} style={{width: 12, height: 12,marginLeft: 2}}></Image>
 
-        </View>
         </TouchableOpacity>
 
       {/* 语音 */}
       { !!optWithDaysConfig[daysOption] &&
         <Modal
          visible={toVoice}
-         animationType="slide"
+         animationType="fade"
+         transparent={true}
          >
         <View style={styles.otherContainer}>
         <View style={styles.voiceViewStyle}>
@@ -492,7 +517,7 @@ export default function Apply () {
       
 
       {/* 人脸识别 */}
-      { faceDetected === true && <View style={{height: windowHeight}}>
+      { faceDetected === true && <View style={{flex: 1}}>
        <FaceDetectionScreen
          visible={isModalVisible}
          onClose={() => onClose()}
@@ -507,7 +532,6 @@ export default function Apply () {
 
 const styles = StyleSheet.create({
   container: {
-    height: windowHeight,
     position: "relative",
     backgroundColor: '#F4F5F7'
   },
@@ -518,7 +542,6 @@ const styles = StyleSheet.create({
 
   otherContainer: {
     flex: 1,
-    height: windowHeight,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',

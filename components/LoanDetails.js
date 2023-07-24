@@ -128,15 +128,14 @@ export default function LoanDetails ({
       <View style = {styles.otherContainer}>
      
         <View style ={styles.tipStyle}>
-          <Text>Kind Tips</Text>
-          <Text style={{marginTop: 12}}>1241241232112412321124123211241232112321</Text>
+          <Text style={{fontWeight: 'bold', fontSize: 15, color: '#0A233E'}}>Kind Tips</Text>
+          <Text style={{marginTop: 12,color: '#4F5E6F', fontSize: 13,lineHeight: 20}}>Remember to repay the loan in time,ifyou fail to repay the loan on time, you willbe fined according to the Late PaymentCharges rate of 2%/day!</Text>
           <TouchableOpacity 
           style={{
             marginTop: 24,
             borderRadius: 3,
-            marginHorizontal: 12,
             backgroundColor: '#0825B8',
-            width:'100%',
+            width:'96%',
             height: 46,
             justifyContent: 'center',
             alignItems: 'center'}}
@@ -218,8 +217,8 @@ const styles = StyleSheet.create({
   },
 
   tipStyle: {
-    width:'88%',
-    height: 264,
+    width:'82%',
+    height: 220,
     paddingHorizontal: 12,
     paddingTop: 18,
     borderRadius: 8,

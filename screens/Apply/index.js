@@ -128,7 +128,7 @@ export default function Apply () {
           "app": store.app,
           "sign": store.sign,
           "token":  store.token,
-          "language": "en",
+          "language": store.locale,
           "applyAmount": optWithDaysConfig[daysOption].opt[amountIndex].applyAmount,
           "dayNum": optWithDaysConfig[daysOption].days,
           "disburseMoney":  optWithDaysConfig[daysOption].opt[amountIndex].disburseMoney,

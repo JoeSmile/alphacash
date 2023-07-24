@@ -6,12 +6,22 @@ import { LocaleTypes } from "@store/useI18nStore";
 
 export const useSystemStore = create(persist(
 (set, get) => ({
+  //system
   isReadPolicy: false,
   locale: LocaleTypes.en,
-  token: '',
+  
+  //userInfo
+  phone: "",
+  token: "",
+  
+  //public parameters
   sign: '123dsabnwe',
   app:'alphacash',
+  
+  //cardInfo
   cardInfo: {},
+
+  //system functions
   setReadPolicy: () => {
     set((state) => ({
       ...state,
@@ -24,12 +34,24 @@ export const useSystemStore = create(persist(
       locale: newLocale
     }))
   },
+
+  //userInfo functions
   setToken: (token) => {
     set((state) => ({
       ...state,
       token
     }))
   },
+
+  setUserInfo: ({phone='', token=''}) => {
+    set((state) => ({
+      ...state,
+      phone,
+      token
+    }))
+  },
+
+   //cardInfo functions
   setCardInfo: (newCardInfo) => {
     set(() => ({
       cardInfo: newCardInfo

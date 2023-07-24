@@ -7,7 +7,7 @@ import { useI18n } from "@hooks/useI18n";
 
 const mockBills = [
   {
-    id: "11111",
+    loanId: "11111",
     getAmount: "6000",
     loanTerm: "7",
     applyDate: "07/07/2023",
@@ -16,7 +16,7 @@ const mockBills = [
     repaymentDate: "07/17/2023",
   },
   {
-    id: "22222",
+    loanId: "22222",
     getAmount: "6000",
     loanTerm: "7",
     applyDate: "07/07/2023",
@@ -25,7 +25,7 @@ const mockBills = [
     repaymentDate: "07/17/2023",
   },
   {
-    id: "33333",
+    loanId: "33333",
     getAmount: "6000",
     loanTerm: "7",
     applyDate: "07/07/2023",
@@ -34,7 +34,7 @@ const mockBills = [
     repaymentDate: "07/17/2023",
   },
   {
-    id: "4444",
+    loanId: "4444",
     getAmount: "76000",
     loanTerm: "7",
     applyDate: "07/07/2023",
@@ -45,8 +45,8 @@ const mockBills = [
 ];
 
 const renderScene = SceneMap({
-  processing: () => <Processing bills={mockBills} />,
-  completed: () => <Completed bills={mockBills} />,
+  processing: Processing,
+  completed: Completed,
 });
 
 export default function BillList() {
@@ -66,11 +66,16 @@ export default function BillList() {
     <TabBar
       {...props}
       indicatorStyle={{ backgroundColor: "#0825B8" }}
-      //indicatorContainerStyle={{ backgroundColor: "#0825B8" }}
+      indicatorContainerStyle={{
+        height: 2,
+        backgroundColor: "#E0E3E8",
+        top: 48,
+      }}
+      pressColor={"transparent"}
       style={{ backgroundColor: "transparent", marginBottom: 8 }}
       renderLabel={({ route, focused }) => (
         <Text style={{ color: focused ? "#0A233E" : "#8899AC", fontSize: 16 }}>
-          {route.title}
+          {route.title + ""}
         </Text>
       )}
     />
@@ -89,6 +94,7 @@ export default function BillList() {
         renderTabBar={renderTabBar}
         onIndexChange={setIndex}
         initialLayout={{ width: layout.width }}
+        style={{ flex: 1 }}
       />
     </View>
   );

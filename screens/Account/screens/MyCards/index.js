@@ -99,7 +99,7 @@ export default function MyCards({navigation, route}) {
   const {mutate: deleteBankAccount} = useDeleteBankAccount();
   // TODO: 1. 选择某个 wallet  2. confirm (xxxStore -> useXXXStore)
 
-  const [currentCard,setCurrentCard] = useState({})
+  const [currentCard, setCurrentCard] = useState({})
   const [isApplySelect,setIsApplySelect] = useState(false)
 
   const store = useSystemStore()
@@ -112,7 +112,7 @@ export default function MyCards({navigation, route}) {
     // console.log("editAccountId", editAccountId);
     // console.log("editAccountType", editAccountType);
     setIsApplySelect(isApplySelect)
-    if (isApplySelect) {
+    if (isApplySelect || isUpdateWallet) {
       setIsSelectAccount(true);
     }
   }, [route]);

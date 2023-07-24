@@ -7,7 +7,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 export function Process () {
   return (
-    <View>
+    <View style={{
+      position: 'absolute',
+      bottom: 10,
+      width: '100%'
+    }}>
       <View>
         <LinearGradient
           start={{x: 0, y: 0}}

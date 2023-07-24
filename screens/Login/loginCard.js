@@ -15,7 +15,6 @@ import { getOTP, encodeSHA, getNetInfo } from "@apis";
 import { useLogin } from "@apis/hooks";
 import Spinner from "react-native-loading-spinner-overlay";
 import { useNavigation } from "@react-navigation/native";
-import { useUserInfo } from "../../store/useUserInfo";
 
 encodeSHA();
 getNetInfo();
@@ -23,7 +22,8 @@ getNetInfo();
 export default function LoginCard() {
   const [isSelected, setSelection] = useState(false);
   const navigation = useNavigation();
-  const setToken = useSystemStore((s) => s.setToken);
+  const setUserInfo = useSystemStore((s) => s.setUserInfo);
+
   const { mutate: login, data, isLoading } = useLogin();
 
   const [text, setText] = useState("Get OTP");
@@ -31,7 +31,6 @@ export default function LoginCard() {
   const [isClickable, setIsClickable] = useState(true);
   let timer = null;
 
-  const setInfo = useUserInfo((state) => state.setBasicInfo);
   const [phoneNumber, setphoneNumber] = useState(null);
 
   useEffect(() => {
@@ -41,8 +40,10 @@ export default function LoginCard() {
   useEffect(() => {
     if (data?.data?.error_code == 1) {
       console.log("data.data.data.token", data.data.data.token);
-      setInfo({ phone: phoneNumber, token: data.data.data.token, name: "" });
-      setToken(data.data.data.token);
+      setUserInfo({
+        phone: phoneNumber,
+        token: data.data.data.token,
+      })
       navigation.push("Homepage");
     }
   }, [data]);

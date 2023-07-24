@@ -1,20 +1,9 @@
-import axios from "axios";
-import { baseURL } from "@const/config";
+import { axiosPost } from "./basic";
 
 export function getBills(param) {
-  return axios.post(`${baseURL}/api/app/loan/bills`, param).then(
-    (response) => {
-      return response.status === 200 && response;
-    },
-    () => {}
-  );
+  return axiosPost("/loan/bills", param);
 }
 
 export function getBillDetail(param) {
-  return axios.post(`${baseURL}/api/app/loan/billDetail`, param).then(
-    (response) => {
-      return response.status === 200 && response;
-    },
-    () => {}
-  );
+  return axiosPost(`/loan/billDetail`, param);
 }

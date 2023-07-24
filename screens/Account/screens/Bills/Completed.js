@@ -13,7 +13,7 @@ export default function Completed() {
   useEffect(() => {
     getBills({
       tab: 2,
-      token: "E5kcl3IAR6dLtbozCV6fGJ78jDKZvEtM1689823255956013",
+      token: "Q6OHu7B2YFCBHz3iUkae8bJTNl1BpG0j1689932285945198",
     });
   }, []);
 

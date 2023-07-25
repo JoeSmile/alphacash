@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, StyleSheet,Image,TouchableOpacity,Pressable,SafeAreaView,Linking ,Dimensions,Animated } from "react-native";
+import { View, Text, ScrollView, StyleSheet,Image,TouchableOpacity,Pressable,SafeAreaView,Linking ,Dimensions,Animated,Modal } from "react-native";
 import ApplyLoanCard from "@components/ApplyLoanCard";
 import LoanDetails from "@components/LoanDetails";
 import { useGetCashLoanProductConfig,useApplyCreateBill,useGetApplyCheckParams } from '@apis';
@@ -8,12 +8,26 @@ import FaceRecognition from "@components/FaceRecognition";
 import Checkbox from 'expo-checkbox';
 import { Audio } from 'expo-av';
 import MSlider from '@react-native-community/slider';
-import { Asset } from "expo-asset";
 import { useSystemStore } from '@store/useSystemStore'
 import FaceDetectionScreen from "@components/FaceDetectionScreen";
 import { useNavigation } from "@react-navigation/native";
 
 
+
+
+const applyBillData = {
+  "applyAmount": "6000",
+  "manageFee": "100",
+  "dailyRate": "1",
+  "dayNum": "30",
+  "selfieImage": "",
+  "minLoanMoney": "3000",
+  "maxLoanMoney": "6000",
+  "paymentType": "2",
+  "ewalletType": "1",
+  "ewalletAccount": "01234569888",
+
+}
 
 
 function buildGetRequest(url, params) {
@@ -26,7 +40,6 @@ function buildGetRequest(url, params) {
   return url;
 }
 
-const windowHeight = Dimensions.get('window').height;
 const playImage = require('@assets/applyLoan/dialogs_ic_play.png')
 const stopImage = require('@assets/applyLoan/dialogs_ic_pause.png')
 const baseURL = 'https://alphacashapi.tangbull.com/api/app/laon/voice'
@@ -46,11 +59,12 @@ export default function Apply () {
     isLoading: isApplyCreateBillLoading} = useApplyCreateBill()
 
     const [optWithDaysConfig, setOptWithDaysConfig] = useState([]);
-    const [isSpecialAccount, setIsSpecialAccount] = useState(true);
+    //审核账号
+    const [isSpecialAccount, setIsSpecialAccount] = useState(false);
     
     const [daysOption,setDaysOption] = useState(0)
     const [amountIndex,setAmountIndex] = useState(0)
-    const [isChecked, setChecked] = useState(false);
+    const [isChecked, setChecked] = useState(true);
     const [toVoice,setToVoice] = useState(false)
 
     //人脸数据
@@ -66,19 +80,29 @@ export default function Apply () {
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const [isClickable, setIsClickable] = useState(true);
+    const [audioFileUri,setAudioFileUri] = useState({})
 
     useEffect(() => {
       getCashLoanProductConfig()
     },[])
 
     useEffect(() => {
-      if(applyCheckParamsData && applyCheckParamsData.data.error_code == 1){
-        console.log('check params successful')
+      if(applyCheckParamsData?.data?.error_code == 1){
+        applyCreateBill(applyBillData)
       }
     },[applyCheckParamsData])
 
-    const clickLoanAgreement = (() => {
-      console.log('Sun >>> clickLoanAgreement')
+    useEffect(() => {
+      if(billData?.data?.error_code == 1){
+        navigation.replace('Homepage')
+      }
+    },[applyCheckParamsData])
+
+    const clickLoanAgreement = (()=> {
+      openExternalLink()
+    })
+
+    const openExternalLink  = (() => {
       const url = 'https://www.baidu.com'
       Linking.canOpenURL(url)
       .then((supported) => {
@@ -95,7 +119,6 @@ export default function Apply () {
     const getLoan = (() => {
       if(isChecked){
         console.log('Sun >>> getLoan' +  store.locale)
-        startAnimation()
         setToVoice(true)
         if(optWithDaysConfig[daysOption].days === 30){
           setIsClickable(false)
@@ -105,16 +128,17 @@ export default function Apply () {
           "app": store.app,
           "sign": store.sign,
           "token":  store.token,
-          "language": "en",
+          "language": store.locale,
           "applyAmount": optWithDaysConfig[daysOption].opt[amountIndex].applyAmount,
           "dayNum": optWithDaysConfig[daysOption].days,
           "disburseMoney":  optWithDaysConfig[daysOption].opt[amountIndex].disburseMoney,
           "dailyRate": optWithDaysConfig[daysOption].opt[amountIndex].dailyRate,
           "fineStrategyText": optWithDaysConfig[daysOption].opt[amountIndex].fineStrategyText ?? ""
         } 
-        const audioFileUri = buildGetRequest(baseURL,params)
-        console.log('Sun >>> ====' + audioFileUri)
-        loadAudio(audioFileUri)
+        const audioFUri = buildGetRequest(baseURL,params)
+        setAudioFileUri(audioFUri)
+        console.log('Sun >>> ====' + audioFUri)
+        loadAudio(audioFUri)
         
       } else {
         return
@@ -130,9 +154,7 @@ export default function Apply () {
 
     const goBack = (() => {
       console.log('Sun >>> goback')
-      unloadAudio()
       setToVoice(false)
-
     })
 
     const getApplyLoan = (() => {
@@ -142,7 +164,7 @@ export default function Apply () {
         const data = { 
           "applyAmount": optWithDaysConfig[daysOption].opt[amountIndex].applyAmount,
           "manageFee": optWithDaysConfig[daysOption].opt[amountIndex].manageFee,
-          "dailyRate": optWithDaysConfig[daysOption].opt[amountIndex].dailyRate,
+          "dailyRate": optWithDaysConfig[daysOption].opt[amountIndex].dailyRate/100,
           "dayNum": optWithDaysConfig[daysOption].days,
           "minLoanMoney": optWithDaysConfig[daysOption].minLoanMoney,
           "maxLoanMoney": optWithDaysConfig[daysOption].maxLoanMoney
@@ -155,17 +177,25 @@ export default function Apply () {
     })
 
     const playVoice = (() => {
-      console.log('Sun >>> playVoice')
-      setIsPlaying(!isPlaying)
-      playSound()
+      console.log('Sun >>> playVoice' + isPlaying)
+      //Andoroid端播放结束自动销毁，需要重新加载播放
+      if(currentTime != 0){
+        playSound()
+      } else {
+        if(!isPlaying){
+          loadAudio(audioFileUri)  
+          setIsPlaying(!isPlaying) 
+        }
+      }
     })
 
     const onPlaybackStatusUpdate = (status) => {
       if (status.isLoaded && !status.isBuffering) {
         setCurrentTime(status.positionMillis);
+        setDuration(status.durationMillis);
       }
 
-       //报错 status.durationMillis = infinity 以及调用了后会引起音频卡顿
+       //报错 status.durationMillis = infinity 以及调用了后会引起音频卡顿(web 端)
       //  console.log('status.durationMillis' + status.durationMillis)
         // setDuration(status.durationMillis)
     
@@ -174,11 +204,8 @@ export default function Apply () {
        if (status.didJustFinish && !status.isLooping) {
         // 重置所有状态
         setIsClickable(true)
-        setIsPlaying(!isPlaying);
+        setIsPlaying(false);
         setCurrentTime(0);
-        if (sound) {
-          sound.setPositionAsync(0);
-        }
       }
     };
 
@@ -206,11 +233,16 @@ export default function Apply () {
     };
 
     const formatTime = (timeInMillis) => {
-      if(timeInMillis !== Infinity && timeInMillis !== NaN){
-      const minutes = Math.floor(timeInMillis / 60000);
-      const seconds = ((timeInMillis % 60000) / 1000).toFixed(0);
-      return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-      }
+       if (timeInMillis !== Infinity && !isNaN(timeInMillis)) {
+    const minutes = Math.floor(timeInMillis / 60000);
+    const seconds = ((timeInMillis % 60000) / 1000).toFixed(0);
+
+    // 补零操作
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+    const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+
+    return `${formattedMinutes}:${formattedSeconds}`;
+  }
     };
 
     const playSound = async () => {
@@ -238,25 +270,6 @@ export default function Apply () {
       }
     };
 
-    //动画
-    const slideAnimation = useRef(new Animated.Value(0)).current;
-    const startAnimation = (() => {
-      Animated.timing(slideAnimation, {
-        toValue: 1,
-        duration: 800, // 动画时长，单位是毫秒
-        useNativeDriver: false, // 如果使用了'flex'属性，则必须设置为false
-      }).start(); // 开始动画
-    })
-
-    useEffect(() => {
-      if(toVoice){
-        startAnimation()
-      } else {
-        // 如果View不可见，则停止动画
-      slideAnimation.setValue(0);
-      }
-    },[toVoice])
-
     useEffect(() => {
       return sound
         ? () => {
@@ -267,7 +280,20 @@ export default function Apply () {
     }, [sound]);
 
     useEffect(() => {
-      if(loanProductConfigData && loanProductConfigData.data.error_code == 1){
+     if(!toVoice){
+      unloadAudio()
+      setIsClickable(true)
+      setIsPlaying(true);
+      setCurrentTime(0);
+      if (sound) {
+        sound.setPositionAsync(0);
+      }
+     }
+    }, [toVoice]);
+    
+
+    useEffect(() => {
+      if(loanProductConfigData?.data?.error_code == 1){
         const loanConfigInfo = loanProductConfigData.data.data.cashLoan
         //产品配置信息
         setOptWithDaysConfig(loanConfigInfo.optWithDaysConfig)
@@ -284,10 +310,17 @@ export default function Apply () {
   const clickFaceRecognition = (() => {
     console.log('Sun >>> clickFaceRecognition')
     setFaceDetected(true)
+    handleShowModal()
  
+  })
+
+  const onClose = (() => {
+    setModalVisible(false)
+    setFaceDetected(false)
   })
   
     const handleFaceDetected = (face) => {
+      console.log('Sun >>> face === ' + face)
       if(face){
         setFaceImage(face.uri);
         setModalVisible(false);
@@ -301,9 +334,8 @@ export default function Apply () {
 
 
   return (
-    <SafeAreaView >
-      <View style={[styles.container,toVoice === true && faceDetected === false && styles.noneContainer]}>
-       <ScrollView>
+    <SafeAreaView>
+       <ScrollView style={styles.container}>
         <View
         style={{
           top: 0,
@@ -374,49 +406,41 @@ export default function Apply () {
           {'\n'}
           {'address:XXXXXXXX'}
         </Text>
+        <View style={{height: 80}}></View>
 
        </View>
        }
-       </ScrollView>
+       
+        </ScrollView>
 
-       <TouchableOpacity onPress={() => getLoan()}>
-       <View
-        style={{
+        <TouchableOpacity 
+         onPress={() => getLoan()}
+         style={{
           bottom: 36,
           left: 36,
           right: 36,
           position: 'absolute',
           backgroundColor: isChecked ? "#0825B8" : "#C0C4D6",
           height: 46,
-          zIndex: 100,
           alignItems: 'center',
           justifyContent: 'center',
           flexDirection: 'row',
           borderRadius: 3,
-        }}>
+        }}
+        >
           <Text style={{color: '#FFFFFF',fontSize: 15}}>Get Loan</Text>
           <Image source={require('@assets/applyLoan/btn_ic_right.png')} style={{width: 12, height: 12,marginLeft: 2}}></Image>
 
-        </View>
         </TouchableOpacity>
-      </View>
 
       {/* 语音 */}
-      { !!optWithDaysConfig[daysOption] && toVoice === true && faceDetected === false &&
-
-       <View style={styles.otherContainer}>
-        <Animated.View
-          style={{
-          transform: [
-            {
-                translateY: slideAnimation.interpolate({
-                inputRange: [0, 1],
-                outputRange: [windowHeight/2, 0], // 从下往上偏移
-               }),
-             },
-           ],
-         }}
-        >
+      { !!optWithDaysConfig[daysOption] &&
+        <Modal
+         visible={toVoice}
+         animationType="fade"
+         transparent={true}
+         >
+        <View style={styles.otherContainer}>
         <View style={styles.voiceViewStyle}>
 
           <View style={styles.voiceItemStyle}>
@@ -452,7 +476,7 @@ export default function Apply () {
             <Image source={isPlaying === false ? playImage : stopImage} style={{width: 24,height: 24}}></Image>
             </Pressable>
            
-            <View style={{marginHorizontal: 15,flexDirection: 'column',flex: 1,justifyContent: 'center'}}>
+            <View style={{flexDirection: 'column',flex: 1,justifyContent: 'center',marginTop: -6}}>
               <MSlider
               style = {{marginTop: 6}}
               value={currentTime}
@@ -464,7 +488,7 @@ export default function Apply () {
               thumbTintColor="transparent" // 将滑块颜色设为透明
               thumbStyle={{ width: 0, height: 0 }} // 设置滑块样式为空对象，使其不占用空间
               ></MSlider>
-              <View style ={{flexDirection: 'row',justifyContent: 'space-between',marginTop: 3}}>
+              <View style ={{flexDirection: 'row',justifyContent: 'space-between',marginHorizontal: 15,marginTop: -3}}>
                 <Text style={{color: '#8899AC', fontSize: 11}}>{formatTime(currentTime)}</Text>
                 <Text  style={{color: '#8899AC', fontSize: 11}}>{formatTime(duration)}</Text>
               </View>
@@ -487,18 +511,16 @@ export default function Apply () {
           </View>
 
         </View>
-        </Animated.View>
         </View>
-      }
+        </Modal>
+}
+      
 
       {/* 人脸识别 */}
       { faceDetected === true && <View style={{flex: 1}}>
-       <TouchableOpacity onPress={handleShowModal}>
-         <Text>Show Face Recognition Modal</Text>
-       </TouchableOpacity>
        <FaceDetectionScreen
          visible={isModalVisible}
-         onClose={() => setModalVisible(false)}
+         onClose={() => onClose()}
          onFaceDetected={handleFaceDetected}
        />
        </View>
@@ -510,7 +532,6 @@ export default function Apply () {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     position: "relative",
     backgroundColor: '#F4F5F7'
   },
@@ -520,10 +541,10 @@ const styles = StyleSheet.create({
   },
 
   otherContainer: {
-    height: windowHeight,
-    position: "relative",
     flex: 1,
-    backgroundColor: '#00000080'
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   loanAgreementStyle: {
@@ -533,10 +554,12 @@ const styles = StyleSheet.create({
   },
 
   voiceViewStyle: {
-    marginTop: windowHeight/2,
+    position: 'absolute',
+    bottom: 0,
     opacity: 1,
     backgroundColor: '#F4F5F7',
     padding: 14,
+    paddingTop: 24,
     flex: 1,
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
@@ -548,7 +571,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 12,
     flexDirection: 'row',
     backgroundColor: '#F4F5F7',
-    marginTop: 10
   },
 
   voiceContentStyle: {

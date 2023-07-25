@@ -43,6 +43,8 @@ module.exports = ({ config }) => ({
         iCloudContainerEnvironment: "Production",
       },
     ],
+    "expo-calendar",
+    "expo-location",
   ],
   extra: {
     ENV: process.env.ENV,

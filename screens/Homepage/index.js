@@ -8,12 +8,14 @@ import {
 import { RFValue } from "react-native-responsive-fontsize";
 import { CompanyIntro } from "./CompanyIntro";
 import { Quota } from "./Quota";
-import { Advantage } from './Advantage';
-import { AntiFraudTips } from './AntiFraudTips';
-import { OnlineService } from './OnlineService';
+import { Advantage } from "./Advantage";
+import { AntiFraudTips } from "./AntiFraudTips";
+import { OnlineService } from "./OnlineService";
+import HomeModals from "./HomeModals";
 
-export default function Homepage({navigation}) {
+export default function Homepage({ navigation, route }) {
   const { i18n, setLocale, locale } = useI18n();
+  const { showModal } = route?.params || {};
 
   return (
     <ScrollView style={styles.container}>
@@ -32,6 +34,7 @@ export default function Homepage({navigation}) {
       <Advantage />
       <AntiFraudTips />
       <OnlineService />
+      <HomeModals showModal={true} />
     </ScrollView>
   );
 }
@@ -41,7 +44,7 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "relative",
     backgroundColor: "white",
-    paddingBottom: 20
+    paddingBottom: 20,
   },
   title: {
     fontSize: 20,

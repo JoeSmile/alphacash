@@ -39,19 +39,23 @@ export const getAppLocation = (() => {
     lo: "", // 经度
   };
   return async () => {
-    if (loc && Date.now - loc.timestamp <= 5 * 60 * 1000 * 1000) {
+    if (loc && Date.now() - loc.timestamp <= 5 * 60 * 1000 * 1000) {
       return retLoc;
     }
-    // let { status } = await Location.requestForegroundPermissionsAsync();
-    // if (status !== "granted") {
-    //   return retLoc;
-    // }
+    try {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        return retLoc;
+      }
 
-    // loc = await Location.getCurrentPositionAsync({});
-    // retLoc = {
-    //   la: "" + loc.coords.latitude,
-    //   lo: "" + loc.coords.longitude,
-    // };
+      loc = await Location.getCurrentPositionAsync({});
+      retLoc = {
+        la: "" + loc.coords.latitude,
+        lo: "" + loc.coords.longitude,
+      };
+    } catch (err) {
+      console.log("get location err: ", err);
+    }
 
     return retLoc;
   };

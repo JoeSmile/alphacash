@@ -31,6 +31,7 @@ function filterParameters(rawParameters) {
 export async function getAllParameters(path, parameters = {}) {
   // common parameters
   const loc = await getAppLocation();
+  //const loc = {};
   const rawParameters = { ...commonParams, ...loc, ...parameters };
   const rawString = getRawParameters(rawParameters, path);
 

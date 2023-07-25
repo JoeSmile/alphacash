@@ -7,7 +7,7 @@ export default function FModal({
   body,
   footer,
   isOpen,
-  toggle,
+  onCloseClick,
   ...restProps
 }) {
   return (
@@ -25,15 +25,15 @@ export default function FModal({
               size={24}
               style={{
                 position: "absolute",
-                right: 10,
-                top: 10,
+                right: 16,
+                top: 16,
               }}
-              color="black"
-              onPress={() => toggle(false)}
+              color="grey"
+              onPress={onCloseClick}
             />
           )}
-          <Text style={styles.modalHeader}>{header}</Text>
-          <Text style={styles.modalText}>{body}</Text>
+          <View style={styles.modalHeader}>{header}</View>
+          <View style={styles.modalText}>{body}</View>
           {footer && <View style={styles.modalFooter}>{footer}</View>}
         </View>
       </View>
@@ -45,42 +45,33 @@ const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
+    //alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalView: {
-    margin: 20,
+    margin: 40,
     backgroundColor: "white",
-    borderRadius: 20,
-    padding: 20,
+    borderRadius: 8,
+    paddingTop: 24,
+    paddingBottom: 20,
+    paddingHorizontal: 12,
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
     elevation: 5,
   },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
   modalHeader: {
-    fontSize: 28,
-    marginBottom: 20,
-    color: '#0A233E'
+    fontSize: 16,
+    lineHeight: 24,
+    color: "#0A233E",
+    fontWeight: "bold",
+    marginBottom: 12,
   },
   modalText: {
-    marginBottom: 15,
+    marginBottom: 20,
     textAlign: "left",
   },
   modalFooter: {
     flexDirection: "row",
-    padding: 20,
-    gap: 20,
+    gap: 15,
     width: "100%",
   },
 });

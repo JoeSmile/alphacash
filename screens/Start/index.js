@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, Pressable, View, BackHandler } from "react-native";
-import { A } from "@expo/html-elements";
 import FModal from "../../components/FModal";
 import { useSystemStore } from "../../store/useSystemStore";
+import {PrivatePolicy} from '@screens/Settings/PrivatePolicy';
 
-export default function Start({ navigation, navigator }) {
+export default function Start({ navigation }) {
   const [isReadPolicy, setReadPolicy] = useSystemStore(s => [s.isReadPolicy, s.setReadPolicy])
   const [modalVisible, setModalVisible] = useState(!isReadPolicy);
   useEffect(() => {
     if (isReadPolicy) {
-      navigation.replace("Homepage");
+      navigation.push("Homepage");
     }
   }, [])
   return (
@@ -19,33 +19,9 @@ export default function Start({ navigation, navigator }) {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        header="EagleLoan"
+        header="AlphaCash"
         body={
-          <>
-            EagleLoan is an online loan that is safe, simple, and fast, and
-            offers various types of loan products. you can always find The right
-            loan product for you. For more information, see
-            <A
-              href="https://google.com"
-              style={{
-                color: "#0969da",
-                textDecorationLine: "underline",
-              }}
-            >
-              Privacy Policy
-            </A>
-            and{" "}
-            <A
-              href="https://google.com"
-              style={{
-                color: "#0969da",
-                textDecorationLine: "underline",
-              }}
-            >
-              terms&conditions
-            </A>
-            .
-          </>
+        <PrivatePolicy />
         }
         footer={
           <>
@@ -59,7 +35,7 @@ export default function Start({ navigation, navigator }) {
               <Text style={styles.textStyle}>拒绝</Text>
             </Pressable>
             <Pressable
-              style={[styles.button, styles.buttonClose, { flex: 1 }]}
+              style={[styles.button, styles.buttonAgree, { flex: 1 }]}
               onPress={() => {
                 setModalVisible(!modalVisible);
                 setReadPolicy();
@@ -76,46 +52,25 @@ export default function Start({ navigation, navigator }) {
 }
 
 const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 20,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
   button: {
-    borderRadius: 20,
+    borderRadius: 8,
     padding: 10,
     elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
+    height: 48,
+    lineHeight: 48
   },
   buttonRefuse: {
-    backgroundColor: "gray",
+    backgroundColor: "#C0C4D6",
   },
-  buttonClose: {
-    backgroundColor: "#2196F3",
+  buttonAgree: {
+    backgroundColor: "#0825B8",
   },
-
   textStyle: {
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
+    height: '100%',
+    lineHeight: 28
   },
   modalHeader: {
     fontSize: 28,

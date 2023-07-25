@@ -1,7 +1,7 @@
  import { createStackNavigator } from "@react-navigation/stack";
 
 import { Language } from "@screens/Settings/Language";
-import { PrivatePolicy } from "@screens/Settings/PrivatePolicy";
+import { PrivatePolicyScreen } from "@screens/Settings/PrivatePolicy";
 
 export const SettingsScreens = [
 
@@ -12,7 +12,7 @@ export const SettingsScreens = [
   },
   {
     name: "PrivatePolicy",
-    component: PrivatePolicy,
+    component: PrivatePolicyScreen,
     headerTitle: "隐私协议",
   },
 ];

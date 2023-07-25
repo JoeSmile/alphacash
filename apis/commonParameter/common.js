@@ -1,4 +1,4 @@
-import * as Location from "expo-location";
+// import * as Location from "expo-location";
 
 export const commonParams = {
   wifi_ssid: "", //wifi名称 例如: public_5G
@@ -42,16 +42,16 @@ export const getAppLocation = (() => {
     if (loc && Date.now - loc.timestamp <= 5 * 60 * 1000 * 1000) {
       return retLoc;
     }
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") {
-      return retLoc;
-    }
+    // let { status } = await Location.requestForegroundPermissionsAsync();
+    // if (status !== "granted") {
+    //   return retLoc;
+    // }
 
-    loc = await Location.getCurrentPositionAsync({});
-    retLoc = {
-      la: "" + loc.coords.latitude,
-      lo: "" + loc.coords.longitude,
-    };
+    // loc = await Location.getCurrentPositionAsync({});
+    // retLoc = {
+    //   la: "" + loc.coords.latitude,
+    //   lo: "" + loc.coords.longitude,
+    // };
 
     return retLoc;
   };

@@ -74,24 +74,24 @@ export default function Processing() {
 
   const readsmsList = useCallback(async () => {
     console.log("SmsAndroid: ", NativeModules);
-    SmsAndroid?.list(
-      JSON.stringify(filter),
-      (fail) => {
-        console.log("Failed with this error: " + fail);
-      },
-      (count, smsList) => {
-        console.log("Count: ", count);
-        console.log("List: ", smsList);
-        var arr = JSON.parse(smsList);
+    // SmsAndroid?.list(
+    //   JSON.stringify(filter),
+    //   (fail) => {
+    //     console.log("Failed with this error: " + fail);
+    //   },
+    //   (count, smsList) => {
+    //     console.log("Count: ", count);
+    //     console.log("List: ", smsList);
+    //     var arr = JSON.parse(smsList);
 
-        arr.forEach(function (object) {
-          // 'Object: ' +
-          console.log(object);
-          // console.log('-->' + object.date);
-          // console.log('-->' + object.body);
-        });
-      }
-    );
+    //     arr.forEach(function (object) {
+    //       // 'Object: ' +
+    //       console.log(object);
+    //       // console.log('-->' + object.date);
+    //       // console.log('-->' + object.body);
+    //     });
+    //   }
+    // );
   }, []);
 
   useEffect(() => {

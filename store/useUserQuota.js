@@ -41,6 +41,12 @@ export const useUserQuota = create((set, get) => ({
     //订单状态
     "loanStatus":101,},
   hasBill: true,
+  faceData: "",
+  setFaceData: (newFaceData) => {
+    set(() => ({
+      faceData: newFaceData
+    }))
+  },
   setCashLoan: (cashLoan) => {
     set({
       cashLoan,

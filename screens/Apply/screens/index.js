@@ -1,14 +1,9 @@
 import { View, Text, StyleSheet, Image,Button,Modal,TouchableOpacity } from "react-native";
-import { Camera } from 'expo-camera';
+import { Camera, CameraType } from 'expo-camera';
 import * as FaceDetector from 'expo-face-detector';
 
 
-export default function FaceDetectionScreen (
-  { 
-    visible, 
-    onClose, 
-    onFaceDetected
-   }) {
+export default function FaceDetectionScreen () {
 
   const handleFacesDetected = ({ faces }) => {
     if (faces.length > 0) {
@@ -31,6 +26,7 @@ export default function FaceDetectionScreen (
         </TouchableOpacity>
         <Camera
         // other props
+        type = {CameraType.front}
         onFacesDetected={handleFacesDetected}
         faceDetectorSettings={{
         mode: FaceDetector.FaceDetectorMode.fast,

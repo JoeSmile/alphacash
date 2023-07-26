@@ -20,6 +20,10 @@ module.exports = ({ config }) => ({
       backgroundColor: "#ffffff",
     },
     package: "com.alphacash.easy.credit.loan.paisa",
+    // permissions: [
+    //   "READ_EXTERNAL_STORAGE"
+    // ],
+    
   },
   web: {
     favicon: "./assets/favicon.png",
@@ -42,6 +46,12 @@ module.exports = ({ config }) => ({
       {
         iCloudContainerEnvironment: "Production",
       },
+    ],
+    [
+      "expo-camera",
+      {
+        cameraPermission: "Allow $(PRODUCT_NAME) to access your camera."
+      }
     ],
   ],
   extra: {

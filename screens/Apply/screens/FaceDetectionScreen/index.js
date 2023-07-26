@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Image,Button,Modal,TouchableOpacity } from "react-native";
-import { Camera, CameraType } from 'expo-camera';
+import { Camera, CameraType, ImageType } from 'expo-camera';
 import * as FaceDetector from 'expo-face-detector';
 import { useEffect,useState,useRef  } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -53,12 +53,13 @@ export default function FaceDetectionScreen ({}) {
 
   const takePicture = async () => {
     if (cameraRef.current) {
-      const photo = await cameraRef.current.takePictureAsync();
+      const options = { quality: 1, base64: true};//设置为ImageType.png 还是jpg格式？
+      const photo = await cameraRef.current.takePictureAsync(options);
         // Convert the captured photo to Base64 format
         // const base64Photo = `data:image/jpg;base64,${photo.base64}`;
-      console.log(photo)
       setFaceData(photo)
-      store.setFaceData(photo.uri)
+      const parts = photo.uri.split('Camera/')
+      store.setFaceData({faceBase64: `data:image/jpeg;base64,${photo.base64}`,faceName: parts[1]})
     }
   };
 
@@ -92,7 +93,7 @@ export default function FaceDetectionScreen ({}) {
     <View style ={styles.container}>
       
      <Text  style={{marginTop: 36,fontSize: 15}}>{tips}</Text>
-      <View style={{marginTop: 46,backgroundColor: '#FFFFFF',width: 224,height: 268}}>
+      <View style={{marginTop: 36,backgroundColor: '#FFFFFF',width: 256,height: 256,overflow: 'hidden',borderRadius: 128}}>
         <Camera 
         ref={cameraRef}
         style={{flex: 1}}

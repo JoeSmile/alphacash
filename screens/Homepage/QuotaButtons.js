@@ -115,7 +115,7 @@ export function QuotaButtons() {
               title="Edit Now"
               onPress={() => {
                 if (cashLoan.isModifyInfo) {
-                  navigation.push("MyCards", { isUpdateWallet: true });
+                  navigation.push("Apply", { isUpdateWallet: true });
                 } else if (cashLoan.isModifyFaceImage) {
                   navigation.push("MyCards");
                 }
@@ -127,7 +127,7 @@ export function QuotaButtons() {
           <View>
             <FButton
               title="Repay Now"
-              onPress={() => console.log("repay now")}
+              onPress={() => navigation.push('Apply')}
             />
             <FButton
               title="View Detail"

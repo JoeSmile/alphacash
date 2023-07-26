@@ -8,7 +8,7 @@ export default function FaceRecognition () {
   const store = useUserQuota();
 
   useEffect(() => {
-    console.log('Sun >>> store.faceData =' + store.faceData)
+    console.log('SUn>>> faceName ===  ' + store.faceData.faceName)
 
   },[store.faceData])
 
@@ -17,7 +17,7 @@ export default function FaceRecognition () {
       <Image source={require('@assets/applyLoan/loan_ic_face_recognition.png')} style={{width: 35, height: 35}}></Image>
       <View style={styles.contentStyle}>
         <Text style={{ fontSize: 15,color: '#4F5E6F',fontWeight: 500,}}>Face Recognition</Text>
-        { store.faceData == '' ?
+        { store.faceData.faceName == '' ?
            <Text style={{color: '#0A233E', fontWeight: 'bold',marginTop: 8,fontSize: 15}}>please identify</Text>
            : <Text style={{color: '#01AE01', fontWeight: 'bold',marginTop: 8,fontSize: 15}}>pass</Text>
         }

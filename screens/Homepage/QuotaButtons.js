@@ -10,7 +10,10 @@ import { useEffect, useState } from "react";
 function BillBrief({ bill }) {
   if (!bill) return <></>;
   return (
-    <View>
+    <View style={{ 
+      paddingLeft: 15,
+      paddingRight: 15
+    }}>
       <View
         style={{
           flexDirection: "row",
@@ -76,7 +79,10 @@ export function QuotaButtons() {
 
   if (hasBill) {
     return (
-      <View>
+      <View style={{
+        paddingLeft: 15,
+        paddingRight: 15
+      }}>
         {/* bill brief */}
         <BillBrief bill={bill} />
 
@@ -102,6 +108,7 @@ export function QuotaButtons() {
                     width: 20,
                     height: 20,
                     //transform: 'translateY(4px)',
+                    marginTop: 3,
                     marginRight: 5,
                   }}
                 />
@@ -141,7 +148,6 @@ export function QuotaButtons() {
     <View style={styles.container}>
       <FButton
         style={{
-          marginBottom: 45,
           marginRight: 15,
           marginLeft: 15,
         }}
@@ -158,7 +164,5 @@ const styles = StyleSheet.create({
     margin: 15,
     paddingBottom: 15,
     borderRadius: 4,
-    boxShadow:
-      "1px 1px 3px 1px rgba(0, 0, 0, 0.1),1px 1px 2px 1px rgba(0, 0, 0, 0.06)",
   },
 });

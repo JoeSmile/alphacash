@@ -9,8 +9,8 @@ export function Process () {
   return (
     <View style={{
       position: 'absolute',
-      bottom: 10,
-      width: '100%'
+      width: '95%',
+      bottom: 5
     }}>
       <View>
         <LinearGradient

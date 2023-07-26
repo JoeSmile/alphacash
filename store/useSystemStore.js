@@ -10,7 +10,7 @@ export const useSystemStore = create(
       //system
       isReadPolicy: false,
       isRatePoped: false, // 评分弹框，默认没弹过，只有完成第一次申请贷款会跳的Home页的时候弹
-      isRepayReminderOn: true, // 还款提醒，默认是true
+      isRepayReminderOn: false, // 还款提醒，默认是false，每次申请贷款回跳Home页的时候弹框提醒
       locale: LocaleTypes.en,
 
       //userInfo

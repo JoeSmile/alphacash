@@ -1,68 +1,86 @@
 import { create } from "zustand";
-import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from "@react-native-async-storage/async-storage"
+import { persist, createJSONStorage } from "zustand/middleware";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { LocaleTypes } from "@store/useI18nStore";
 
-export const useSystemStore = create(persist(
-(set, get) => ({
-  //system
-  isReadPolicy: false,
-  locale: LocaleTypes.en,
-  
-  //userInfo
-  phone: "",
-  token: "",
-  
-  //public parameters
-  sign: '123dsabnwe',
-  app:'alphacash',
-  
-  //cardInfo
-  cardInfo: {},
+export const useSystemStore = create(
+  persist(
+    (set, get) => ({
+      //system
+      isReadPolicy: false,
+      isRatePoped: false, // 评分弹框，默认没弹过，只有完成第一次申请贷款会跳的Home页的时候弹
+      isRepayReminderOn: true, // 还款提醒，默认是true
+      locale: LocaleTypes.en,
 
-  //system functions
-  setReadPolicy: () => {
-    set((state) => ({
-      ...state,
-      isReadPolicy: true
-    }));
-  },
-  setLocale: (newLocale) => {
-    set((state) => ({
-      ...state,
-      locale: newLocale
-    }))
-  },
+      //userInfo
+      phone: "",
+      token: "",
 
-  //userInfo functions
-  setToken: (token) => {
-    set((state) => ({
-      ...state,
-      token
-    }))
-  },
+      //public parameters
+      sign: "123dsabnwe",
+      app: "alphacash",
 
-  setUserInfo: ({phone='', token=''}) => {
-    set((state) => ({
-      ...state,
-      phone,
-      token
-    }))
-  },
-
-   //cardInfo functions
-  setCardInfo: (newCardInfo) => {
-    set(() => ({
-      cardInfo: newCardInfo
-    }))
-  },
-  clean: () => {
-    set(() => ({
+      //cardInfo
       cardInfo: {},
-    }));
-  }
-}), {
-  name: 'system',
-  storage: createJSONStorage(() => AsyncStorage)
-} ));
+
+      //system functions
+      setReadPolicy: () => {
+        set((state) => ({
+          ...state,
+          isReadPolicy: true,
+        }));
+      },
+      setLocale: (newLocale) => {
+        set((state) => ({
+          ...state,
+          locale: newLocale,
+        }));
+      },
+      setRatePoped: () => {
+        set((state) => ({
+          ...state,
+          isRatePoped: true,
+        }));
+      },
+      setRepayReminderOn: (isOn) => {
+        set((state) => ({
+          ...state,
+          isRepayReminderOn: isOn,
+        }));
+      },
+
+      //userInfo functions
+      setToken: (token) => {
+        set((state) => ({
+          ...state,
+          token,
+        }));
+      },
+
+      setUserInfo: ({ phone = "", token = "" }) => {
+        set((state) => ({
+          ...state,
+          phone,
+          token,
+        }));
+      },
+
+      //cardInfo functions
+      setCardInfo: (newCardInfo) => {
+        set(() => ({
+          cardInfo: newCardInfo,
+        }));
+      },
+      clean: () => {
+        set(() => ({
+          cardInfo: {},
+        }));
+      },
+    }),
+    {
+      name: "system",
+      storage: createJSONStorage(() => AsyncStorage),
+    }
+  )
+);

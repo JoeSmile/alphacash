@@ -47,6 +47,8 @@ module.exports = ({ config }) => ({
         iCloudContainerEnvironment: "Production",
       },
     ],
+    "expo-calendar",
+    "expo-location",
     [
       "expo-camera",
       {

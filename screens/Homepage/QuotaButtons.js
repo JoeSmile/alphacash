@@ -101,7 +101,8 @@ export function QuotaButtons() {
                   style={{
                     width: 20,
                     height: 20,
-                    //transform: 'translateY(4px)',
+                    //transform: "translateY(4px)",
+                    transform: [{ translateY: 4 }],
                     marginRight: 5,
                   }}
                 />

@@ -1,4 +1,4 @@
-// import * as Location from "expo-location";
+import * as Location from "expo-location";
 
 export const commonParams = {
   wifi_ssid: "", //wifi名称 例如: public_5G

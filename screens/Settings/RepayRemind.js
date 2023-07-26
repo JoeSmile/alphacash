@@ -1,6 +1,7 @@
-import { View, Switch, Text, Image } from "react-native";
-import { useState, useEffect } from "react";
+import { View, Switch, Text, Image, StyleSheet, Pressable } from "react-native";
+import { useState, useEffect, useCallback } from "react";
 import { useSystemStore } from "@store/useSystemStore";
+import FModal from "@components/FModal";
 
 export const RepayRemind = (item) => {
   const [isOn, setOn] = useSystemStore((s) => [
@@ -8,13 +9,22 @@ export const RepayRemind = (item) => {
     s.setRepayReminderOn,
   ]);
   const [isEnabled, setIsEnabled] = useState(isOn);
-  const toggleSwitch = () => {
-    setIsEnabled((previousState) => !previousState);
-  };
+  const [modalVisible, setModalVisible] = useState(false);
 
-  useEffect(() => {
-    setOn(isEnabled);
+  const toggleSwitch = useCallback(() => {
+    if (isEnabled) {
+      setModalVisible(true);
+    } else {
+      setIsEnabled(!isEnabled);
+      setOn(!isEnabled);
+    }
   }, [isEnabled]);
+
+  const closeReminder = useCallback(() => {
+    setModalVisible(false);
+    setIsEnabled(false);
+    setOn(false);
+  }, []);
 
   return (
     <View
@@ -48,6 +58,62 @@ export const RepayRemind = (item) => {
         onValueChange={toggleSwitch}
         value={isEnabled}
       />
+      <FModal
+        isOpen={modalVisible}
+        displayClose={false}
+        header={null}
+        body={
+          <Text style={styles.tip}>
+            Are you sure you want to turn off the repayment tips?
+          </Text>
+        }
+        footer={
+          <>
+            <Pressable
+              style={[styles.button, styles.buttonRefuse]}
+              onPress={() => {
+                setModalVisible(false);
+              }}
+            >
+              <Text style={styles.btnText}>Cancel</Text>
+            </Pressable>
+            <Pressable
+              style={[styles.button, styles.buttonOpen]}
+              onPress={closeReminder}
+            >
+              <Text style={styles.btnText}>Confirm</Text>
+            </Pressable>
+          </>
+        }
+      />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  tip: {
+    fontSize: 16,
+    lineHeight: 23,
+    color: "#0A233E",
+    textAlign: "center",
+  },
+  button: {
+    borderRadius: 3,
+    padding: 12,
+    elevation: 2,
+    flex: 1,
+  },
+  buttonOpen: {
+    backgroundColor: "#0825B8",
+  },
+  buttonRefuse: {
+    backgroundColor: "#C0C4D6",
+  },
+  btnText: {
+    fontSize: 16,
+    lineHeight: 24,
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+});

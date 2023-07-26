@@ -2,47 +2,45 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, Pressable, View, BackHandler } from "react-native";
 import FModal from "../../components/FModal";
 import { useSystemStore } from "../../store/useSystemStore";
-import {PrivatePolicy} from '@screens/Settings/PrivatePolicy';
+import { PrivatePolicy } from "@screens/Settings/PrivatePolicy";
 
 export default function Start({ navigation }) {
-  const [isReadPolicy, setReadPolicy] = useSystemStore(s => [s.isReadPolicy, s.setReadPolicy])
+  const [isReadPolicy, setReadPolicy] = useSystemStore((s) => [
+    s.isReadPolicy,
+    s.setReadPolicy,
+  ]);
   const [modalVisible, setModalVisible] = useState(!isReadPolicy);
   useEffect(() => {
     if (isReadPolicy) {
       navigation.push("Homepage");
     }
-  }, [])
+  }, []);
   return (
     <View>
-      <Text>License No: XXXXXXX</Text>
       <FModal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        header="AlphaCash"
-        body={
-        <PrivatePolicy />
-        }
+        isOpen={modalVisible}
+        header={<Text style={styles.title}>AlphaCash</Text>}
+        body={<PrivatePolicy />}
         footer={
           <>
             <Pressable
-              style={[styles.button, styles.buttonRefuse, { flex: 1 }]}
+              style={[styles.button, styles.buttonRefuse]}
               onPress={() => {
                 console.log("exitApp");
                 BackHandler.exitApp();
               }}
             >
-              <Text style={styles.textStyle}>拒绝</Text>
+              <Text style={styles.textStyle}>Reject</Text>
             </Pressable>
             <Pressable
-              style={[styles.button, styles.buttonAgree, { flex: 1 }]}
+              style={[styles.button, styles.buttonAgree]}
               onPress={() => {
                 setModalVisible(!modalVisible);
                 setReadPolicy();
                 navigation.replace("Homepage");
               }}
             >
-              <Text style={styles.textStyle}>同意</Text>
+              <Text style={styles.textStyle}>Agree</Text>
             </Pressable>
           </>
         }
@@ -52,12 +50,18 @@ export default function Start({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  title: {
+    fontSize: 16,
+    lineHeight: 22,
+    color: "#0A233E",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
   button: {
-    borderRadius: 8,
-    padding: 10,
+    borderRadius: 3,
+    padding: 12,
     elevation: 2,
-    height: 48,
-    lineHeight: 48
+    flex: 1,
   },
   buttonRefuse: {
     backgroundColor: "#C0C4D6",
@@ -66,18 +70,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#0825B8",
   },
   textStyle: {
+    fontSize: 16,
+    lineHeight: 24,
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
-    height: '100%',
-    lineHeight: 28
-  },
-  modalHeader: {
-    fontSize: 28,
-    marginBottom: 20,
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "left",
   },
 });

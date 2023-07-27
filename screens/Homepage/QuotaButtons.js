@@ -64,7 +64,7 @@ function BillBrief({ bill }) {
 }
 
 export function QuotaButtons() {
-  const { i18n, setLocale, locale } = useI18n();
+  const { i18n } = useI18n();
   const navigation = useNavigation();
   const [cashLoan, bill, hasBill] = useUserQuota((s) => [
     s.cashLoan,
@@ -152,7 +152,7 @@ export function QuotaButtons() {
           marginLeft: 15,
         }}
         onPress={() => navigation.push("Apply")}
-        title="Get Loan"
+        title={i18n.t('GetLoan')}
         disabled={cashLoan.isEligible}
       />
     </View>

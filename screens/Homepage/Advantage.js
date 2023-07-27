@@ -5,8 +5,11 @@ import {
   ImageBackground
 } from "react-native";
 import { Asset } from "expo-asset";
+import { useI18n, LocaleTypes } from "@hooks/useI18n";
 
 export function Advantage () {
+  const { i18n } = useI18n();
+
   return (
     <View style={{
       padding: 15,
@@ -26,7 +29,7 @@ export function Advantage () {
           fontSize: 16,
           fontWeight: 'bold',
           paddingLeft: 10
-        }}>Advantage</Text>
+        }}>{i18n.t('Advantage')}</Text>
       </View>
       <View style={{
         height: 56,
@@ -36,20 +39,17 @@ export function Advantage () {
         <ImageBackground source={{
           uri: Asset.fromModule(require("@assets/bills/home_advantage_bg1.png")).uri,
         }} style={{flex: 1, padding: 10}}>
-          <Text style={{color: '#4F5E6F', fontSize: 14, marginBottom: 5}}>High</Text>
-          <Text style={{color: '#4F5E6F', fontSize: 14}}>Amount</Text>
+          <Text style={{color: '#4F5E6F', fontSize: 14, width: 55}}>{i18n.t('HighAmount')}</Text>
         </ImageBackground>
         <ImageBackground source={{
           uri: Asset.fromModule(require("@assets/bills/home_advantage_bg2.png")).uri,
         }} style={{flex: 1, padding: 10}}>
-            <Text style={{color: '#4F5E6F', fontSize: 14, marginBottom: 5}}>Fast</Text>
-            <Text style={{color: '#4F5E6F', fontSize: 14}}>Disburse</Text>
+            <Text style={{color: '#4F5E6F', fontSize: 14, width: 60}}>{i18n.t('FastDisburse')}</Text>
           </ImageBackground>
          <ImageBackground source={{
           uri: Asset.fromModule(require("@assets/bills/home_advantage_bg3.png")).uri,
         }} style={{flex: 1, padding: 10}}>
-          <Text style={{color: '#4F5E6F', fontSize: 14, marginBottom: 5}}>Flexible</Text>
-          <Text style={{color: '#4F5E6F', fontSize: 14}}>Repayment</Text>
+          <Text style={{color: '#4F5E6F', fontSize: 14}}>{i18n.t('FlexibleRepayment')}</Text>
         </ImageBackground>
       </View>
     </View>

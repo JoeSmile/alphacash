@@ -5,8 +5,11 @@ import {
   Text
 } from "react-native";
 import { Asset } from "expo-asset";
+import { useI18n } from "@hooks/useI18n";
 
 export function AntiFraudTips () {
+  const { i18n } = useI18n();
+
   return (
     <View style={{
       padding: 15,
@@ -51,7 +54,7 @@ export function AntiFraudTips () {
               color: '#4F5E6F',
               fontSize: 12
             }}>
-              Do not trust the repayment provided by others, please follow the transaction method prompted by the App to repay, other payment methods are counterfeit, avoid being deceived! ! !
+            {i18n.t('AntiFraudTips')}
           </Text>
         </View>
       </View>

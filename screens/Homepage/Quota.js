@@ -63,7 +63,9 @@ export function Quota() {
             marginBottom: 15,
           }}
         >
-          Max Amount
+        {
+          i18n.t('MaxAmount')
+        }
         </Text>
         <Text
           style={{

@@ -1,10 +1,14 @@
 import {
   View,
   Text,
-  Image,
-  
+  Image
 } from "react-native";
+
+import { useI18n, LocaleTypes } from "@hooks/useI18n";
+
 export function OnlineService () {
+  const { i18n } = useI18n();
+
   return (
     <View style={{
       marginBottom: 40,
@@ -32,7 +36,7 @@ export function OnlineService () {
         />
         <Text style={{
           marginLeft: 10
-        }}>OnlineService</Text>
+        }}>{i18n.t('Online Service')}</Text>
       </View>
       <Image
         source={require("@assets/images/com_ic_right.png")}

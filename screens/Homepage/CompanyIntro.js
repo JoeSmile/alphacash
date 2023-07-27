@@ -1,24 +1,26 @@
-import { Pressable, StyleSheet } from "react-native";
+import { Pressable, StyleSheet, Image } from "react-native";
 import { Text, View } from "../../components/Themed";
 import { useI18n, LocaleTypes } from "@hooks/useI18n";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export function CompanyIntro() {
-  const { i18n, setLocale, locale } = useI18n();
+  const { i18n } = useI18n();
 
   return (
     <View style={styles.container}> 
-      <Text style={{
-        fontSize: 18,
-        color: 'white',
-        fontWeight: 600,
-        marginBottom: 10
-      }}>AlphaCash</Text>
-      <Text style={{
-        fontSize: 14,
-        opacity: 0.8,
-        color: 'white'
-      }}>Fast arrival, loan and repayment</Text>
+      <View style={{
+         backgroundColor:'transparent',
+         flexDirection: 'row',
+         alignItems: 'center'
+      }}>
+        <Image 
+          source={require('@assets/images/home_top_logo.png')} 
+          style={{
+            width: 210,
+            height: 65
+          }}
+          />
+      </View>
     </View>
   );
 }

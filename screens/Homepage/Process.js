@@ -4,8 +4,11 @@ import {
   StyleSheet
 } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
+import { useI18n } from "@hooks/useI18n";
 
 export function Process () {
+  const { i18n } = useI18n();
+
   return (
     <View style={{
       position: 'absolute',
@@ -38,9 +41,9 @@ export function Process () {
           flexDirection: 'row',
           transform: [{ translateY: -5 }],
         }}>
-          <Text style={styles.text}> register </Text>
-          <Text style={styles.text}> complete information </Text>
-          <Text style={styles.text}> Disburse Amount  </Text>
+          <Text style={styles.text}> {i18n.t('Register')} </Text>
+          <Text style={styles.text}> {i18n.t('CompleteInfo')} </Text>
+          <Text style={styles.text}>  {i18n.t('DisburseAmount')} </Text>
         </View>
       </View>
     </View>

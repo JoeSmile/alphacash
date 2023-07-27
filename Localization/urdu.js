@@ -171,7 +171,7 @@ export const urdu = {
   'Privacy Policy':'	رازداری کی پالیسی',
   'Version':'	موجودہ ورژن',
   'Log Out':'	باہر جائیں',
-
+  'Are you sure to log out?': 'کیا آپ کو لاگ آؤٹ کرنا یقینی ہے؟',
   'Collection Account':'جمع اکاؤنٹ',
   'Are you sure you want to turn off the repayment tips?':'کیا آپ واقعی ادائیگی کی یاد دہانی کو بند کرنا چاہتے ہیں؟',
   '[AlphaCash]The loan you applied for is about to expire, please repay it in time!':'[AlphaCash] آپ نے جس قرض کے لیے درخواست دی ہے اس کی میعاد ختم ہونے کو ہے، براہ کرم اسے وقت پر ادا کریں!',

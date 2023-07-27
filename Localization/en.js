@@ -168,6 +168,7 @@ export const en = {
   'Privacy Policy':'Privacy Policy',
   'Version':'Version',
   'Log Out':'Log Out',
+  'Are you sure to log out?': 'Are you sure to log out?',
   'Collection Account':'Collection Account',
   'Are you sure you want to turn off the repayment tips?':'Are you sure you want to turn off the repayment tips?',
   '[AlphaCash]The loan you applied for is about to expire, please repay it in time!':'[AlphaCash]The loan you applied for is about to expire, please repay it in time!',

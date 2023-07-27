@@ -24,6 +24,7 @@ const Item = (item) => {
 };
 
 const getListData = ({locale, isLogin, setToken}) => {
+  console.log('locale--', locale);
   const baseList = [
     {
       id: "1",
@@ -60,7 +61,7 @@ const getListData = ({locale, isLogin, setToken}) => {
               flex: 1
               }}>
               <Text style={{color: '#0A233E', fontSize: 16}}>{item.title}</Text>
-              <Text style={{color: '#0A233E', fontSize: 16}}>{locale ==LocaleTypes.urdu ? 'urdu' : 'English'}</Text>
+              <Text style={{color: '#0A233E', fontSize: 16}}>{locale == LocaleTypes.urdu ? 'اردو' : 'English'}</Text>
             </View>
           </View>
         )
@@ -132,6 +133,7 @@ const getListData = ({locale, isLogin, setToken}) => {
 const Settings = () => {
   const { locale } = useI18n()
   const [isLogin, setToken] = useSystemStore((s) => [!!s.token, s.setToken]);
+  console.log('lSettingsSettingsSettingsSettingsocale--', locale);
 
   const listData = useMemo(() => {
     return getListData({locale, isLogin, setToken});

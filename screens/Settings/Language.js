@@ -1,5 +1,5 @@
 import { Text, Pressable, View, FlatList, Image } from "react-native";
-import { useI18nStore } from "@store/useI18nStore";
+import { useI18n, LocaleTypes } from "@hooks/useI18n";
 
 const data = [
   {
@@ -13,10 +13,7 @@ const data = [
 ];
 
 const Item = ({ locale, title }) => {
-  const [currentLocale, setLocale] = useI18nStore((s) => [
-    s.locale,
-    s.setLocale,
-  ]);
+  const {locale:currentLocale, setLocale} = useI18n();
 
   return (
     <Pressable

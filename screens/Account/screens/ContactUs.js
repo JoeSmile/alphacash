@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   },
   itemsContainer: {
     margin: 15,
-    transform: "translateY(-50px)",
+    transform: [{ translateY: -50 }],
   },
   item: {
     flexDirection: "row",

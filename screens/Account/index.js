@@ -65,7 +65,7 @@ const Account = ({ navigation }) => {
 
       <View
         style={{
-          transform: "translateY(-50px)",
+          transform: [{ translateY: -50 }],
           alignItems: "center",
         }}
       >

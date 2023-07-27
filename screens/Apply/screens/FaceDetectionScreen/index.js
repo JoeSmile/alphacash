@@ -11,7 +11,7 @@ export default function FaceDetectionScreen ({}) {
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [isBlinking, setIsBlinking] = useState(false);
   const [isYawing, setIsYawing] = useState(false);
-  const [tips,setTips] = useState('Please point straight at the camera')
+  const [tips,setTips] = useState('Please face the screen')
   const navigation = useNavigation();
   // Add a variable to hold the timer ID
   const timerRef = useRef(null);
@@ -42,7 +42,7 @@ export default function FaceDetectionScreen ({}) {
 
   const isBlinkingFace = (face) => {
     // 0.3 是一个基准值，可以根据实际情况进行调整
-    return face.leftEyeOpenProbability < 0.4 || face.rightEyeOpenProbability < 0.4;
+    return face.leftEyeOpenProbability < 0.2 || face.rightEyeOpenProbability < 0.2;
   };
 
   const isYawingFace = (face) => {
@@ -59,31 +59,29 @@ export default function FaceDetectionScreen ({}) {
         // const base64Photo = `data:image/jpg;base64,${photo.base64}`;
       setFaceData(photo)
       const parts = photo.uri.split('Camera/')
-      store.setFaceData({faceBase64: `data:image/jpeg;base64,${photo.base64}`,faceName: parts[1]})
+      store.setFaceData({faceBase64: `data:image/jpg;base64,${photo.base64}`,faceName: parts[1]})
+      // navigation.goBack()
     }
   };
 
   const handleFacesDetected = ({ faces }) => {
     if (faces.length > 0) {
       if(!isBlinking){
-        setTips('Please blink')
+        setTips('Please close your eyes and then blink your eyes')
       }
       faces.map((face) => {
-        if(isBlinkingFace(face)){
-          setTips('Please shake your head')
+        console.log('face.leftEyeOpenProbability' + face.leftEyeOpenProbability)
+        if(isBlinkingFace(face) && !isBlinking){
           setIsBlinking(true)
-        }
-        if(isYawingFace(face) && isBlinking && !isYawing){
-          setIsYawing(true)
           timerRef.current = setTimeout(() => {
             takePicture()
-          }, 3000); 
+          }, 1000); 
         }
       })
     } else {
-      setTips('Please point straight at the camera')
+      setTips('Please face the screen')
+      // setIsYawing(false)
       setIsBlinking(false)
-      setIsYawing(false)
       clearTimeout(timerRef.current);
     }
   };
@@ -92,8 +90,7 @@ export default function FaceDetectionScreen ({}) {
   return (
     <View style ={styles.container}>
       
-     <Text  style={{marginTop: 36,fontSize: 15}}>{tips}</Text>
-      <View style={{marginTop: 36,backgroundColor: '#FFFFFF',width: 256,height: 256,overflow: 'hidden',borderRadius: 128}}>
+      <View style={{marginTop: 96,backgroundColor: '#FFFFFF',width: 256,height: 256,overflow: 'hidden',borderRadius: 128}}>
         <Camera 
         ref={cameraRef}
         style={{flex: 1}}
@@ -108,11 +105,16 @@ export default function FaceDetectionScreen ({}) {
          }}
         />
       </View>
-    <View>
-      <Text style={{lineHeight: 22,marginTop: 36,color: '#4F5E6F'}}>Please follow the instructions to complete the face recognition action and improve your pass rate!</Text>
+
+      <View>
+      <Text style={{lineHeight: 22,marginTop: 46,color: '#0825B8',fontSize: 15,fontWeight: 'bold'}}>{tips}</Text>
     </View>
 
-        {faceData && <Image source={faceData} style={{width: 100,height: 100,marginTop: 20}}></Image>}
+    <View>
+      <Text style={{lineHeight: 22,marginTop: 24,color: '#4F5E6F',fontSize: 13}}>Please follow the instructions to complete the face recognition action and improve your pass rate!</Text>
+    </View>
+
+    {faceData && <Image source={faceData} style={{width: 100,height: 100,marginTop: 20}}></Image>}
         
     </View>
   );

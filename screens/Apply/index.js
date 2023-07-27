@@ -22,13 +22,13 @@ function dataURLtoBlob(dataUrl) {
   let mime = arr[0].match(/:(.*?);/)[1];
   let bstr = decode(arr[1]);
   // let bstr = atob(arr[1]);//Android端没有 atob方法
-  // let bstr = Buffer.from(arr[1],'base64')
   let n = bstr.length;
   let u8arr = new Uint8Array(n);
   while (n--) {
     u8arr[n] = bstr.charCodeAt(n);
   }
   return new Blob([u8arr], {type: mime});
+  // return bstr;
 }
 
 function buildGetRequest(url, params) {
@@ -93,15 +93,17 @@ export default function Apply () {
       if(applyCheckParamsData?.data?.error_code == 1){
         console.log('Sun >>> applyCheckParamsData')
         const blobData = dataURLtoBlob(fImageUri)
-        console.log('Sun >>> ===' + blobData)
+        console.log('Sun >>> blobData ==== ' + JSON.stringify(blobData))
         // const blobData = dataURLtoBlob(userStore.faceData.faceBase64)
         let file = blobData
-        // if (Platform.OS === 'android') {
-        //   // Android 平台处理 Blob 对象
-        //   console.log('Platform.OS === android')
-        //   file = {uri: userStore.faceData.faceBase64, type: 'image/jpg', name: userStore.faceData.faceName}
-        //   // file = new File([blobData], "store.faceData.split('Camera/')[1].jpeg", { type: 'image/jpeg' });
-        // }
+        if (Platform.OS === 'android') {
+          // console.log('Platform.OS === android')
+          // file = {
+          //   uri: userStore.faceData.faceBase64,
+          //   type: 'image/jpg', 
+          //   name: userStore.faceData.faceName
+          // }
+        }
          //拼接参数
          const params = {
           "applyAmount": optWithDaysConfig[daysOption].opt[amountIndex].applyAmount,
@@ -110,7 +112,7 @@ export default function Apply () {
           "dayNum": optWithDaysConfig[daysOption].days,
           "minLoanMoney": optWithDaysConfig[daysOption].minLoanMoney,
           "maxLoanMoney": optWithDaysConfig[daysOption].maxLoanMoney,
-          "selfieImage": blobData, 
+          "selfieImage": file,
           "paymentType": "2",
           "ewalletType": "1",
           "ewalletAccount": "03123456788"
@@ -199,6 +201,7 @@ export default function Apply () {
 
     const goBack = (() => {
       console.log('Sun >>> goback')
+      // unloadAudio()
       setToVoice(false)
     })
 
@@ -325,8 +328,8 @@ export default function Apply () {
     }, [sound]);
 
     useEffect(() => {
-     if(!toVoice){
-      unloadAudio()
+     if(toVoice){
+      // unloadAudio()
       setIsClickable(true)
       setIsPlaying(true);
       setCurrentTime(0);

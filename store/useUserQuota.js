@@ -44,6 +44,15 @@ export const useUserQuota = create((set, get) => ({
     loanStatus: 101,
   },
   hasBill: true,
+  faceData: {
+    faceBase64: "",
+    faceName: ""
+  },
+  setFaceData: (newFaceData) => {
+    set(() => ({
+      faceData: newFaceData
+    }))
+  },
   setCashLoan: (cashLoan) => {
     set({
       cashLoan,

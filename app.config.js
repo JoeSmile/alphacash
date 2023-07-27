@@ -20,6 +20,11 @@ module.exports = ({ config }) => ({
       backgroundColor: "#ffffff",
     },
     package: "com.alphacash.easy.credit.loan.paisa",
+    permissions: [
+      "ACCESS_BACKGROUND_LOCATION",
+      "READ_CALENDAR",
+      "WRITE_CALENDAR",
+    ],
   },
   web: {
     favicon: "./assets/favicon.png",
@@ -45,6 +50,12 @@ module.exports = ({ config }) => ({
     ],
     "expo-calendar",
     "expo-location",
+    [
+      "expo-camera",
+      {
+        cameraPermission: "Allow $(PRODUCT_NAME) to access your camera."
+      }
+    ],
   ],
   extra: {
     ENV: process.env.ENV,

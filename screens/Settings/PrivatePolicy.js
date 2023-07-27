@@ -23,7 +23,6 @@ export function PrivatePolicy() {
           color: "#4F5E6F",
           lineHeight: 20,
           fontSize: 14,
-          display: "inline",
         }}
       >
         For more information, see{" "}
@@ -33,7 +32,6 @@ export function PrivatePolicy() {
             color: "#0825B8",
             textDecorationLine: "none",
             fontWeight: "bold",
-            display: "inline",
           }}
         >
           Privacy Policy
@@ -45,7 +43,6 @@ export function PrivatePolicy() {
             color: "#0825B8",
             textDecorationLine: "none",
             fontWeight: "bold",
-            display: "inline",
           }}
         >
           terms&conditions

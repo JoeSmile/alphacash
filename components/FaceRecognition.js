@@ -1,29 +1,27 @@
-import { View, Text, StyleSheet, Image,TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import { useEffect, useState } from "react";
+import { useUserQuota } from '@store';
 
 
-export default function FaceRecognition ({
-  faceDetected
-}) {
 
-  const [faceState,setFaceState] = useState('please identify')
-  // const [hasPermission, setHasPermission] = useState(false);
+export default function FaceRecognition () {
+  const store = useUserQuota();
 
-  // useEffect(() => {
-  //   (async () => {
-  //     if(!hasPermission){
-  //     const { status } = await Camera.requestCameraPermissionsAsync();
-  //     setHasPermission(status === 'granted');
-  //   }
-  //   })();
-  // }, []);
+  useEffect(() => {
+    console.log('SUn>>> faceName ===  ' + store.faceData.faceName)
+
+  },[store.faceData])
 
   return(
     <View style={styles.container}>
       <Image source={require('@assets/applyLoan/loan_ic_face_recognition.png')} style={{width: 35, height: 35}}></Image>
       <View style={styles.contentStyle}>
         <Text style={{ fontSize: 15,color: '#4F5E6F',fontWeight: 500,}}>Face Recognition</Text>
-        <Text style={{color: '#0A233E', fontWeight: 'bold',marginTop: 8,fontSize: 15}}>{faceState}</Text>
+        { store.faceData.faceName == '' ?
+           <Text style={{color: '#0A233E', fontWeight: 'bold',marginTop: 8,fontSize: 15}}>please identify</Text>
+           : <Text style={{color: '#01AE01', fontWeight: 'bold',marginTop: 8,fontSize: 15}}>pass</Text>
+        }
+       
       </View>
       <Image source={require('@assets/applyLoan/com_ic_right.png')} style={{width: 15, height: 15}}></Image>
     </View>

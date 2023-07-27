@@ -1,4 +1,4 @@
-import { axiosPost, axiosGet } from './basic';
+import { axiosPost, axiosGet,axiosPostFile } from './basic';
 
 export function getOTP(phoneNumber) {
   return axiosPost('/otp', {phoneNumber})
@@ -91,7 +91,7 @@ export async function getApplyCheckParams(parameters){
 }
 
 export async function applyCreateBill(parameters){
-  return axiosPost('/cashLoan/createBill',parameters)
+  return axiosPostFile('/cashLoan/createBill',parameters)
 }
 // homepage
 export async function getUserQuota (parameters) {

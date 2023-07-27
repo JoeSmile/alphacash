@@ -34,7 +34,7 @@ export default function Homepage({ navigation, route }) {
       <Advantage />
       <AntiFraudTips />
       <OnlineService />
-      <HomeModals showModal={true} />
+      <HomeModals showModal={showModal} />
     </ScrollView>
   );
 }

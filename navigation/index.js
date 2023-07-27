@@ -14,6 +14,7 @@ import LinkingConfiguration from "./LinkingConfiguration";
 import Start from "../screens/Start";
 import Login from "../screens/Login";
 import Apply from "../screens/Apply";
+import FaceDetectionScreen from "../screens/Apply/screens/FaceDetectionScreen";
 import { AddNewAccount } from '@screens/Account/screens/MyCards/AddNewAccount';
 
 import { MineScreens } from './MineNavigator';
@@ -52,6 +53,11 @@ function RootNavigator() {
         <Stack.Screen name="Apply" component={Apply}  options={{
            ...pageHeader,
            headerTitle: 'Apply',
+           headerShown: true
+        }}/>
+         <Stack.Screen name="FaceDetectionScreen" component={FaceDetectionScreen}  options={{
+           ...pageHeader,
+           headerTitle: 'Face Recognition',
            headerShown: true
         }}/>
           <Stack.Screen name="AddNewAccount" component={AddNewAccount}  options={{

@@ -84,9 +84,8 @@ export function Quota() {
 const styles = StyleSheet.create({
   container: {
     margin: 15,
-    paddingBottom: 25,
-    paddingHorizontal: 15,
     borderRadius: 4,
+    paddingBottom: 50,
     position: "relative",
     boxShadow:
       "1px 1px 3px 1px rgba(0, 0, 0, 0.1),1px 1px 2px 1px rgba(0, 0, 0, 0.06)",

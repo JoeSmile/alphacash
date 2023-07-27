@@ -9,8 +9,8 @@ export function Process () {
   return (
     <View style={{
       position: 'absolute',
-      bottom: 10,
-      width: '100%'
+      width: '95%',
+      bottom: 5
     }}>
       <View>
         <LinearGradient
@@ -22,7 +22,7 @@ export function Process () {
         <View style={{
           flexDirection: 'row',
           width: '100%',
-          transform: 'translateY(-10px)'
+          transform: [{ translateY: -10 }],
         }}>
           <View style={styles.textContainer}>
             <Text style={styles.number}>1</Text>
@@ -36,7 +36,7 @@ export function Process () {
         </View>
         <View style={{
           flexDirection: 'row',
-          transform: 'translateY(-5px)'
+          transform: [{ translateY: -5 }],
         }}>
           <Text style={styles.text}> register </Text>
           <Text style={styles.text}> complete information </Text>

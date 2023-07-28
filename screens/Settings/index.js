@@ -4,6 +4,8 @@ import FList from "@components/FList";
 import { useI18n, LocaleTypes } from "@hooks/useI18n";
 import { useMemo } from 'react';
 import { useSystemStore } from "@store/useSystemStore";
+import { useNavigation } from "@react-navigation/native";
+
 
 const Item = (item) => {
   const { i18n } = useI18n();
@@ -24,7 +26,13 @@ const Item = (item) => {
   );
 };
 
-const getListData = ({locale, isLogin, setToken, i18n}) => {
+const getListData = ({locale, isLogin, setToken, i18n,navigation}) => {
+  
+  const clickLogOut = (() => {
+    setToken('')
+    navigation.push('Homepage')
+  })
+
   const baseList = [
     {
       id: "1",
@@ -120,7 +128,7 @@ const getListData = ({locale, isLogin, setToken, i18n}) => {
             alignItems: 'center',
             width: '100%'
           }}
-          onPress={() => setToken('')}
+          onPress={() => clickLogOut()}
           >
             <View><Text>{i18n.t('Log Out')}</Text></View>
           </Pressable>
@@ -132,10 +140,11 @@ const getListData = ({locale, isLogin, setToken, i18n}) => {
 }
 const Settings = () => {
   const { locale, i18n } = useI18n()
+  const navigation = useNavigation();
   const [isLogin, setToken] = useSystemStore((s) => [!!s.token, s.setToken]);
 
   const listData = useMemo(() => {
-    return getListData({locale, isLogin, setToken, i18n});
+    return getListData({locale, isLogin, setToken, i18n,navigation});
   }, [locale, isLogin, setToken, i18n]);
 
   return (

@@ -94,7 +94,7 @@ const Account = ({ navigation }) => {
                     fontSize: 15,
                   }}
                 >
-                  {isLogin ? i18n.t('Log In') : "i18n.t('Log Out')"}
+                  {isLogin ? i18n.t('Log Out') : i18n.t('Log In')}
                 </Text>
               </Pressable>
             </View>

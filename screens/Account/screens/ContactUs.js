@@ -54,8 +54,7 @@ const data = [
                 style={{
                   width: 25,
                   height: 25,
-                  marginRight: 12,
-                  marginLeft: 12,
+                  marginRight: 12, 
                 }}
               />
               <Text style={{color: '#0A233E'}}>{i18n.t(item.title)}</Text>
@@ -107,7 +106,8 @@ const data = [
             }}>
               <Text style={{
                 color: '#0825B8',
-                fontSize: 16
+                fontSize: 15,
+                fontWeight: 'bold',
               }}>Call</Text>
           </Pressable>
         </>

@@ -7,8 +7,7 @@ export const EXAMPLE_TYPES = {
   PROOF_EMPLOYMENT: "PROOF_EMPLOYMENT",
 };
 
-function ExampleImage({ type }) {
-  const { i18n } = useI18n();
+function ExampleImage({ type,i18n }) {
 
   let example = <></>;
   switch (type) {
@@ -108,11 +107,12 @@ function ExampleImage({ type }) {
 }
 
 export function ExampleModal({ isVisible, onClose, type }) {
+  const { i18n } = useI18n();
   return (
     <Modal animationType="fade" transparent={true} visible={isVisible}>
       <View style={styles.container}>
         <View style={styles.content}>
-          <ExampleImage type={type} />
+          <ExampleImage type={type} i18n={i18n} />
           <Pressable onPress={() => onClose("")}>
             <Text style={styles.closeBtn}>{i18n.t('I Know')}</Text>
           </Pressable>

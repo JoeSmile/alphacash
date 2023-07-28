@@ -22,11 +22,11 @@ export const useUserQuota = create((set, get) => ({
       //申请金额
       applyAmount: 3000,
       //贷款周期
-      loanCycle: 30,
+      loanTerm: 30,
       //申请时间
-      applyTime: "12/02/2023",
+      applyDate: "12/02/2023",
       //订单状态
-      loanStatus: 101,
+      appStatus: 101,
     },
   },
   bill: {
@@ -37,11 +37,11 @@ export const useUserQuota = create((set, get) => ({
     //申请金额
     applyAmount: 3000,
     //贷款周期
-    loanCycle: 30,
+    loanTerm: 30,
     //申请时间
-    applyTime: "12/02/2023",
+    applyDate: "12/02/2023",
     //订单状态
-    loanStatus: 101,
+    appStatus: 101,
   },
   hasBill: true,
   faceData: {

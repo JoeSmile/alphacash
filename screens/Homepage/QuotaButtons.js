@@ -36,7 +36,7 @@ function BillBrief({ bill }) {
             color: "#0A233E",
             fontSize: 15,
           }}
-        >{`${bill.loanCycle}`} {i18n.t('Days')}</Text>
+        >{bill.loanTerm} {i18n.t('Days')}</Text>
       </View>
       <View
         style={{
@@ -58,7 +58,7 @@ function BillBrief({ bill }) {
             fontSize: 15,
           }}
         >
-          {bill.applyTime}
+          {bill.applyDate}
         </Text>
       </View>
     </View>
@@ -139,12 +139,15 @@ export function QuotaButtons() {
               title="RepayNow"
               onPress={() => navigation.push('Apply')}
               style={{
-                marginBottom: 10
+                marginBottom: 12
               }}
             />
             <FButton
               title="ViewDetails"
               onPress={() => console.log("go to bill detail")}
+              style={{
+                marginBottom: 10
+              }}
             />
           </View>
         )}
@@ -160,7 +163,7 @@ export function QuotaButtons() {
         }}
         onPress={() => navigation.push("Apply")}
         title={i18n.t('GetLoan')}
-        disabled={cashLoan.isEligible}
+        disabled={!cashLoan.isEligible}
       />
     </View>
   );

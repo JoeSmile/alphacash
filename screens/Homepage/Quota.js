@@ -23,33 +23,34 @@ export function Quota() {
   const { mutate: getUserQuota, data } = useGetUserQuota();
 
   useEffect(() => {
-    // getUserQuota();
+    getUserQuota();
   }, []);
 
   useEffect(() => {
     const cashLoan = data?.data?.data?.cashLoan;
     if (cashLoan) {
       setCashLoan(cashLoan);
-    }
+    }setCashLoan
   }, [data]);
 
   return (
     <View style={styles.container}>
       <View
         style={{
+          margin: 2,
           justifyContent: "center",
           alignItems: "center",
         }}
       >
         {hasBill && (
           <Image
-            source={statusToImg[bill.loanStatus]}
+            source={statusToImg[bill.appStatus]}
             style={{
               position: "absolute",
               width: 102,
               height: 73,
-              top: 0,
-              right: 0,
+              top: -2,
+              right: -2,
             }}
           />
         )}
@@ -87,9 +88,17 @@ const styles = StyleSheet.create({
   container: {
     margin: 15,
     borderRadius: 4,
-    paddingBottom: 50,
+    paddingBottom: 12,
     position: "relative",
-    boxShadow:
-      "1px 1px 3px 1px rgba(0, 0, 0, 0.1),1px 1px 2px 1px rgba(0, 0, 0, 0.06)",
+    // boxShadow:
+    //   "1px 1px 3px 1px rgba(0, 0, 0, 0.1),1px 1px 2px 1px rgba(0, 0, 0, 0.06)",
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: {
+       width: 0,
+       height: 1,
+    },
+    shadowOpacity: 0.16,
+    shadowRadius: 3,
   },
 });

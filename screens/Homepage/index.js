@@ -25,7 +25,7 @@ export default function Homepage({ navigation, route }) {
           position: "absolute",
           backgroundColor: "#0825B8",
           width: "100%",
-          height: 150,
+          height: 236,
           zIndex: 0,
         }}
       />

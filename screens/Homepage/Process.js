@@ -11,8 +11,7 @@ export function Process () {
 
   return (
     <View style={{
-      position: 'absolute',
-      width: '95%',
+      marginHorizontal: 24,
       bottom: 5
     }}>
       <View>

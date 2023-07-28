@@ -17,8 +17,6 @@ export default function LoanDetails ({
 
   const [isChecked,setIsChecked] = useState(false)
   const [image,setImage] = useState(imageDown)
-  //是否显示滞纳金
-  const [isVisiable,setIsVisiable] = useState(false)
   const [showTips,setShowTips] = useState(false)
 
 
@@ -30,18 +28,6 @@ export default function LoanDetails ({
       setImage(imageUp)
     }
   };
-
-  const handleVisiable = () => {
-    if(optWithDaysConfig[daysOption].days === 30){
-      setIsVisiable(true)
-    } else {
-      setIsVisiable(false)
-    }
-  }
-
-  useEffect(() => {
-    handleVisiable()
-  })
 
   const showKindTips = (() => {
     console.log('Sun >>> showKindTips')
@@ -111,7 +97,7 @@ export default function LoanDetails ({
       <Text style={{color: '#0A233E',fontWeight: 800}}>{optWithDaysConfig[daysOption].opt[amountIndex].repaymentDate}</Text>
      </View>
 
-     { isVisiable === true && 
+     { optWithDaysConfig[daysOption].days === 30 && 
       <View style={styles.listItemStyle}>
       <Text style={{color: '#00B295',fontWeight: 'bold'}}>{i18n.t('Late Payment Charges')}</Text>
       <TouchableOpacity style={{flex: 1,marginHorizontal: 8,marginTop: 2}} onPress={showKindTips}>
@@ -163,6 +149,14 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 12,
     marginTop: 12,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: {
+       width: 0,
+       height: 1,
+    },
+    shadowOpacity: 0.16,
+    shadowRadius: 3,
   },
 
   listItemStyle: {

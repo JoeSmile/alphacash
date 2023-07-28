@@ -115,9 +115,6 @@ export default function Apply () {
           "minLoanMoney": optWithDaysConfig[daysOption].minLoanMoney,
           "maxLoanMoney": optWithDaysConfig[daysOption].maxLoanMoney,
           "selfieImage": file,
-          "paymentType": "2",
-          "ewalletType": "1",
-          "ewalletAccount": "03123456788"
         } 
         let cardParams = {}
         if(store.cardInfo.bankAccount){
@@ -136,7 +133,7 @@ export default function Apply () {
         }
         const allParams = {...params, ...cardParams}
 
-        applyCreateBill(params)
+        applyCreateBill(allParams)
       }
     },[applyCheckParamsData])
 
@@ -416,7 +413,7 @@ export default function Apply () {
         ></LoanDetails>
 
         <Pressable onPress={() => clickCollectionAccount()}>
-          {/* <CollectionAccount></CollectionAccount> */}
+          <CollectionAccount></CollectionAccount>
         </Pressable>
 
         <Pressable onPress={() => clickFaceRecognition()}>

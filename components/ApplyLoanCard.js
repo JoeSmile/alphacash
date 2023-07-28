@@ -105,6 +105,14 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     borderRadius: 4,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: {
+       width: 0,
+       height: 1,
+    },
+    shadowOpacity: 0.16,
+    shadowRadius: 3,
   },
 
   imageStyle: {

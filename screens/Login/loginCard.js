@@ -21,7 +21,7 @@ encodeSHA();
 getNetInfo();
 
 export default function LoginCard() {
-  const [isSelected, setSelection] = useState(false);
+  const [isSelected, setSelection] = useState(true);
   const navigation = useNavigation();
   const setUserInfo = useSystemStore((s) => s.setUserInfo);
   const { i18n } = useI18n();
@@ -82,8 +82,8 @@ export default function LoginCard() {
             // setToken('IAlKWtScF1Zgjohmc4OE6ogHI04WapiQ1688892525968584')
             setphoneNumber(values.phoneNumber);
             login({
-              phoneNumber: values.phoneNumber || "03123456789",
-              otp: values.OTP || "789456",
+              phoneNumber: values.phoneNumber,
+              otp: values.OTP,
             });
           }}
         >
@@ -99,6 +99,7 @@ export default function LoginCard() {
                   onBlur={handleBlur("phoneNumber")}
                   value={values.phoneNumber}
                   maxLength={11}
+                  keyboardType= "numeric"
                 />
               </View>
               <View style={styles.inputContainer}>

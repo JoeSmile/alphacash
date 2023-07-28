@@ -9,11 +9,6 @@ export default function FaceRecognition () {
   const store = useUserQuota();
   const { i18n } = useI18n();
 
-  useEffect(() => {
-    console.log('SUn>>> faceName ===  ' + store.faceData.faceName)
-
-  },[store.faceData])
-
   return(
     <View style={styles.container}>
       <Image source={require('@assets/applyLoan/loan_ic_face_recognition.png')} style={{width: 35, height: 35}}></Image>
@@ -41,6 +36,14 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 12,
     marginTop: 12,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: {
+       width: 0,
+       height: 1,
+    },
+    shadowOpacity: 0.16,
+    shadowRadius: 3,
   },
 
   contentStyle: {

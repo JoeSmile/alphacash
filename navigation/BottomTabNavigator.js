@@ -88,7 +88,7 @@ function HomePageNavigator() {
       <HomePageStack.Screen
         name="Homepage"
         component={Homepage}
-        options={{ headerTitle: "AlphaCash", ...pageHeader }}
+        options={{ headerTitle: "AlphaCash", headerShown: false, ...pageHeader }}
       />
     </HomePageStack.Navigator>
   );

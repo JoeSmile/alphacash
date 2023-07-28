@@ -129,8 +129,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 12,
     borderRadius: 4,
-    boxShadow:
-      "1px 1px 3px 0 rgba(0, 0, 0, 0.1),1px 1px 2px 0 rgba(0, 0, 0, 0.06)",
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: {
+       width: 0,
+       height: 1,
+    },
+    shadowOpacity: 0.16,
+    shadowRadius: 3,
   },
   text: {
     color: "white",

@@ -6,7 +6,7 @@ import {
   NavigationContainer,
 } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Pressable, Text } from 'react-native';
+import { Pressable, Text,Image } from 'react-native';
 import NotFoundScreen from "../screens/NotFoundScreen";
 import BottomTabNavigator from "./BottomTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
@@ -92,11 +92,13 @@ function RootNavigator() {
                         navigation.push(screen.goto) : 
                         navigation.goBack()
                       }}>
-                        <Text style={{
-                          color: 'white',
-                          padding: 20,
-                          fontSize: 16
-                        }}>{`<-`}</Text>
+                        <Image
+                         source={require('@assets/images/com_nav_ic_back_white.png')}
+                         style={{
+                          marginLeft: 12,
+                          width: 21,
+                          height: 21,
+                         }}></Image>
                     </Pressable>
                   )
                 },

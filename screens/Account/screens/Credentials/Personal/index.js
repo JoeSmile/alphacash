@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { useGetPersonalDetail, useUpdatePersonalInfo, useGetPersonalOptions } from '@apis/hooks'
 import dayjs from 'dayjs';
 import { Toast } from '@ant-design/react-native';
+import { useI18n, LocaleTypes } from "@hooks/useI18n";
 
 const emptyInitialValues= {
   name: '',
@@ -57,6 +58,7 @@ export default function Personal({ navigation }) {
   const updatePersonalInfoMutation = useUpdatePersonalInfo();
   // const getPersonalOptionsMutation = useGetPersonalOptions();
   const [initialValues, setInitialValues] = useState();
+  const { i18n } = useI18n();
 
   useEffect(() => {
     getPersonalDetail();
@@ -83,8 +85,7 @@ export default function Personal({ navigation }) {
     <SafeAreaView >
     <ScrollView style={{backgroundColor: 'white'}}>
     <View >
-      <SafeIntro safeText=" The information you fill in is only used for credit
-        evaluation and will never be used for other purposes.We use encryption to ensure your information security!"/>
+      <SafeIntro safeText={i18n.t('The information you fill in is only used for credit evaluation and will never be used for other purposes.We use encryption to ensure your information security!')}/>
           <View style={{
               marginBottom: 15,
               height: 950,
@@ -142,7 +143,7 @@ export default function Personal({ navigation }) {
                   <View style={{
                     marginBottom: 15,
                   }}>
-                    <Text>Residential Address</Text>
+                    <Text>{i18n.t('Residential Address')}</Text>
                     <View style={{
                       flexDirection: 'row',
                       justifyContent: "space-between",
@@ -193,7 +194,7 @@ export default function Personal({ navigation }) {
                           color: "#FFFFFF",
                           backgroundColor: "#0825B8",
                           fontSize: 15,
-                        }}> Next </Text>
+                        }}>{i18n.t('Next')}  </Text>
                       <Image source={require('@assets/images/btn_ic_right.png')} style={{width: 12, height: 12}}/>
                     </Pressable>
                 </>

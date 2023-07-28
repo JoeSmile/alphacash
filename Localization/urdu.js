@@ -175,4 +175,17 @@ export const urdu = {
   '[AlphaCash]The loan you applied for is about to expire, please repay it in time!':'[AlphaCash] آپ نے جس قرض کے لیے درخواست دی ہے اس کی میعاد ختم ہونے کو ہے، براہ کرم اسے وقت پر ادا کریں!',
   '[AlphaCash]The loan you applied for is due, and you must repay it in time today to avoid overdue!':'[AlphaCash] آپ نے جس قرض کے لیے درخواست دی ہے وہ واجب الادا ہے، اور واجب الادا ہونے سے بچنے کے لیے آپ کو اسے آج ہی وقت پر ادا کرنا ہوگا!',
   'Repayment reminder has been successfully turned on!':'ادائیگی کی یاد دہانی کامیابی کے ساتھ آن کر دی گئی ہے۔',
+
+  'Bill Details':'بل کی تفصیلات',
+  'Mine':'ذاتی مرکز',
+  'Home':'گھر',
+  'Get Loan':'قرض حاصل کریں۔',
+  'Call':'ڈائل',
+  'Next':'اگلے',
+  'YES':'جی ہاں',
+  'NO':'نہیں',
+  'Days':'دن',
+  'Return':'واپسی',
+  'Province':'صوبہ',
+  'City':'شہر',
 };

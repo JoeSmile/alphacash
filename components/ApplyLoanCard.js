@@ -28,13 +28,13 @@ export default function ApplyLoanCard ({
     if(isApply){
       return (
       <View style={[styles.loanTermUnCheckedStyle, index === daysOption && styles.loanTermCheckedStyle]}>
-        <Text style={{color: '#262626', fontSize: 14,fontWeight: 'bold'}}>{title} Days</Text>
+        <Text style={{color: '#262626', fontSize: 14,fontWeight: 'bold'}}>{title} {i18n.t('Days')}</Text>
       </View>
       )
     } else {
       return (
       <View style={styles.loanTermUnCheckedStyle}>
-       <Text style={{color: '#262626', fontSize: 14,fontWeight: 'bold'}}>{title} Days</Text>
+       <Text style={{color: '#262626', fontSize: 14,fontWeight: 'bold'}}>{title} {i18n.t('Days')}</Text>
        <Image  source={require('@assets/applyLoan/loan_ic_lock.png')} style={{width: 14,height: 14,marginHorizontal: 2}}></Image>
      </View>
       )

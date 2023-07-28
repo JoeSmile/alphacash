@@ -11,6 +11,7 @@ import * as Calendar from "expo-calendar";
 import { Toast } from "@ant-design/react-native";
 import FModal from "@components/FModal";
 import { useSystemStore } from "@store/useSystemStore";
+import { useI18n, LocaleTypes } from "@hooks/useI18n";
 
 export const MODAL_TYPE = {
   RATE: "RATE",
@@ -18,6 +19,8 @@ export const MODAL_TYPE = {
 };
 
 function HomeModals({ showModal }) {
+  const { i18n } = useI18n();
+
   const [isRatePoped, isRepayReminderOn, setRatePoped, setReminderOn] =
     useSystemStore((s) => [
       s.isRatePoped,
@@ -50,7 +53,7 @@ function HomeModals({ showModal }) {
     }
 
     if (modalType === MODAL_TYPE.REPAY_TIP) {
-      return <Text style={styles.title}>Repayment Tips</Text>;
+      return <Text style={styles.title}>{i18n.t('Repayment Tips')}</Text>;
     } else {
       return (
         <>
@@ -58,7 +61,7 @@ function HomeModals({ showModal }) {
             source={require("@assets/applyLoan/pop_up_score_img.png")}
             style={styles.scoreImg}
           />
-          <Text style={styles.title}>Rate Us</Text>
+          <Text style={styles.title}>{i18n.t('RateUs')}</Text>
         </>
       );
     }
@@ -74,8 +77,7 @@ function HomeModals({ showModal }) {
         <>
           <View>
             <Text style={styles.tips}>
-              In order to avoid overdue behavior, you can turn on the repayment
-              reminder, which will remind you to repay the repayment in time on
+              {i18n.t('RepaymentWords')}
               <Text style={styles.strong}>
                 {" "}
                 [the day before the due date and the day]{" "}
@@ -85,8 +87,7 @@ function HomeModals({ showModal }) {
           </View>
           <View style={styles.note}>
             <Text style={styles.noteText}>
-              Note: If You Need To Turn Off The Reminder, You Can Turn It Off In
-              My/Settings.
+            {i18n.t('NoteSettings')}
             </Text>
           </View>
         </>
@@ -94,9 +95,7 @@ function HomeModals({ showModal }) {
     } else {
       return (
         <Text style={styles.tips}>
-          You have completed the application and are reviewing it. The payment
-          will be released after a while. If you think it is good, remember to
-          give it a good review.
+         {i18n.t('GoodReview')}
         </Text>
       );
     }
@@ -116,13 +115,14 @@ function HomeModals({ showModal }) {
               setModalVisible(false);
             }}
           >
-            <Text style={styles.btnText}>No Open</Text>
+         
+            <Text style={styles.btnText}>{i18n.t('NoOpen')}</Text>
           </Pressable>
           <Pressable
             style={[styles.button, styles.buttonOpen]}
             onPress={openCalandar}
           >
-            <Text style={styles.btnText}>Open Now</Text>
+            <Text style={styles.btnText}>{i18n.t('OpenNow')}</Text>
           </Pressable>
         </>
       );
@@ -136,7 +136,7 @@ function HomeModals({ showModal }) {
             // TODO, 跳到APP商店评分
           }}
         >
-          <Text style={styles.btnText}>I Know</Text>
+          <Text style={styles.btnText}>{i18n.t('I Know')}</Text>
         </Pressable>
       );
     }

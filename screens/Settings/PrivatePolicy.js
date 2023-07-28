@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, Pressable, View, BackHandler } from "react-native";
 import FModal from "@components/FModal";
 import { A } from "@expo/html-elements";
+import { useI18n } from "@hooks/useI18n";
 
 export function PrivatePolicy() {
+  const { i18n } = useI18n();
+
   return (
     <View>
       <Text
@@ -13,9 +16,7 @@ export function PrivatePolicy() {
           fontSize: 14,
         }}
       >
-        AlphaCash is an online loan that is safe, simple, and fast, and offers
-        various types of loan products. you can always find The right loan
-        product for you.
+      {i18n.t('AlphaCashBrief')}
       </Text>
 
       <Text

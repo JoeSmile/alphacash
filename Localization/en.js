@@ -172,5 +172,16 @@ export const en = {
   '[AlphaCash]The loan you applied for is about to expire, please repay it in time!':'[AlphaCash]The loan you applied for is about to expire, please repay it in time!',
   '[AlphaCash]The loan you applied for is due, and you must repay it in time today to avoid overdue!':'[AlphaCash]The loan you applied for is due, and you must repay it in time today to avoid overdue!',
   'Repayment reminder has been successfully turned on!':'Repayment reminder has been successfully turned on!',
-
+  'Bill Details':'Bill Details',
+  'Mine':'Mine',
+  'Home':'Home',
+  'Get Loan':'Get Loan',
+  'Call':'Call',
+  'Next':'Next',
+  'YES':'Yes',
+  'NO':'No',
+  'Days':'Days',
+  'Return':'Return',
+  'Province':'Province',
+  'City':'City',
 };

@@ -6,6 +6,7 @@ import {
   formatNumberToFinancial as fn2f,
   formatAccountToFinancial as fa2f,
 } from "@utils";
+import { useI18n } from "@hooks/useI18n";
 
 import Spinner from "react-native-loading-spinner-overlay";
 import { useBillDetail } from "@apis/hooks";
@@ -30,6 +31,7 @@ export default function BillDetail({ route }) {
   const { loanId } = route.params;
   const hasRepayBillStatus = [LOAN_STATUS.using, LOAN_STATUS.overdue];
   const hasDueDateBillStatus = [...hasRepayBillStatus, LOAN_STATUS.repaid];
+  const { i18n } = useI18n();
 
   const { mutate: getBillDetail, data: axiosRes, isLoading } = useBillDetail();
   const detail = axiosRes?.data?.data;
@@ -59,7 +61,7 @@ export default function BillDetail({ route }) {
           <View style={[styles.line, { marginBottom: 12 }]} />
           <View>
             <Text style={[styles.title, { marginBottom: 8 }]}>
-              Collection Account:
+              {`${i18n.t('Collection Account')}:`}
             </Text>
             <Text style={styles.titleValue}>
               {fa2f(type === 1 ? bankAccount : ewalletAccount)}
@@ -79,18 +81,18 @@ export default function BillDetail({ route }) {
             style={styles.imgTag}
           />
           <View>
-            <Text style={styles.title}>Loan Amount: </Text>
+            <Text style={styles.title}>{`${i18n.t('Loan Amount')}: `}</Text>
             <Text style={styles.amount}>{fn2f(item.applyAmount)}</Text>
           </View>
           <View style={styles.line}></View>
           <View style={styles.info}>
-            <Text style={styles.title}>Apply Date: </Text>
+            <Text style={styles.title}>{`${i18n.t('Apply Date')}: `}</Text>
             <Text style={styles.titleValue}>{item.applyDate}</Text>
           </View>
           <View style={styles.line}></View>
           <View style={styles.info}>
-            <Text style={styles.title}>Loan Term: </Text>
-            <Text style={styles.titleValue}>{item.loanTerm + " Days"}</Text>
+            <Text style={styles.title}>{`${i18n.t('LoanTerm')}: `} </Text>
+            <Text style={styles.titleValue}>{item.loanTerm}{i18n.t("Days")}</Text>
           </View>
           <View style={styles.line}></View>
           <View style={styles.info}>
@@ -102,12 +104,12 @@ export default function BillDetail({ route }) {
             <>
               <View style={[styles.line, { marginTop: 16 }]}></View>
               <View style={styles.info}>
-                <Text style={styles.title}>Loan Date: </Text>
+                <Text style={styles.title}>{`${i18n.t('Loan Date')}: `} </Text>
                 <Text style={styles.titleValue}>{item.disburseDate}</Text>
               </View>
               <View style={styles.line}></View>
               <View style={styles.info}>
-                <Text style={styles.title}>Markup: </Text>
+                <Text style={styles.title}>{`${i18n.t('Markup')}: `}</Text>
                 <Text style={styles.titleValue}>
                   {fn2f(item.totalInterest)}
                 </Text>
@@ -117,7 +119,7 @@ export default function BillDetail({ route }) {
                   <>
                     <View style={styles.line}></View>
                     <View style={styles.info}>
-                      <Text style={styles.title}>Late Payment Charges: </Text>
+                      <Text style={styles.title}>{`${i18n.t('Late Payment Charges')}: `} </Text>
                       <Text style={styles.titleValue}>
                         {fn2f(item.latePayFee)}
                       </Text>
@@ -126,21 +128,21 @@ export default function BillDetail({ route }) {
                 )}
               <View style={styles.line}></View>
               <View style={styles.info}>
-                <Text style={styles.title}>Lump Sum Repayment Amount: </Text>
+                <Text style={styles.title}>{`${i18n.t('Lump Sum Repayment Amount')}: `}</Text>
                 <Text style={styles.titleValue}>
                   {fn2f(item.currentAmountDue)}
                 </Text>
               </View>
               <View style={styles.line}></View>
               <View style={styles.info}>
-                <Text style={styles.title}>Due Date: </Text>
+                <Text style={styles.title}>{`${i18n.t('Due Date')}: `} </Text>
                 <Text style={styles.titleValue}>{item.dueDate}</Text>
               </View>
               {item.repaymentDate && (
                 <>
                   <View style={styles.line}></View>
                   <View style={styles.info}>
-                    <Text style={styles.title}>Repayment Date: </Text>
+                    <Text style={styles.title}>{`${i18n.t('Repayment Date')}: `} </Text>
                     <Text style={styles.titleValue}>{item.repaymentDate}</Text>
                   </View>
                 </>

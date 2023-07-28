@@ -84,7 +84,7 @@ export default function LoanDetails ({
      </View>
 
      <View style={styles.feeUnflodItemStyle}>
-      <Text style={styles.textStyle}>Any other charges</Text>
+      <Text style={styles.textStyle}>{i18n.t('Any other charges')}</Text>
       <Text style={styles.textStyle}>RS.0</Text>
      </View>
 

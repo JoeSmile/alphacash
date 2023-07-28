@@ -23,7 +23,7 @@ export function Quota() {
   const { mutate: getUserQuota, data } = useGetUserQuota();
 
   useEffect(() => {
-    getUserQuota();
+    // getUserQuota();
   }, []);
 
   useEffect(() => {

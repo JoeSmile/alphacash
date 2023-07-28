@@ -36,7 +36,7 @@ function BillBrief({ bill }) {
             color: "#0A233E",
             fontSize: 15,
           }}
-        >{`${bill.loanCycle} days`}</Text>
+        >{`${bill.loanCycle}`} {i18n.t('Days')}</Text>
       </View>
       <View
         style={{
@@ -120,7 +120,7 @@ export function QuotaButtons() {
             </View>
 
             <FButton
-              title="Edit Now"
+              title="EditNow"
               onPress={() => {
                 if (cashLoan.isModifyInfo) {
                   navigation.push("Apply", { isUpdateWallet: true });

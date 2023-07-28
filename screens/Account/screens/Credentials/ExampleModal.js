@@ -1,4 +1,5 @@
 import { Modal, View, Text, Pressable, StyleSheet, Image } from "react-native";
+import { useI18n, LocaleTypes } from "@hooks/useI18n";
 
 export const EXAMPLE_TYPES = {
   CNIC_CARD: "CNIC_CARD",
@@ -7,6 +8,8 @@ export const EXAMPLE_TYPES = {
 };
 
 function ExampleImage({ type }) {
+  const { i18n } = useI18n();
+
   let example = <></>;
   switch (type) {
     case EXAMPLE_TYPES.CNIC_CARD:
@@ -98,7 +101,7 @@ function ExampleImage({ type }) {
   }
   return (
     <View>
-      <Text style={styles.title}>Example</Text>
+      <Text style={styles.title}>{i18n.t('Example')}</Text>
       {example}
     </View>
   );
@@ -111,7 +114,7 @@ export function ExampleModal({ isVisible, onClose, type }) {
         <View style={styles.content}>
           <ExampleImage type={type} />
           <Pressable onPress={() => onClose("")}>
-            <Text style={styles.closeBtn}>I Know</Text>
+            <Text style={styles.closeBtn}>{i18n.t('I Know')}</Text>
           </Pressable>
         </View>
       </View>

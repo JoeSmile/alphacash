@@ -199,7 +199,7 @@ export default function Certificate() {
             color: "#FFFFFF",
             backgroundColor: "#0825B8",
             fontSize: 15,
-          }}> Next </Text>
+          }}> {i18n.t('Next')} </Text>
           <Image source={require('@assets/images/btn_ic_right.png')} style={{width: 12, height: 12}}/>
           
           </Pressable>

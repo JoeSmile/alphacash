@@ -15,6 +15,7 @@ import { getOTP, encodeSHA, getNetInfo } from "@apis";
 import { useLogin } from "@apis/hooks";
 import Spinner from "react-native-loading-spinner-overlay";
 import { useNavigation } from "@react-navigation/native";
+import { useI18n, LocaleTypes } from "@hooks/useI18n";
 
 encodeSHA();
 getNetInfo();
@@ -23,6 +24,7 @@ export default function LoginCard() {
   const [isSelected, setSelection] = useState(false);
   const navigation = useNavigation();
   const setUserInfo = useSystemStore((s) => s.setUserInfo);
+  const { i18n } = useI18n();
 
   const { mutate: login, data, isLoading } = useLogin();
 
@@ -88,7 +90,7 @@ export default function LoginCard() {
           {({ handleChange, handleBlur, handleSubmit, values }) => (
             <>
               <View style={styles.inputContainer}>
-                <Text style={styles.label}>Phone Number</Text>
+                <Text style={styles.label}>{i18n.t('Phone Number')}</Text>
                 <TextInput
                   name="phoneNumber"
                   placeholder="03x xxxx xxxx"
@@ -180,8 +182,7 @@ export default function LoginCard() {
             lineHeight: 20,
           }}
         >
-          If the unregistered mobile phone number is verified, an account will
-          be automatically created!
+        {i18n.t('If the unregistered mobile phone number is verified, an account will be automatically created!')}
         </Text>
       </View>
       <View>
@@ -213,7 +214,7 @@ export default function LoginCard() {
               />
             }
           />
-          <Text style={{ marginLeft: -16 }}>Agree</Text>
+          <Text style={{ marginLeft: -16 }}>{i18n.t("Agree")}</Text>
           <Pressable style={{ marginRight: 2, marginLeft: 2 }}>
             <Text style={{ fontWeight: 600, color: Colors.light.primary }}>
               Privacy Agreement

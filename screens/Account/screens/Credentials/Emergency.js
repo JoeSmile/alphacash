@@ -17,6 +17,7 @@ import {
   useUpdateReferenceContact,
 } from "@apis/hooks";
 import { useEffect, useState } from "react";
+import { useI18n } from "@hooks/useI18n";
 
 const initialValues = {
   relationship1: "",
@@ -54,6 +55,7 @@ export default function Emergency({ navigation }) {
     useState();
   const [relationShipOptions, setRelationShipOptions] = useState();
   const [relationShipOptions_1, setRelationShipOptions_1] = useState();
+  const { i18n } = useI18n();
 
   useEffect(() => {
     getReferenceContacts();
@@ -199,7 +201,7 @@ export default function Emergency({ navigation }) {
                       }}
                     >
                       {" "}
-                      Next{" "}
+                      {i18n.t('Next')}{" "}
                     </Text>
                     <Image
                       source={require("@assets/images/btn_ic_right.png")}

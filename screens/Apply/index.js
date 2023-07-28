@@ -505,7 +505,7 @@ export default function Apply () {
 
             <View style={styles.voicecontentItemStyle}>
               <Text style={{fontSize: 15,color: '#4F5E6F',fontWeight:'500'}}>{i18n.t('LoanTerm')}</Text>
-              <Text style={{fontSize: 15,color: '#0A233E',fontWeight:'800'}}>{optWithDaysConfig[daysOption].days} Days</Text>
+              <Text style={{fontSize: 15,color: '#0A233E',fontWeight:'800'}}>{optWithDaysConfig[daysOption].days} {i18n.t('Days')}</Text>
             </View>
 
             <View style={styles.voicecontentItemStyle}>
@@ -546,11 +546,11 @@ export default function Apply () {
 
           <View style={{flexDirection: 'row',justifyContent: 'space-between',marginTop: 24}}>
            <TouchableOpacity onPress={goBack} style={{flex: 1,borderRadius:3,backgroundColor: '#C0C4D6',height: 46,justifyContent: 'center',alignItems: 'center',marginRight: 8}}>
-              <Text style={{color: '#FFFFFF', fontSize: 15}}>Cancel</Text>
+              <Text style={{color: '#FFFFFF', fontSize: 15}}>{i18n.t('Cancel')}</Text>
            </TouchableOpacity>
 
            <TouchableOpacity onPress={getApplyLoan}  activeOpacity={isClickable ? 0.2 : 1} style={{flex: 1,borderRadius:3,backgroundColor: isClickable ? '#0825B8' : '#C0C4D6',height: 46,justifyContent: 'center',alignItems: 'center',marginLeft: 8}}>
-              <Text style={{color: '#FFFFFF', fontSize: 15}}>Disburse Now</Text>
+              <Text style={{color: '#FFFFFF', fontSize: 15}}>{i18n.t('Disburse Now')}</Text>
             </TouchableOpacity>
           </View>
 

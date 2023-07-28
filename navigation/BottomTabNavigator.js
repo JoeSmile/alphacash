@@ -32,7 +32,7 @@ export default function BottomTabNavigator() {
         name="HomePage"
         component={HomePageNavigator}
         options={{
-          title: i18n.t("homepage"),
+          title: i18n.t("Home"),
           headerShown: false,
           ...pageHeader,
           tabBarIcon: ({ focused,color }) => {
@@ -52,7 +52,7 @@ export default function BottomTabNavigator() {
         name="Account"
         component={Account}
         options={{
-          title: i18n.t("mine"),
+          title: i18n.t("Mine"),
           headerShown: false,
           ...pageHeader,
           tabBarIcon: ({ focused, color }) => {
@@ -88,7 +88,7 @@ function HomePageNavigator() {
       <HomePageStack.Screen
         name="Homepage"
         component={Homepage}
-        options={{ headerTitle: "homepage", ...pageHeader }}
+        options={{ headerTitle: "AlphaCash", ...pageHeader }}
       />
     </HomePageStack.Navigator>
   );

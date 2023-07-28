@@ -8,6 +8,8 @@ import { useUserQuota } from "@store";
 import { useEffect, useState } from "react";
 
 function BillBrief({ bill }) {
+  const { i18n } = useI18n();
+
   if (!bill) return <></>;
   return (
     <View style={{ 
@@ -27,7 +29,7 @@ function BillBrief({ bill }) {
             fontSize: 15,
           }}
         >
-          Loan Term
+        {i18n.t('LoanTerm')}
         </Text>
         <Text
           style={{
@@ -48,7 +50,7 @@ function BillBrief({ bill }) {
             fontSize: 15,
           }}
         >
-          Apply Date
+          {i18n.t('Apply Date')}
         </Text>
         <Text
           style={{
@@ -130,13 +132,18 @@ export function QuotaButtons() {
           </View>
         )}
         {!hasError && hasBill && (
-          <View>
+          <View style={{
+            marginTop: 20
+          }}>
             <FButton
-              title="Repay Now"
+              title="RepayNow"
               onPress={() => navigation.push('Apply')}
+              style={{
+                marginBottom: 10
+              }}
             />
             <FButton
-              title="View Detail"
+              title="ViewDetails"
               onPress={() => console.log("go to bill detail")}
             />
           </View>
@@ -166,3 +173,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
 });
+
+
+
+

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { EXAMPLE_TYPES, ExampleModal } from "./ExampleModal";
 import Return from './Return';
 import { useGetIdentityInfoDetail, useUpdateIdentityInfo } from '@apis'
+import { useI18n } from "@hooks/useI18n";
 
 const emptyIdentityFormValues = {
   "cnicFront": "", 
@@ -18,6 +19,7 @@ export default function Certificate() {
   const [showModalType, setShowModalType] = useState("");
   const {mutate: getIdentityInfo, data: identityInfo, isLoading: isIdentityInfoLoading} = useGetIdentityInfoDetail();
   const {mutate: updateIdentityInfo, data: updateIdentityInfoResponse} = useUpdateIdentityInfo();
+  const { i18n } = useI18n();
 
   // useEffect(() => {
   //   getIdentityInfo();
@@ -42,7 +44,8 @@ export default function Certificate() {
 
   return (
     <View style={styles.container}>
-      <SafeIntro safeText="Upload credential information, only for user identity verification, we will encrypt and store it, and it will never be used for other purposes!" />
+      <SafeIntro safeText={i18n.t("Upload credential information, only for user identity verification, we will encrypt and store it, and it will never be used for other purposes!")}
+      />
 
       {/* CNIC card */}
       <View
@@ -57,10 +60,10 @@ export default function Certificate() {
             marginBottom: 15,
           }}
         >
-          <Text style={styles.boldTextStyle}>CNIC Card</Text>
+          <Text style={styles.boldTextStyle}>{i18n.t('CNIC Card')}</Text>
 
           <Pressable onPress={() => setShowModalType(EXAMPLE_TYPES.CNIC_CARD)}>
-            <Text style={styles.underlineText}>Example</Text>
+            <Text style={styles.underlineText}>{i18n.t('Example')}</Text>
           </Pressable>
         </View>
         <View
@@ -122,11 +125,11 @@ export default function Certificate() {
             marginBottom: 15,
           }}
         >
-          <Text style={styles.boldTextStyle}>Take photo with CNIC card in hand</Text>
+          <Text style={styles.boldTextStyle}>{i18n.t('Take photo with CNIC card in hand')}</Text>
           <Pressable
             onPress={() => setShowModalType(EXAMPLE_TYPES.CNIC_IN_HAND)}
           >
-            <Text style={styles.underlineText}>Example</Text>
+            <Text style={styles.underlineText}>{i18n.t('Example')}</Text>
           </Pressable>
         </View>
         <View>
@@ -153,11 +156,11 @@ export default function Certificate() {
             marginBottom: 15,
           }}
         >
-          <Text style={styles.boldTextStyle}>Proof Employment</Text>
+          <Text style={styles.boldTextStyle}>{i18n.t('Proof Employment')}</Text>
           <Pressable
             onPress={() => setShowModalType(EXAMPLE_TYPES.PROOF_EMPLOYMENT)}
           >
-            <Text style={styles.underlineText}>Example</Text>
+            <Text style={styles.underlineText}>{i18n.t('Example')}</Text>
           </Pressable>
         </View>
         <View>
@@ -215,6 +218,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 15,
     backgroundColor: "white",
+    height: '100%'
   },
   submitBtn: {
     height: 50,

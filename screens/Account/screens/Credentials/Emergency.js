@@ -134,19 +134,19 @@ export default function Emergency({ navigation }) {
                   <View style={styles.module}>
                     <FSelect
                       name="relationship1"
-                      label="Reference Relationship 1"
+                      label="Reference Relationship"
                       options={relationShipOptions}
                     />
                   </View>
 
                   <View style={styles.module}>
-                    <FTextInput name="name1" label="Reference Name 1" />
+                    <FTextInput name="name1" label="Reference Name" />
                   </View>
 
                   <View style={styles.module}>
                     <FTextInput
                       name="phoneNumber1"
-                      label="Reference Number 1"
+                      label="Reference Number"
                       hintValue="Please enter the number manually"
                       keyboardType="numeric"
                     />
@@ -155,19 +155,19 @@ export default function Emergency({ navigation }) {
                   <View style={styles.module}>
                     <FSelect
                       name="relationship2"
-                      label="Reference Relationship 2"
+                      label="Reference Relationship"
                       options={relationShipOptions_1}
                     />
                   </View>
 
                   <View style={styles.module}>
-                    <FTextInput name="name2" label="Reference Name 2" />
+                    <FTextInput name="name2" label="Reference Name" />
                   </View>
 
                   <View style={styles.module}>
                     <FTextInput
                       name="phoneNumber2"
-                      label="Reference Number 2"
+                      label="Reference Number"
                       hintValue="Please enter the number manually"
                       keyboardType="numeric"
                     />

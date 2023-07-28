@@ -2,6 +2,7 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import { Picker } from '@react-native-picker/picker';
 import { useFormikContext } from 'formik';
+import { useI18n } from "@hooks/useI18n";
 
 // const defaultOptions = [{ label: '男', value: '1' }, { label: '女', value: '2' }]
 
@@ -16,13 +17,14 @@ export function FSelect({
 }) {
   const context = useFormikContext(name);
   const meta = context.getFieldMeta(name);
+  const { i18n } = useI18n();
   return <View style={{
     marginBottom: 15,
     height: 80,
     ...containerStyle,
   }}>
     <View style={{height: 20, marginBottom:10}}>
-      <Text style={styles.label}>{label}</Text>
+      <Text style={styles.label}>{i18n.t(label)}</Text>
     </View>
     <View style={{
       borderRadius: 10,

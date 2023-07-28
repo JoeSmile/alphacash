@@ -14,6 +14,7 @@ import { useUserQuota } from '@store/useUserQuota';
 import { Buffer } from 'buffer';
 import { decode,encode } from 'base-64';
 import * as FileSystem from 'expo-file-system';
+import { useI18n, LocaleTypes } from "@hooks/useI18n";
 
 
 // 将base64文件转换为二进制
@@ -51,6 +52,7 @@ export default function Apply () {
   const store = useSystemStore();
   const userStore = useUserQuota();
   const navigation = useNavigation();
+  const { i18n } = useI18n();
 
 
   const { mutate: getCashLoanProductConfig, data: loanProductConfigData, 
@@ -428,25 +430,25 @@ export default function Apply () {
           onValueChange={setChecked}
           color={isChecked ? '#0825B8' : undefined}
           ></Checkbox>
-          <Text style={{marginHorizontal: 6,fontSize: 12, color: '#4F5E6F'}}>Agree</Text>
+          <Text style={{marginHorizontal: 6,fontSize: 12, color: '#4F5E6F'}}>{i18n.t('Agree')}</Text>
           <Pressable onPress={() => clickLoanAgreement()}>
-          <Text style={{fontSize: 12, color: '#0825B8', fontWeight: 'bold'}}>Loan Agreement</Text>
+          <Text style={{fontSize: 12, color: '#0825B8', fontWeight: 'bold'}}>{i18n.t('Agree Loan Agreement')}</Text>
           </Pressable>
         </View>
 
         
         <Text style={{fontSize: 12,color: '#4F5E6F'}}>
-          {'Kind Tips：'}
-          {'\n'}
-          {'1.Cooling off period: If you regret applying for a loan,please contact us promptly and repay the principal within24 hours.According to company regulations, we willcancel your loan application for free!'}
+          {i18n.t('Kind Tips')}
+          {':\n'}
+          {i18n.t('KindTips1')}
           {'\n\n'}
-          {'2.Remember to repay the loan in time, if you fail to repay the loan on time, you will be fined according to the  Late Payment Charges rate of 2%/day!'}
+          {i18n.t('KindTips2')}
           {'\n\n'}
-          {'3.Key Excutive For Loan Handing Officer Name:Mr.Mohsin Ali'}
+          {i18n.t('KindTips3')}
           {'\n'}
-          {'Contact Email:xxxxt@xx.com'}
+          {/* {'Contact Email:xxxxt@xx.com'}
           {'\n'}
-          {'address:XXXXXXXX'}
+          {'address:XXXXXXXX'} */}
         </Text>
         <View style={{height: 80}}></View>
 
@@ -470,7 +472,7 @@ export default function Apply () {
           borderRadius: 3,
         }}
         >
-          <Text style={{color: '#FFFFFF',fontSize: 15}}>Get Loan</Text>
+          <Text style={{color: '#FFFFFF',fontSize: 15}}>{i18n.t('GetLoan')}</Text>
           <Image source={require('@assets/applyLoan/btn_ic_right.png')} style={{width: 12, height: 12,marginLeft: 2}}></Image>
 
         </TouchableOpacity>
@@ -490,24 +492,24 @@ export default function Apply () {
              <Image source={require('@assets/applyLoan/com_nav_ic_back_black.png')} style={{width: 21,height: 21}}></Image>
             </TouchableOpacity>
             <View style={{flex: 1,alignItems: 'center',backgroundColor: '#F4F5F7',}}>
-           <Text style={{fontWeight: 'bold', color: '#0A233E',marginLeft: -21}}>Confirm Payment Info</Text>
+           <Text style={{fontWeight: 'bold', color: '#0A233E',marginLeft: -21}}>{i18n.t('Confirm Payment Info')}</Text>
            </View>
           </View>
 
           <View style={styles.voiceContentStyle}>
 
             <View style={styles.voicecontentItemStyle}>
-              <Text style={{fontSize: 15,color: '#4F5E6F',fontWeight:'500'}}>Loan Amount</Text>
+              <Text style={{fontSize: 15,color: '#4F5E6F',fontWeight:'500'}}>{i18n.t('Loan Amount')}</Text>
               <Text style={{fontSize: 15,color: '#0A233E',fontWeight:'800'}}>RS.{optWithDaysConfig[daysOption].opt[amountIndex].applyAmount}</Text>
             </View>
 
             <View style={styles.voicecontentItemStyle}>
-              <Text style={{fontSize: 15,color: '#4F5E6F',fontWeight:'500'}}>Loan Term</Text>
+              <Text style={{fontSize: 15,color: '#4F5E6F',fontWeight:'500'}}>{i18n.t('LoanTerm')}</Text>
               <Text style={{fontSize: 15,color: '#0A233E',fontWeight:'800'}}>{optWithDaysConfig[daysOption].days} Days</Text>
             </View>
 
             <View style={styles.voicecontentItemStyle}>
-              <Text style={{fontSize: 15,color: '#4F5E6F',fontWeight:'500'}}>Disburse Amount</Text>
+              <Text style={{fontSize: 15,color: '#4F5E6F',fontWeight:'500'}}>{i18n.t('DisburseAmount')}</Text>
               <Text style={{fontSize: 15,color: '#0A233E',fontWeight:'800'}}>RS.{optWithDaysConfig[daysOption].opt[amountIndex].disburseMoney}</Text>
             </View>
             

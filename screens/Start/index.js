@@ -3,8 +3,11 @@ import { StyleSheet, Text, Pressable, View, BackHandler } from "react-native";
 import FModal from "../../components/FModal";
 import { useSystemStore } from "../../store/useSystemStore";
 import { PrivatePolicy } from "@screens/Settings/PrivatePolicy";
+import { useI18n } from "@hooks/useI18n";
 
 export default function Start({ navigation }) {
+  const { i18n } = useI18n();
+
   const [isReadPolicy, setReadPolicy] = useSystemStore((s) => [
     s.isReadPolicy,
     s.setReadPolicy,
@@ -30,7 +33,7 @@ export default function Start({ navigation }) {
                 BackHandler.exitApp();
               }}
             >
-              <Text style={styles.textStyle}>Reject</Text>
+              <Text style={styles.textStyle}>{i18n.t('Reject')}</Text>
             </Pressable>
             <Pressable
               style={[styles.button, styles.buttonAgree]}
@@ -40,7 +43,7 @@ export default function Start({ navigation }) {
                 navigation.replace("Homepage");
               }}
             >
-              <Text style={styles.textStyle}>Agree</Text>
+              <Text style={styles.textStyle}>{i18n.t('Agree')}</Text>
             </Pressable>
           </>
         }

@@ -12,6 +12,7 @@ import Return from './Return';
 import * as Yup from 'yup';
 import { useWorkInfoOptions, useGetWorkInfoDetail, useUpdateWorkInfo} from '@apis'
 import { useEffect, useState } from "react";
+import { useI18n } from "@hooks/useI18n";
 
 const emptyJobFormValues = {
   "workField": '',
@@ -68,6 +69,7 @@ export default function Job({ navigation }) {
   const [sMonthlyIncomeOptions, setSMonthlyIncomeOptions] = useState(monthlyIncomeOptions);
   const [occupationOptions, setOccupationOptions] = useState(workFieldOptions);
   const [serviceTimeOptions, setServiceTimeOptions] = useState(serviceLengthOptions);
+  const { i18n } = useI18n();
   
   useEffect(() => {
     getWorkInfo();
@@ -137,7 +139,7 @@ export default function Job({ navigation }) {
             <View style={{
               marginBottom: 15
             }}>
-              <Text>Company Address</Text>
+              <Text>{i18n.t('Company Address')}</Text>
               <View style={{
                 flexDirection: 'row',
                 justifyContent: "space-between",
@@ -157,7 +159,7 @@ export default function Job({ navigation }) {
             </View>
 
             <View style={styles.module}>
-              <FTextInput name="companyAddressDetail" label="Detail Address" />
+              <FTextInput name="companyAddressDetail" label="Detailed Address" />
             </View>
 
             <View style={{
@@ -165,7 +167,7 @@ export default function Job({ navigation }) {
               marginBottom: 15,
               gap: 5,
             }}>
-              <Text>Have Other Loans</Text>
+              <Text>{i18n.t('Have Other Loans?')}</Text>
               <View style={{
                 flexDirection: 'row',
                 justifyContent: 'center',

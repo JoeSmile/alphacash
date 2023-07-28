@@ -1,11 +1,13 @@
 import { View, Text, StyleSheet, Image } from "react-native";
 import { useEffect, useState } from "react";
 import { useUserQuota } from '@store';
+import { useI18n, LocaleTypes } from "@hooks/useI18n";
 
 
 
 export default function FaceRecognition () {
   const store = useUserQuota();
+  const { i18n } = useI18n();
 
   useEffect(() => {
     console.log('SUn>>> faceName ===  ' + store.faceData.faceName)
@@ -16,10 +18,10 @@ export default function FaceRecognition () {
     <View style={styles.container}>
       <Image source={require('@assets/applyLoan/loan_ic_face_recognition.png')} style={{width: 35, height: 35}}></Image>
       <View style={styles.contentStyle}>
-        <Text style={{ fontSize: 15,color: '#4F5E6F',fontWeight: 500,}}>Face Recognition</Text>
+        <Text style={{ fontSize: 15,color: '#4F5E6F',fontWeight: 500,}}>{i18n.t('Face Recognition')}</Text>
         { store.faceData.faceName == '' ?
-           <Text style={{color: '#0A233E', fontWeight: 'bold',marginTop: 8,fontSize: 15}}>please identify</Text>
-           : <Text style={{color: '#01AE01', fontWeight: 'bold',marginTop: 8,fontSize: 15}}>pass</Text>
+           <Text style={{color: '#0A233E', fontWeight: 'bold',marginTop: 8,fontSize: 15}}>{i18n.t('Please Identify')}</Text>
+           : <Text style={{color: '#01AE01', fontWeight: 'bold',marginTop: 8,fontSize: 15}}>{i18n.t('Passed')}</Text>
         }
        
       </View>

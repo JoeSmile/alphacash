@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, Image,FlatList,TouchableOpacity,Pressable  } from "react-native";
 import { useEffect, useState } from "react";
+import { useI18n, LocaleTypes } from "@hooks/useI18n";
 
 
 export default function ApplyLoanCard ({ 
@@ -10,6 +11,7 @@ export default function ApplyLoanCard ({
   amountIndex,
   setAmountIndex,
  }) {
+  const { i18n } = useI18n();
 
 
   const handleItemPress = (item,index) => {
@@ -41,7 +43,7 @@ export default function ApplyLoanCard ({
 
   return (
     <View style={styles.container}>
-    <Text style={{marginTop: 24,fontSize: 15,color: '#0A233E',fontWeight: 500}}>Loan Amount</Text>
+    <Text style={{marginTop: 24,fontSize: 15,color: '#0A233E',fontWeight: 500}}>{i18n.t('LoanAmount')}</Text>
 
     <View style={styles.loanAmountStyle}>
     <TouchableOpacity onPress={() => {
@@ -74,7 +76,7 @@ export default function ApplyLoanCard ({
 
     <View style={{height: 1,backgroundColor: '#E0E3E8',marginTop: 8,width:'88%'}}></View>
 
-    <Text style={{color: '#0A233E',fontSize: 15, marginTop: 24,fontWeight: 500}}>Loan Term</Text>
+    <Text style={{color: '#0A233E',fontSize: 15, marginTop: 24,fontWeight: 500}}>{i18n.t('LoanTerm')}</Text>
 
     <View style={styles.loanTermBgStyle}>
       {

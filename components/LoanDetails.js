@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Image,TouchableOpacity,Pressable,Modal,Dimensions } from "react-native";
 import { useEffect, useState } from "react";
-
+import { useI18n, LocaleTypes } from "@hooks/useI18n";
 
 const imageDown = require('@assets/applyLoan/loan_ic_arrow_down.png')
 const imageUp = require('@assets/applyLoan/loan_ic_arrow_up.png')
@@ -13,6 +13,7 @@ export default function LoanDetails ({
   amountIndex,
   setAmountIndex,
  }) {
+  const { i18n } = useI18n();
 
   const [isChecked,setIsChecked] = useState(false)
   const [image,setImage] = useState(imageDown)
@@ -52,7 +53,7 @@ export default function LoanDetails ({
 
      <Pressable onPress={() => handleFeePress()} style={styles.listItemStyle}>
       <View style={styles.feeItemStyle}>
-      <Text>Fee</Text>
+      <Text>{i18n.t('Fee')}</Text>
       <Text style={{color: '#0A233E',fontWeight: 800}}>RS.{optWithDaysConfig[daysOption].opt[amountIndex].manageFee}</Text>
       </View>
       <Image source={image} style={styles.imageStyle}></Image>
@@ -63,22 +64,22 @@ export default function LoanDetails ({
       <View style={styles.feeUnflodStyle}>
 
      <View style={styles.feeUnflodItemStyle}>
-      <Text style={styles.textStyle}>Credit Approval Fee </Text>
+      <Text style={styles.textStyle}>{i18n.t('Credit Approval Fee')}</Text>
       <Text style={styles.textStyle}>RS.{optWithDaysConfig[daysOption].opt[amountIndex].manageFeeDetail.LoanApprovalFee}</Text>
      </View>
 
      <View style={styles.feeUnflodItemStyle}>
-      <Text style={styles.textStyle}>Service Fee</Text>
+      <Text style={styles.textStyle}>{i18n.t('Service Fee')}</Text>
       <Text style={styles.textStyle}>RS.{optWithDaysConfig[daysOption].opt[amountIndex].manageFeeDetail.serviceFee}</Text>
      </View>
 
      <View style={styles.feeUnflodItemStyle}>
-      <Text style={styles.textStyle}>System fee</Text>
+      <Text style={styles.textStyle}>{i18n.t('System fee')}</Text>
       <Text style={styles.textStyle}>RS.{optWithDaysConfig[daysOption].opt[amountIndex].manageFeeDetail.manageFee}</Text>
      </View>
 
      <View style={styles.feeUnflodItemStyle}>
-      <Text style={styles.textStyle}>Processing Fee Charges</Text>
+      <Text style={styles.textStyle}>{i18n.t('Processing Fee Charges')}</Text>
       <Text style={styles.textStyle}>RS.0</Text>
      </View>
 
@@ -91,28 +92,28 @@ export default function LoanDetails ({
      }
 
      <View style={styles.listItemStyle}>
-      <Text>Markup</Text>
+      <Text>{i18n.t('Markup')}</Text>
       <Text style={{color: '#0A233E',fontWeight: 800}}>RS.{optWithDaysConfig[daysOption].opt[amountIndex].totalInterest}</Text>
      </View>
 
      <View style={styles.listItemStyle}>
-      <Text>Disburse Amount</Text>
+      <Text>{i18n.t('DisburseAmount')}</Text>
       <Text style={{color: '#0A233E',fontWeight: 800}}>RS.{optWithDaysConfig[daysOption].opt[amountIndex].disburseMoney}</Text>
      </View>
 
      <View style={styles.listItemStyle}>
-      <Text>Lump Sum Repayment Amount</Text>
+      <Text>{i18n.t('Lump Sum Repayment Amount')}</Text>
       <Text style={{color: '#0A233E',fontWeight: 800}}>RS.{optWithDaysConfig[daysOption].opt[amountIndex].dueRepayAmount}</Text>
      </View>
 
      <View style={styles.listItemStyle}>
-      <Text>Due Date</Text>
+      <Text>{i18n.t('Due Date')}</Text>
       <Text style={{color: '#0A233E',fontWeight: 800}}>{optWithDaysConfig[daysOption].opt[amountIndex].repaymentDate}</Text>
      </View>
 
      { isVisiable === true && 
       <View style={styles.listItemStyle}>
-      <Text style={{color: '#00B295',fontWeight: 'bold'}}>Late Payment Charges</Text>
+      <Text style={{color: '#00B295',fontWeight: 'bold'}}>{i18n.t('Late Payment Charges')}</Text>
       <TouchableOpacity style={{flex: 1,marginHorizontal: 8,marginTop: 2}} onPress={showKindTips}>
       <Image source={require('@assets/applyLoan/loan_ic_tips.png')} style={{width: 15,height: 15}}></Image>
       </TouchableOpacity>
@@ -126,10 +127,9 @@ export default function LoanDetails ({
          transparent={true}
      >
       <View style = {styles.otherContainer}>
-     
         <View style ={styles.tipStyle}>
-          <Text style={{fontWeight: 'bold', fontSize: 15, color: '#0A233E'}}>Kind Tips</Text>
-          <Text style={{marginTop: 12,color: '#4F5E6F', fontSize: 13,lineHeight: 20}}>Remember to repay the loan in time,ifyou fail to repay the loan on time, you willbe fined according to the Late PaymentCharges rate of 2%/day!</Text>
+          <Text style={{fontWeight: 'bold', fontSize: 15, color: '#0A233E'}}>{i18n.t('Kind Tips')}</Text>
+          <Text style={{marginTop: 12,color: '#4F5E6F', fontSize: 13,lineHeight: 20}}>{i18n.t('KindTips2')}</Text>
           <TouchableOpacity 
           style={{
             marginTop: 24,
@@ -141,7 +141,7 @@ export default function LoanDetails ({
             alignItems: 'center'}}
             onPress={() => setShowTips(false)}
             >
-            <Text style={{color: '#ffffff'}}>I Know</Text>
+            <Text style={{color: '#ffffff'}}>{i18n.t('I Know')}</Text>
           </TouchableOpacity>
         </View>
 

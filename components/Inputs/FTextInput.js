@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet, Image } from 'react-native';
 import { useFormikContext, useField } from 'formik';
+import { useI18n } from "@hooks/useI18n";
 
 export const FTextInput = ({ 
     label, hintValue = "", containerStyle = {},
@@ -10,12 +11,13 @@ export const FTextInput = ({
   }) => {
   const context = useFormikContext(name);
   const meta = context.getFieldMeta(name);
+  const { i18n } = useI18n();
 
   return (
     <View style={[styles.inputContainer, containerStyle]}>
       <View>
         <Text style={styles.label}>
-          {label}
+          {i18n.t(label)}
         </Text>
       </View>
 

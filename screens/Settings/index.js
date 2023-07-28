@@ -6,6 +6,7 @@ import { useMemo } from 'react';
 import { useSystemStore } from "@store/useSystemStore";
 
 const Item = (item) => {
+  const { i18n } = useI18n();
   return (
     <View style={styles.item}>
       <Image
@@ -18,24 +19,23 @@ const Item = (item) => {
           marginRight: 12,
         }}
       />
-      <Text style={{color: '#0A233E', fontSize: 16}}>{item.title}</Text>
+      <Text style={{color: '#0A233E', fontSize: 16}}>{i18n.t(item.title)}</Text>
     </View>
   );
 };
 
-const getListData = ({locale, isLogin, setToken}) => {
-  console.log('locale--', locale);
+const getListData = ({locale, isLogin, setToken, i18n}) => {
   const baseList = [
     {
       id: "1",
-      title: "还款提醒",
+      title: "Repayment Tips",
       leftItem: RepayRemind,
       displayIcon: false,
       leftIcon: require("@assets/images/mine_ic_repayment_reminder.png"),
     },
     {
       id: "2",
-      title: "语言设置",
+      title: "Language",
       screen: "Language",
       leftIcon: require("@assets/images/mine_ic_language_settings.png"),
       leftItem: (item) => {
@@ -60,7 +60,7 @@ const getListData = ({locale, isLogin, setToken}) => {
               justifyContent: "space-between",
               flex: 1
               }}>
-              <Text style={{color: '#0A233E', fontSize: 16}}>{item.title}</Text>
+              <Text style={{color: '#0A233E', fontSize: 16}}>{i18n.t(item.title)}</Text>
               <Text style={{color: '#0A233E', fontSize: 16}}>{locale == LocaleTypes.urdu ? 'اردو' : 'English'}</Text>
             </View>
           </View>
@@ -69,14 +69,14 @@ const getListData = ({locale, isLogin, setToken}) => {
     },
     {
       id: "3",
-      title: "隐私协议",
+      title: "Privacy Policy",
       screen: "PrivatePolicy",
       leftItem: Item,
       leftIcon: require("@assets/images/mine_ic_privacy_agreement.png"),
     },
     {
       id: "4",
-      title: "当前版本",
+      title: "Version",
       displayIcon: false,
       leftIcon: require("@assets/images/mine_ic_current_version.png"),
       leftItem: (item) => {
@@ -101,7 +101,7 @@ const getListData = ({locale, isLogin, setToken}) => {
               justifyContent: "space-between",
               flex: 1
               }}>
-              <Text style={{color: '#0A233E', fontSize: 16}}>{item.title}</Text>
+              <Text style={{color: '#0A233E', fontSize: 16}}>{i18n.t(item.title)}</Text>
               <Text style={{color: '#0A233E', fontSize: 16}}>1.0.0</Text>
             </View>
           </View>
@@ -112,7 +112,7 @@ const getListData = ({locale, isLogin, setToken}) => {
   if (isLogin) {
     baseList.push( {
       id: "5",
-      title: "Logout",
+      title: "Log Out",
       displayIcon: false,
       leftItem: () => {
         return (
@@ -122,7 +122,7 @@ const getListData = ({locale, isLogin, setToken}) => {
           }}
           onPress={() => setToken('')}
           >
-            <View><Text>Log Out</Text></View>
+            <View><Text>{i18n.t('Log Out')}</Text></View>
           </Pressable>
         )
       },
@@ -131,13 +131,12 @@ const getListData = ({locale, isLogin, setToken}) => {
   return baseList;
 }
 const Settings = () => {
-  const { locale } = useI18n()
+  const { locale, i18n } = useI18n()
   const [isLogin, setToken] = useSystemStore((s) => [!!s.token, s.setToken]);
-  console.log('lSettingsSettingsSettingsSettingsocale--', locale);
 
   const listData = useMemo(() => {
-    return getListData({locale, isLogin, setToken});
-  }, [locale, isLogin, setToken]);
+    return getListData({locale, isLogin, setToken, i18n});
+  }, [locale, isLogin, setToken, i18n]);
 
   return (
     <View style={{

@@ -16,6 +16,7 @@ import Login from "../screens/Login";
 import Apply from "../screens/Apply";
 import FaceDetectionScreen from "../screens/Apply/screens/FaceDetectionScreen";
 import { AddNewAccount } from '@screens/Account/screens/MyCards/AddNewAccount';
+import { useI18n, LocaleTypes } from "@hooks/useI18n";
 
 import { MineScreens } from './MineNavigator';
 import { CredentialsScreens } from './CredentialsNavigator';
@@ -40,6 +41,7 @@ export default function Navigation({ colorScheme }) {
 const Stack = createStackNavigator();
 
 function RootNavigator() {
+  const {locale, setLocale, i18n} = useI18n()
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Group>
@@ -80,7 +82,7 @@ function RootNavigator() {
             name={screen.name}
             options={({navigation}) => {
               return {
-                headerTitle: screen.headerTitle,
+                headerTitle: i18n.t(screen.headerTitle),
                 headerShown: !!screen.headerTitle,
                 headerLeft: () => {
                   return (

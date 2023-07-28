@@ -22,11 +22,11 @@ export const MineScreens = [
   {
     name: "ContactUs",
     component: ContactUs,
-    headerTitle: "联系我们",
+    headerTitle: "Contact Us",
   },
   {
     name: "Settings",
     component: Settings,
-    headerTitle: "设置",
+    headerTitle: "Settings",
   },
 ];

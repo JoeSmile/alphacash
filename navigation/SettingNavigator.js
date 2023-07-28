@@ -8,11 +8,11 @@ export const SettingsScreens = [
   {
     name: "Language",
     component: Language,
-    headerTitle: "语言设置",
+    headerTitle: "Language",
   },
   {
     name: "PrivatePolicy",
     component: PrivatePolicyScreen,
-    headerTitle: "隐私协议",
+    headerTitle: "Privacy Policy",
   },
 ];

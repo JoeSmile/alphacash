@@ -2,6 +2,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import Bills from "@screens/Account/screens/Bills";
 import BillDetail from "@screens/Account/screens/Bills/BillDetail";
+import { useI18n } from "@hooks/useI18n";
 
 const BillsStack = createStackNavigator();
 
@@ -9,16 +10,18 @@ export const BillsScreens = [
   {
     name: "CurrentBills",
     component: Bills,
-    headerTitle: "账单",
+    headerTitle: "Current Bill",
   },
   {
     name: "BillDetail",
     component: BillDetail,
-    headerTitle: "账单详情",
+    headerTitle: "BillDetail",
   },
 ];
 
 export function BillsNavigator() {
+  const { i18n } = useI18n();
+
   return (
     <BillsStack.Navigator>
       {BillsScreens.map((screen) => (
@@ -26,7 +29,7 @@ export function BillsNavigator() {
           key={screen.name}
           name={screen.name}
           options={{
-            headerTitle: screen.headerTitle,
+            headerTitle: i18n.t(screen.headerTitle),
             headerShown: !!screen.headerTitle,
           }}
           component={screen.component}

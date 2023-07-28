@@ -2,8 +2,11 @@ import { View, Switch, Text, Image, StyleSheet, Pressable } from "react-native";
 import { useState, useEffect, useCallback } from "react";
 import { useSystemStore } from "@store/useSystemStore";
 import FModal from "@components/FModal";
+import { useI18n } from "@hooks/useI18n";
 
 export const RepayRemind = (item) => {
+  const { i18n } = useI18n();
+
   const [isOn, setOn] = useSystemStore((s) => [
     s.isRepayReminderOn,
     s.setRepayReminderOn,
@@ -50,7 +53,7 @@ export const RepayRemind = (item) => {
             marginRight: 12,
           }}
         />
-        <Text style={{ color: "#0A233E", fontSize: 16 }}>还款提醒</Text>
+        <Text style={{ color: "#0A233E", fontSize: 16 }}>{i18n.t(item.title)}</Text>
       </View>
       <Switch
         trackColor={{ false: "#767577", true: "#81b0ff" }}
@@ -64,7 +67,9 @@ export const RepayRemind = (item) => {
         header={null}
         body={
           <Text style={styles.tip}>
-            Are you sure you want to turn off the repayment tips?
+          {
+            i18n.t('Are you sure you want to turn off the repayment tips?')
+          }
           </Text>
         }
         footer={
@@ -75,13 +80,13 @@ export const RepayRemind = (item) => {
                 setModalVisible(false);
               }}
             >
-              <Text style={styles.btnText}>Cancel</Text>
+              <Text style={styles.btnText}>{i18n.t('Cancel')}</Text>
             </Pressable>
             <Pressable
               style={[styles.button, styles.buttonOpen]}
               onPress={closeReminder}
             >
-              <Text style={styles.btnText}>Confirm</Text>
+              <Text style={styles.btnText}>{i18n.t('Confirm')}</Text>
             </Pressable>
           </>
         }

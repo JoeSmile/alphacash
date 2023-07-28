@@ -2,8 +2,11 @@ import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import FList from "@components/FList";
 import * as Linking from "expo-linking"
 import { A } from "@expo/html-elements";
+import { useI18n } from "@hooks/useI18n";
 
 const Item = (item) => {
+  const { i18n } = useI18n();
+
   return (
     <View style={styles.item}>
       <Image
@@ -18,16 +21,18 @@ const Item = (item) => {
       />
         <Text style={{
           fontSize: 16
-        }}>{item.title}</Text>
+        }}>{i18n.t(item.title)}</Text>
     </View>
   );
 };
 
 const data = [
   {
-    title: "在线客服",
+    title: "Online Service",
     leftIcon: require("@assets/images/mine_ic_online_service.png"),
     leftItem: (item) => {
+      const { i18n } = useI18n();
+
       return (
         <>
           <A
@@ -50,13 +55,15 @@ const data = [
                   width: 25,
                   height: 25,
                   marginRight: 12,
+                  marginLeft: 12,
                 }}
               />
-              <Text style={{color: '#0A233E'}}>{item.title}</Text>
+              <Text style={{color: '#0A233E'}}>{i18n.t(item.title)}</Text>
               <Text style={{
                 color: '#8899AC',
-                marginLeft: 5
-              }}>Recommend</Text>
+                marginLeft: 5,
+                marginRight: 5,
+              }}>{i18n.t('Recommend')}</Text>
             </View>
           </A>
         </>
@@ -64,16 +71,18 @@ const data = [
     },
   },
   {
-    title: "联系邮箱： xxxx@gmail.com",
+    title: "Email",
     leftIcon: require("@assets/images/mine_ic_email.png"),
     leftItem: Item,
   },
   {
-    title: "联系电话： xxxxx",
+    title: "Contact Number",
     tel: 'xxxx',
     leftIcon: require("@assets/images/mine_ic_contact_number.png"),
     displayIcon: false,
     leftItem: (item) => {
+      const { i18n } = useI18n();
+
       return (
         <>
           <View style={{
@@ -90,7 +99,7 @@ const data = [
                 marginRight: 12,
               }}
             />
-            <Text>{item.title}</Text>
+            <Text>{i18n.t(item.title)}</Text>
           </View>
           <Pressable onPress={() => {
               //TODO: +区号
@@ -99,7 +108,7 @@ const data = [
               <Text style={{
                 color: '#0825B8',
                 fontSize: 16
-              }}>拨打</Text>
+              }}>Call</Text>
           </Pressable>
         </>
       );

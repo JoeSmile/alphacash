@@ -3,9 +3,7 @@ export const en = {
   name: "name",
   loans: "loans",
   bills: "bills",
-  account: "account",
-  processing: "Current Bill",
-  completed: "Old Bill",
+  Account: "Account",
   homepage: "Homepage",
   mine: "Mine",
   // excel

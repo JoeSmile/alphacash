@@ -3,12 +3,12 @@ import { View, StyleSheet } from "react-native";
 import { useSystemStore } from "@store/useSystemStore";
 
 export default function Avatar({ title, style = {} }) {
-	const isLogin = useSystemStore(s => !!s.token);
+	const [isLogin, phone] = useSystemStore(s => [!!s.token, s.phone]);
 
 	return (
 		<View style={[styles.container, style]}>
 			<ImageCard
-				title={title}
+				title={isLogin ? phone : title}
 				imageStyle={{
 					borderRadius: 50
 				}}

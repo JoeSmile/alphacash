@@ -3,8 +3,10 @@ import Spinner from "react-native-loading-spinner-overlay";
 import FList from "@components/FList";
 import { useGetUserFormStatus } from "@apis";
 import { useEffect, useState } from "react";
+import { useI18n } from "@hooks/useI18n";
 
 const Item = (item) => {
+  const { i18n } = useI18n();
   return (
     <View style={styles.item}>
       <Image
@@ -17,32 +19,32 @@ const Item = (item) => {
           marginRight: 12,
         }}
       />
-      <Text>{item.title}</Text>
+      <Text>{i18n.t(item.title)}</Text>
     </View>
   );
 };
 
 const listItems = [
   {
-    title: "个人信息",
+    title: "Personal Info",
     screen: "Personal",
     leftIcon: require("@assets/images/mine_ic_personal_info.png"),
     leftItem: Item,
   },
   {
-    title: "工作信息",
+    title: "Work Info",
     screen: "Job",
     leftIcon: require("@assets/images/mine_ic_wok_info.png"),
     leftItem: Item,
   },
   {
-    title: "紧急联系人",
+    title: "Reference Contact",
     screen: "Emergency",
     leftIcon: require("@assets/images/mine_ic_reference_contact.png"),
     leftItem: Item,
   },
   {
-    title: "Certificate",
+    title: "Identity Info",
     screen: "Certificate",
     leftIcon: require("@assets/images/mine_ic_identity_info.png"),
     leftItem: Item,

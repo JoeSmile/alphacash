@@ -14,6 +14,7 @@ import { SwipeListView } from "react-native-swipe-list-view";
 import { useDeleteEWalletAccount, useDeleteBankAccount, useGetAccounts } from '@apis';
 import { useIsFocused } from '@react-navigation/native';
 import { useSystemStore } from '@store/useSystemStore'
+import { useI18n } from "@hooks/useI18n";
 
 
 function BankCard ({card, selected, isSelectAccount}) {
@@ -97,6 +98,7 @@ export default function MyCards({navigation, route}) {
   const {mutate: getAccounts, data: cards, isLoading} = useGetAccounts();
   const {mutate: deleteEWallet} = useDeleteEWalletAccount();
   const {mutate: deleteBankAccount} = useDeleteBankAccount();
+  const { i18n } = useI18n();
   // TODO: 1. 选择某个 wallet  2. confirm (xxxStore -> useXXXStore)
 
   const [currentCard, setCurrentCard] = useState({})
@@ -208,7 +210,7 @@ export default function MyCards({navigation, route}) {
           });
         }}
       >
-        <Text style={styles.backTextWhite}>Edit</Text>
+        <Text style={styles.backTextWhite}>{i18n.t("Edit")}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnRight]}
@@ -216,7 +218,7 @@ export default function MyCards({navigation, route}) {
           deleteRow(data.item, data.index);
         }}
       >
-        <Text style={styles.backTextWhite}>Delete</Text>
+        <Text style={styles.backTextWhite}>{i18n.t("Confirm Delete")}</Text>
       </TouchableOpacity>
     </View>
     )
@@ -224,6 +226,7 @@ export default function MyCards({navigation, route}) {
 
   const confirm = (() => {
     store.setCardInfo(currentCard)
+  
     if(isApplySelect){
       navigation.goBack();   
      }
@@ -259,7 +262,7 @@ export default function MyCards({navigation, route}) {
               color: '#0A233E',
               fontSize: 16,
               fontWeight: 'bold'
-            }}>Add Collection Account</Text>
+            }}>{i18n.t('Add Collection Account')}</Text>
         </View>
       </Pressable>
       : <></>
@@ -297,7 +300,7 @@ export default function MyCards({navigation, route}) {
       flexDirection: 'row',
       borderRadius: 3,
     }}>
-      <Text style={{color: '#FFFFFF',fontSize: 15}}>Confirm</Text>
+      <Text style={{color: '#FFFFFF',fontSize: 15}}>{i18n.t('Confirm')}</Text>
       <Image source={require('@assets/applyLoan/btn_ic_right.png')} style={{width: 12, height: 12,marginLeft: 2}}></Image>  
     </TouchableOpacity>
     }

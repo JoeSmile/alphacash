@@ -56,8 +56,8 @@ export default function BillList() {
 
   const routes = React.useMemo(
     () => [
-      { key: "processing", title: i18n.t("processing") },
-      { key: "completed", title: i18n.t("completed") },
+      { key: "processing", title: i18n.t("Current Bill") },
+      { key: "completed", title: i18n.t("Old Bill") },
     ],
     [i18n]
   );

@@ -5,6 +5,6 @@ export const MyCardsScreens = [
   {
     name: "CardForm",
     component: CardForm,
-    headerTitle: "添加收款账号",
+    headerTitle: "Add Collection Account",
   },
 ];

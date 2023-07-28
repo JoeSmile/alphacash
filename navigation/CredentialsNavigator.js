@@ -13,16 +13,16 @@ export const CredentialsScreens = [
   {
     name: "Job",
     component: Job,
-    headerTitle: "Job",
+    headerTitle: "Work Info",
   },
   {
     name: "Emergency",
     component: Emergency,
-    headerTitle: "Emergency",
+    headerTitle: "Reference Contact",
   },
   {
     name: "Certificate",
     component: Certificate,
-    headerTitle: "Certificate",
+    headerTitle: "Identity Info",
   },
 ];

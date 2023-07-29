@@ -12,7 +12,7 @@ export const MineScreens = [
   {
     name: "Credentials",
     component: Credentials,
-    headerTitle: "Account",
+    headerTitle: "Certification Info",
   },
   {
     name: "MyCards",

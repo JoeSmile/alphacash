@@ -75,6 +75,17 @@ export function QuotaButtons() {
   ]);
   const [hasError, setHasError] = useState(false);
 
+  const errorMsg = useMemo(() => {  
+    if(cashLoan.isModifyInfo) {
+      //审核驳回 - 是否需要重传照片
+      return i18n.t('AccountErrorMessage');
+    } else if (cashLoan.isModifyFaceImage) {
+      //审核驳回 - 是否需要重传人脸识别照
+      return i18n.t('FacePhotoErrorMessage')
+    } else {
+      return ''
+    }
+  }, [cashLoan])
   useEffect(() => {
     setHasError(cashLoan.isModifyInfo || cashLoan.isModifyFaceImage);
   }, [cashLoan]);
@@ -114,8 +125,7 @@ export function QuotaButtons() {
                     marginRight: 5,
                   }}
                 />
-                The payment cannot be made successfully because your account
-                number is wrong,please modify the account number
+                {errorMsg}
               </Text>
             </View>
 

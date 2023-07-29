@@ -29,7 +29,8 @@ export const en = {
   HighAmount: 'High Amount',
   FastDisburse: 'Fast Disburse',
   FlexibleRepayment: 'Flexible Repayment',
-  AntiFraudTips:'Anti-fraud Tips: Do not trust the repayment provided by others, please follow the transaction method prompted by the App to repay, other payment methods are counterfeit, avoid being deceived!!!',
+  'Anti-fraud Tips':'Anti-fraud Tips',
+  AntiFraudTips:'Do not trust the repayment provided by others, please follow the transaction method prompted by the App to repay, other payment methods are counterfeit, avoid being deceived!!!',
   BenefitsOfRepayOnTime: "Benefits of repay on time",
   HigherAmount: 'Higher Amount',
   OpportunityForExemption: "Opportunity for exemption",
@@ -184,4 +185,5 @@ export const en = {
   'Return':'Return',
   'Province':'Province',
   'City':'City',
+   Close: 'Close'
 };

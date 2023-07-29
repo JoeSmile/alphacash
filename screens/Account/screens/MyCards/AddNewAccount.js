@@ -6,6 +6,7 @@ import { FTextInput, FSelect } from '@components/Inputs';
 import { useAddAccount, useBankList } from '@apis';
 import { FButton } from '@components/FButton';
 import * as Yup from 'yup';
+import { useI18n, LocaleTypes } from "@hooks/useI18n";
 
 const tabs = [{
   title: 'Easypaisa',
@@ -68,18 +69,20 @@ const defaultEmptyForm = {
 }
 
 function Notice () {
+  const { i18n } = useI18n();
+
   return <View style={{marginTop: 30}}>
     <Text style={noticeStyle}>
-    Notice:
+    {`${i18n.t('Notice')}:`}
     </Text>
     <Text style={noticeStyle}>
-      1. Please fill in your collection account number. When your application is approved, the loan will be issued to your collection account number. Please check the collection account number carefully to avoid unsuccessful payment;
+    {`${i18n.t('Notice1')}:`}
     </Text>
     <Text style={noticeStyle}>
-      2. You can apply for the first loan after the receiving account is successfully added;
+    {`${i18n.t('Notice2')}:`}
     </Text>
     <Text style={noticeStyle}>
-      3. When you fill in Jazzcash as the receiving account number, please fill in the Jazzcash account number that matches your CNIC, otherwise the payment will not be successful.
+    {`${i18n.t('Notice3')}:`}
     </Text>
   </View>
 }

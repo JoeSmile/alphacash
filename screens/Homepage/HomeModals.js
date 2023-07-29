@@ -78,11 +78,11 @@ function HomeModals({ showModal }) {
           <View>
             <Text style={styles.tips}>
               {i18n.t('RepaymentWords')}
-              <Text style={styles.strong}>
+              {/* <Text style={styles.strong}>
                 {" "}
                 [the day before the due date and the day]{" "}
               </Text>
-              and increase the amount.
+              and increase the amount. */}
             </Text>
           </View>
           <View style={styles.note}>

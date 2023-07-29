@@ -96,7 +96,7 @@ export default function BillDetail({ route }) {
           </View>
           <View style={styles.line}></View>
           <View style={styles.info}>
-            <Text style={styles.title}>Get Amount: </Text>
+            <Text style={styles.title}>{`${i18n.t('DisburseAmount')}: `} </Text>
             <Text style={styles.titleValue}>{fn2f(item.getAmount)}</Text>
           </View>
           {renderAccount()}

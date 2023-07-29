@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { View, Text, Pressable, TouchableOpacity } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { useFormikContext } from 'formik';
 import dayjs from 'dayjs';
 import { useI18n } from "@hooks/useI18n";
@@ -30,15 +29,12 @@ export const FDatePicker = ({label,
     const context = useFormikContext(name);
     const { i18n } = useI18n();
     const [date, setDate] = useState(
-      dayjs(context.values[name] || new Date(), 'DD/MM/YYYY').toDate()
+      dayjs(context.values[name] || new Date(), 'MM/DD/YYYY').toDate()
     );
     const [show, setShow] = useState(false);
-    const onChange = (event, selectedDate) => {
-      console.log("event, selectedDate", event);
-      console.log("selectedDate", selectedDate);
-      // setShow(false);
-      // context.setFieldValue(name, dayjs(selectedDate).format('YYYY-MM-DD'));
-      // setDate(selectedDate)
+    const onChange = (selectedDate) => {
+      context.setFieldValue(name, selectedDate);
+      setDate(selectedDate);
     };
   
     return (
@@ -59,7 +55,7 @@ export const FDatePicker = ({label,
             minDate={new Date(2015, 7, 6)}
             maxDate={new Date()}
             onChange={onChange}
-            format="YYYY-MM-DD"
+            format="MM/DD/YYYY"
           >
             <CustomChildren />
           </DatePicker>

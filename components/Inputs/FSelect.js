@@ -47,7 +47,7 @@ export function FSelect({
           color: '#0A233E'
         }, meta.touched && meta.error ? styles.error: {}]}
       >
-        {!context.values[name] && <Picker.Item label=" " value="" />}
+        {!context.values[name] && <Picker.Item label="Please select an option..." value="" />}
         {options.map((item, index) =>
           <Picker.Item
             label={labelKey ? item[labelKey] : item.label}

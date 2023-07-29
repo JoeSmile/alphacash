@@ -192,5 +192,8 @@ export const urdu = {
   Close: 'بندش',
   'For more information': 'مزید معلومات کے لیے، براہ کرم دیکھیں',
   'Privacy Policy': 'رازداری کی پالیسی',
-  'Terms&Conditions': 'شرائط و ضوابط'
+  'Terms&Conditions': 'شرائط و ضوابط',
+  'Key Executive For Loan Handling officer Name': 'پرنسپل لون پروسیسنگ ایگزیکٹو کا ',
+  'Contact Email': 'ای میل سے رابطہ کریں',
+  'Address': 'پتہ'
 };

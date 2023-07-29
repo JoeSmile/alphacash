@@ -435,17 +435,18 @@ export default function Apply () {
 
         
         <Text style={{fontSize: 12,color: '#4F5E6F'}}>
-          {i18n.t('Kind Tips')}
+          {`${i18n.t('Kind Tips')}:`}
           {':\n'}
-          {i18n.t('KindTips1')}
+          {`${i18n.t('KindTips1')}:`}
           {'\n\n'}
-          {i18n.t('KindTips2')}
+          {`${i18n.t('KindTips2')}:`}
           {'\n\n'}
-          {i18n.t('KindTips3')}
+          {`${i18n.t('Key Executive For Loan Handling officer Name')}:`}
           {'\n'}
-          {/* {'Contact Email:xxxxt@xx.com'}
+          {`${i18n.t('Contact Email')}:xxxxt@xx.com`}
           {'\n'}
-          {'address:XXXXXXXX'} */}
+          {`${i18n.t('Address')}:XXXXXXXX`}
+          {'\n'}
         </Text>
         <View style={{height: 80}}></View>
 

@@ -77,7 +77,7 @@ export default function LoginCard() {
       />
       <View style={styles.container}>
         <Formik
-          initialValues={{ phoneNumber: "", OTP: "" }}
+          initialValues={{ phoneNumber: "01238137213", OTP: "789456" }}
           onSubmit={(values) => {
             // setToken('IAlKWtScF1Zgjohmc4OE6ogHI04WapiQ1688892525968584')
             setphoneNumber(values.phoneNumber);

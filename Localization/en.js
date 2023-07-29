@@ -70,9 +70,9 @@ export const en = {
   'Disburse Now':'Disburse Now',
   'I have read and fully understood the Markup charges and terms of the loan product, and I agree that when the loan is approved, the funds will be transferred directly to the account I provided!':'I have read and fully understood the Markup charges and terms of the loan product, and I agree that when the loan is approved, the funds will be transferred directly to the account I provided!',
   'Kind Tips':'Kind Tips',
-  "KindTips1": '1.Cooling off period: If you regret applying for a loan,please contact us promptly and repay the principal within24 hours.According to company regulations, we will cancel your loan application for free!',
-  "KindTips2":"2.Remember to repay the loan in time, if you fail to repay the loan on time, you will be fined according to the  Late Payment Charges rate of 2%/day!",
-  "KindTips3":"3. Name of Principal Executive Officer for Loan Processing: xxxx  Contact email: xxxxt@xx.com  Address: XXXXXXXX",
+  "KindTips1": 'Cooling off period: If you regret applying for a loan,please contact us promptly and repay the principal within24 hours.According to company regulations, we will cancel your loan application for free!',
+  "KindTips2":"Remember to repay the loan in time, if you fail to repay the loan on time, you will be fined according to the  Late Payment Charges rate of 2%/day!",
+  "KindTips3":"Name of Principal Executive Officer for Loan Processing: xxxx  Contact email: xxxxt@xx.com  Address: XXXXXXXX",
   'Credit Approval Fee':'Credit Approval Fee',
   'Service Fee':'Service Fee',
   'System fee':'System fee',
@@ -188,5 +188,8 @@ export const en = {
    Close: 'Close',
    'For more information': 'For more information, please see the',
    'Privacy Policy': 'Privacy Policy',
-   'Terms&Conditions': 'Terms&Conditions'
+   'Terms&Conditions': 'Terms&Conditions',
+   'Key Executive For Loan Handling officer Name': 'Key Executive For Loan Handling officer Name',
+   'Contact Email': 'Contact Email',
+   'Address': 'Address'
 };

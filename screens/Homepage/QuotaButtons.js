@@ -172,7 +172,7 @@ export function QuotaButtons() {
           marginLeft: 15,
         }}
         onPress={() => navigation.push("Apply")}
-        title={i18n.t('GetLoan')}
+        title='GetLoan'
         disabled={!cashLoan.isEligible}
       />
     </View>

@@ -27,7 +27,6 @@ export function FSelect({
       <Text style={styles.label}>{i18n.t(label)}</Text>
     </View>
     <View style={{
-      borderRadius: 10,
       justifyContent: 'center',
       borderColor: '#C0C4D6',
       borderRadius: 10,
@@ -44,7 +43,12 @@ export function FSelect({
         style={[{
           padding: 0,
           paddingLeft: 15,
-          color: '#0A233E'
+          color: '#0A233E',
+          // height: 55,
+          // borderColor: '#C0C4D6',
+          // borderRadius: 10,
+          // borderWidth: 1,
+          // outlineColor: '#0825B8'
         }, meta.touched && meta.error ? styles.error: {}]}
       >
         {!context.values[name] && <Picker.Item label="Please select an option..." value="" />}

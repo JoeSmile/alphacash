@@ -76,8 +76,9 @@ const styles = StyleSheet.create({
     width: 'auto',
     height: 55,
     borderColor: '#C0C4D6',
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: 1,
     borderRadius: 10,
+    outlineColor: '#0825B8'
   },
   error: {
     borderColor: '#E53F31'

@@ -108,7 +108,7 @@ const data = [
                 color: '#0825B8',
                 fontSize: 15,
                 fontWeight: 'bold',
-              }}>Call</Text>
+              }}>{i18n.t('Call')}</Text>
           </Pressable>
         </>
       );

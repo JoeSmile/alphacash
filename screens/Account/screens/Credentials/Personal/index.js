@@ -85,7 +85,7 @@ export default function Personal({ navigation }) {
     <SafeAreaView >
     <ScrollView style={{backgroundColor: 'white'}}>
     <View >
-      <SafeIntro safeText={i18n.t('The information you fill in is only used for credit evaluation and will never be used for other purposes.We use encryption to ensure your information security!')}/>
+      <SafeIntro safeText={i18n.t('information security')}/>
           <View style={{
               marginBottom: 15,
               height: 950,

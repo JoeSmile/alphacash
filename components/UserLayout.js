@@ -13,7 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { LanguageSwitcher } from "@components/LanguageSwitcher";
 import { Asset } from "expo-asset";
 
-export default function UserLayout({ displayGoBack = false, children }) {
+export default function UserLayout({ displayGoBack = false, children, alwayCompany=false }) {
   const navigation = useNavigation();
   return (
     <SafeAreaView>
@@ -62,6 +62,7 @@ export default function UserLayout({ displayGoBack = false, children }) {
               <LanguageSwitcher />
               <Avatar
                 title="Alphacash"
+                alwayCompany={alwayCompany}
                 style={{
                   marginTop: 15,
                 }}

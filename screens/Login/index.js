@@ -5,7 +5,7 @@ import UserLayout from '@components/UserLayout';
 
 export default function Login() {
   return (
-    <UserLayout displayGoBack>
+    <UserLayout displayGoBack alwayCompany>
       <LoginCard />
     </UserLayout>
   );

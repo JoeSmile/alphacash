@@ -109,7 +109,7 @@ export const urdu = {
   'Work Info': 'کام کی معلومات',
   'Reference Contact':'ہنگامی رابطے',
   'Identity Info':  'شناخت کی معلومات',
-  'The information you fill in is only used for credit evaluation and will never be used for other purposes.We use encryption to ensure your information security!': 'آپ جو معلومات پُر کرتے ہیں وہ صرف کریڈٹ کی تشخیص کے لیے استعمال ہوتی ہے اور اسے کبھی دوسرے مقاصد کے لیے استعمال نہیں کیا جائے گا۔ ہم آپ کی معلومات کو محفوظ رکھنے کے لیے خفیہ کاری کا استعمال کرتے ہیں!',
+  'information security': 'آپ جو معلومات پُر کرتے ہیں وہ صرف کریڈٹ کی تشخیص کے لیے استعمال ہوتی ہے اور اسے کبھی دوسرے مقاصد کے لیے استعمال نہیں کیا جائے گا۔ ہم آپ کی معلومات کو محفوظ رکھنے کے لیے خفیہ کاری کا استعمال کرتے ہیں!',
   Name:'نام',
   'Date of Birth': 'پیدائش کی تاریخ',
   Gender: 'صنف',
@@ -195,5 +195,5 @@ export const urdu = {
   'Terms&Conditions': 'شرائط و ضوابط',
   'Key Executive For Loan Handling officer Name': 'پرنسپل لون پروسیسنگ ایگزیکٹو کا ',
   'Contact Email': 'ای میل سے رابطہ کریں',
-  'Address': 'پتہ'
+  'Address': 'پتہ',
 };

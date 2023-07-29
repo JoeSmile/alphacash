@@ -56,9 +56,11 @@ const styles = StyleSheet.create({
   },
   number: {
     borderWidth: 1,
-    width: 18,
+    width: 20,
+    height: 20,
+    lineHeight: 20,
     textAlign: 'center',
-    borderRadius: 50,
+    borderRadius: 10,
     color: '#00B295',
     borderColor: '#00B295',
     backgroundColor: 'white'

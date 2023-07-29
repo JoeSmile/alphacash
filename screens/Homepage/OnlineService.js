@@ -18,7 +18,9 @@ export function OnlineService () {
       marginHorizontal: 15,
       paddingHorizontal: 15,
       paddingVertical: 15,
-      boxShadow: '1px 1px 3px 1px rgba(0, 0, 0, 0.1),1px 1px 2px 1px rgba(0, 0, 0, 0.06)',
+      elevation: 3,
+      shadowColor: '#000',
+      backgroundColor: 'white',
       justifyContent: 'space-between',
       alignItems: 'center',
     }}>

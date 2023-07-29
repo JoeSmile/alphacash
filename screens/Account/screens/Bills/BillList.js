@@ -41,7 +41,7 @@ const Item = ({ item }) => {
         <View>
           <View style={{ ...styles.info, marginBottom: 12 }}>
             <Text style={styles.title}>{`${i18n.t('LoanTerm')}: `} </Text>
-            <Text style={styles.titleValue}>{item.loanTerm + " Days"}</Text>
+            <Text style={styles.titleValue}>{item.loanTerm}{i18n.t('Days')}</Text>
           </View>
           <View style={styles.info}>
             <Text style={styles.title}>{`${i18n.t('Apply Date')}: `} </Text>

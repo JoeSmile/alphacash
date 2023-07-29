@@ -264,7 +264,8 @@ const styles = StyleSheet.create({
     margin: 15,
     backgroundColor: "white",
     transform: [{ translateY: -50 }],
-    boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1),0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+    elevation: 3,
+    shadowColor: '#000',
   },
   input: {
     height: 40,
@@ -303,6 +304,7 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 10,
+    outlineColor: '#0825B8'
   },
   loginButton: {
     height: 46,

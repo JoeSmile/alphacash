@@ -2,7 +2,7 @@ import axios from "axios";
 import { baseURL } from "../constants/config";
 import { getAllParameters } from "./commonParameter";
 
-export function getOTP(phoneNumber) {
+export function getOTP({phoneNumber}) {
   return axios.post(`${baseURL}/api/app/otp`, phoneNumber).then((response) => {
     console.log("response.data", response.data);
     return response;

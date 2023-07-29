@@ -11,14 +11,22 @@ import React, { useEffect, useState } from "react";
 import { useSystemStore } from "../../store/useSystemStore";
 import { Formik } from "formik";
 import { Colors } from "@const/Colors";
-import { getOTP, encodeSHA, getNetInfo } from "@apis";
-import { useLogin } from "@apis/hooks";
+import { encodeSHA, getNetInfo } from "@apis";
+import { useLogin, useGetOTP } from "@apis/hooks";
 import Spinner from "react-native-loading-spinner-overlay";
 import { useNavigation } from "@react-navigation/native";
 import { useI18n, LocaleTypes } from "@hooks/useI18n";
+import * as Yup from "yup";
 
-encodeSHA();
-getNetInfo();
+// encodeSHA();
+// getNetInfo();
+
+const LoginFormSchema = Yup.object().shape({
+  OTP: Yup.string().required("Required"),
+  phoneNumber: Yup.string()
+    .matches(/^\d{11}$/, "请输入正确手机号")
+    .required("Required"),
+});
 
 export default function LoginCard() {
   const [isSelected, setSelection] = useState(true);
@@ -27,7 +35,7 @@ export default function LoginCard() {
   const { i18n } = useI18n();
 
   const { mutate: login, data, isLoading } = useLogin();
-
+  const {mutate: getOTP} = useGetOTP();
   const [text, setText] = useState("Get OTP");
   const [countdown, setCountdown] = useState(0);
   const [isClickable, setIsClickable] = useState(true);
@@ -77,8 +85,9 @@ export default function LoginCard() {
       />
       <View style={styles.container}>
         <Formik
-          initialValues={{ phoneNumber: "01238137213", OTP: "789456" }}
+          initialValues={{ phoneNumber: "", OTP: "" }}
           onSubmit={(values) => {
+            console.log('11111', values);
             // setToken('IAlKWtScF1Zgjohmc4OE6ogHI04WapiQ1688892525968584')
             setphoneNumber(values.phoneNumber);
             login({
@@ -86,8 +95,9 @@ export default function LoginCard() {
               otp: values.OTP,
             });
           }}
+          validationSchema={LoginFormSchema}
         >
-          {({ handleChange, handleBlur, handleSubmit, values }) => (
+          {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
             <>
               <View style={styles.inputContainer}>
                 <Text style={styles.label}>{i18n.t('Phone Number')}</Text>
@@ -101,6 +111,11 @@ export default function LoginCard() {
                   maxLength={11}
                   keyboardType= "numeric"
                 />
+                {errors.phoneNumber && touched.phoneNumber ? (
+                  <Text style={{
+                    color: '#E53F31'
+                  }}>{errors.phoneNumber}</Text>
+                ) : null}
               </View>
               <View style={styles.inputContainer}>
                 <Text style={styles.label}>OTP</Text>
@@ -116,7 +131,9 @@ export default function LoginCard() {
 
                   <Pressable
                     onPress={() => {
-                      getOTP("03123456789");
+                      getOTP({
+                        phoneNumber: ""
+                      });
                       handleTextClick();
                     }}
                     style={{
@@ -143,6 +160,11 @@ export default function LoginCard() {
                     </View>
                   </Pressable>
                 </View>
+                {errors.OTP && touched.OTP ? (
+                  <Text style={{
+                    color: '#E53F31'
+                  }}>{errors.OTP}</Text>
+                ) : null}
               </View>
               <Pressable
                 style={{

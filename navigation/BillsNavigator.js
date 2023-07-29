@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Bills from "@screens/Account/screens/Bills";
 import BillDetail from "@screens/Account/screens/Bills/BillDetail";
 import { useI18n } from "@hooks/useI18n";
+import { pageHeader } from "@styles";
 
 const BillsStack = createStackNavigator();
 
@@ -15,7 +16,7 @@ export const BillsScreens = [
   {
     name: "BillDetail",
     component: BillDetail,
-    headerTitle: "BillDetail",
+    headerTitle: "Bill Detail",
   },
 ];
 
@@ -31,6 +32,7 @@ export function BillsNavigator() {
           options={{
             headerTitle: i18n.t(screen.headerTitle),
             headerShown: !!screen.headerTitle,
+            ...pageHeader,
           }}
           component={screen.component}
         />

@@ -115,7 +115,7 @@ export default function Job({ navigation }) {
         }}
         validateOnChange={true}
         validateOnBlur={true}
-        // validationSchema={JobFormSchema}
+        validationSchema={JobFormSchema}
       >
         {({handleSubmit, values, setFieldValue }) => (
           <>

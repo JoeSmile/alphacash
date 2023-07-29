@@ -4,6 +4,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { useFormikContext } from 'formik';
 import dayjs from 'dayjs';
 import { useI18n } from "@hooks/useI18n";
+import { DatePicker, List } from '@ant-design/react-native'
 
 export const FDatePicker = ({label,
   name}) => {
@@ -42,12 +43,18 @@ export const FDatePicker = ({label,
           }}>{date.toLocaleDateString()}</Text>
         </Pressable>
         {show && (
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode='date'
+          <List>
+          <DatePicker
+            value={this.state.value}
+            mode="date"
+            defaultDate={new Date()}
+            minDate={new Date(2015, 7, 6)}
+            maxDate={new Date(2026, 11, 3)}
             onChange={onChange}
-          />
+            format="YYYY-MM-DD">
+            <List.Item arrow="horizontal">Select Date</List.Item>
+          </DatePicker>
+        </List>
         )}
       </View>
     );

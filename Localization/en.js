@@ -185,5 +185,8 @@ export const en = {
   'Return':'Return',
   'Province':'Province',
   'City':'City',
-   Close: 'Close'
+   Close: 'Close',
+   'For more information': 'For more information, please see the',
+   'Privacy Policy': 'Privacy Policy',
+   'Terms&Conditions': 'Terms&Conditions'
 };

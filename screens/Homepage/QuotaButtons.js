@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Process } from "./Process";
 import { FButton } from "@components/FButton";
 import { useUserQuota } from "@store";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 function BillBrief({ bill }) {
   const { i18n } = useI18n();

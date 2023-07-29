@@ -189,5 +189,8 @@ export const urdu = {
   'Return':'واپسی',
   'Province':'صوبہ',
   'City':'شہر',
-  Close: 'بندش'
+  Close: 'بندش',
+  'For more information': 'مزید معلومات کے لیے، براہ کرم دیکھیں',
+  'Privacy Policy': 'رازداری کی پالیسی',
+  'Terms&Conditions': 'شرائط و ضوابط'
 };

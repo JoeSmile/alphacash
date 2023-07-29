@@ -26,7 +26,7 @@ export function PrivatePolicy() {
           fontSize: 14,
         }}
       >
-        For more information, see{" "}
+          {i18n.t('For more information')}{" "}
         <A
           href="https://google.com"
           style={{
@@ -35,7 +35,7 @@ export function PrivatePolicy() {
             fontWeight: "bold",
           }}
         >
-          Privacy Policy
+          {i18n.t('Privacy Policy')}
         </A>{" "}
         and{" "}
         <A
@@ -46,7 +46,7 @@ export function PrivatePolicy() {
             fontWeight: "bold",
           }}
         >
-          terms&conditions
+         {i18n.t('Terms&Conditions')}
         </A>
         .
       </Text>

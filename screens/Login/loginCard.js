@@ -48,8 +48,8 @@ export default function LoginCard() {
   }, []);
 
   useEffect(() => {
+    console.log("login data", data?.data);
     if (data?.data?.error_code == 1) {
-      console.log("data.data.data.token", data.data.data.token);
       setUserInfo({
         phone: phoneNumber,
         token: data.data.data.token,
@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 10,
-    outlineColor: "#0825B8",
+    //outlineColor: "#0825B8",
   },
   loginButton: {
     height: 46,

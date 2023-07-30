@@ -20,7 +20,6 @@ export default function Processing() {
   useEffect(() => {
     getBills({
       tab: 1,
-      token: "hICJ9Z153FmphdZ190aacRayObLG9qhW1690181051237866",
     });
   }, []);
 

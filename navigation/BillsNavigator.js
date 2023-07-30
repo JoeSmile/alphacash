@@ -1,4 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
+import { Pressable, Image } from "react-native";
 
 import Bills from "@screens/Account/screens/Bills";
 import BillDetail from "@screens/Account/screens/Bills/BillDetail";
@@ -11,7 +12,7 @@ export const BillsScreens = [
   {
     name: "CurrentBills",
     component: Bills,
-    headerTitle: "Current Bill",
+    headerTitle: "Bill",
   },
   {
     name: "BillDetail",
@@ -29,11 +30,25 @@ export function BillsNavigator() {
         <BillsStack.Screen
           key={screen.name}
           name={screen.name}
-          options={{
+          options={({ navigation }) => ({
             headerTitle: i18n.t(screen.headerTitle),
             headerShown: !!screen.headerTitle,
+            headerLeft: () => {
+              return (
+                <Pressable onPress={() => navigation.goBack()}>
+                  <Image
+                    source={require("@assets/images/com_nav_ic_back_white.png")}
+                    style={{
+                      marginLeft: 12,
+                      width: 21,
+                      height: 21,
+                    }}
+                  ></Image>
+                </Pressable>
+              );
+            },
             ...pageHeader,
-          }}
+          })}
           component={screen.component}
         />
       ))}

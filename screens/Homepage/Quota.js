@@ -6,16 +6,31 @@ import { Process } from "./Process";
 import { useEffect } from "react";
 import { statusToImg } from "@const";
 import { useUserQuota } from "@store";
+import { useGetUserQuota } from "@apis/hooks";
 import { formatNumberToFinancial as fn2f } from "@utils";
 import { QuotaButtons } from "./QuotaButtons";
 
 export function Quota() {
   const { i18n, setLocale, locale } = useI18n();
-  const [cashLoan, bill, hasBill] = useUserQuota((s) => [
+  const { mutate: getUserQuota, data: axiosRes } = useGetUserQuota();
+  const [cashLoan, setCashLoan, bill, hasBill] = useUserQuota((s) => [
     s.cashLoan,
+    s.setCashLoan,
     s.bill,
     s.hasBill,
   ]);
+
+  useEffect(() => {
+    console.log("cashloan2: got");
+    getUserQuota();
+  }, []);
+
+  useEffect(() => {
+    const cashloan = axiosRes?.data?.data?.cashLoan;
+    if (cashloan) {
+      setCashLoan(cashloan);
+    }
+  }, [axiosRes]);
 
   return (
     <View style={styles.container}>

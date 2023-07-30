@@ -5,7 +5,7 @@ import { getAllParameters } from "./commonParameter";
 export async function axiosPost(path, parameters) {
   const allParameters = await getAllParameters(path, parameters);
   return axios
-    .post(`${baseURL}/api/app${path}`, { ...parameters })
+    .post(`${baseURL}/api/app${path}`, { ...allParameters })
     .then((response) => {
       return response;
     })

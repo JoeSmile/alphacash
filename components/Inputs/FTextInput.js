@@ -1,14 +1,17 @@
-import React from 'react';
-import { View, Text, TextInput, StyleSheet, Image } from 'react-native';
-import { useFormikContext, useField } from 'formik';
+import React from "react";
+import { View, Text, TextInput, StyleSheet, Image } from "react-native";
+import { useFormikContext, useField } from "formik";
 import { useI18n } from "@hooks/useI18n";
 
-export const FTextInput = ({ 
-    label, hintValue = "", containerStyle = {},
-    name, keyboardType = "default", 
-    editable = true,
-    rightIcon = ''
-  }) => {
+export const FTextInput = ({
+  label,
+  hintValue = "",
+  containerStyle = {},
+  name,
+  keyboardType = "default",
+  editable = true,
+  rightIcon = "",
+}) => {
   const context = useFormikContext(name);
   const meta = context.getFieldMeta(name);
   const { i18n } = useI18n();
@@ -16,32 +19,37 @@ export const FTextInput = ({
   return (
     <View style={[styles.inputContainer, containerStyle]}>
       <View>
-        <Text style={styles.label}>
-          {i18n.t(label)}
-        </Text>
+        <Text style={styles.label}>{i18n.t(label)}</Text>
       </View>
 
-      <View style={{
-        height: 55,
-        position: "relative"
-      }}>
+      <View
+        style={{
+          height: 55,
+          position: "relative",
+        }}
+      >
         <TextInput
-          editable = {editable}
+          editable={editable}
           keyboardType={keyboardType}
-          placeholderTextColor={'#8899AC'}
+          placeholderTextColor={"#8899AC"}
           placeholder={hintValue}
-          style={[styles.textInput, meta.touched && meta.error ? styles.error: {}]}
+          style={[
+            styles.textInput,
+            meta.touched && meta.error ? styles.error : {},
+          ]}
           value={context.values[name]}
           onChangeText={(v) => {
-            context.setFieldValue(name, v)
+            context.setFieldValue(name, v);
           }}
         />
-        {
-          !!rightIcon && <View style={{
-            position: "absolute",
-            right: 12,
-            top: 13
-          }}>
+        {!!rightIcon && (
+          <View
+            style={{
+              position: "absolute",
+              right: 12,
+              top: 13,
+            }}
+          >
             <Image
               source={rightIcon}
               contentFit="cover"
@@ -49,12 +57,17 @@ export const FTextInput = ({
               style={{ width: 25, height: 25 }}
             />
           </View>
-        }
+        )}
       </View>
       {meta.touched && meta.error ? (
-        <Text className="error" style={{
-          color: '#E53F31'
-        }}>{meta.error}</Text>
+        <Text
+          className="error"
+          style={{
+            color: "#E53F31",
+          }}
+        >
+          {meta.error}
+        </Text>
       ) : null}
     </View>
   );
@@ -67,20 +80,20 @@ const styles = StyleSheet.create({
   label: {
     height: 15,
     marginBottom: 10,
-    color: '#4F5E6F',
-    fontSize: 14
+    color: "#4F5E6F",
+    fontSize: 14,
   },
   textInput: {
     paddingLeft: 15,
     paddingRight: 35,
-    width: 'auto',
+    width: "auto",
     height: 55,
-    borderColor: '#C0C4D6',
+    borderColor: "#C0C4D6",
     borderWidth: 1,
     borderRadius: 10,
-    outlineColor: '#0825B8'
+    //outlineColor: '#0825B8'
   },
   error: {
-    borderColor: '#E53F31'
-  }
+    borderColor: "#E53F31",
+  },
 });

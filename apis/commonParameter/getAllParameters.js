@@ -1,19 +1,21 @@
 import { commonParams } from "./common";
 import { encodeSHA } from "./cryptoParameters";
+import { baseURL } from "@const/config";
 
 const salt = "0ojkUdVrny#BN3RRH63P";
 
 function getRawParameters(rawParameters, path) {
-  let rawString = "";
+  let rawString = `POST${baseURL}/api/app${path}`;
   Object.keys(rawParameters)
     .sort()
     .forEach((key) => {
-      if (rawParameters[key]) {
-        rawString += `${key}=${rawParameters[key]}&`;
+      const val = rawParameters[key];
+      if (typeof val === "string" && val && key !== "sign") {
+        rawString += `${key}${val}`;
       }
     });
-  const completeString = `${rawString}${path}POST{${salt}}`;
-  console.log("completeString", completeString);
+  const completeString = `${rawString}${salt}`;
+  //console.log("completeString", completeString);
   return completeString;
 }
 
@@ -39,7 +41,7 @@ export async function getAllParameters(path, parameters = {}) {
   const notEmptyParameters = filterParameters(rawParameters);
   // parameters
   return {
-    ...parameters,
+    //...parameters,
     ...notEmptyParameters,
     sign,
   };

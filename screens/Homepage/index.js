@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet } from "react-native";
-import { Text, View } from "../../components/Themed";
+import { View } from "../../components/Themed";
 import { useI18n, LocaleTypes } from "@hooks/useI18n";
 import {
   widthPercentageToDP as wp,
@@ -19,16 +19,7 @@ export default function Homepage({ navigation, route }) {
 
   return (
     <ScrollView style={styles.container}>
-      <View
-        style={{
-          top: 0,
-          position: "absolute",
-          backgroundColor: "#0825B8",
-          width: "100%",
-          height: 236,
-          zIndex: 0,
-        }}
-      />
+      <View style={styles.banner} />
       <CompanyIntro />
       <Quota />
       <Advantage />
@@ -45,6 +36,14 @@ const styles = StyleSheet.create({
     position: "relative",
     backgroundColor: "white",
     paddingBottom: 20,
+  },
+  banner: {
+    top: 0,
+    position: "absolute",
+    backgroundColor: "#0825B8",
+    width: "100%",
+    height: 150,
+    zIndex: 0,
   },
   title: {
     fontSize: 20,

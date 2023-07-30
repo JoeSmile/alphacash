@@ -1,37 +1,21 @@
 import { Image, StyleSheet } from "react-native";
 import { Text, View } from "../../components/Themed";
 import { useI18n, LocaleTypes } from "@hooks/useI18n";
-import { useNavigation } from "@react-navigation/native";
 import { Process } from "./Process";
-import { FButton } from "@components/FButton";
-import { useGetUserQuota } from "@apis";
-import { useEffect, useState } from "react";
-import { LOAN_STATUS, statusToImg } from "@const";
+
+import { useEffect } from "react";
+import { statusToImg } from "@const";
 import { useUserQuota } from "@store";
 import { formatNumberToFinancial as fn2f } from "@utils";
 import { QuotaButtons } from "./QuotaButtons";
 
 export function Quota() {
   const { i18n, setLocale, locale } = useI18n();
-  const navigation = useNavigation();
-  const [cashLoan, setCashLoan, bill, hasBill] = useUserQuota((s) => [
+  const [cashLoan, bill, hasBill] = useUserQuota((s) => [
     s.cashLoan,
-    s.setCashLoan,
     s.bill,
     s.hasBill,
   ]);
-  const { mutate: getUserQuota, data } = useGetUserQuota();
-
-  useEffect(() => {
-    getUserQuota();
-  }, []);
-
-  useEffect(() => {
-    const cashLoan = data?.data?.data?.cashLoan;
-    if (cashLoan) {
-      setCashLoan(cashLoan);
-    }setCashLoan
-  }, [data]);
 
   return (
     <View style={styles.container}>
@@ -64,9 +48,7 @@ export function Quota() {
             marginBottom: 15,
           }}
         >
-        {
-          i18n.t('MaxAmount')
-        }
+          {i18n.t("MaxAmount")}
         </Text>
         <Text
           style={{
@@ -91,10 +73,10 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     position: "relative",
     elevation: 3,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
-       width: 0,
-       height: 1,
+      width: 0,
+      height: 1,
     },
     shadowOpacity: 0.16,
     shadowRadius: 3,

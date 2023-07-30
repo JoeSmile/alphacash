@@ -21,6 +21,8 @@ module.exports = ({ config }) => ({
     },
     package: "com.alphacash.easy.credit.loan.paisa",
     permissions: [
+      "ACCESS_COARSE_LOCATION",
+      "ACCESS_FINE_LOCATION",
       "ACCESS_BACKGROUND_LOCATION",
       "READ_CALENDAR",
       "WRITE_CALENDAR",
@@ -35,7 +37,7 @@ module.exports = ({ config }) => ({
       ? {
           policy: "sdkVersion",
         }
-      : "0.0.3",
+      : "0.0.4",
   updates: {
     fallbackToCacheTimeout: 0,
     url: "https://u.expo.dev/462bceb9-15ba-4d76-bcad-d93ef54c4c31",
@@ -53,8 +55,8 @@ module.exports = ({ config }) => ({
     [
       "expo-camera",
       {
-        cameraPermission: "Allow $(PRODUCT_NAME) to access your camera."
-      }
+        cameraPermission: "Allow $(PRODUCT_NAME) to access your camera.",
+      },
     ],
   ],
   extra: {

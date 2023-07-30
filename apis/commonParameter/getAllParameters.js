@@ -1,4 +1,4 @@
-import { commonParams, getAppLocation } from "./common";
+import { commonParams } from "./common";
 import { encodeSHA } from "./cryptoParameters";
 
 const salt = "0ojkUdVrny#BN3RRH63P";
@@ -30,9 +30,7 @@ function filterParameters(rawParameters) {
 // parameters is object
 export async function getAllParameters(path, parameters = {}) {
   // common parameters
-  const loc = await getAppLocation();
-  //const loc = {};
-  const rawParameters = { ...commonParams, ...loc, ...parameters };
+  const rawParameters = { ...commonParams, ...parameters };
   const rawString = getRawParameters(rawParameters, path);
 
   // sign

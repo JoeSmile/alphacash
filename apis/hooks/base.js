@@ -9,18 +9,19 @@ export function mutationFactory(func, options = {}) {
 
   return useMutation({
     mutationFn: (parameters) => {
+      const rawParameters = {
+        app: store.app,
+        sign: store.sign,
+        l: store.locale,
+        t: Date.now() + "",
+        ...parameters,
+      };
       if (options.needToken === false) {
-        return func({
-          app: store.app,
-          sign: store.sign,
-          ...parameters,
-        });
+        return func(rawParameters);
       }
       return func({
         token: store.token,
-        app: store.app,
-        sign: store.sign,
-        ...parameters,
+        ...rawParameters,
       });
     },
     onSuccess: (res) => {
@@ -40,19 +41,18 @@ export function mutationFactory(func, options = {}) {
           duration: 3,
         });
 
-        switch(res.data.error_code) {
+        switch (res.data.error_code) {
           case 5:
-            navigation.push('Login');
+            navigation.push("Login");
             break;
-            
+
           case 666:
             //刷新
             navigation.replace("Apply");
             break;
           default:
             break;
-        };
-      
+        }
       } else if (options && options.afterSuccess) {
         options.afterSuccess(res);
       }

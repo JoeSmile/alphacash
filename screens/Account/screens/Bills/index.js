@@ -5,45 +5,6 @@ import Processing from "./Processing";
 import Completed from "./Completed";
 import { useI18n } from "@hooks/useI18n";
 
-const mockBills = [
-  {
-    loanId: "11111",
-    getAmount: "6000",
-    loanTerm: "7",
-    applyDate: "07/07/2023",
-    appStatus: 101,
-    dueDate: "07/07/2024",
-    repaymentDate: "07/17/2023",
-  },
-  {
-    loanId: "22222",
-    getAmount: "6000",
-    loanTerm: "7",
-    applyDate: "07/07/2023",
-    appStatus: 102,
-    dueDate: "07/07/2024",
-    repaymentDate: "07/17/2023",
-  },
-  {
-    loanId: "33333",
-    getAmount: "6000",
-    loanTerm: "7",
-    applyDate: "07/07/2023",
-    appStatus: 201,
-    dueDate: "07/07/2024",
-    repaymentDate: "07/17/2023",
-  },
-  {
-    loanId: "4444",
-    getAmount: "76000",
-    loanTerm: "7",
-    applyDate: "07/07/2023",
-    appStatus: 501,
-    dueDate: "07/07/2024",
-    repaymentDate: "07/17/2023",
-  },
-];
-
 const renderScene = SceneMap({
   processing: Processing,
   completed: Completed,

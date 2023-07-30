@@ -35,7 +35,7 @@ export default function LoginCard() {
   const { i18n } = useI18n();
 
   const { mutate: login, data, isLoading } = useLogin();
-  const {mutate: getOTP} = useGetOTP();
+  const { mutate: getOTP } = useGetOTP();
   const [text, setText] = useState("Get OTP");
   const [countdown, setCountdown] = useState(0);
   const [isClickable, setIsClickable] = useState(true);
@@ -53,7 +53,7 @@ export default function LoginCard() {
       setUserInfo({
         phone: phoneNumber,
         token: data.data.data.token,
-      })
+      });
       navigation.push("Homepage");
     }
   }, [data]);
@@ -87,7 +87,7 @@ export default function LoginCard() {
         <Formik
           initialValues={{ phoneNumber: "", OTP: "" }}
           onSubmit={(values) => {
-            console.log('11111', values);
+            console.log("11111", values);
             // setToken('IAlKWtScF1Zgjohmc4OE6ogHI04WapiQ1688892525968584')
             setphoneNumber(values.phoneNumber);
             login({
@@ -97,10 +97,17 @@ export default function LoginCard() {
           }}
           validationSchema={LoginFormSchema}
         >
-          {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+          }) => (
             <>
               <View style={styles.inputContainer}>
-                <Text style={styles.label}>{i18n.t('Phone Number')}</Text>
+                <Text style={styles.label}>{i18n.t("Phone Number")}</Text>
                 <TextInput
                   name="phoneNumber"
                   placeholder="03x xxxx xxxx"
@@ -109,12 +116,16 @@ export default function LoginCard() {
                   onBlur={handleBlur("phoneNumber")}
                   value={values.phoneNumber}
                   maxLength={11}
-                  keyboardType= "numeric"
+                  keyboardType="numeric"
                 />
                 {errors.phoneNumber && touched.phoneNumber ? (
-                  <Text style={{
-                    color: '#E53F31'
-                  }}>{errors.phoneNumber}</Text>
+                  <Text
+                    style={{
+                      color: "#E53F31",
+                    }}
+                  >
+                    {errors.phoneNumber}
+                  </Text>
                 ) : null}
               </View>
               <View style={styles.inputContainer}>
@@ -132,7 +143,7 @@ export default function LoginCard() {
                   <Pressable
                     onPress={() => {
                       getOTP({
-                        phoneNumber: ""
+                        phoneNumber: "",
                       });
                       handleTextClick();
                     }}
@@ -161,9 +172,13 @@ export default function LoginCard() {
                   </Pressable>
                 </View>
                 {errors.OTP && touched.OTP ? (
-                  <Text style={{
-                    color: '#E53F31'
-                  }}>{errors.OTP}</Text>
+                  <Text
+                    style={{
+                      color: "#E53F31",
+                    }}
+                  >
+                    {errors.OTP}
+                  </Text>
                 ) : null}
               </View>
               <Pressable
@@ -205,7 +220,9 @@ export default function LoginCard() {
             lineHeight: 20,
           }}
         >
-        {i18n.t('If the unregistered mobile phone number is verified, an account will be automatically created!')}
+          {i18n.t(
+            "If the unregistered mobile phone number is verified, an account will be automatically created!"
+          )}
         </Text>
       </View>
       <View>
@@ -265,7 +282,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     transform: [{ translateY: -50 }],
     elevation: 3,
-    shadowColor: '#000',
+    shadowColor: "#000",
   },
   input: {
     height: 40,
@@ -304,7 +321,7 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 10,
-    outlineColor: '#0825B8'
+    outlineColor: "#0825B8",
   },
   loginButton: {
     height: 46,

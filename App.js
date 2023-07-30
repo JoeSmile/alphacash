@@ -6,25 +6,20 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useLoadedAssets } from "./hooks/useLoadedAssets";
 import Navigation from "./navigation";
 import { useColorScheme, Platform } from "react-native";
-import { useInitialStore } from '@hooks/useInitialStore';
-import {
-  QueryClient,
-  QueryClientProvider,
-  focusManager
-} from 'react-query'
-import { useAppState } from '@hooks/useAppState';
-import { useOnlineManager } from '@hooks/useOnlineManager';
-import { Provider } from '@ant-design/react-native';
+import { useInitialStore } from "@hooks/useInitialStore";
+import { QueryClient, QueryClientProvider, focusManager } from "react-query";
+import { useAppState } from "@hooks/useAppState";
+import { useOnlineManager } from "@hooks/useOnlineManager";
+import { Provider } from "@ant-design/react-native";
 
 function onAppStateChange(status) {
   // React Query already supports in web browser refetch on window focus by default
-  if (Platform.OS !== 'web') {
-    focusManager.setFocused(status === 'active');
+  if (Platform.OS !== "web") {
+    focusManager.setFocused(status === "active");
   }
 }
 
-const queryClient = new QueryClient()
-
+const queryClient = new QueryClient();
 
 export default function App() {
   useOnlineManager();

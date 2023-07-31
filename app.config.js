@@ -1,6 +1,6 @@
 module.exports = ({ config }) => ({
-  name: "financeexpo",
-  slug: "financeexpo",
+  name: "AlphaCash",
+  slug: "AlphaCash",
   version: "1.0.0",
   orientation: "portrait",
   icon: "./assets/icon.png",
@@ -31,7 +31,7 @@ module.exports = ({ config }) => ({
   web: {
     favicon: "./assets/favicon.png",
   },
-  scheme: "financeexpo",
+  scheme: "AlphaCash",
   runtimeVersion:
     process.env.ENV === "dev"
       ? {
@@ -58,6 +58,17 @@ module.exports = ({ config }) => ({
         cameraPermission: "Allow $(PRODUCT_NAME) to access your camera.",
       },
     ],
+    [
+      "react-native-fbsdk-next", {
+        "appID": '644423131050994',
+        "clientToken": '1c78cf3a59f5d9c9f3b69bf16f150cae',
+        "displayName": 'AlphaCash',
+        "advertiserIDCollectionEnabled": true,
+        "autoLogAppEventsEnabled": true,
+        "isAutoInitEnabled": true,
+        "iosUserTrackingPermission": "This identifier will be used to deliver personalized ads to you."
+      }
+    ]
   ],
   extra: {
     ENV: process.env.ENV,

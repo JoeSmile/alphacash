@@ -35,15 +35,15 @@ export default function Certificate() {
     if(identityInfo?.data?.error_code == 1 ) {
       console.log('Sun >>>>>>>>>> identityInfo')
       const imageData = identityInfo.data.data.identityInfo
-      // if(imageData.cnicFront !== null){
-        const list = [
-          imageData.cnicFront,
+      if(imageData.cnicFront != null){
+        console.log('Sun >>> ' + imageData.cnicFront)
+        setImage([
+          encodeURI(imageData.cnicFront),
           imageData.cnicBack,
           imageData.cnicInHand,
           imageData.employmentProof,
-        ];
-        setImage(list)     
-      // }
+        ])     
+      }
     }
   }, [identityInfo]);
 
@@ -59,22 +59,24 @@ export default function Certificate() {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       // allowsEditing: true,//是否允许裁剪
-      quality: 1,
+      quality: 0.75,
     });
 
     if (result.canceled) {
       return;
     }
 
-      // let updatedImages = [...imageList];
-      // updatedImages[index] = result.assets[0].uri;
+      let updatedImages = [...imageList];
       const imgUri = result.assets[0].uri;
-      img = {
+      updatedImages[index] = imgUri;
+      setImage(updatedImages);
+
+      const img = {
         uri: imgUri,
         type: mime.getType(imgUri),
         name: imgUri.split("/").pop(),
       };
-
+      
       if(index == 0){
         setCnicFront(img)
       } else if (index == 1){
@@ -84,36 +86,11 @@ export default function Certificate() {
       } else if (index == 3){
          setEmploymentProof(img)
       }
-      console.log('Sun >>> uri === ' + imgUri + 'mime.getType(result.assets[0].uri) ==' + mime.getType(imgUri) + 'result.assets[0].uri.split("/").pop() ===' + imgUri.split("/").pop())
-      // setImage(updatedImages);
-
   };
 
   const onClickUpdateIdentityInfo = () => {
-    console.log('Sun >>>>>>>>>> onClickUpdateIdentityInfo' + cnicFrontImage.uri)
+    console.log('Sun >>>>>>>>>> onClickUpdateIdentityInfo')
 
-    // const cnicFrontImage = {
-    //   uri: imageList[0],
-    //   type: mime.getType(imageList[0]),
-    //   name: imageList[0].split("/").pop(),
-    //  };
-    // const cnicBackImage = {
-    //   uri: imageList[1],
-    //   type: mime.getType(imageList[1]),
-    //   name: imageList[1].split("/").pop(),
-    // }
-
-    // const cnicInHandImage = {
-    //   uri: imageList[2],
-    //   type: mime.getType(imageList[2]),
-    //   name: imageList[2].split("/").pop(),
-    // }
-
-    // const employmentProofImage = {
-    //   uri: imageList[3],
-    //   type: mime.getType(imageList[3]),
-    //   name: imageList[3].split("/").pop(),
-    // }
     const params = { 
       cnicFront : cnicFrontImage,
       cnicBack: cnicBackImage,
@@ -171,6 +148,7 @@ export default function Certificate() {
                 }}
                 source={{ uri:  imageList[0] ?? imageUri }}
                 contentFit="cover"
+                resizeMode="contain"
               />
               <Text style={{fontSize: 12, color: '#8899AC', alignSelf: 'center', marginTop:6}}>CNIC Card Front</Text>
             </View>
@@ -189,8 +167,9 @@ export default function Certificate() {
                   height: 96,
                   width: 150,
                 }}
-                source={{ uri:  imageList[1] ?? imageUri1 }}
+                source={{ uri: imageList[1] ?? imageUri1 }}
                 contentFit="cover"
+                resizeMode="contain"
               />
               <Text  style={{fontSize: 12, color: '#8899AC', alignSelf: 'center', marginTop:6}}>CNIC Card Back</Text>
             </View>
@@ -231,6 +210,7 @@ export default function Certificate() {
             }}
             source={{ uri: imageList[2] ?? imageUri2 }}
             contentFit="cover"
+            resizeMode="contain"
           />
            </Pressable>
       
@@ -268,6 +248,7 @@ export default function Certificate() {
             }}
             source={{ uri: imageList[3] ?? imageUri3 }}
             contentFit="cover"
+            resizeMode="contain"
           />
         </Pressable>
 

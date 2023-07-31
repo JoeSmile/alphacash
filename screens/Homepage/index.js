@@ -12,11 +12,18 @@ import { Advantage } from "./Advantage";
 import { AntiFraudTips } from "./AntiFraudTips";
 import { OnlineService } from "./OnlineService";
 import HomeModals from "./HomeModals";
+import { useEffect } from "react";
+import { AppEventsLogger } from "react-native-fbsdk-next";
 
 export default function Homepage({ navigation, route }) {
   const { i18n, setLocale, locale } = useI18n();
   const { showModal } = route?.params || {};
-
+  // useEffect(() => {
+  //   AppEventsLogger?.logEvent('pk14');
+  // }, [])
+  if (!!AppEventsLogger) {
+    // console.log('AppEventsLogger', AppEventsLogger.logPurchase(111, 'USD'));
+  }
   return (
     <ScrollView style={styles.container}>
       <View style={styles.banner} />

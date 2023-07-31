@@ -13,13 +13,13 @@ import { useOnlineManager } from "@hooks/useOnlineManager";
 import { Provider } from "@ant-design/react-native";
 import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
 
-const { status } = await requestTrackingPermissionsAsync(); 
+// const { status } = await requestTrackingPermissionsAsync(); 
 
-Settings.initializeSDK();
+// Settings.initializeSDK();
 
-if (status === 'granted') {
-    await Settings.setAdvertiserTrackingEnabled(true);
-}
+// if (status === 'granted') {
+//     await Settings.setAdvertiserTrackingEnabled(true);
+// }
 
 function onAppStateChange(status) {
   // React Query already supports in web browser refetch on window focus by default

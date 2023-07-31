@@ -17,7 +17,6 @@ export default function FaceDetectionScreen({}) {
   // Add a variable to hold the timer ID
   const timerRef = useRef(null);
   const store = useUserQuota();
-  const [faceData, setFaceData] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -26,33 +25,34 @@ export default function FaceDetectionScreen({}) {
     cameraRef.current.resumePreview();
   }, [permission]);
 
-  useEffect(() => {
-    const mockFaceImg = async () => {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        quality: 1,
-      });
+  // useEffect(() => {
+  //   const mockFaceImg = async () => {
+  //     let result = await ImagePicker.launchImageLibraryAsync({
+  //       mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //       quality: 1,
+  //     });
 
-      if (result.canceled) {
-        return;
-      }
+  //     if (result.canceled) {
+  //       return;
+  //     }
 
-      const mockImgUri = result.assets[0].uri;
-      const img = {
-        uri: mockImgUri,
-        type: mime.getType(mockImgUri),
-        name: mockImgUri.split("/").pop(),
-      };
-      store.setFaceData(img);
-      setFaceData(img);
+  //     const mockImgUri = result.assets[0].uri;
+  //     console.log('Sun >>> mockImgUri === ' + mockImgUri)
+  //     const img = {
+  //       uri: mockImgUri,
+  //       type: mime.getType(mockImgUri),
+  //       name: mockImgUri.split("/").pop(),
+  //     };
+  //     store.setFaceData(img);
+  //     setFaceData(img);
 
-      setTimeout(() => {
-        navigation.goBack();
-      }, 2000);
-    };
+  //     // setTimeout(() => {
+  //     //   navigation.goBack();
+  //     // }, 2000);
+  //   };
 
-    setTimeout(mockFaceImg, 2000);
-  }, []);
+  //   setTimeout(mockFaceImg, 2000);
+  // }, []);
 
   // useEffect(() => {
   //   return () => {
@@ -87,13 +87,16 @@ export default function FaceDetectionScreen({}) {
       const photo = await cameraRef.current.takePictureAsync(options);
       // Convert the captured photo to Base64 format
       // const base64Photo = `data:image/jpg;base64,${photo.base64}`;
-      setFaceData(photo);
-      const parts = photo.uri.split("Camera/");
-      store.setFaceData({
-        faceBase64: `data:image/jpg;base64,${photo.base64}`,
-        faceName: parts[1],
-      });
-      // navigation.goBack()
+      const parts = photo.uri.split("/").pop();
+      console.log('Sun >>> photo ==' + photo.uri)
+      console.log('Sun >>> photo parts ==' + parts)
+      const img = {
+           uri: photo.uri,
+           type: mime.getType(photo.uri),
+           name: photo.uri.split("/").pop(),
+          };
+      store.setFaceData(img);
+      navigation.goBack();
     }
   };
 
@@ -176,12 +179,6 @@ export default function FaceDetectionScreen({}) {
         </Text>
       </View>
 
-      {faceData && (
-        <Image
-          source={faceData.uri}
-          style={{ width: 100, height: 100, marginTop: 20 }}
-        ></Image>
-      )}
     </View>
   );
 }

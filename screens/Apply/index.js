@@ -165,6 +165,10 @@ export default function Apply() {
     //拼接参数
     const amountConfig = daysConfig.opt[amountIndex];
     const params = {
+      app: store.app,
+      sign: store.sign,
+      token:  store.token,
+      language: store.locale,
       applyAmount: amountConfig.applyAmount,
       dayNum: daysConfig.days,
       disburseMoney: amountConfig.disburseMoney,
@@ -178,21 +182,16 @@ export default function Apply() {
   };
 
   const clickCollectionAccount = () => {
-    console.log("Sun >>> clickCollectionAccount");
     // 参数通过第二个参数传递给目标页面
     navigation.navigate("MyCards", { isApplySelect: true });
   };
 
   const goBack = () => {
-    console.log("Sun >>> goback");
-    // unloadAudio()
     setToVoice(false);
   };
 
   const getApplyLoan = () => {
-    // if(isClickable){
-    console.log("Sun >>> getApplyLoan");
-
+    if(isClickable){
     //参数检查
     const daysConfig = optWithDaysConfig[daysOption];
     const amountConfig = daysConfig.opt[amountIndex];
@@ -206,9 +205,9 @@ export default function Apply() {
     };
     getGetApplyCheckParams(data);
     //申请贷款
-    // }else {
-    //   return
-    // }
+    }else {
+      return
+    }
   };
 
   const playVoice = () => {
@@ -252,8 +251,8 @@ export default function Apply() {
         },
       });
       setSound(sound);
-      sound.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
       await sound.playAsync();
+      sound.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
     } catch (error) {
       console.log("Error loading audio:", error);
     }
@@ -314,10 +313,11 @@ export default function Apply() {
 
   useEffect(() => {
     if (toVoice) {
-      // unloadAudio()
+      unloadAudio()
       setIsClickable(true);
       setIsPlaying(true);
       setCurrentTime(0);
+      setDuration(0);
       if (sound) {
         sound.setPositionAsync(0);
       }

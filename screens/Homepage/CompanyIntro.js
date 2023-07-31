@@ -12,30 +12,31 @@ export function CompanyIntro() {
 
   return (
     <View style={styles.container}> 
-      <View style={{
-         backgroundColor:'transparent',
-         flexDirection: 'row',
-         alignItems: 'center'
-      }}>
-        {
-          (bill.appStatus == 101 || bill.appStatus == 201 || bill.appStatus == 202 || bill.appStatus == 301 ||  bill.appStatus == 302) ? 
-          <Image 
+     {
+        (bill.appStatus == 101 || bill.appStatus == 201 || bill.appStatus == 202 || bill.appStatus == 301 ||  bill.appStatus == 302) ?
+      <View  style={{
+          backgroundColor:'transparent',
+          flexDirection: 'column',
+       }}>
+        <Image 
           source={require('@assets/images/home_top_logo2.png')} 
           style={{
-            width: 205,
-            height: 42
+          width: 205,
+          height: 42
           }}
-          />
-          :
-          <Image 
-          source={require('@assets/images/home_top_logo.png')} 
+        />
+         <Text style={{color: "rgba(255, 255, 255, 0.8)",fontSize: 13}}>Fast Disburse,Loan & Repayment</Text>
+      </View> :
+
+        <Image 
+          source={require('@assets/images/home_top_logo2.png')} 
           style={{
-            width: 210,
-            height: 65
+          width: 205,
+          height: 42
           }}
-          />
-        }
-      </View>
+        />
+     }
+
     </View>
   );
 }

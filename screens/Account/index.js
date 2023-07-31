@@ -27,7 +27,7 @@ const Item = (item) => {
 const data = [
   {
     title: "Bill",
-    screen: "Bills",
+    screen: "CurrentBills",
     leftIcon: require("@assets/images/mine_ic_bill.png"),
     leftItem: Item,
   },
@@ -60,46 +60,45 @@ const data = [
 const Account = ({ navigation }) => {
   const { i18n } = useI18n();
   const [isLogin, setToken] = useSystemStore((s) => [!!s.token, s.setToken]);
-  return ( 
+  return (
     <UserLayout>
       <View style={styles.itemsContainer}>
         <FList data={data} itemStyle={styles.FList} />
       </View>
 
-      {
-        !isLogin &&  <View
+      {!isLogin && (
+        <View
+          style={{
+            transform: [{ translateY: -50 }],
+            alignItems: "center",
+          }}
+        >
+          <Pressable
+            style={{
+              width: "75%",
+              backgroundColor: "#0825B8",
+              borderRadius: 3,
+            }}
+            onPress={() => {
+              isLogin ? setToken("") : navigation.push("Login");
+            }}
+          >
+            <Text
               style={{
-                transform: [{ translateY: -50 }],
-                alignItems: "center",
+                textAlign: "center",
+                borderRadius: 3,
+                height: 46,
+                lineHeight: 46,
+                color: "#FFFFFF",
+                backgroundColor: "#0825B8",
+                fontSize: 15,
               }}
             >
-              <Pressable
-                style={{
-                  width: "75%",
-                  backgroundColor: "#0825B8",
-                  borderRadius: 3,
-                }}
-                onPress={() => {
-                  isLogin ? setToken("") : navigation.push("Login");
-                }}
-              >
-                <Text
-                  style={{
-                    textAlign: "center",
-                    borderRadius: 3,
-                    height: 46,
-                    lineHeight: 46,
-                    color: "#FFFFFF",
-                    backgroundColor: "#0825B8",
-                    fontSize: 15,
-                  }}
-                >
-                  {isLogin ? i18n.t('Log Out') : i18n.t('Log In')}
-                </Text>
-              </Pressable>
-            </View>
-      }
-     
+              {isLogin ? i18n.t("Log Out") : i18n.t("Log In")}
+            </Text>
+          </Pressable>
+        </View>
+      )}
     </UserLayout>
   );
 };
@@ -117,7 +116,6 @@ const styles = StyleSheet.create({
   itemsContainer: {
     margin: 15,
     transform: [{ translateY: -50 }],
-
   },
   item: {
     flexDirection: "row",
@@ -130,10 +128,10 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 4,
     elevation: 3,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
-       width: 0,
-       height: 1,
+      width: 0,
+      height: 1,
     },
     shadowOpacity: 0.16,
     shadowRadius: 3,

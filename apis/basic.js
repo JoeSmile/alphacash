@@ -10,7 +10,7 @@ export async function axiosPost(path, parameters) {
       return response;
     })
     .catch((error) => {
-      console.log("error", error);
+      console.log(path, " post error: ", JSON.stringify(error));
       return error;
     });
 }
@@ -40,14 +40,16 @@ export async function axiosPostFile(path, parameters) {
   return axios
     .post(`${baseURL}/api/app${path}`, formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        accept: "application/json",
+        "content-type": "multipart/form-data",
       },
+      transformRequest: (d) => d,
     })
     .then((response) => {
       return response;
     })
     .catch((error) => {
-      console.log("error", error);
+      console.log(path, " post error: ", JSON.stringify(error));
       return error;
     });
 }

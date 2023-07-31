@@ -11,22 +11,6 @@ import { useI18n } from "@hooks/useI18n";
 import Spinner from "react-native-loading-spinner-overlay";
 import { useBillDetail } from "@apis/hooks";
 
-/*const item = {
-  id: "11111",
-  applyAmount: "5000",
-  getAmount: "5000",
-  loanTerm: "7",
-  applyDate: "21/07/2023",
-  loanDate: "21/07/2023",
-  status: "repaid",
-  account: "5000",
-  markup: "100",
-  dueDate: "28/07/2023",
-  lumpSum: "5000",
-  latePayFee: "200",
-  repaymentDate: "30/07/2023",
-};*/
-
 export default function BillDetail({ route }) {
   const { loanId } = route.params;
   const hasRepayBillStatus = [LOAN_STATUS.using, LOAN_STATUS.overdue];
@@ -41,7 +25,6 @@ export default function BillDetail({ route }) {
   useEffect(() => {
     getBillDetail({
       loanId,
-      token: "E5kcl3IAR6dLtbozCV6fGJ78jDKZvEtM1689823255956013",
     });
   }, []);
 
@@ -61,7 +44,7 @@ export default function BillDetail({ route }) {
           <View style={[styles.line, { marginBottom: 12 }]} />
           <View>
             <Text style={[styles.title, { marginBottom: 8 }]}>
-              {`${i18n.t('Collection Account')}:`}
+              {`${i18n.t("Collection Account")}:`}
             </Text>
             <Text style={styles.titleValue}>
               {fa2f(type === 1 ? bankAccount : ewalletAccount)}
@@ -81,22 +64,25 @@ export default function BillDetail({ route }) {
             style={styles.imgTag}
           />
           <View>
-            <Text style={styles.title}>{`${i18n.t('Loan Amount')}: `}</Text>
+            <Text style={styles.title}>{`${i18n.t("Loan Amount")}: `}</Text>
             <Text style={styles.amount}>{fn2f(item.applyAmount)}</Text>
           </View>
           <View style={styles.line}></View>
           <View style={styles.info}>
-            <Text style={styles.title}>{`${i18n.t('Apply Date')}: `}</Text>
+            <Text style={styles.title}>{`${i18n.t("Apply Date")}: `}</Text>
             <Text style={styles.titleValue}>{item.applyDate}</Text>
           </View>
           <View style={styles.line}></View>
           <View style={styles.info}>
-            <Text style={styles.title}>{`${i18n.t('LoanTerm')}: `} </Text>
-            <Text style={styles.titleValue}>{item.loanTerm}{i18n.t("Days")}</Text>
+            <Text style={styles.title}>{`${i18n.t("LoanTerm")}: `} </Text>
+            <Text style={styles.titleValue}>
+              {item.loanTerm}
+              {i18n.t("Days")}
+            </Text>
           </View>
           <View style={styles.line}></View>
           <View style={styles.info}>
-            <Text style={styles.title}>{`${i18n.t('DisburseAmount')}: `} </Text>
+            <Text style={styles.title}>{`${i18n.t("DisburseAmount")}: `} </Text>
             <Text style={styles.titleValue}>{fn2f(item.getAmount)}</Text>
           </View>
           {renderAccount()}
@@ -104,12 +90,12 @@ export default function BillDetail({ route }) {
             <>
               <View style={[styles.line, { marginTop: 16 }]}></View>
               <View style={styles.info}>
-                <Text style={styles.title}>{`${i18n.t('Loan Date')}: `} </Text>
+                <Text style={styles.title}>{`${i18n.t("Loan Date")}: `} </Text>
                 <Text style={styles.titleValue}>{item.disburseDate}</Text>
               </View>
               <View style={styles.line}></View>
               <View style={styles.info}>
-                <Text style={styles.title}>{`${i18n.t('Markup')}: `}</Text>
+                <Text style={styles.title}>{`${i18n.t("Markup")}: `}</Text>
                 <Text style={styles.titleValue}>
                   {fn2f(item.totalInterest)}
                 </Text>
@@ -119,7 +105,9 @@ export default function BillDetail({ route }) {
                   <>
                     <View style={styles.line}></View>
                     <View style={styles.info}>
-                      <Text style={styles.title}>{`${i18n.t('Late Payment Charges')}: `} </Text>
+                      <Text style={styles.title}>
+                        {`${i18n.t("Late Payment Charges")}: `}{" "}
+                      </Text>
                       <Text style={styles.titleValue}>
                         {fn2f(item.latePayFee)}
                       </Text>
@@ -128,21 +116,25 @@ export default function BillDetail({ route }) {
                 )}
               <View style={styles.line}></View>
               <View style={styles.info}>
-                <Text style={styles.title}>{`${i18n.t('Lump Sum Repayment Amount')}: `}</Text>
+                <Text style={styles.title}>{`${i18n.t(
+                  "Lump Sum Repayment Amount"
+                )}: `}</Text>
                 <Text style={styles.titleValue}>
                   {fn2f(item.currentAmountDue)}
                 </Text>
               </View>
               <View style={styles.line}></View>
               <View style={styles.info}>
-                <Text style={styles.title}>{`${i18n.t('Due Date')}: `} </Text>
+                <Text style={styles.title}>{`${i18n.t("Due Date")}: `} </Text>
                 <Text style={styles.titleValue}>{item.dueDate}</Text>
               </View>
               {item.repaymentDate && (
                 <>
                   <View style={styles.line}></View>
                   <View style={styles.info}>
-                    <Text style={styles.title}>{`${i18n.t('Repayment Date')}: `} </Text>
+                    <Text style={styles.title}>
+                      {`${i18n.t("Repayment Date")}: `}{" "}
+                    </Text>
                     <Text style={styles.titleValue}>{item.repaymentDate}</Text>
                   </View>
                 </>

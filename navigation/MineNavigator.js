@@ -1,14 +1,9 @@
 import Settings from "@screens/Settings";
-import { BillsNavigator } from "./BillsNavigator";
 import Credentials from "@screens/Account/screens/Credentials";
 import ContactUs from "@screens/Account/screens/ContactUs";
 import MyCards from "@screens/Account/screens/MyCards/index";
 
 export const MineScreens = [
-  {
-    name: "Bills",
-    component: BillsNavigator,
-  },
   {
     name: "Credentials",
     component: Credentials,
@@ -17,7 +12,7 @@ export const MineScreens = [
   {
     name: "MyCards",
     component: MyCards,
-    headerTitle: 'Collection Account'
+    headerTitle: "Collection Account",
   },
   {
     name: "ContactUs",

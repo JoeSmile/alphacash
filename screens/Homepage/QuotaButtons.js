@@ -12,10 +12,12 @@ function BillBrief({ bill }) {
 
   if (!bill) return <></>;
   return (
-    <View style={{ 
-      paddingLeft: 15,
-      paddingRight: 15
-    }}>
+    <View
+      style={{
+        paddingLeft: 15,
+        paddingRight: 15,
+      }}
+    >
       <View
         style={{
           flexDirection: "row",
@@ -29,14 +31,16 @@ function BillBrief({ bill }) {
             fontSize: 15,
           }}
         >
-        {i18n.t('LoanTerm')}
+          {i18n.t("LoanTerm")}
         </Text>
         <Text
           style={{
             color: "#0A233E",
             fontSize: 15,
           }}
-        >{bill.loanTerm} {i18n.t('Days')}</Text>
+        >
+          {bill.loanTerm} {i18n.t("Days")}
+        </Text>
       </View>
       <View
         style={{
@@ -50,7 +54,7 @@ function BillBrief({ bill }) {
             fontSize: 15,
           }}
         >
-          {i18n.t('Apply Date')}
+          {i18n.t("Apply Date")}
         </Text>
         <Text
           style={{
@@ -75,27 +79,29 @@ export function QuotaButtons() {
   ]);
   const [hasError, setHasError] = useState(false);
 
-  const errorMsg = useMemo(() => {  
-    if(cashLoan.isModifyInfo) {
+  const errorMsg = useMemo(() => {
+    if (cashLoan.isModifyInfo) {
       //审核驳回 - 是否需要重传照片
-      return i18n.t('AccountErrorMessage');
+      return i18n.t("AccountErrorMessage");
     } else if (cashLoan.isModifyFaceImage) {
       //审核驳回 - 是否需要重传人脸识别照
-      return i18n.t('FacePhotoErrorMessage')
+      return i18n.t("FacePhotoErrorMessage");
     } else {
-      return ''
+      return "";
     }
-  }, [cashLoan])
+  }, [cashLoan]);
   useEffect(() => {
     setHasError(cashLoan.isModifyInfo || cashLoan.isModifyFaceImage);
   }, [cashLoan]);
 
   if (hasBill) {
     return (
-      <View style={{
-        paddingLeft: 15,
-        paddingRight: 15
-      }}>
+      <View
+        style={{
+          paddingLeft: 15,
+          paddingRight: 15,
+        }}
+      >
         {/* bill brief */}
         <BillBrief bill={bill} />
 
@@ -142,21 +148,25 @@ export function QuotaButtons() {
           </View>
         )}
         {!hasError && hasBill && (
-          <View style={{
-            marginTop: 20
-          }}>
+          <View
+            style={{
+              marginTop: 20,
+            }}
+          >
             <FButton
               title="RepayNow"
-              onPress={() => navigation.push('Apply')}
+              onPress={() => navigation.push("Apply")}
               style={{
-                marginBottom: 12
+                marginBottom: 12,
               }}
             />
             <FButton
               title="ViewDetails"
-              onPress={() => console.log("go to bill detail")}
+              onPress={() =>
+                navigation.push("BillDetail", { loanId: bill.loanId })
+              }
               style={{
-                marginBottom: 10
+                marginBottom: 10,
               }}
             />
           </View>
@@ -172,7 +182,7 @@ export function QuotaButtons() {
           marginLeft: 15,
         }}
         onPress={() => navigation.push("Apply")}
-        title='GetLoan'
+        title="GetLoan"
         disabled={!cashLoan.isEligible}
       />
     </View>
@@ -186,7 +196,3 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
 });
-
-
-
-

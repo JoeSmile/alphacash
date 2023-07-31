@@ -21,7 +21,6 @@ export function Quota() {
   ]);
 
   useEffect(() => {
-    console.log("cashloan2: got");
     getUserQuota();
   }, []);
 

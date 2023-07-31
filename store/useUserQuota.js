@@ -45,13 +45,14 @@ export const useUserQuota = create((set, get) => ({
   },
   hasBill: true,
   faceData: {
-    faceBase64: "",
-    faceName: ""
+    uri: "",
+    type: "",
+    name: "",
   },
   setFaceData: (newFaceData) => {
     set(() => ({
-      faceData: newFaceData
-    }))
+      faceData: newFaceData,
+    }));
   },
   setCashLoan: (cashLoan) => {
     set({

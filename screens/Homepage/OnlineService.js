@@ -41,12 +41,12 @@ export function OnlineService () {
         }}>{i18n.t('Online Service')}</Text>
       </View>
       <Image
-        source={require("@assets/images/com_ic_right.png")}
+        source={require("@assets/images/home_ic_right.png")}
         contentFit="cover"
         transition={1000}
         style={{
-          width: 20,
-          height: 20,
+          width: 12,
+          height: 12,
         }}
       />
     </View>

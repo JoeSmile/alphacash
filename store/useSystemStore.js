@@ -72,7 +72,7 @@ export const useSystemStore = create(
           cardInfo: newCardInfo,
         }));
       },
-      clean: () => {
+      cleanCardInfo: () => {
         set(() => ({
           cardInfo: {},
         }));

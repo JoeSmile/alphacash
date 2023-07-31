@@ -1,49 +1,90 @@
-import { Image, View, Text, Pressable, StyleSheet } from "react-native";
+import { Image, View, Text, Pressable, StyleSheet, ScrollView } from "react-native";
 import SafeIntro from "./SafeIntro";
 import { useEffect, useState } from "react";
 import { EXAMPLE_TYPES, ExampleModal } from "./ExampleModal";
 import Return from './Return';
 import { useGetIdentityInfoDetail, useUpdateIdentityInfo } from '@apis'
+import * as ImagePicker from 'expo-image-picker';
+import { Asset } from "expo-asset";
+import * as Yup from 'yup';
 import { useI18n } from "@hooks/useI18n";
 
-const emptyIdentityFormValues = {
-  "cnicFront": "", 
-  "cnicBack": "", 
-  "cnicInHand": "", 
-  "employmentProof": "", 
-}
 
-const image = require("@assets/images/info_pic_cnic_card_positive.png")
+const imageUri = Asset.fromModule(require("@assets/images/info_pic_cnic_card_positive.png")).uri
+const imageUri1 = Asset.fromModule(require("@assets/images/info_pic_cnic_card_negative.png")).uri
+const imageUri2 = Asset.fromModule(require("@assets/images/info_pic_holding_id_card.png")).uri
+const imageUri3 = Asset.fromModule(require("@assets/images/info_pic_work_permit.png")).uri
+
+const IdentityFormSchema = Yup.object().shape({
+  cnicFront: Yup.string()
+  .required('Required'),
+  cnicBack: Yup.string()
+  .required('Required'),
+  cnicInHand: Yup.string()
+  .required('Required'),
+  employmentProof: Yup.string()
+  .required('Required'),
+
+});
 
 export default function Certificate() {
   const [showModalType, setShowModalType] = useState("");
   const {mutate: getIdentityInfo, data: identityInfo, isLoading: isIdentityInfoLoading} = useGetIdentityInfoDetail();
   const {mutate: updateIdentityInfo, data: updateIdentityInfoResponse} = useUpdateIdentityInfo();
   const { i18n } = useI18n();
+  const [imageList, setImage] = useState([]);
+
 
   // useEffect(() => {
   //   getIdentityInfo();
   // }, []);
 
   useEffect(() => {
-    if(identityInfo && identityInfo.data.error_code == 1 ) {
-      setInitialValues({
-        ...emptyIdentityFormValues,
-        ...identityInfo.data.data.identityInfo
-      });
+    if(identityInfo?.data?.error_code == 1 ) {
+      console.log('Sun >>>>>>>>>> identityInfo')
+      const imageData = identityInfo.data.identityInfo
+      const list = [
+        imageData.cnicFront,
+        imageData.cnicBack,
+        imageData.cnicInHand,
+        imageData.employmentProof,
+      ];
+      setImage(list)     
     }
   }, [identityInfo]);
 
   useEffect(() => {
-    if (updateIdentityInfoResponse && updateIdentityInfoResponse.data.error_code == 1) {
-      console.log('Sun >>>>>>>>>> ')
+    if (updateIdentityInfoResponse?.data?.error_code == 1) {
+      console.log('Sun >>>>>>>>>> updateIdentityInfoResponse')
       // navigation.push('');
     }
   }, [updateIdentityInfoResponse])
 
+  const pickImage = async (index) => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      // allowsEditing: true,//是否允许裁剪
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      let updatedImages = [...imageList];
+      updatedImages[index] = result.assets[0].uri;
+      console.log('Sun >>> uri === ' + result.assets[0].uri)
+      setImage(updatedImages);
+    }
+  };
+
+  const onClickUpdateIdentityInfo = () => {
+    console.log('Sun >>>>>>>>>> onClickUpdateIdentityInfo')
+    updateIdentityInfo(imageList)
+
+  }
+
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <SafeIntro safeText={i18n.t("Upload credential information, only for user identity verification, we will encrypt and store it, and it will never be used for other purposes!")}
       />
 
@@ -73,6 +114,7 @@ export default function Certificate() {
           }}
         >
           <Pressable
+            onPress={() => pickImage(0)}
             style={{
               flex: 1,
             }}
@@ -85,13 +127,14 @@ export default function Certificate() {
                   height: 96,
                   width: 150,
                 }}
-                source={require("@assets/images/info_pic_cnic_card_positive.png")}
+                source={{ uri:  imageList[0] ?? imageUri }}
                 contentFit="cover"
               />
               <Text style={{fontSize: 12, color: '#8899AC', alignSelf: 'center', marginTop:6}}>CNIC Card Front</Text>
             </View>
           </Pressable>
           <Pressable
+            onPress={() => pickImage(1)}
             style={{
               flex: 1,
             }}
@@ -104,7 +147,7 @@ export default function Certificate() {
                   height: 96,
                   width: 150,
                 }}
-                source={require("@assets/images/info_pic_cnic_card_negative.png")}
+                source={{ uri:  imageList[1] ?? imageUri1 }}
                 contentFit="cover"
               />
               <Text  style={{fontSize: 12, color: '#8899AC', alignSelf: 'center', marginTop:6}}>CNIC Card Back</Text>
@@ -132,16 +175,23 @@ export default function Certificate() {
             <Text style={styles.underlineText}>{i18n.t('Example')}</Text>
           </Pressable>
         </View>
-        <View>
+       
+        <Pressable 
+         style={{
+          height: 96,
+          width: 150,
+        }}
+        onPress={() => pickImage(2)}>
           <Image
             style={{
               height: 96,
               width: 150,
             }}
-            source={require("@assets/images/info_pic_holding_id_card.png")}
+            source={{ uri: imageList[2] ?? imageUri2 }}
             contentFit="cover"
           />
-        </View>
+           </Pressable>
+      
       </View>
 
       <View style={styles.shadowContent}></View>
@@ -163,16 +213,22 @@ export default function Certificate() {
             <Text style={styles.underlineText}>{i18n.t('Example')}</Text>
           </Pressable>
         </View>
-        <View>
+        <Pressable 
+          style={{
+            height: 96,
+            width: 150,
+          }}
+          onPress={() => pickImage(3)}>
           <Image
             style={{
               height: 96,
               width: 150,
             }}
-            source={require("@assets/images/info_pic_work_permit.png")}
+            source={{ uri: imageList[3] ?? imageUri3 }}
             contentFit="cover"
           />
-        </View>
+        </Pressable>
+
       </View>
 
       <Pressable
@@ -188,7 +244,7 @@ export default function Certificate() {
           display: 'flex',
           flexDirection: 'row',
         }}
-        onPress={{}}
+        onPress={() => onClickUpdateIdentityInfo()}
       >
         <Text
           style={{
@@ -210,7 +266,7 @@ export default function Certificate() {
         type={showModalType}
       />
       <Return />
-    </View>
+    </ScrollView>
   );
 }
 

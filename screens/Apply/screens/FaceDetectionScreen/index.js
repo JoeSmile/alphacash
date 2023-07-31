@@ -26,35 +26,6 @@ export default function FaceDetectionScreen({}) {
   }, [permission]);
 
   // useEffect(() => {
-  //   const mockFaceImg = async () => {
-  //     let result = await ImagePicker.launchImageLibraryAsync({
-  //       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  //       quality: 1,
-  //     });
-
-  //     if (result.canceled) {
-  //       return;
-  //     }
-
-  //     const mockImgUri = result.assets[0].uri;
-  //     console.log('Sun >>> mockImgUri === ' + mockImgUri)
-  //     const img = {
-  //       uri: mockImgUri,
-  //       type: mime.getType(mockImgUri),
-  //       name: mockImgUri.split("/").pop(),
-  //     };
-  //     store.setFaceData(img);
-  //     setFaceData(img);
-
-  //     // setTimeout(() => {
-  //     //   navigation.goBack();
-  //     // }, 2000);
-  //   };
-
-  //   setTimeout(mockFaceImg, 2000);
-  // }, []);
-
-  // useEffect(() => {
   //   return () => {
   //     // 在组件卸载时停止相机预览
   //     if (cameraRef.current) {
@@ -96,7 +67,9 @@ export default function FaceDetectionScreen({}) {
            name: photo.uri.split("/").pop(),
           };
       store.setFaceData(img);
-      navigation.goBack();
+       setTimeout(() => {
+        navigation.goBack();
+      }, 1000);
     }
   };
 

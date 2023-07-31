@@ -4,6 +4,7 @@ import FList from "@components/FList";
 import { useI18n, LocaleTypes } from "@hooks/useI18n";
 import { useMemo } from 'react';
 import { useSystemStore } from "@store/useSystemStore";
+import { useUserQuota } from "@store/useUserQuota";
 import { useNavigation } from "@react-navigation/native";
 
 
@@ -26,10 +27,13 @@ const Item = (item) => {
   );
 };
 
-const getListData = ({locale, isLogin, setToken, i18n,navigation}) => {
+const getListData = ({locale, isLogin, setToken,cleanCardInfo, i18n,navigation,userStore}) => {
   
   const clickLogOut = (() => {
     setToken('')
+    //退出登录清空缓存数据
+    cleanCardInfo()
+    userStore.setFaceData({})
     navigation.push('Homepage')
   })
 
@@ -141,11 +145,12 @@ const getListData = ({locale, isLogin, setToken, i18n,navigation}) => {
 const Settings = () => {
   const { locale, i18n } = useI18n()
   const navigation = useNavigation();
-  const [isLogin, setToken] = useSystemStore((s) => [!!s.token, s.setToken]);
+  const [isLogin, setToken,cleanCardInfo] = useSystemStore((s) => [!!s.token, s.setToken,s.cleanCardInfo]);
+  const userStore = useUserQuota()
 
   const listData = useMemo(() => {
-    return getListData({locale, isLogin, setToken, i18n,navigation});
-  }, [locale, isLogin, setToken, i18n]);
+    return getListData({locale, isLogin, setToken,cleanCardInfo, i18n,navigation,userStore});
+  }, [locale, isLogin, setToken, i18n,cleanCardInfo,navigation,userStore]);
 
   return (
     <View style={{

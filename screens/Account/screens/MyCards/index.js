@@ -153,7 +153,7 @@ export default function MyCards({navigation, route}) {
       { text: 'Cancel', onPress: () => console.log('cancel'), style: {color: '#C0C4D6'} },
       { text: 'Confirm', onPress: () => {
         if(card.bankAccountId == store.cardInfo.bankAccountId || card.ewalletId == store.cardInfo.ewalletId){
-          store.clean()
+          store.cleanCardInfo()
         }
         if (card.type == 1) {
           deleteBankAccount({

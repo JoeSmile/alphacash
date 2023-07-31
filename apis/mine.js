@@ -53,11 +53,11 @@ export async function getReferenceContactOptions(parameters) {
 
 // identity form
 export async function getIdentityInfoDetail(parameters) {
-  return axiosPost('/identityinfoDetail', parameters);
+  return axiosPost('/identityDetail', parameters);
 }
 
 export async function updateIdentityInfo(parameters) {
-  return axiosPost('/identityinfo', parameters);
+  return axiosPost('/identityInfo', parameters);
 }
 
 // account 

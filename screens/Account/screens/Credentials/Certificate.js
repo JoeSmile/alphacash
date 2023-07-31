@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import { EXAMPLE_TYPES, ExampleModal } from "./ExampleModal";
 import Return from './Return';
 import { useGetIdentityInfoDetail, useUpdateIdentityInfo } from '@apis'
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from "expo-image-picker";
 import { Asset } from "expo-asset";
-import * as Yup from 'yup';
 import { useI18n } from "@hooks/useI18n";
+import mime from "mime";
 
 
 const imageUri = Asset.fromModule(require("@assets/images/info_pic_cnic_card_positive.png")).uri
@@ -15,41 +15,35 @@ const imageUri1 = Asset.fromModule(require("@assets/images/info_pic_cnic_card_ne
 const imageUri2 = Asset.fromModule(require("@assets/images/info_pic_holding_id_card.png")).uri
 const imageUri3 = Asset.fromModule(require("@assets/images/info_pic_work_permit.png")).uri
 
-const IdentityFormSchema = Yup.object().shape({
-  cnicFront: Yup.string()
-  .required('Required'),
-  cnicBack: Yup.string()
-  .required('Required'),
-  cnicInHand: Yup.string()
-  .required('Required'),
-  employmentProof: Yup.string()
-  .required('Required'),
-
-});
-
 export default function Certificate() {
   const [showModalType, setShowModalType] = useState("");
   const {mutate: getIdentityInfo, data: identityInfo, isLoading: isIdentityInfoLoading} = useGetIdentityInfoDetail();
   const {mutate: updateIdentityInfo, data: updateIdentityInfoResponse} = useUpdateIdentityInfo();
   const { i18n } = useI18n();
   const [imageList, setImage] = useState([]);
+  const [cnicFrontImage,setCnicFront] = useState({})
+  const [cnicBackImage,setCnicBack] = useState({})
+  const [cnicInHandImage,setCnicInHand] = useState({})
+  const [employmentProofImage,setEmploymentProof] = useState({})
 
 
-  // useEffect(() => {
-  //   getIdentityInfo();
-  // }, []);
+  useEffect(() => {
+    getIdentityInfo();
+  }, []);
 
   useEffect(() => {
     if(identityInfo?.data?.error_code == 1 ) {
       console.log('Sun >>>>>>>>>> identityInfo')
-      const imageData = identityInfo.data.identityInfo
-      const list = [
-        imageData.cnicFront,
-        imageData.cnicBack,
-        imageData.cnicInHand,
-        imageData.employmentProof,
-      ];
-      setImage(list)     
+      const imageData = identityInfo.data.data.identityInfo
+      // if(imageData.cnicFront !== null){
+        const list = [
+          imageData.cnicFront,
+          imageData.cnicBack,
+          imageData.cnicInHand,
+          imageData.employmentProof,
+        ];
+        setImage(list)     
+      // }
     }
   }, [identityInfo]);
 
@@ -68,17 +62,65 @@ export default function Certificate() {
       quality: 1,
     });
 
-    if (!result.canceled) {
-      let updatedImages = [...imageList];
-      updatedImages[index] = result.assets[0].uri;
-      console.log('Sun >>> uri === ' + result.assets[0].uri)
-      setImage(updatedImages);
+    if (result.canceled) {
+      return;
     }
+
+      // let updatedImages = [...imageList];
+      // updatedImages[index] = result.assets[0].uri;
+      const imgUri = result.assets[0].uri;
+      img = {
+        uri: imgUri,
+        type: mime.getType(imgUri),
+        name: imgUri.split("/").pop(),
+      };
+
+      if(index == 0){
+        setCnicFront(img)
+      } else if (index == 1){
+         setCnicBack(img)
+      } else if (index == 2){
+         setCnicInHand(img)
+      } else if (index == 3){
+         setEmploymentProof(img)
+      }
+      console.log('Sun >>> uri === ' + imgUri + 'mime.getType(result.assets[0].uri) ==' + mime.getType(imgUri) + 'result.assets[0].uri.split("/").pop() ===' + imgUri.split("/").pop())
+      // setImage(updatedImages);
+
   };
 
   const onClickUpdateIdentityInfo = () => {
-    console.log('Sun >>>>>>>>>> onClickUpdateIdentityInfo')
-    updateIdentityInfo(imageList)
+    console.log('Sun >>>>>>>>>> onClickUpdateIdentityInfo' + cnicFrontImage.uri)
+
+    // const cnicFrontImage = {
+    //   uri: imageList[0],
+    //   type: mime.getType(imageList[0]),
+    //   name: imageList[0].split("/").pop(),
+    //  };
+    // const cnicBackImage = {
+    //   uri: imageList[1],
+    //   type: mime.getType(imageList[1]),
+    //   name: imageList[1].split("/").pop(),
+    // }
+
+    // const cnicInHandImage = {
+    //   uri: imageList[2],
+    //   type: mime.getType(imageList[2]),
+    //   name: imageList[2].split("/").pop(),
+    // }
+
+    // const employmentProofImage = {
+    //   uri: imageList[3],
+    //   type: mime.getType(imageList[3]),
+    //   name: imageList[3].split("/").pop(),
+    // }
+    const params = { 
+      cnicFront : cnicFrontImage,
+      cnicBack: cnicBackImage,
+      cnicInHand: cnicInHandImage,
+      employmentProof: employmentProofImage
+     };
+    updateIdentityInfo(params)
 
   }
 

@@ -6,17 +6,20 @@ import { useNavigation } from "@react-navigation/native";
 import { useUserQuota } from "@store";
 import * as ImagePicker from "expo-image-picker";
 import mime from "mime";
+import { useI18n } from "@hooks/useI18n";
+
 
 export default function FaceDetectionScreen({}) {
   const cameraRef = useRef(null);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [isBlinking, setIsBlinking] = useState(false);
   const [isYawing, setIsYawing] = useState(false);
-  const [tips, setTips] = useState("Please face the screen");
+  const [tips, setTips] = useState();
   const navigation = useNavigation();
   // Add a variable to hold the timer ID
   const timerRef = useRef(null);
   const store = useUserQuota();
+  const { i18n } = useI18n();
 
   useEffect(() => {
     (async () => {
@@ -102,7 +105,7 @@ export default function FaceDetectionScreen({}) {
   const handleFacesDetected = ({ faces }) => {
     if (faces.length > 0) {
       if (!isBlinking) {
-        setTips("Please close your eyes and then blink your eyes");
+        setTips(i18n.t("Please close your eyes and then blink your eyes"));
       }
       faces.map((face) => {
         console.log(
@@ -116,7 +119,7 @@ export default function FaceDetectionScreen({}) {
         }
       });
     } else {
-      setTips("Please face the screen");
+      setTips(i18n.t("Please face the screen"));
       // setIsYawing(false)
       setIsBlinking(false);
       clearTimeout(timerRef.current);
@@ -173,8 +176,7 @@ export default function FaceDetectionScreen({}) {
             fontSize: 13,
           }}
         >
-          Please follow the instructions to complete the face recognition action
-          and improve your pass rate!
+         {i18n.t("ImproveYourPassRate")}
         </Text>
       </View>
 

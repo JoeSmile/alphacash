@@ -192,4 +192,6 @@ export const en = {
    'Key Executive For Loan Handling officer Name': 'Key Executive For Loan Handling officer Name',
    'Contact Email': 'Contact Email',
    'Address': 'Address',
+   'Please face the screen': 'Please face the screen',
+   'Please close your eyes and then blink your eyes': 'Please close your eyes and then blink your eyes',
 };

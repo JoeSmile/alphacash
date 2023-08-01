@@ -196,4 +196,6 @@ export const urdu = {
   'Key Executive For Loan Handling officer Name': 'پرنسپل لون پروسیسنگ ایگزیکٹو کا ',
   'Contact Email': 'ای میل سے رابطہ کریں',
   'Address': 'پتہ',
+  'Please face the screen': 'براہ کرم اسکرین کا سامنا کریں۔',
+  'Please close your eyes and then blink your eyes': 'براہ کرم اپنی آنکھیں بند کریں اور پھر آنکھیں جھپکائیں۔',
 };

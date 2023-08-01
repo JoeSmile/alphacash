@@ -1,4 +1,4 @@
-import { Image, View, Text, Pressable, StyleSheet, ScrollView } from "react-native";
+import { View, Text, Pressable, StyleSheet, ScrollView } from "react-native";
 import SafeIntro from "./SafeIntro";
 import { useEffect, useState } from "react";
 import { EXAMPLE_TYPES, ExampleModal } from "./ExampleModal";
@@ -8,6 +8,8 @@ import * as ImagePicker from "expo-image-picker";
 import { Asset } from "expo-asset";
 import { useI18n } from "@hooks/useI18n";
 import mime from "mime";
+import { Image } from 'expo-image';
+
 
 
 const imageUri = Asset.fromModule(require("@assets/images/info_pic_cnic_card_positive.png")).uri
@@ -26,19 +28,17 @@ export default function Certificate() {
   const [cnicInHandImage,setCnicInHand] = useState({})
   const [employmentProofImage,setEmploymentProof] = useState({})
 
-
   useEffect(() => {
     getIdentityInfo();
   }, []);
 
   useEffect(() => {
     if(identityInfo?.data?.error_code == 1 ) {
-      console.log('Sun >>>>>>>>>> identityInfo')
       const imageData = identityInfo.data.data.identityInfo
       if(imageData.cnicFront != null){
         console.log('Sun >>> ' + imageData.cnicFront)
         setImage([
-          encodeURI(imageData.cnicFront),
+          imageData.cnicFront,
           imageData.cnicBack,
           imageData.cnicInHand,
           imageData.employmentProof,
@@ -68,6 +68,7 @@ export default function Certificate() {
 
       let updatedImages = [...imageList];
       const imgUri = result.assets[0].uri;
+      console.log('Sun imgUri =>>> ' + imgUri)
       updatedImages[index] = imgUri;
       setImage(updatedImages);
 
@@ -146,9 +147,9 @@ export default function Certificate() {
                   height: 96,
                   width: 150,
                 }}
-                source={{ uri:  imageList[0] ?? imageUri }}
-                contentFit="cover"
-                resizeMode="contain"
+                source = { imageList[0] ?? imageUri }
+                contentFit = "contain"
+                transition = {500}
               />
               <Text style={{fontSize: 12, color: '#8899AC', alignSelf: 'center', marginTop:6}}>CNIC Card Front</Text>
             </View>
@@ -167,9 +168,9 @@ export default function Certificate() {
                   height: 96,
                   width: 150,
                 }}
-                source={{ uri: imageList[1] ?? imageUri1 }}
-                contentFit="cover"
-                resizeMode="contain"
+                source = { imageList[1] ?? imageUri1 }
+                contentFit = "contain"
+                transition= {500}
               />
               <Text  style={{fontSize: 12, color: '#8899AC', alignSelf: 'center', marginTop:6}}>CNIC Card Back</Text>
             </View>
@@ -208,9 +209,9 @@ export default function Certificate() {
               height: 96,
               width: 150,
             }}
-            source={{ uri: imageList[2] ?? imageUri2 }}
-            contentFit="cover"
-            resizeMode="contain"
+            source = { imageList[2] ?? imageUri2 }
+            contentFit = "contain"
+            transition = {500}
           />
            </Pressable>
       
@@ -246,9 +247,9 @@ export default function Certificate() {
               height: 96,
               width: 150,
             }}
-            source={{ uri: imageList[3] ?? imageUri3 }}
-            contentFit="cover"
-            resizeMode="contain"
+            source= { imageList[3] ?? imageUri3 }
+            contentFit = "contain"
+            transition = {500}
           />
         </Pressable>
 

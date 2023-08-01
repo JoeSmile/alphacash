@@ -53,7 +53,7 @@ export async function getReferenceContactOptions(parameters) {
 
 // identity form
 export async function getIdentityInfoDetail(parameters) {
-  return axiosPostFile('/identityDetail', parameters);
+  return axiosPost('/identityDetail', parameters);
 }
 
 export async function updateIdentityInfo(parameters) {

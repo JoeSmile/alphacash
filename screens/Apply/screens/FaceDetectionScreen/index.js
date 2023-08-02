@@ -87,7 +87,7 @@ export default function FaceDetectionScreen({}) {
        store.setFaceData(img);
        setTimeout(() => {
         navigation.goBack();
-      }, 2000);
+      }, 1000);
     }
   };
 

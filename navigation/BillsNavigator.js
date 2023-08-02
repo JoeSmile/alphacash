@@ -10,6 +10,6 @@ export const BillsScreens = [
   {
     name: "BillDetail",
     component: BillDetail,
-    headerTitle: "Bill Detail",
+    headerTitle: "Bill Details",
   },
 ];

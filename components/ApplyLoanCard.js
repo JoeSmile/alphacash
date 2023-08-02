@@ -1,115 +1,143 @@
-import { View, Text, StyleSheet, Image,FlatList,TouchableOpacity,Pressable  } from "react-native";
-import { useEffect, useState } from "react";
-import { useI18n, LocaleTypes } from "@hooks/useI18n";
+import { useCallback } from "react";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { useI18n } from "@hooks/useI18n";
+import { formatNumberToFinancial as fn2f } from "@utils";
 
-
-export default function ApplyLoanCard ({ 
+export default function ApplyLoanCard({
   optWithDaysConfig,
-  setOptWithDaysConfig,
   daysOption,
   setDaysOption,
   amountIndex,
   setAmountIndex,
- }) {
+}) {
   const { i18n } = useI18n();
+  const opt = optWithDaysConfig[daysOption].opt;
+  const applyAmount = opt[amountIndex].applyAmount;
+  const stepsLen = opt.length;
 
-
-  const handleItemPress = (item,index) => {
-    if(item.isApply){
-      console.log('Item pressed:', item + index);
+  const handleItemPress = useCallback((item, index) => {
+    if (item.isApply) {
       // 处理点击事件的逻辑
-      setDaysOption(index)
-    } else {
-       return
+      setDaysOption(index);
     }
-  };
+  }, []);
 
-  const Item = ({ title,index,isApply }) => {
-    if(isApply){
+  const Item = useCallback(
+    ({ title, index, isApply }) => {
+      const isActive = index === daysOption;
       return (
-      <View style={[styles.loanTermUnCheckedStyle, index === daysOption && styles.loanTermCheckedStyle]}>
-        <Text style={{color: '#262626', fontSize: 14,fontWeight: 'bold'}}>{title} {i18n.t('Days')}</Text>
-      </View>
-      )
-    } else {
-      return (
-      <View style={styles.loanTermUnCheckedStyle}>
-       <Text style={{color: '#262626', fontSize: 14,fontWeight: 'bold'}}>{title} {i18n.t('Days')}</Text>
-       <Image  source={require('@assets/applyLoan/loan_ic_lock.png')} style={{width: 14,height: 14,marginHorizontal: 2}}></Image>
-     </View>
-      )
-    }
-  }
+        <View
+          style={[
+            styles.loanTermUnCheckedStyle,
+            isActive && styles.loanTermCheckedStyle,
+          ]}
+        >
+          <Text
+            style={{
+              color: isActive ? "#262626" : "#8899AC",
+              fontSize: 14,
+              fontWeight: "bold",
+            }}
+          >
+            {title + " " + i18n.t("Days")}
+          </Text>
+          {!isApply && (
+            <Image
+              source={require("@assets/applyLoan/loan_ic_lock.png")}
+              style={{ width: 14, height: 14, marginHorizontal: 2 }}
+            />
+          )}
+        </View>
+      );
+    },
+    [daysOption]
+  );
 
   return (
     <View style={styles.container}>
-    <Text style={{marginTop: 24,fontSize: 15,color: '#0A233E',fontWeight: 500}}>{i18n.t('LoanAmount')}</Text>
+      <Text
+        style={{
+          marginTop: 24,
+          fontSize: 15,
+          color: "#0A233E",
+          fontWeight: 500,
+        }}
+      >
+        {i18n.t("LoanAmount")}
+      </Text>
 
-    <View style={styles.loanAmountStyle}>
-    <TouchableOpacity onPress={() => {
-        console.log("optWithDaysConfig:", optWithDaysConfig[daysOption].opt);
-        console.log("daysOption:", daysOption);
-        console.log("amountIndex:", amountIndex);
-         if(amountIndex && optWithDaysConfig[daysOption] && amountIndex < optWithDaysConfig[daysOption].opt.length ){
-        setAmountIndex(amountIndex - 1)
-      }
-      }}>
-      <Image 
-      source={require('@assets/applyLoan/loan_btn_minus_disabled.png')} 
-      style={styles.imageStyle} 
-      />
-       </TouchableOpacity>
-      <Text style={{  color: '#0A233E',fontSize: 29,fontWeight: 'bold'}}>RS.{optWithDaysConfig[daysOption].opt[amountIndex].applyAmount}</Text>
-      <TouchableOpacity  onPress={() => {
-         console.log("optWithDaysConfig:", optWithDaysConfig[daysOption].opt);
-         console.log("daysOption:", daysOption);
-         console.log("amountIndex:", amountIndex);
-        if(optWithDaysConfig[daysOption] && amountIndex < optWithDaysConfig[daysOption].opt.length -1 ){
-          setAmountIndex(amountIndex + 1)
-        }
-      }}>
-      <Image 
-      source={require('@assets/applyLoan/loan_btn_plus_disabled.png')} 
-      style={styles.imageStyle}/>
-       </TouchableOpacity>
-    </View>
-
-    <View style={{height: 1,backgroundColor: '#E0E3E8',marginTop: 8,width:'88%'}}></View>
-
-    <Text style={{color: '#0A233E',fontSize: 15, marginTop: 24,fontWeight: 500}}>{i18n.t('LoanTerm')}</Text>
-
-    <View style={styles.loanTermBgStyle}>
-      {
-        optWithDaysConfig.map((item,index) => 
-        <TouchableOpacity key={item.days} onPress={() => handleItemPress(item,index)}>
-        <Item
-        title={item.days} 
-        index={index}
-        isApply={item.isApply}
-        ></Item>
+      <View style={styles.loanAmountStyle}>
+        <TouchableOpacity
+          onPress={() => {
+            amountIndex && setAmountIndex(amountIndex - 1);
+          }}
+        >
+          <Image
+            source={require("@assets/applyLoan/loan_btn_minus_disabled.png")}
+            style={styles.imageStyle}
+          />
         </TouchableOpacity>
-        )
-      }
-    </View>
+        <Text style={{ color: "#0A233E", fontSize: 29, fontWeight: "bold" }}>
+          {fn2f(applyAmount)}
+        </Text>
+        <TouchableOpacity
+          onPress={() => {
+            amountIndex < stepsLen && setAmountIndex(amountIndex + 1);
+          }}
+        >
+          <Image
+            source={require("@assets/applyLoan/loan_btn_plus_disabled.png")}
+            style={styles.imageStyle}
+          />
+        </TouchableOpacity>
+      </View>
 
-    <View style={{marginTop: 18}}></View>
+      <View
+        style={{
+          height: 1,
+          backgroundColor: "#E0E3E8",
+          marginTop: 8,
+          width: "88%",
+        }}
+      />
 
+      <Text
+        style={{
+          color: "#0A233E",
+          fontSize: 15,
+          marginTop: 24,
+          fontWeight: 500,
+        }}
+      >
+        {i18n.t("LoanTerm")}
+      </Text>
+
+      <View style={styles.loanTermBgStyle}>
+        {optWithDaysConfig.map((item, index) => (
+          <TouchableOpacity
+            key={item.days}
+            onPress={() => handleItemPress(item, index)}
+          >
+            <Item title={item.days} index={index} isApply={item.isApply}></Item>
+          </TouchableOpacity>
+        ))}
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "#FFFFFF",
     zIndex: 10,
-    width: '100%',
-    alignItems: 'center',
+    width: "100%",
+    alignItems: "center",
     borderRadius: 4,
     elevation: 3,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
-       width: 0,
-       height: 1,
+      width: 0,
+      height: 1,
     },
     shadowOpacity: 0.16,
     shadowRadius: 3,
@@ -121,44 +149,44 @@ const styles = StyleSheet.create({
   },
 
   loanAmountStyle: {
-    width: '100%',
-    flexDirection: 'row',
+    width: "100%",
+    flexDirection: "row",
     marginTop: 18,
-    justifyContent: 'space-around',
+    justifyContent: "space-around",
     paddingHorizontal: 12,
-    alignItems: 'center'
+    alignItems: "center",
   },
 
   loanTermBgStyle: {
-    marginTop: 18,
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
+    marginVertical: 18,
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
     paddingHorizontal: 12,
-    justifyContent: 'space-around',
-    flexWrap: 'wrap',
+    justifyContent: "space-around",
+    flexWrap: "wrap",
   },
-  
+
   loanTermCheckedStyle: {
     width: 135,
     height: 42,
-    borderColor: '#00B295',
+    borderColor: "#00B295",
     borderWidth: 2,
     borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: 6
+    alignItems: "center",
+    justifyContent: "center",
+    margin: 6,
   },
 
   loanTermUnCheckedStyle: {
     width: 135,
     height: 42,
-    borderColor: '#E0E3E8',
+    borderColor: "#E0E3E8",
     borderWidth: 1,
     borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     margin: 6,
   },
-
 });

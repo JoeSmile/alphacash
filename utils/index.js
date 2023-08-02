@@ -17,7 +17,20 @@ export function formatAccountToFinancial(account) {
   }
 
   // 使用正则表达式在每四个数字之间插入空格
-  const accStr = account.replace(/\B(?=(\w{4})+(?!\w))/g, " ");
+  const accStr = account.replace(/(\d{4})/g, "$1 ").replace(/\s*$/, "");
 
   return accStr;
+}
+
+export function formatTime(timeInMillis) {
+  if (timeInMillis !== Infinity && !isNaN(timeInMillis)) {
+    const minutes = Math.floor(timeInMillis / 60000);
+    const seconds = ((timeInMillis % 60000) / 1000).toFixed(0);
+
+    // 补零操作
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+    const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+
+    return `${formattedMinutes}:${formattedSeconds}`;
+  }
 }

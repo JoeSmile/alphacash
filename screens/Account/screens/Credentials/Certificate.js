@@ -1,32 +1,55 @@
-import { View, Text, Pressable, StyleSheet, ScrollView,Modal } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  ScrollView,
+  Modal,
+} from "react-native";
 import SafeIntro from "./SafeIntro";
 import { useEffect, useState } from "react";
 import { EXAMPLE_TYPES, ExampleModal } from "./ExampleModal";
-import Return from './Return';
-import { useGetIdentityInfoDetail, useUpdateIdentityInfo } from '@apis'
+import Return from "./Return";
+import { useGetIdentityInfoDetail, useUpdateIdentityInfo } from "@apis";
 import * as ImagePicker from "expo-image-picker";
 import { Asset } from "expo-asset";
 import { useI18n } from "@hooks/useI18n";
 import mime from "mime";
-import { Image } from 'expo-image';
+import { Image } from "expo-image";
 import { Camera, CameraType } from "expo-camera";
 import Spinner from "react-native-loading-spinner-overlay";
 import { useNavigation } from "@react-navigation/native";
 
-const imageUri = Asset.fromModule(require("@assets/images/info_pic_cnic_card_positive.png")).uri
-const imageUri1 = Asset.fromModule(require("@assets/images/info_pic_cnic_card_negative.png")).uri
-const imageUri2 = Asset.fromModule(require("@assets/images/info_pic_holding_id_card.png")).uri
-const imageUri3 = Asset.fromModule(require("@assets/images/info_pic_work_permit.png")).uri
+const imageUri = Asset.fromModule(
+  require("@assets/images/info_pic_cnic_card_positive.png")
+).uri;
+const imageUri1 = Asset.fromModule(
+  require("@assets/images/info_pic_cnic_card_negative.png")
+).uri;
+const imageUri2 = Asset.fromModule(
+  require("@assets/images/info_pic_holding_id_card.png")
+).uri;
+const imageUri3 = Asset.fromModule(
+  require("@assets/images/info_pic_work_permit.png")
+).uri;
 
 export default function Certificate() {
   const navigation = useNavigation();
   const [showModalType, setShowModalType] = useState("");
-  const {mutate: getIdentityInfo, data: identityInfo, isLoading: isIdentityInfoLoading} = useGetIdentityInfoDetail();
-  const {mutate: updateIdentityInfo, data: updateIdentityInfoResponse, isLoading: isUpdateIdentityInfoLoading} = useUpdateIdentityInfo();
+  const {
+    mutate: getIdentityInfo,
+    data: identityInfo,
+    isLoading: isIdentityInfoLoading,
+  } = useGetIdentityInfoDetail();
+  const {
+    mutate: updateIdentityInfo,
+    data: updateIdentityInfoResponse,
+    isLoading: isUpdateIdentityInfoLoading,
+  } = useUpdateIdentityInfo();
   const { i18n } = useI18n();
   const [imageList, setImage] = useState([]);
-  const [showTips,setShowTips] = useState(false)
-  const [index,setIndex] = useState()
+  const [showTips, setShowTips] = useState(false);
+  const [index, setIndex] = useState();
   // const [permission, requestPermission] = Camera.useCameraPermissions();
 
   // useEffect(() => {
@@ -35,15 +58,19 @@ export default function Certificate() {
   //   })();
   // }, [permission]);
 
-
   useEffect(() => {
     getIdentityInfo();
   }, []);
 
   useEffect(() => {
-    if(identityInfo?.data?.error_code == 1 ) {
-      const imageData = identityInfo.data.data.identityInfo
-      if(imageData.cnicFront != null && imageData.cnicBack != null && imageData.cnicInHand != null && imageData.employmentProof != null){
+    if (identityInfo?.data?.error_code == 1) {
+      const imageData = identityInfo.data.data.identityInfo;
+      if (
+        imageData.cnicFront != null &&
+        imageData.cnicBack != null &&
+        imageData.cnicInHand != null &&
+        imageData.employmentProof != null
+      ) {
         const imgCnicFront = {
           uri: imageData.cnicFront,
           type: mime.getType(imageData.cnicFront),
@@ -64,31 +91,38 @@ export default function Certificate() {
           type: mime.getType(imageData.employmentProof),
           name: imageData.employmentProof.split("/").pop(),
         };
-        console.log('Sun >>> ' + imgCnicFront.uri + '>>>>>>' + imgCnicFront.type +  '>>>>>>>>' + imgCnicFront.name)
+        console.log(
+          "Sun >>> " +
+            imgCnicFront.uri +
+            ">>>>>>" +
+            imgCnicFront.type +
+            ">>>>>>>>" +
+            imgCnicFront.name
+        );
         setImage([
           imgCnicFront,
           imgCnicBack,
           imgCnicInHand,
           imgEmploymentProof,
-        ])     
+        ]);
       }
     }
   }, [identityInfo]);
 
   useEffect(() => {
     if (updateIdentityInfoResponse?.data?.error_code == 1) {
-      console.log('Sun >>>>>>>>>> updateIdentityInfoResponse')
-      navigation.push('MyCards');
+      console.log("Sun >>>>>>>>>> updateIdentityInfoResponse");
+      navigation.push("MyCards");
     }
-  }, [updateIdentityInfoResponse])
+  }, [updateIdentityInfoResponse]);
 
   const showPickImageModel = (id) => {
-    setShowTips(true)
-    setIndex(id)
-  }
+    setShowTips(true);
+    setIndex(id);
+  };
 
   const pickImage = async () => {
-    setShowTips(false)
+    setShowTips(false);
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -100,21 +134,20 @@ export default function Certificate() {
       return;
     }
 
-      let updatedImages = [...imageList];
-      const imgUri = result.assets[0].uri;
-      console.log('Sun imgUri =>>> ' + imgUri)
-      const img = {
-        uri: imgUri,
-        type: mime.getType(imgUri),
-        name: imgUri.split("/").pop(),
-      };
-      updatedImages[index] = img;
-      setImage(updatedImages);
-      
+    let updatedImages = [...imageList];
+    const imgUri = result.assets[0].uri;
+    console.log("Sun imgUri =>>> " + imgUri);
+    const img = {
+      uri: imgUri,
+      type: mime.getType(imgUri),
+      name: imgUri.split("/").pop(),
+    };
+    updatedImages[index] = img;
+    setImage(updatedImages);
   };
 
   const takePhoto = async () => {
-    setShowTips(false)
+    setShowTips(false);
 
     const result = await ImagePicker.launchCameraAsync({
       // allowsEditing: true,
@@ -125,41 +158,40 @@ export default function Certificate() {
     }
 
     let updatedImages = [...imageList];
-      const imgUri = result.assets[0].uri;
-      console.log('Sun imgUri =>>> ' + imgUri)
-      const img = {
-        uri: imgUri,
-        type: mime.getType(imgUri),
-        name: imgUri.split("/").pop(),
-      };
-      updatedImages[index] = img;
-      setImage(updatedImages);
-
-  }
-
+    const imgUri = result.assets[0].uri;
+    console.log("Sun imgUri =>>> " + imgUri);
+    const img = {
+      uri: imgUri,
+      type: mime.getType(imgUri),
+      name: imgUri.split("/").pop(),
+    };
+    updatedImages[index] = img;
+    setImage(updatedImages);
+  };
 
   const onClickUpdateIdentityInfo = () => {
-    console.log('Sun >>>>>>>>>> onClickUpdateIdentityInfo')
+    console.log("Sun >>>>>>>>>> onClickUpdateIdentityInfo");
 
-    const params = { 
-      cnicFront : imageList[0],
+    const params = {
+      cnicFront: imageList[0],
       cnicBack: imageList[1],
       cnicInHand: imageList[2],
-      employmentProof: imageList[3]
-     };
-    updateIdentityInfo(params)
-
-  }
-
+      employmentProof: imageList[3],
+    };
+    updateIdentityInfo(params);
+  };
 
   return (
     <ScrollView style={styles.container}>
-       <Spinner
+      <Spinner
         visible={isIdentityInfoLoading || isUpdateIdentityInfoLoading}
         textContent={"Loading..."}
         textStyle={{ color: "#FFF" }}
       />
-      <SafeIntro safeText={i18n.t("Upload credential information, only for user identity verification, we will encrypt and store it, and it will never be used for other purposes!")}
+      <SafeIntro
+        safeText={i18n.t(
+          "Upload credential information, only for user identity verification, we will encrypt and store it, and it will never be used for other purposes!"
+        )}
       />
 
       {/* CNIC card */}
@@ -175,10 +207,10 @@ export default function Certificate() {
             marginBottom: 15,
           }}
         >
-          <Text style={styles.boldTextStyle}>{i18n.t('CNIC Card')}</Text>
+          <Text style={styles.boldTextStyle}>{i18n.t("CNIC Card")}</Text>
 
           <Pressable onPress={() => setShowModalType(EXAMPLE_TYPES.CNIC_CARD)}>
-            <Text style={styles.underlineText}>{i18n.t('Example')}</Text>
+            <Text style={styles.underlineText}>{i18n.t("Example")}</Text>
           </Pressable>
         </View>
         <View
@@ -193,40 +225,62 @@ export default function Certificate() {
               flex: 1,
             }}
           >
-            <View  style={{
-                  width: 150,
-                }}>
+            <View
+              style={{
+                width: 150,
+              }}
+            >
               <Image
                 style={{
                   height: 96,
                   width: 150,
                 }}
-                source = { imageList[0] ? imageList[0].uri : imageUri }
-                contentFit = "contain"
-                transition = {500}
+                source={imageList[0] ? imageList[0].uri : imageUri}
+                contentFit="contain"
+                transition={500}
               />
-              <Text style={{fontSize: 12, color: '#8899AC', alignSelf: 'center', marginTop:6}}>CNIC Card Front</Text>
+              <Text
+                style={{
+                  fontSize: 12,
+                  color: "#8899AC",
+                  alignSelf: "center",
+                  marginTop: 6,
+                }}
+              >
+                CNIC Card Front
+              </Text>
             </View>
           </Pressable>
           <Pressable
-            onPress={() =>  showPickImageModel(1)}
+            onPress={() => showPickImageModel(1)}
             style={{
               flex: 1,
             }}
           >
-            <View  style={{
-                  width: 150,
-                }}>
+            <View
+              style={{
+                width: 150,
+              }}
+            >
               <Image
                 style={{
                   height: 96,
                   width: 150,
                 }}
-                source = { imageList[1] ? imageList[1].uri : imageUri }
-                contentFit = "contain"
-                transition= {500}
+                source={imageList[1] ? imageList[1].uri : imageUri}
+                contentFit="contain"
+                transition={500}
               />
-              <Text  style={{fontSize: 12, color: '#8899AC', alignSelf: 'center', marginTop:6}}>CNIC Card Back</Text>
+              <Text
+                style={{
+                  fontSize: 12,
+                  color: "#8899AC",
+                  alignSelf: "center",
+                  marginTop: 6,
+                }}
+              >
+                CNIC Card Back
+              </Text>
             </View>
           </Pressable>
         </View>
@@ -244,31 +298,33 @@ export default function Certificate() {
             marginBottom: 15,
           }}
         >
-          <Text style={styles.boldTextStyle}>{i18n.t('Take photo with CNIC card in hand')}</Text>
+          <Text style={styles.boldTextStyle}>
+            {i18n.t("Take photo with CNIC card in hand")}
+          </Text>
           <Pressable
             onPress={() => setShowModalType(EXAMPLE_TYPES.CNIC_IN_HAND)}
           >
-            <Text style={styles.underlineText}>{i18n.t('Example')}</Text>
+            <Text style={styles.underlineText}>{i18n.t("Example")}</Text>
           </Pressable>
         </View>
-       
-        <Pressable 
-         style={{
-          height: 96,
-          width: 150,
-        }}
-        onPress={() =>  showPickImageModel(2)}>
+
+        <Pressable
+          style={{
+            height: 96,
+            width: 150,
+          }}
+          onPress={() => showPickImageModel(2)}
+        >
           <Image
             style={{
               height: 96,
               width: 150,
             }}
-            source = { imageList[2] ? imageList[2].uri : imageUri }
-            contentFit = "contain"
-            transition = {500}
+            source={imageList[2] ? imageList[2].uri : imageUri}
+            contentFit="contain"
+            transition={500}
           />
-           </Pressable>
-      
+        </Pressable>
       </View>
 
       <View style={styles.shadowContent}></View>
@@ -283,30 +339,30 @@ export default function Certificate() {
             marginBottom: 15,
           }}
         >
-          <Text style={styles.boldTextStyle}>{i18n.t('Proof Employment')}</Text>
+          <Text style={styles.boldTextStyle}>{i18n.t("Proof Employment")}</Text>
           <Pressable
             onPress={() => setShowModalType(EXAMPLE_TYPES.PROOF_EMPLOYMENT)}
           >
-            <Text style={styles.underlineText}>{i18n.t('Example')}</Text>
+            <Text style={styles.underlineText}>{i18n.t("Example")}</Text>
           </Pressable>
         </View>
-        <Pressable 
+        <Pressable
           style={{
             height: 96,
             width: 150,
           }}
-          onPress={() =>  showPickImageModel(3)}>
+          onPress={() => showPickImageModel(3)}
+        >
           <Image
             style={{
               height: 96,
               width: 150,
             }}
-            source = { imageList[3] ? imageList[3].uri : imageUri }
-            contentFit = "contain"
-            transition = {500}
+            source={imageList[3] ? imageList[3].uri : imageUri}
+            contentFit="contain"
+            transition={500}
           />
         </Pressable>
-
       </View>
 
       <Pressable
@@ -317,10 +373,10 @@ export default function Certificate() {
           marginHorizontal: 16,
           backgroundColor: "#0825B8",
           borderRadius: 3,
-          alignItems: 'center',
-          justifyContent: 'center',
-          display: 'flex',
-          flexDirection: 'row',
+          alignItems: "center",
+          justifyContent: "center",
+          display: "flex",
+          flexDirection: "row",
         }}
         onPress={() => onClickUpdateIdentityInfo()}
       >
@@ -333,56 +389,66 @@ export default function Certificate() {
             color: "#FFFFFF",
             backgroundColor: "#0825B8",
             fontSize: 15,
-          }}> {i18n.t('Next')} </Text>
-          <Image source={require('@assets/images/btn_ic_right.png')} style={{width: 12, height: 12}}/>
-          
-          </Pressable>
-    
+          }}
+        >
+          {" "}
+          {i18n.t("Next")}{" "}
+        </Text>
+        <Image
+          source={require("@assets/images/btn_ic_right.png")}
+          style={{ width: 12, height: 12 }}
+        />
+      </Pressable>
+
       <ExampleModal
         isVisible={!!showModalType}
         onClose={() => setShowModalType("")}
         type={showModalType}
       />
 
-      <Modal
-         visible={showTips}
-         animationType="none"
-         transparent={true}
-      >
-        <View style = {styles.otherContainer}>
-         <View style ={styles.photoViewStyle}>
-         <Pressable
-          onPress={()=> takePhoto()}
-          style = {{
-          flex:1,
-          borderTopLeftRadius: 8,
-          borderTopRightRadius: 8,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#FFFFFF'
-         }}
-         >
-          <Text style={{fontWeight:'bold',fontSize: 15, color: '#0A233E'}}>Camera</Text>
-         </Pressable>
+      <Modal visible={showTips} animationType="none" transparent={true}>
+        <View style={styles.otherContainer}>
+          <View style={styles.photoViewStyle}>
+            <Pressable
+              onPress={() => takePhoto()}
+              style={{
+                flex: 1,
+                borderTopLeftRadius: 8,
+                borderTopRightRadius: 8,
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "#FFFFFF",
+              }}
+            >
+              <Text
+                style={{ fontWeight: "bold", fontSize: 15, color: "#0A233E" }}
+              >
+                Camera
+              </Text>
+            </Pressable>
 
-         <View style={{width:'100%',height: 1,backgroundColor: '#F4F5F7'}}></View>
+            <View
+              style={{ width: "100%", height: 1, backgroundColor: "#F4F5F7" }}
+            ></View>
 
-         <Pressable
-         onPress={()=> pickImage()}
-         style = {{
-          flex:1,         
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#FFFFFF'
-         }}
-         >
-          <Text style={{fontWeight:'bold',fontSize: 15, color: '#0A233E'}}>Choose From Album</Text>
-         </Pressable>
-
-         </View>
-
-     </View>
-     </Modal>
+            <Pressable
+              onPress={() => pickImage()}
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "#FFFFFF",
+              }}
+            >
+              <Text
+                style={{ fontWeight: "bold", fontSize: 15, color: "#0A233E" }}
+              >
+                Choose From Album
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
 
       <Return />
     </ScrollView>
@@ -393,7 +459,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 15,
     backgroundColor: "white",
-    height: '100%'
+    height: "100%",
   },
   submitBtn: {
     height: 50,
@@ -402,9 +468,9 @@ const styles = StyleSheet.create({
   },
 
   boldTextStyle: {
-   fontSize: 15,
-   fontWeight: "bold", 
-   color:'#0A233E',
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "#0A233E",
   },
 
   shadowContent: {
@@ -415,27 +481,27 @@ const styles = StyleSheet.create({
   },
 
   underlineText: {
-   fontSize: 15,
-   fontWeight: 'bold',
-   color: '#0825B8',
-   textDecorationLine: 'underline',
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "#0825B8",
+    textDecorationLine: "underline",
   },
 
   tipStyle: {
-    width:'82%',
+    width: "82%",
     height: 220,
     paddingHorizontal: 12,
     paddingTop: 18,
     borderRadius: 8,
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
   },
 
   otherContainer: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   photoViewStyle: {
@@ -443,11 +509,10 @@ const styles = StyleSheet.create({
     bottom: 0,
     opacity: 1,
     height: 156,
-    width: '100%',
+    width: "100%",
     backgroundColor: "#FFFFFF",
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
     flexDirection: "column",
   },
-
 });

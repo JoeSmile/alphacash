@@ -13,11 +13,6 @@ import { Camera, CameraType } from "expo-camera";
 import Spinner from "react-native-loading-spinner-overlay";
 import { useNavigation } from "@react-navigation/native";
 
-
-
-
-
-
 const imageUri = Asset.fromModule(require("@assets/images/info_pic_cnic_card_positive.png")).uri
 const imageUri1 = Asset.fromModule(require("@assets/images/info_pic_cnic_card_negative.png")).uri
 const imageUri2 = Asset.fromModule(require("@assets/images/info_pic_holding_id_card.png")).uri

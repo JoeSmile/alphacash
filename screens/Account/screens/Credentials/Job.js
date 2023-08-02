@@ -38,7 +38,7 @@ const JobFormSchema = Yup.object().shape({
     .required('Required'),
   companyName: Yup.string()
     .required('Required'),
-  companyPhone: Yup.string().matches(/^\d{11}$/, '请输入正确手机号')
+  companyPhone: Yup.string().matches(/^\d{11}$/, 'Please input correct phone number')
     .required('Required'),
   serviceLength: Yup.string()
     .required('Required'),

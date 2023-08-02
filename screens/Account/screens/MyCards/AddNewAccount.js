@@ -216,7 +216,7 @@ export function AddNewAccount({navigation, route}) {
               }}>
                 <FTextInput 
                   name="account" 
-                  label='Mobile Wallet Account' 
+                  label='Mobile Wallect Account' 
                   type="text" 
                   rightIcon={require("@assets/images/loan_ic_edit.png")}  
                 />
@@ -229,7 +229,7 @@ export function AddNewAccount({navigation, route}) {
                 <View style={styles.inputContainer}>
                   <FTextInput 
                     name="bankAccountName" 
-                    label='Bank Account Name'
+                    label='bank account name'
                     type="text" 
                   />
                 </View>
@@ -243,7 +243,7 @@ export function AddNewAccount({navigation, route}) {
                 </View>
                 {
                 !isLoading && rawList && <View style={styles.inputContainer}>
-                    <FSelect name="bankId" label="Bank Name" 
+                    <FSelect name="bankId" label="Bank name" 
                        valueKey='bank_id' labelKey='full_name'
                     options={bankOptions} />
                   </View>

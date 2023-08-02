@@ -26,8 +26,6 @@ export default function FaceDetectionScreen({}) {
   const [tipssss, setTipssss] = useState(0);
 
 
-
-
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();

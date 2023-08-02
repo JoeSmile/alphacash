@@ -110,7 +110,7 @@ export default function MyCards({navigation, route}) {
     // const editAccountId = route.params ? route.params.accountId : '';
     // const editAccountType = route.params ? route.params.type : '';
     const isApplySelect = route.params ? route.params.isApplySelect : false;
-    const isUpdateWallet = route.params ? route.params.isUpdateWallet : true;
+    const isUpdateWallet = route.params ? route.params.isUpdateWallet : false;
     // console.log("editAccountId", editAccountId);
     // console.log("editAccountType", editAccountType);
     setIsApplySelect(isApplySelect)
@@ -316,6 +316,7 @@ const styles = StyleSheet.create({
   },
   backTextWhite: {
     color: "#FFF",
+    textAlign: 'center'
   },
   rowFront: {
     alignItems: "center",

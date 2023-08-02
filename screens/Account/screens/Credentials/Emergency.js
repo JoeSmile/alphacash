@@ -32,13 +32,13 @@ const EmergencyFormSchema = Yup.object().shape({
   relationship1: Yup.number().required("Required"),
   name1: Yup.string().required("Required"),
   phoneNumber1: Yup.string()
-    .matches(/^\d{11}$/, "请输入正确手机号")
+    .matches(/^\d{11}$/, "Please input correct phone number")
     .required("Required"),
   relationship2: Yup.number().required("Required"),
   name2: Yup.string().required("Required"),
   phoneNumber2: Yup.string()
-    .matches(/^\d{11}$/, "请输入正确手机号")
-    .notOneOf([Yup.ref("phoneNumber1")], "两个联系人号码需不一致，请重新填写")
+    .matches(/^\d{11}$/, "Please input correct phone number")
+    .notOneOf([Yup.ref("phoneNumber1")], "Two phone numbers should be same, please input again")
     .required("Required"),
 });
 

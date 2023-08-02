@@ -136,7 +136,7 @@ export const en = {
   'Take photo with CNIC card in hand':'Take photo with CNIC card in hand',
   'Proof Employment':'Proof Employment',
   'Example':'Example',
-  'Mobile Wallect Account':'Mobile Wallect Account',
+  'Mobile Wallect Account':'Mobile Wallet Account',
   'Notice': 'Notice',
   "Notice1": '1. Please fill in your collection account number. When your application is approved, the loan will be issued to your collection account number. Please check the collection account number carefully to avoid unsuccessful payment;',
   "Notice2": '2. You can apply for the first loan after the receiving account is successfully added;',

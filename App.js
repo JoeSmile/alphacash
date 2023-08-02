@@ -11,7 +11,7 @@ import { QueryClient, QueryClientProvider, focusManager } from "react-query";
 import { useAppState } from "@hooks/useAppState";
 import { useOnlineManager } from "@hooks/useOnlineManager";
 import { Provider } from "@ant-design/react-native";
-import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
+// import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
 
 // const { status } = await requestTrackingPermissionsAsync(); 
 

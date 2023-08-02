@@ -1,6 +1,6 @@
 module.exports = ({ config }) => ({
   name: "AlphaCash",
-  slug: "AlphaCash",
+  slug: "financeexpo",
   version: "1.0.0",
   orientation: "portrait",
   icon: "./assets/icon.png",
@@ -37,7 +37,7 @@ module.exports = ({ config }) => ({
       ? {
           policy: "sdkVersion",
         }
-      : "0.0.4",
+      : "0.0.5",
   updates: {
     fallbackToCacheTimeout: 0,
     url: "https://u.expo.dev/462bceb9-15ba-4d76-bcad-d93ef54c4c31",

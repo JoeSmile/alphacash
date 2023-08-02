@@ -13,13 +13,20 @@ export default function FaceDetectionScreen({}) {
   const cameraRef = useRef(null);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [isBlinking, setIsBlinking] = useState(false);
-  const [isYawing, setIsYawing] = useState(false);
+  const [leftShake, setLeftShake] = useState(false);
+  const [rightShake, setRightShake] = useState(false);
   const [tips, setTips] = useState();
   const navigation = useNavigation();
   // Add a variable to hold the timer ID
   const timerRef = useRef(null);
   const store = useUserQuota();
   const { i18n } = useI18n();
+  const [tipss, setTipss] = useState(0);
+  const [tipsss, setTipsss] = useState(0);
+  const [tipssss, setTipssss] = useState(0);
+
+
+
 
   useEffect(() => {
     (async () => {
@@ -28,31 +35,6 @@ export default function FaceDetectionScreen({}) {
     cameraRef.current.resumePreview();
   }, [permission]);
 
-  // useEffect(() => {
-  //   const mockFaceImg = async () => {
-  //     let result = await ImagePicker.launchImageLibraryAsync({
-  //       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  //       quality: 1,
-  //     });
-
-  //     if (result.canceled) {
-  //       return;
-  //     }
-
-  //     const mockImgUri = result.assets[0].uri;
-  //     const img = {
-  //       uri: mockImgUri,
-  //       type: mime.getType(mockImgUri),
-  //       name: mockImgUri.split("/").pop(),
-  //     };
-  //     store.setFaceData(img);
-  //     setFaceData(img);
-
-  //     setTimeout(() => {
-  //       navigation.goBack();
-  //     }, 2000);
-  //   };
-  // }, []);
 
   // useEffect(() => {
   //   return () => {
@@ -75,15 +57,22 @@ export default function FaceDetectionScreen({}) {
     );
   };
 
-  const isYawingFace = (face) => {
+  const isLeftShakeFace = (face) => {
     // 这里的阈值可以根据实际情况进行调整
-    const yawThreshold = 20;
+    const yawThreshold = 300;
     return Math.abs(face.yawAngle) > yawThreshold;
+  };
+
+  const isRightShakeFace = (face) => {
+    // 这里的阈值可以根据实际情况进行调整
+    const min = 40;
+    const max = 300;
+    return (Math.abs(face.yawAngle) > min && Math.abs(face.yawAngle) < max);
   };
 
   const takePicture = async () => {
     if (cameraRef.current) {
-      const options = { quality: 1, base64: true }; //设置为ImageType.png 还是jpg格式？
+      const options = { quality: 1}; //设置为ImageType.png 还是jpg格式？
       const photo = await cameraRef.current.takePictureAsync(options);
       // Convert the captured photo to Base64 format
       // const base64Photo = `data:image/jpg;base64,${photo.base64}`;
@@ -95,33 +84,35 @@ export default function FaceDetectionScreen({}) {
            type: mime.getType(photo.uri),
            name: photo.uri.split("/").pop(),
           };
-      store.setFaceData(img);
+       store.setFaceData(img);
        setTimeout(() => {
         navigation.goBack();
-      }, 1000);
+      }, 2000);
     }
   };
 
   const handleFacesDetected = ({ faces }) => {
     if (faces.length > 0) {
-      if (!isBlinking) {
-        setTips(i18n.t("Please close your eyes and then blink your eyes"));
+      if (!leftShake || !rightShake) {
+        setTips(i18n.t("Please shake left, then right"));
       }
       faces.map((face) => {
-        console.log(
-          "face.leftEyeOpenProbability" + face.leftEyeOpenProbability
-        );
-        if (isBlinkingFace(face) && !isBlinking) {
-          setIsBlinking(true);
-          timerRef.current = setTimeout(() => {
+        console.log('Sun >>> face.yawAngle === ' + face.yawAngle)
+        if(!leftShake && isLeftShakeFace(face)){
+          setLeftShake(true)
+        }
+        if(leftShake && isRightShakeFace(face) && !rightShake){
+          setRightShake(true)
+          setTips(i18n.t("Please face the screen"));
+           timerRef.current = setTimeout(() => {
             takePicture();
-          }, 1000);
+          }, 2000);
         }
       });
     } else {
       setTips(i18n.t("Please face the screen"));
-      // setIsYawing(false)
-      setIsBlinking(false);
+      setRightShake(false)
+      setLeftShake(false)
       clearTimeout(timerRef.current);
     }
   };
@@ -179,6 +170,8 @@ export default function FaceDetectionScreen({}) {
          {i18n.t("ImproveYourPassRate")}
         </Text>
       </View>
+
+      {/* <Image style={{width: 100,height: 100}} source={{uri: store.faceData.uri}}> </Image> */}
 
     </View>
   );

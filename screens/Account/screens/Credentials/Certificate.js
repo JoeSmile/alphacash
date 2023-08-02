@@ -1,4 +1,4 @@
-import { View, Text, Pressable, StyleSheet, ScrollView } from "react-native";
+import { View, Text, Pressable, StyleSheet, ScrollView,Modal } from "react-native";
 import SafeIntro from "./SafeIntro";
 import { useEffect, useState } from "react";
 import { EXAMPLE_TYPES, ExampleModal } from "./ExampleModal";
@@ -9,6 +9,12 @@ import { Asset } from "expo-asset";
 import { useI18n } from "@hooks/useI18n";
 import mime from "mime";
 import { Image } from 'expo-image';
+import { Camera, CameraType } from "expo-camera";
+import Spinner from "react-native-loading-spinner-overlay";
+import { useNavigation } from "@react-navigation/native";
+
+
+
 
 
 
@@ -18,15 +24,22 @@ const imageUri2 = Asset.fromModule(require("@assets/images/info_pic_holding_id_c
 const imageUri3 = Asset.fromModule(require("@assets/images/info_pic_work_permit.png")).uri
 
 export default function Certificate() {
+  const navigation = useNavigation();
   const [showModalType, setShowModalType] = useState("");
   const {mutate: getIdentityInfo, data: identityInfo, isLoading: isIdentityInfoLoading} = useGetIdentityInfoDetail();
-  const {mutate: updateIdentityInfo, data: updateIdentityInfoResponse} = useUpdateIdentityInfo();
+  const {mutate: updateIdentityInfo, data: updateIdentityInfoResponse, isLoading: isUpdateIdentityInfoLoading} = useUpdateIdentityInfo();
   const { i18n } = useI18n();
   const [imageList, setImage] = useState([]);
-  const [cnicFrontImage,setCnicFront] = useState({})
-  const [cnicBackImage,setCnicBack] = useState({})
-  const [cnicInHandImage,setCnicInHand] = useState({})
-  const [employmentProofImage,setEmploymentProof] = useState({})
+  const [showTips,setShowTips] = useState(false)
+  const [index,setIndex] = useState()
+  // const [permission, requestPermission] = Camera.useCameraPermissions();
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const { status } = await Camera.requestCameraPermissionsAsync();
+  //   })();
+  // }, [permission]);
+
 
   useEffect(() => {
     getIdentityInfo();
@@ -35,13 +48,33 @@ export default function Certificate() {
   useEffect(() => {
     if(identityInfo?.data?.error_code == 1 ) {
       const imageData = identityInfo.data.data.identityInfo
-      if(imageData.cnicFront != null){
-        console.log('Sun >>> ' + imageData.cnicFront)
+      if(imageData.cnicFront != null && imageData.cnicBack != null && imageData.cnicInHand != null && imageData.employmentProof != null){
+        const imgCnicFront = {
+          uri: imageData.cnicFront,
+          type: mime.getType(imageData.cnicFront),
+          name: imageData.cnicFront.split("/").pop(),
+        };
+        const imgCnicBack = {
+          uri: imageData.cnicBack,
+          type: mime.getType(imageData.cnicBack),
+          name: imageData.cnicBack.split("/").pop(),
+        };
+        const imgCnicInHand = {
+          uri: imageData.cnicInHand,
+          type: mime.getType(imageData.cnicInHand),
+          name: imageData.cnicInHand.split("/").pop(),
+        };
+        const imgEmploymentProof = {
+          uri: imageData.employmentProof,
+          type: mime.getType(imageData.employmentProof),
+          name: imageData.employmentProof.split("/").pop(),
+        };
+        console.log('Sun >>> ' + imgCnicFront.uri + '>>>>>>' + imgCnicFront.type +  '>>>>>>>>' + imgCnicFront.name)
         setImage([
-          imageData.cnicFront,
-          imageData.cnicBack,
-          imageData.cnicInHand,
-          imageData.employmentProof,
+          imgCnicFront,
+          imgCnicBack,
+          imgCnicInHand,
+          imgEmploymentProof,
         ])     
       }
     }
@@ -50,11 +83,17 @@ export default function Certificate() {
   useEffect(() => {
     if (updateIdentityInfoResponse?.data?.error_code == 1) {
       console.log('Sun >>>>>>>>>> updateIdentityInfoResponse')
-      // navigation.push('');
+      navigation.push('MyCards');
     }
   }, [updateIdentityInfoResponse])
 
-  const pickImage = async (index) => {
+  const showPickImageModel = (id) => {
+    setShowTips(true)
+    setIndex(id)
+  }
+
+  const pickImage = async () => {
+    setShowTips(false)
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -69,34 +108,49 @@ export default function Certificate() {
       let updatedImages = [...imageList];
       const imgUri = result.assets[0].uri;
       console.log('Sun imgUri =>>> ' + imgUri)
-      updatedImages[index] = imgUri;
-      setImage(updatedImages);
-
       const img = {
         uri: imgUri,
         type: mime.getType(imgUri),
         name: imgUri.split("/").pop(),
       };
+      updatedImages[index] = img;
+      setImage(updatedImages);
       
-      if(index == 0){
-        setCnicFront(img)
-      } else if (index == 1){
-         setCnicBack(img)
-      } else if (index == 2){
-         setCnicInHand(img)
-      } else if (index == 3){
-         setEmploymentProof(img)
-      }
   };
+
+  const takePhoto = async () => {
+    setShowTips(false)
+
+    const result = await ImagePicker.launchCameraAsync({
+      // allowsEditing: true,
+    });
+
+    if (result.canceled) {
+      return;
+    }
+
+    let updatedImages = [...imageList];
+      const imgUri = result.assets[0].uri;
+      console.log('Sun imgUri =>>> ' + imgUri)
+      const img = {
+        uri: imgUri,
+        type: mime.getType(imgUri),
+        name: imgUri.split("/").pop(),
+      };
+      updatedImages[index] = img;
+      setImage(updatedImages);
+
+  }
+
 
   const onClickUpdateIdentityInfo = () => {
     console.log('Sun >>>>>>>>>> onClickUpdateIdentityInfo')
 
     const params = { 
-      cnicFront : cnicFrontImage,
-      cnicBack: cnicBackImage,
-      cnicInHand: cnicInHandImage,
-      employmentProof: employmentProofImage
+      cnicFront : imageList[0],
+      cnicBack: imageList[1],
+      cnicInHand: imageList[2],
+      employmentProof: imageList[3]
      };
     updateIdentityInfo(params)
 
@@ -105,6 +159,11 @@ export default function Certificate() {
 
   return (
     <ScrollView style={styles.container}>
+       <Spinner
+        visible={isIdentityInfoLoading || isUpdateIdentityInfoLoading}
+        textContent={"Loading..."}
+        textStyle={{ color: "#FFF" }}
+      />
       <SafeIntro safeText={i18n.t("Upload credential information, only for user identity verification, we will encrypt and store it, and it will never be used for other purposes!")}
       />
 
@@ -134,7 +193,7 @@ export default function Certificate() {
           }}
         >
           <Pressable
-            onPress={() => pickImage(0)}
+            onPress={() => showPickImageModel(0)}
             style={{
               flex: 1,
             }}
@@ -147,7 +206,7 @@ export default function Certificate() {
                   height: 96,
                   width: 150,
                 }}
-                source = { imageList[0] ?? imageUri }
+                source = { imageList[0] ? imageList[0].uri : imageUri }
                 contentFit = "contain"
                 transition = {500}
               />
@@ -155,7 +214,7 @@ export default function Certificate() {
             </View>
           </Pressable>
           <Pressable
-            onPress={() => pickImage(1)}
+            onPress={() =>  showPickImageModel(1)}
             style={{
               flex: 1,
             }}
@@ -168,7 +227,7 @@ export default function Certificate() {
                   height: 96,
                   width: 150,
                 }}
-                source = { imageList[1] ?? imageUri1 }
+                source = { imageList[1] ? imageList[1].uri : imageUri }
                 contentFit = "contain"
                 transition= {500}
               />
@@ -203,13 +262,13 @@ export default function Certificate() {
           height: 96,
           width: 150,
         }}
-        onPress={() => pickImage(2)}>
+        onPress={() =>  showPickImageModel(2)}>
           <Image
             style={{
               height: 96,
               width: 150,
             }}
-            source = { imageList[2] ?? imageUri2 }
+            source = { imageList[2] ? imageList[2].uri : imageUri }
             contentFit = "contain"
             transition = {500}
           />
@@ -241,13 +300,13 @@ export default function Certificate() {
             height: 96,
             width: 150,
           }}
-          onPress={() => pickImage(3)}>
+          onPress={() =>  showPickImageModel(3)}>
           <Image
             style={{
               height: 96,
               width: 150,
             }}
-            source= { imageList[3] ?? imageUri3 }
+            source = { imageList[3] ? imageList[3].uri : imageUri }
             contentFit = "contain"
             transition = {500}
           />
@@ -289,6 +348,47 @@ export default function Certificate() {
         onClose={() => setShowModalType("")}
         type={showModalType}
       />
+
+      <Modal
+         visible={showTips}
+         animationType="none"
+         transparent={true}
+      >
+        <View style = {styles.otherContainer}>
+         <View style ={styles.photoViewStyle}>
+         <Pressable
+          onPress={()=> takePhoto()}
+          style = {{
+          flex:1,
+          borderTopLeftRadius: 8,
+          borderTopRightRadius: 8,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#FFFFFF'
+         }}
+         >
+          <Text style={{fontWeight:'bold',fontSize: 15, color: '#0A233E'}}>Camera</Text>
+         </Pressable>
+
+         <View style={{width:'100%',height: 1,backgroundColor: '#F4F5F7'}}></View>
+
+         <Pressable
+         onPress={()=> pickImage()}
+         style = {{
+          flex:1,         
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#FFFFFF'
+         }}
+         >
+          <Text style={{fontWeight:'bold',fontSize: 15, color: '#0A233E'}}>Choose From Album</Text>
+         </Pressable>
+
+         </View>
+
+     </View>
+     </Modal>
+
       <Return />
     </ScrollView>
   );
@@ -324,6 +424,35 @@ const styles = StyleSheet.create({
    fontWeight: 'bold',
    color: '#0825B8',
    textDecorationLine: 'underline',
+  },
+
+  tipStyle: {
+    width:'82%',
+    height: 220,
+    paddingHorizontal: 12,
+    paddingTop: 18,
+    borderRadius: 8,
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+  },
+
+  otherContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  photoViewStyle: {
+    position: "absolute",
+    bottom: 0,
+    opacity: 1,
+    height: 156,
+    width: '100%',
+    backgroundColor: "#FFFFFF",
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    flexDirection: "column",
   },
 
 });

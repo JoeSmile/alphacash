@@ -8,6 +8,7 @@ import * as ImagePicker from "expo-image-picker";
 import mime from "mime";
 import { useI18n } from "@hooks/useI18n";
 import { useUpdateUserImages } from "@apis";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export default function FaceDetectionScreen({route}) {
   const cameraRef = useRef(null);

@@ -38,7 +38,10 @@ const EmergencyFormSchema = Yup.object().shape({
   name2: Yup.string().required("Required"),
   phoneNumber2: Yup.string()
     .matches(/^\d{11}$/, "Please input correct phone number")
-    .notOneOf([Yup.ref("phoneNumber1")], "Two phone numbers should be same, please input again")
+    .notOneOf(
+      [Yup.ref("phoneNumber1")],
+      "Two phone numbers should be same, please input again"
+    )
     .required("Required"),
 });
 
@@ -179,7 +182,6 @@ export default function Emergency({ navigation }) {
                     style={{
                       height: 46,
                       marginBottom: 15,
-                      marginHorizontal: 16,
                       backgroundColor: "#0825B8",
                       borderRadius: 3,
                       alignItems: "center",
@@ -201,7 +203,7 @@ export default function Emergency({ navigation }) {
                       }}
                     >
                       {" "}
-                      {i18n.t('Next')}{" "}
+                      {i18n.t("Next")}{" "}
                     </Text>
                     <Image
                       source={require("@assets/images/btn_ic_right.png")}

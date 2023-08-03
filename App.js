@@ -12,8 +12,14 @@ import { useAppState } from "@hooks/useAppState";
 import { useOnlineManager } from "@hooks/useOnlineManager";
 import { Provider } from "@ant-design/react-native";
 // import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
+//import { AppEventsLogger } from "react-native-fbsdk-next";
 
-// const { status } = await requestTrackingPermissionsAsync(); 
+// Log standard event. e.g. completed registration
+//AppEventsLogger.logEvent(AppEventsLogger.AppEvents.CompletedRegistration, {
+//  [AppEventsLogger.AppEventParams.RegistrationMethod]: "email",
+//});
+
+// const { status } = await requestTrackingPermissionsAsync();
 
 // Settings.initializeSDK();
 

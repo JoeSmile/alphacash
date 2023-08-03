@@ -131,6 +131,7 @@ export default function VoiceModal({
 
   const getApplyLoan = useCallback(() => {
     isClickable && checkApply(); //参数检查
+    goBack();
   }, [isClickable]);
 
   const handleSliderChange = useCallback(

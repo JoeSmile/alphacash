@@ -22,18 +22,10 @@ import { useNavigation } from "@react-navigation/native";
 import { useUserQuota } from "@store/useUserQuota";
 
 
-const imageUri = Asset.fromModule(
-  require("@assets/images/info_pic_cnic_card_positive.png")
-).uri;
-const imageUri1 = Asset.fromModule(
-  require("@assets/images/info_pic_cnic_card_negative.png")
-).uri;
-const imageUri2 = Asset.fromModule(
-  require("@assets/images/info_pic_holding_id_card.png")
-).uri;
-const imageUri3 = Asset.fromModule(
-  require("@assets/images/info_pic_work_permit.png")
-).uri;
+const imageUri = require("@assets/images/info_pic_cnic_card_positive.png");
+const imageUri1 = require("@assets/images/info_pic_cnic_card_negative.png");
+const imageUri2 = require("@assets/images/info_pic_holding_id_card.png");
+const imageUri3 = require("@assets/images/info_pic_work_permit.png");
 
 export default function Certificate() {
   const [bill] = useUserQuota((s) => [
@@ -70,12 +62,12 @@ export default function Certificate() {
 
   useEffect(() => {
     if (identityInfo?.data?.error_code == 1) {
-      const imageData = identityInfo.data.data.identityInfo;
+      const imageData = identityInfo.data.data?.identityInfo || {};
       if (
-        imageData.cnicFront != null &&
-        imageData.cnicBack != null &&
-        imageData.cnicInHand != null &&
-        imageData.employmentProof != null
+        imageData.cnicFront &&
+        imageData.cnicBack &&
+        imageData.cnicInHand &&
+        imageData.employmentProof
       ) {
         const imgCnicFront = {
           uri: imageData.cnicFront,
@@ -239,7 +231,10 @@ export default function Certificate() {
           >
             <View
               style={{
-                width: 150,
+                width: 166,
+                padding: 8,
+                backgroundColor: "#F4F5F7",
+                borderRadius: 4,
               }}
             >
               <Image
@@ -251,17 +246,17 @@ export default function Certificate() {
                 contentFit="contain"
                 transition={500}
               />
-              <Text
-                style={{
-                  fontSize: 12,
-                  color: "#8899AC",
-                  alignSelf: "center",
-                  marginTop: 6,
-                }}
-              >
-                CNIC Card Front
-              </Text>
             </View>
+            <Text
+              style={{
+                fontSize: 12,
+                color: "#8899AC",
+                alignSelf: "center",
+                marginTop: 6,
+              }}
+            >
+              CNIC Card Front
+            </Text>
           </Pressable>
           <Pressable
             onPress={() => showPickImageModel(1)}
@@ -271,7 +266,10 @@ export default function Certificate() {
           >
             <View
               style={{
-                width: 150,
+                width: 166,
+                padding: 8,
+                backgroundColor: "#F4F5F7",
+                borderRadius: 4,
               }}
             >
               <Image
@@ -279,21 +277,21 @@ export default function Certificate() {
                   height: 96,
                   width: 150,
                 }}
-                source={imageList[1] ? imageList[1].uri : imageUri}
+                source={imageList[1] ? imageList[1].uri : imageUri1}
                 contentFit="contain"
                 transition={500}
               />
-              <Text
-                style={{
-                  fontSize: 12,
-                  color: "#8899AC",
-                  alignSelf: "center",
-                  marginTop: 6,
-                }}
-              >
-                CNIC Card Back
-              </Text>
             </View>
+            <Text
+              style={{
+                fontSize: 12,
+                color: "#8899AC",
+                alignSelf: "center",
+                marginTop: 6,
+              }}
+            >
+              CNIC Card Back
+            </Text>
           </Pressable>
         </View>
       </View>
@@ -322,8 +320,10 @@ export default function Certificate() {
 
         <Pressable
           style={{
-            height: 96,
-            width: 150,
+            width: 166,
+            padding: 8,
+            backgroundColor: "#F4F5F7",
+            borderRadius: 4,
           }}
           onPress={() => showPickImageModel(2)}
         >
@@ -332,7 +332,7 @@ export default function Certificate() {
               height: 96,
               width: 150,
             }}
-            source={imageList[2] ? imageList[2].uri : imageUri}
+            source={imageList[2] ? imageList[2].uri : imageUri2}
             contentFit="contain"
             transition={500}
           />
@@ -360,8 +360,10 @@ export default function Certificate() {
         </View>
         <Pressable
           style={{
-            height: 96,
-            width: 150,
+            width: 166,
+            padding: 8,
+            backgroundColor: "#F4F5F7",
+            borderRadius: 4,
           }}
           onPress={() => showPickImageModel(3)}
         >
@@ -370,7 +372,7 @@ export default function Certificate() {
               height: 96,
               width: 150,
             }}
-            source={imageList[3] ? imageList[3].uri : imageUri}
+            source={imageList[3] ? imageList[3].uri : imageUri3}
             contentFit="contain"
             transition={500}
           />
@@ -382,7 +384,7 @@ export default function Certificate() {
           height: 46,
           marginTop: 24,
           marginBottom: 15,
-          marginHorizontal: 16,
+          marginHorizontal: 0,
           backgroundColor: "#0825B8",
           borderRadius: 3,
           alignItems: "center",

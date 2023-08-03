@@ -145,6 +145,7 @@ export default function Apply() {
   useEffect(() => {
     console.log("apply create bill res: ", billData);
     if (billData?.data?.error_code == 1) {
+      userStore.setFaceData({ uri: "", type: "", name: "" }); // 清除人脸识别数据
       navigation.replace("Homepage", { showModal: true });
     }
   }, [billData]);

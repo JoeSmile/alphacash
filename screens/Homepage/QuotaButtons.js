@@ -155,8 +155,10 @@ export function QuotaButtons() {
                 if (hasBill && bill.appStatus == 202) {
                   navigation.push("MyCards", { isUpdateWallet: true,
                     loanId: bill.loanId });
-                } else if (cashLoan.isModifyFaceImage || cashLoan.isModifyInfo) {
+                } else if (cashLoan.isModifyInfo) {
                   navigation.push("Certificate", {isUpdate: true});
+                } else if (cashLoan.isModifyFaceImage ) {
+                  navigation.push('FaceDetectionScreen', {isUpdates: true})
                 }
               }}
             />

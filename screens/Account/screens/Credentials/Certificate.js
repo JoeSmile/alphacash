@@ -10,7 +10,7 @@ import SafeIntro from "./SafeIntro";
 import { useEffect, useState } from "react";
 import { EXAMPLE_TYPES, ExampleModal } from "./ExampleModal";
 import Return from "./Return";
-import { useGetIdentityInfoDetail, useUpdateIdentityInfo } from "@apis";
+import { useGetIdentityInfoDetail, useUpdateIdentityInfo, useUpdateUserImages } from "@apis";
 import * as ImagePicker from "expo-image-picker";
 import { Asset } from "expo-asset";
 import { useI18n } from "@hooks/useI18n";
@@ -47,7 +47,7 @@ export default function Certificate({route}) {
   const {
     mutate: updateUserImages,
     data: updateUserImagesResponse,
-    isLoading: isUpdateUserImages,
+    isLoading: isUpdateUserImagesLoading,
   } = useUpdateUserImages();
 
   const { i18n } = useI18n();
@@ -70,7 +70,7 @@ export default function Certificate({route}) {
 
   useEffect(() => {
     const isUpdate = route.params ? route.params.isUpdate : false;
-    setIsUpdate(isUpdate);
+    setIsUpdate(!!isUpdate);
   }, [route])
 
   useEffect(() => {
@@ -212,7 +212,7 @@ export default function Certificate({route}) {
   return (
     <ScrollView style={styles.container}>
       <Spinner
-        visible={isIdentityInfoLoading || isUpdateIdentityInfoLoading || isUpdateUserImages}
+        visible={isIdentityInfoLoading || isUpdateIdentityInfoLoading || isUpdateUserImagesLoading}
         textContent={i18n.t('Loading')}
         textStyle={{ color: "#FFF" }}
       />

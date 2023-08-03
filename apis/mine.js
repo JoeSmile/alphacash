@@ -59,10 +59,15 @@ export async function getIdentityInfoDetail(parameters) {
 export async function updateIdentityInfo(parameters) {
   return axiosPostFile('/identityInfo', parameters);
 }
+// 重新提交用户照片等
+export async function updateUserImages (parameters) {
+  return axiosPost('/user/modify/update', parameters);
+}
 
 export async function updateAccount(parameters) {
   return axiosPostFile('/cashLoan/bankAccount', parameters);
 }
+
 
 // account 
 export async function addAccount (parameters) {
@@ -84,6 +89,8 @@ export async function getAccounts (parameters) {
 export async function getBankList (parameters) {
   return axiosPost('/bank/list', parameters);
 }
+
+
 
 // applyLoan form
 export async function getCashLoanProductConfig(parameters){

@@ -27,7 +27,7 @@ const imageUri1 = require("@assets/images/info_pic_cnic_card_negative.png");
 const imageUri2 = require("@assets/images/info_pic_holding_id_card.png");
 const imageUri3 = require("@assets/images/info_pic_work_permit.png");
 
-export default function Certificate() {
+export default function Certificate({route}) {
   const [bill] = useUserQuota((s) => [
     s.bill,
   ]);
@@ -43,11 +43,19 @@ export default function Certificate() {
     data: updateIdentityInfoResponse,
     isLoading: isUpdateIdentityInfoLoading,
   } = useUpdateIdentityInfo();
+
+  const {
+    mutate: updateUserImages,
+    data: updateUserImagesResponse,
+    isLoading: isUpdateUserImages,
+  } = useUpdateUserImages();
+
   const { i18n } = useI18n();
   const [imageList, setImage] = useState([]);
   const [showTips, setShowTips] = useState(false);
   const [index, setIndex] = useState();
-  const [jumpPage, setJumpPage] = useState('MyCards')
+  const [jumpPage, setJumpPage] = useState('MyCards');
+  const [isUpdate, setIsUpdate] = useState(false);
   // const [permission, requestPermission] = Camera.useCameraPermissions();
 
   // useEffect(() => {
@@ -59,6 +67,11 @@ export default function Certificate() {
   useEffect(() => {
     getIdentityInfo();
   }, []);
+
+  useEffect(() => {
+    const isUpdate = route.params ? route.params.isUpdate : false;
+    setIsUpdate(isUpdate);
+  }, [route])
 
   useEffect(() => {
     if (identityInfo?.data?.error_code == 1) {
@@ -115,6 +128,13 @@ export default function Certificate() {
       navigation.push(jumpPage);
     }
   }, [updateIdentityInfoResponse]);
+
+  useEffect(() => {
+    if (updateUserImagesResponse?.data?.error_code == 1) {
+      console.log("0.0 >>>>>>>>>> updateUserImagesResponse");
+      navigation.goBack();
+    }
+  }, [updateUserImagesResponse]);
 
   const showPickImageModel = (id) => {
     if((bill.appStatus == 101 || bill.appStatus == 201 || bill.appStatus == 301 || bill.appStatus == 303) && (id == 0 || id == 1 || id == 2) ){
@@ -182,13 +202,17 @@ export default function Certificate() {
       cnicInHand: imageList[2],
       employmentProof: imageList[3],
     };
-    updateIdentityInfo(params);
+    if (isUpdate) {
+      updateUserImages(params);
+    } else {
+      updateIdentityInfo(params);
+    }
   };
 
   return (
     <ScrollView style={styles.container}>
       <Spinner
-        visible={isIdentityInfoLoading || isUpdateIdentityInfoLoading}
+        visible={isIdentityInfoLoading || isUpdateIdentityInfoLoading || isUpdateUserImages}
         textContent={i18n.t('Loading')}
         textStyle={{ color: "#FFF" }}
       />

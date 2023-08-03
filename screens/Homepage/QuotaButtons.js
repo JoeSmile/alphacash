@@ -156,7 +156,7 @@ export function QuotaButtons() {
                   navigation.push("MyCards", { isUpdateWallet: true,
                     loanId: bill.loanId });
                 } else if (cashLoan.isModifyFaceImage || cashLoan.isModifyInfo) {
-                  navigation.push("Certificate");
+                  navigation.push("Certificate", {isUpdate: true});
                 }
               }}
             />

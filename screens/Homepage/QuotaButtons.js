@@ -171,7 +171,7 @@ export function QuotaButtons() {
             }}
           >
             {
-              displayDetailButton.includes(bill.appStatus) && <FButton
+              displayRepayNowButton.includes(bill.appStatus) && <FButton
               title="RepayNow"
               onPress={() => navigation.push("Apply")}
               style={{
@@ -179,7 +179,7 @@ export function QuotaButtons() {
               }}
             />}
             {
-              displayRepayNowButton.includes(bill.appStatus) && <FButton
+              displayDetailButton.includes(bill.appStatus) && <FButton
               title="ViewDetails"
               onPress={() =>
                 navigation.push("BillDetail", { loanId: bill.loanId })

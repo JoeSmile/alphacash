@@ -157,7 +157,7 @@ export default function BillDetail({ route }) {
     <View>
       <Spinner
         visible={isLoading}
-        textContent={"Loading..."}
+        textContent={i18n.t('Loading')}
         textStyle={{ color: "#FFF" }}
       />
       {renderDetail(detail)}

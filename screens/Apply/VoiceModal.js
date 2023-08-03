@@ -247,9 +247,7 @@ export default function VoiceModal({
               lineHeight: 17,
             }}
           >
-            I have read and fully understood the Markup charges and terms of the
-            loan product, and I agree that when the loan is approved, the funds
-            will be transferred directly to the account I provided!
+            {i18n.t('I have read and fully understood the Markup charges and terms of the loan product, and I agree that when the loan is approved, the funds will be transferred directly to the account I provided!')}
           </Text>
 
           <View

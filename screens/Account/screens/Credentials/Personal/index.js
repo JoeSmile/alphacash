@@ -14,6 +14,8 @@ import { useGetPersonalDetail, useUpdatePersonalInfo, useGetPersonalOptions } fr
 import dayjs from 'dayjs';
 import { Toast } from '@ant-design/react-native';
 import { useI18n, LocaleTypes } from "@hooks/useI18n";
+import { useUserQuota } from "@store/useUserQuota";
+
 
 const emptyInitialValues= {
   name: '',
@@ -59,6 +61,9 @@ export default function Personal({ navigation }) {
   // const getPersonalOptionsMutation = useGetPersonalOptions();
   const [initialValues, setInitialValues] = useState();
   const { i18n } = useI18n();
+  const [bill] = useUserQuota((s) => [
+    s.bill,
+  ]);
 
   useEffect(() => {
     getPersonalDetail();
@@ -111,7 +116,7 @@ export default function Personal({ navigation }) {
               {({ handleChange, handleBlur, handleSubmit, values }) => (
                 <>
                   <View style={styles.module}>
-                    <FTextInput name="name" label="Name" type="text" />
+                    <FTextInput name="name" label="Name" type="text" editable={(bill.appStatus == 101 || bill.appStatus == 201 || bill.appStatus == 301 || bill.appStatus == 303) && false} />
                   </View>
                   <View style={{
                     flexDirection: 'row',
@@ -129,7 +134,7 @@ export default function Personal({ navigation }) {
                   </View>
 
                   <View style={styles.module}>
-                    <FTextInput name="cnic" label="CNIC" />
+                    <FTextInput name="cnic" label="CNIC" editable={(bill.appStatus == 101 || bill.appStatus == 201 || bill.appStatus == 301 || bill.appStatus == 303) && false} />
                   </View>
                   
                   <View style={styles.module}>

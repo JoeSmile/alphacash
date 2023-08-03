@@ -13,7 +13,6 @@ import LinkingConfiguration from "./LinkingConfiguration";
 
 import Start from "../screens/Start";
 import Login from "../screens/Login";
-import Apply from "../screens/Apply";
 import FaceDetectionScreen from "../screens/Apply/screens/FaceDetectionScreen";
 import { AddNewAccount } from "@screens/Account/screens/MyCards/AddNewAccount";
 import { useI18n, LocaleTypes } from "@hooks/useI18n";
@@ -23,6 +22,8 @@ import { CredentialsScreens } from "./CredentialsNavigator";
 import { MyCardsScreens } from "./MyCardsNavigator";
 import { SettingsScreens } from "./SettingNavigator";
 import { BillsScreens } from "./BillsNavigator";
+import { ApplyScreen } from "./ApplyNavigator";
+
 
 import { pageHeader } from "@styles";
 
@@ -60,16 +61,6 @@ function RootNavigator() {
             ...pageHeader,
           }}
         />
-
-        <Stack.Screen
-          name="Apply"
-          component={Apply}
-          options={{
-            ...pageHeader,
-            headerTitle: "Apply",
-            headerShown: true,
-          }}
-        />
         <Stack.Screen
           name="FaceDetectionScreen"
           component={FaceDetectionScreen}
@@ -97,6 +88,7 @@ function RootNavigator() {
         ...MyCardsScreens,
         ...SettingsScreens,
         ...BillsScreens,
+        ...ApplyScreen,
       ].map((screen) => (
         <Stack.Screen
           key={screen.name}

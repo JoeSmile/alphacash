@@ -195,4 +195,6 @@ export const en = {
    'Please face the screen': 'Please face the screen',
    'Please close your eyes and then blink your eyes': 'Please close your eyes and then blink your eyes',
    'Please shake left, then right': 'Please shake left, then right',
+   'Apply': 'Apply',
+   'Loading': 'Loading...',
 };

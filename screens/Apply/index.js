@@ -28,6 +28,8 @@ import { useSystemStore } from "@store/useSystemStore";
 import { useNavigation } from "@react-navigation/native";
 import { useUserQuota } from "@store/useUserQuota";
 import { useI18n } from "@hooks/useI18n";
+import Spinner from "react-native-loading-spinner-overlay";
+
 
 function buildGetRequest(url, params) {
   if (params) {
@@ -58,7 +60,7 @@ export default function Apply() {
   const { mutate: checkApplyParams, data: checkApplyParamsResp } =
     useGetApplyCheckParams();
 
-  const { mutate: applyCreateBill, data: billData } = useApplyCreateBill();
+  const { mutate: applyCreateBill, data: billData,isLoading: isApplyCreateBillLoading } = useApplyCreateBill();
 
   const [optWithDaysConfig, setOptWithDaysConfig] = useState([]);
   //审核账号
@@ -201,6 +203,11 @@ export default function Apply() {
 
   return (
     <SafeAreaView>
+       <Spinner
+        visible={isGetCashLoanProductConfigLoading || isApplyCreateBillLoading}
+        textContent={i18n.t('Loading')}
+        textStyle={{ color: "#FFF" }}
+      />
       <ScrollView style={styles.container}>
         <View style={styles.bgBanner} />
 

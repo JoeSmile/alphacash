@@ -4,6 +4,8 @@ import Spinner from "react-native-loading-spinner-overlay";
 import BillList from "./BillList";
 import { LOAN_STATUS } from "@const";
 import { useBillList } from "@apis/hooks";
+import { useI18n } from "@hooks/useI18n";
+
 
 const curBillStatus = [
   LOAN_STATUS.checking,
@@ -14,6 +16,7 @@ const curBillStatus = [
 ];
 
 export default function Processing() {
+  const { i18n } = useI18n();
   const { mutate: getBills, data: axiosRes, isLoading } = useBillList();
   const bills = axiosRes?.data?.data;
 
@@ -27,7 +30,7 @@ export default function Processing() {
     <View style={{ flex: 1 }}>
       <Spinner
         visible={isLoading}
-        textContent={"Loading..."}
+        textContent={i18n.t('Loading')}
         textStyle={{ color: "#FFF" }}
       />
       {Array.isArray(bills?.orderList) && (

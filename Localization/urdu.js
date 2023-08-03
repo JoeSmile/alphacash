@@ -199,5 +199,7 @@ export const urdu = {
   'Please face the screen': 'براہ کرم اسکرین کا سامنا کریں۔',
   'Please close your eyes and then blink your eyes': 'براہ کرم اپنی آنکھیں بند کریں اور پھر آنکھیں جھپکائیں۔',
   'Please shake left, then right': 'براہ مہربانی بائیں ہلائیں، پھر دائیں',
+  'Apply': 'ایپلی کیشن',
+  'Loading': 'لوڈنگ...',
 
 };

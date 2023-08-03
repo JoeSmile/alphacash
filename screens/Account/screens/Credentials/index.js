@@ -54,6 +54,7 @@ const listItems = [
 export default function Credentials() {
   const { mutate: getUserFormStatus, data, isLoading } = useGetUserFormStatus();
   const [displayItems, setDisplayItems] = useState(listItems);
+  const { i18n } = useI18n();
 
   useEffect(() => {
     getUserFormStatus();
@@ -83,7 +84,7 @@ export default function Credentials() {
     <SafeAreaView style={styles.itemsContainer}>
       <Spinner
         visible={isLoading}
-        textContent={"Loading..."}
+        textContent={i18n.t('Loading')}
         textStyle={{ color: "#FFF" }}
       />
       <FList data={displayItems} itemStyle={styles.FList} />

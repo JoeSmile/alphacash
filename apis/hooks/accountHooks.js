@@ -1,4 +1,4 @@
-import { addAccount, deleteEWalletAccount, deleteBankAccount, getAccounts, getBankList } from '../mine';
+import { addAccount, deleteEWalletAccount, deleteBankAccount, getAccounts, getBankList, updateAccount } from '../mine';
 import { mutationFactory } from './base';
 
 // account form
@@ -16,7 +16,13 @@ export function useDeleteBankAccount () {
 export function useGetAccounts () {
   return mutationFactory(getAccounts);
 }
+
 export function useBankList () {
   return mutationFactory(getBankList);
 }
+
+export function useUpdateAccount () {
+  return mutationFactory(updateAccount);
+}
+
 

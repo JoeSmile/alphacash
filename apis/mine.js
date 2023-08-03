@@ -60,6 +60,10 @@ export async function updateIdentityInfo(parameters) {
   return axiosPostFile('/identityInfo', parameters);
 }
 
+export async function updateAccount(parameters) {
+  return axiosPostFile('/cashLoan/bankAccount', parameters);
+}
+
 // account 
 export async function addAccount (parameters) {
   return axiosPost('/user/addAccount', parameters);
@@ -97,3 +101,5 @@ export async function applyCreateBill(parameters){
 export async function getUserQuota (parameters) {
   return axiosPost('/userQuota', parameters);
 }
+
+

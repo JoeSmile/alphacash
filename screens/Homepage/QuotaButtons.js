@@ -152,10 +152,11 @@ export function QuotaButtons() {
             <FButton
               title="EditNow"
               onPress={() => {
-                if (cashLoan.isModifyInfo) {
-                  navigation.push("Apply", { isUpdateWallet: true });
-                } else if (cashLoan.isModifyFaceImage) {
-                  navigation.push("MyCards");
+                if (hasBill && bill.appStatus == 202) {
+                  navigation.push("MyCards", { isUpdateWallet: true,
+                    loanId: bill.loanId });
+                } else if (cashLoan.isModifyFaceImage || cashLoan.isModifyInfo) {
+                  navigation.push("Certificate");
                 }
               }}
             />

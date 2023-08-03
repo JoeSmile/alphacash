@@ -243,7 +243,7 @@ export default function Certificate() {
                   width: 150,
                 }}
                 source={imageList[0] ? imageList[0].uri : imageUri}
-                contentFit="contain"
+                contentFit="cover"
                 transition={500}
               />
             </View>
@@ -278,7 +278,7 @@ export default function Certificate() {
                   width: 150,
                 }}
                 source={imageList[1] ? imageList[1].uri : imageUri1}
-                contentFit="contain"
+                contentFit="cover"
                 transition={500}
               />
             </View>
@@ -333,7 +333,7 @@ export default function Certificate() {
               width: 150,
             }}
             source={imageList[2] ? imageList[2].uri : imageUri2}
-            contentFit="contain"
+            contentFit="cover"
             transition={500}
           />
         </Pressable>
@@ -373,7 +373,7 @@ export default function Certificate() {
               width: 150,
             }}
             source={imageList[3] ? imageList[3].uri : imageUri3}
-            contentFit="contain"
+            contentFit="cover"
             transition={500}
           />
         </Pressable>

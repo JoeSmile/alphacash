@@ -8,7 +8,6 @@ import { statusToImg } from "@const";
 import { useUserQuota } from "@store";
 import { formatNumberToFinancial as fn2f } from "@utils";
 import { QuotaButtons } from "./QuotaButtons";
-import { useIsFocused } from '@react-navigation/native';
 
 
 export function Quota() {
@@ -19,19 +18,6 @@ export function Quota() {
     s.hasBill,
   ]);
 
-  const isFocused = useIsFocused();
-
-  useEffect(() => {
-    getUserQuota();
-  }, [isFocused]);
-
-  useEffect(() => {
-    const cashloan = axiosRes?.data?.data?.cashLoan;
-    if (cashloan) {
-      console.log('Sun >>> cashloan isModifyInfo === ' + cashloan.isModifyInfo)
-      setCashLoan(cashloan);
-    }
-  }, [axiosRes]);
 
   return (
     <View style={styles.container}>

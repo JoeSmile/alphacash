@@ -108,6 +108,7 @@ export default function Job({ navigation }) {
   }, [workInfo]);
 
   useEffect(() => {
+    console.log("updateWorkInfoResponse: ", updateWorkInfoResponse?.data);
     if (updateWorkInfoResponse && updateWorkInfoResponse.data.error_code == 1) {
       navigation.push("Emergency");
     }
@@ -132,6 +133,7 @@ export default function Job({ navigation }) {
             parameters["companyCityName"] = citiesOptions.filter(
               (province) => province.city_id == cityId
             )[0].city_name;
+            console.log("updateWorkInfo Params: ", parameters);
             updateWorkInfo(parameters);
           }}
           validateOnChange={true}

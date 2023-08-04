@@ -19,8 +19,7 @@ import { Advantage } from "./Advantage";
 import { AntiFraudTips } from "./AntiFraudTips";
 import { OnlineService } from "./OnlineService";
 import HomeModals from "./HomeModals";
-import { useIsFocused } from '@react-navigation/native';
-
+import { useIsFocused } from "@react-navigation/native";
 
 export default function Homepage({ route }) {
   const { showModal = false } = route?.params || {};
@@ -34,7 +33,6 @@ export default function Homepage({ route }) {
 
   const [modalVisible, setVisible] = useState(false);
   const isFocused = useIsFocused();
-
 
   useEffect(() => {
     setVisible(showModal);

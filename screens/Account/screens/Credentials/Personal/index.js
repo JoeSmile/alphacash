@@ -68,7 +68,7 @@ export default function Personal({ navigation }) {
   // const getPersonalOptionsMutation = useGetPersonalOptions();
   const [initialValues, setInitialValues] = useState();
   const { i18n } = useI18n();
-  const [bill] = useUserQuota((s) => [s.bill]);
+  const [bill, hasBill] = useUserQuota((s) => [s.bill, s.hasBill]);
 
   useEffect(() => {
     getPersonalDetail();
@@ -135,11 +135,11 @@ export default function Personal({ navigation }) {
                         label="Name"
                         type="text"
                         editable={
-                          (bill.appStatus == 101 ||
-                            bill.appStatus == 201 ||
-                            bill.appStatus == 301 ||
-                            bill.appStatus == 303) &&
-                          false
+                          !hasBill ||
+                          bill.appStatus == 101 ||
+                          bill.appStatus == 201 ||
+                          bill.appStatus == 301 ||
+                          bill.appStatus == 303
                         }
                       />
                     </View>
@@ -169,11 +169,11 @@ export default function Personal({ navigation }) {
                         name="cnic"
                         label="CNIC"
                         editable={
-                          (bill.appStatus == 101 ||
-                            bill.appStatus == 201 ||
-                            bill.appStatus == 301 ||
-                            bill.appStatus == 303) &&
-                          false
+                          !hasBill ||
+                          bill.appStatus == 101 ||
+                          bill.appStatus == 201 ||
+                          bill.appStatus == 301 ||
+                          bill.appStatus == 303
                         }
                       />
                     </View>

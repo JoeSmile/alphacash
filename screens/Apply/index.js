@@ -31,8 +31,6 @@ import { useI18n } from "@hooks/useI18n";
 import Spinner from "react-native-loading-spinner-overlay";
 import { Asset } from "expo-asset";
 
-
-
 function buildGetRequest(url, params) {
   if (params) {
     const queryString = Object.keys(params)
@@ -62,7 +60,11 @@ export default function Apply() {
   const { mutate: checkApplyParams, data: checkApplyParamsResp } =
     useGetApplyCheckParams();
 
-  const { mutate: applyCreateBill, data: billData,isLoading: isApplyCreateBillLoading } = useApplyCreateBill();
+  const {
+    mutate: applyCreateBill,
+    data: billData,
+    isLoading: isApplyCreateBillLoading,
+  } = useApplyCreateBill();
 
   const [optWithDaysConfig, setOptWithDaysConfig] = useState([]);
   //审核账号
@@ -145,7 +147,7 @@ export default function Apply() {
   }, [checkApplyParamsResp]);
 
   useEffect(() => {
-    console.log("apply create bill res: ", billData);
+    console.log("apply create bill res: ", billData?.data);
     if (billData?.data?.error_code == 1) {
       userStore.setFaceData({ uri: "", type: "", name: "" }); // 清除人脸识别数据
       navigation.replace("Homepage", { showModal: true });
@@ -197,16 +199,18 @@ export default function Apply() {
   }, []);
 
   const clickFaceRecognition = useCallback(() => {
-    if(isSpecialAccount){
+    if (isSpecialAccount) {
       //审核账号
-      const whitePicture = Asset.fromModule(require("@assets/images/white_picture.jpg"))
-      console.log('Sun >>> white uri ==== ' + whitePicture.uri)
+      const whitePicture = Asset.fromModule(
+        require("@assets/images/white_picture.jpg")
+      );
+      console.log("Sun >>> white uri ==== " + whitePicture.uri);
       const img = {
         uri: whitePicture.uri,
-        type: 'image/jpg',
+        type: "image/jpg",
         name: whitePicture.name,
-       };
-       userStore.setFaceData(img);
+      };
+      userStore.setFaceData(img);
     } else {
       navigation.push("FaceDetectionScreen");
     }
@@ -218,9 +222,9 @@ export default function Apply() {
 
   return (
     <SafeAreaView>
-       <Spinner
+      <Spinner
         visible={isGetCashLoanProductConfigLoading || isApplyCreateBillLoading}
-        textContent={i18n.t('Loading')}
+        textContent={i18n.t("Loading")}
         textStyle={{ color: "#FFF" }}
       />
       <ScrollView style={styles.container}>

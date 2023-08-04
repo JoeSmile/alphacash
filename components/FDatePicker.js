@@ -4,6 +4,7 @@ import { useFormikContext } from "formik";
 import dayjs from "dayjs";
 import { useI18n } from "@hooks/useI18n";
 import { DatePicker } from "@ant-design/react-native";
+import enUS from '@ant-design/react-native/lib/locale-provider/en_US';
 
 const CustomChildren = ({ onPress, extra, ...resetProps }) => {
   return (
@@ -54,10 +55,24 @@ export const FDatePicker = ({ label, name }) => {
         value={date}
         mode="date"
         defaultDate={date}
-        minDate={new Date(1980, 0, 0)}
+        minDate={new Date(1950, 0, 0)}
         maxDate={new Date()}
         onChange={onChange}
         format="MM/DD/YYYY"
+        locale={{
+          okText: 'OK',
+          dismissText:'Dismiss',
+          extra:'extra',
+          DatePickerLocale: {
+            year:'Year',
+            month:'Month',
+            day:'Day',
+            hour:'Hour',
+            minute:'Minute',
+            am:'AM',
+            pm:'PM',
+            }
+        }}
       >
         <CustomChildren />
       </DatePicker>

@@ -1,23 +1,20 @@
 import { Image, StyleSheet } from "react-native";
 import { Text, View } from "../../components/Themed";
-import { useI18n, LocaleTypes } from "@hooks/useI18n";
+import { useI18n } from "@hooks/useI18n";
 import { Process } from "./Process";
 
 import { useEffect,useState } from "react";
 import { statusToImg } from "@const";
 import { useUserQuota } from "@store";
-import { useGetUserQuota } from "@apis/hooks";
 import { formatNumberToFinancial as fn2f } from "@utils";
 import { QuotaButtons } from "./QuotaButtons";
 import { useIsFocused } from '@react-navigation/native';
 
 
 export function Quota() {
-  const { i18n, setLocale, locale } = useI18n();
-  const { mutate: getUserQuota, data: axiosRes } = useGetUserQuota();
-  const [cashLoan, setCashLoan, bill, hasBill] = useUserQuota((s) => [
+  const { i18n } = useI18n();
+  const [cashLoan, bill, hasBill] = useUserQuota((s) => [
     s.cashLoan,
-    s.setCashLoan,
     s.bill,
     s.hasBill,
   ]);
@@ -61,7 +58,6 @@ export function Quota() {
         <Text
           style={{
             fontSize: 16,
-
             color: "#0A233E",
             marginTop: 30,
             marginBottom: 15,
@@ -76,7 +72,7 @@ export function Quota() {
             fontWeight: 600,
           }}
         >
-          {fn2f(bill.applyAmount) || fn2f(cashLoan.quota) || "Rs. 60,000"}
+          {fn2f(bill.applyAmount) || fn2f(cashLoan.quota) || "Rs.60,000"}
         </Text>
       </View>
       <QuotaButtons />

@@ -7,6 +7,7 @@ import {
   formatAccountToFinancial as fa2f,
 } from "@utils";
 import { useI18n } from "@hooks/useI18n";
+import { useNavigation } from "@react-navigation/native";
 
 import Spinner from "react-native-loading-spinner-overlay";
 import { useBillDetail } from "@apis/hooks";
@@ -16,17 +17,16 @@ export default function BillDetail({ route }) {
   const hasRepayBillStatus = [LOAN_STATUS.using, LOAN_STATUS.overdue];
   const hasDueDateBillStatus = [...hasRepayBillStatus, LOAN_STATUS.repaid];
   const { i18n } = useI18n();
+  const navigation = useNavigation();
 
   const { mutate: getBillDetail, data: axiosRes, isLoading } = useBillDetail();
   const detail = axiosRes?.data?.data;
-
-  console.log("bill detail: ", detail);
 
   useEffect(() => {
     getBillDetail({
       loanId,
     });
-  }, []);
+  }, [loanId]);
 
   const renderDetail = useCallback((item) => {
     if (!item) {
@@ -157,7 +157,7 @@ export default function BillDetail({ route }) {
     <View>
       <Spinner
         visible={isLoading}
-        textContent={i18n.t('Loading')}
+        textContent={i18n.t("Loading")}
         textStyle={{ color: "#FFF" }}
       />
       {renderDetail(detail)}

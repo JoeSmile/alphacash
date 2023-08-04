@@ -8,44 +8,41 @@ import { Colors } from "../constants/Colors";
 
 import Homepage from "../screens/Homepage";
 import { useI18n } from "@hooks/useI18n";
-
-import { MineNavigator } from "./MineNavigator";
 import { pageHeader } from "../styles/pageHeader";
 import Account from "../screens/Account";
 
 const BottomTab = createBottomTabNavigator();
 
-export default function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
+export default function BottomTabNavigator({ route }) {
   const { i18n } = useI18n();
+  const { showModal = false } = route?.params || {};
 
   return (
     <BottomTab.Navigator
       initialRouteName="HomePage"
-      screenOptions={{ 
+      screenOptions={{
         // tabBarActiveTintColor: Colors[colorScheme].tint
-        tabBarActiveTintColor: '#0825B8', // 选中状态下的字体颜色
-        tabBarInactiveTintColor: '#8899AC', // 未选中状态下的字体颜色 
+        tabBarActiveTintColor: "#0825B8", // 选中状态下的字体颜色
+        tabBarInactiveTintColor: "#8899AC", // 未选中状态下的字体颜色
       }}
     >
       <BottomTab.Screen
         name="HomePage"
         component={HomePageNavigator}
+        initialParams={{ showModal }}
         options={{
           title: i18n.t("Home"),
           headerShown: false,
           ...pageHeader,
-          tabBarIcon: ({ focused,color }) => {
+          tabBarIcon: ({ focused, color }) => {
             const iconSource = focused
-            ? require('@assets/images/tab_ic_home_sel.png')
-            : require('@assets/images/tab_ic_home_nor.png');
-            return(
-          <Image
-          source={iconSource}
-          style={{ width: 26, height: 26 }}
-        />)
+              ? require("@assets/images/tab_ic_home_sel.png")
+              : require("@assets/images/tab_ic_home_nor.png");
+            return (
+              <Image source={iconSource} style={{ width: 26, height: 26 }} />
+            );
             // <TabBarIcon name="ios-code" color={color} />
-            },
+          },
         }}
       />
       <BottomTab.Screen
@@ -57,15 +54,13 @@ export default function BottomTabNavigator() {
           ...pageHeader,
           tabBarIcon: ({ focused, color }) => {
             const iconSource = focused
-              ? require('@assets/images/tab_ic_mine_sel.png')
-              : require('@assets/images/tab_ic_mine_nor.png');
-              return(
-            <Image
-            source={iconSource}
-            style={{ width: 26, height: 26 }}
-          />)
+              ? require("@assets/images/tab_ic_mine_sel.png")
+              : require("@assets/images/tab_ic_mine_nor.png");
+            return (
+              <Image source={iconSource} style={{ width: 26, height: 26 }} />
+            );
             // <TabBarIcon name="ios-code" color={color} />
-        },
+          },
         }}
       />
     </BottomTab.Navigator>
@@ -82,13 +77,19 @@ function TabBarIcon(props) {
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const HomePageStack = createStackNavigator();
 
-function HomePageNavigator() {
+function HomePageNavigator({ route }) {
+  const { showModal = false } = route?.params || {};
   return (
     <HomePageStack.Navigator>
       <HomePageStack.Screen
         name="Homepage"
         component={Homepage}
-        options={{ headerTitle: "AlphaCash", headerShown: false, ...pageHeader }}
+        initialParams={{ showModal }}
+        options={{
+          headerTitle: "AlphaCash",
+          headerShown: false,
+          ...pageHeader,
+        }}
       />
     </HomePageStack.Navigator>
   );

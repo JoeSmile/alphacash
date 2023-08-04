@@ -197,4 +197,6 @@ export const en = {
    'Please shake left, then right': 'Please shake left, then right',
    'Apply': 'Apply',
    'Loading': 'Loading...',
+   'Successful face recognition': 'Successful face recognition',
+   'modify successfully': 'modify successfully',
 };

@@ -9,11 +9,12 @@ import mime from "mime";
 import { useI18n } from "@hooks/useI18n";
 import { useUpdateUserImages } from "@apis";
 import Spinner from "react-native-loading-spinner-overlay";
+import { Toast } from "@ant-design/react-native";
+
 
 export default function FaceDetectionScreen({route}) {
   const cameraRef = useRef(null);
   const [permission, requestPermission] = Camera.useCameraPermissions();
-  const [isBlinking, setIsBlinking] = useState(false);
   const [leftShake, setLeftShake] = useState(false);
   const [rightShake, setRightShake] = useState(false);
   const [tips, setTips] = useState();
@@ -22,9 +23,6 @@ export default function FaceDetectionScreen({route}) {
   const timerRef = useRef(null);
   const store = useUserQuota();
   const { i18n } = useI18n();
-  const [tipss, setTipss] = useState(0);
-  const [tipsss, setTipsss] = useState(0);
-  const [tipssss, setTipssss] = useState(0);
 
   const {
     mutate: updateUserImages,
@@ -56,6 +54,10 @@ export default function FaceDetectionScreen({route}) {
   useEffect(() => {
     if (updateUserImagesResponse?.data?.error_code == 1) {
       console.log("0.0 >>>>>>>>>> updateUserImagesResponse");
+      Toast.info({
+        content: i18n.t('Successful face recognition'),
+        duration: 3,
+      });
       navigation.goBack();
     }
   }, [updateUserImagesResponse]);

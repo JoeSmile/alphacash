@@ -92,12 +92,13 @@ export function QuotaButtons() {
   const [hasError, setHasError] = useState(false);
 
   const errorMsg = useMemo(() => {
-    if (cashLoan.isModifyInfo) {
+    console.log('Sun >>> isModifyFaceImage = ' + cashLoan.isModifyFaceImage + 'isModifyInfo = ' + cashLoan.isModifyInfo)
+    if (cashLoan.isModifyFaceImage) {
+     //审核驳回 - 是否需要重传人脸识别照
+       return i18n.t("FacePhotoErrorMessage");
+    } else if (cashLoan.isModifyInfo){
       //审核驳回 - 是否需要重传照片
-      return i18n.t("AccountErrorMessage");
-    } else if (cashLoan.isModifyFaceImage) {
-      //审核驳回 - 是否需要重传人脸识别照
-      return i18n.t("FacePhotoErrorMessage");
+       return i18n.t("AccountErrorMessage");
     } else if (hasBill && bill.appStatus == 202) {
       return i18n.t('AccountErrorMessage')
     } else {
@@ -142,9 +143,9 @@ export function QuotaButtons() {
                     height: 20,
                     //transform: "translateY(4px)",
                     transform: [{ translateY: 4 }],
-                    marginRight: 5,
                   }}
                 />
+                {'  '}
                 {errorMsg}
               </Text>
             </View>
@@ -155,10 +156,10 @@ export function QuotaButtons() {
                 if (hasBill && bill.appStatus == 202) {
                   navigation.push("MyCards", { isUpdateWallet: true,
                     loanId: bill.loanId });
+                } else if (cashLoan.isModifyFaceImage) {
+                  navigation.push('FaceDetectionScreen', {isUpdate: true})
                 } else if (cashLoan.isModifyInfo) {
                   navigation.push("Certificate", {isUpdate: true});
-                } else if (cashLoan.isModifyFaceImage ) {
-                  navigation.push('FaceDetectionScreen', {isUpdates: true})
                 }
               }}
             />

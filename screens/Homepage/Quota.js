@@ -3,12 +3,14 @@ import { Text, View } from "../../components/Themed";
 import { useI18n, LocaleTypes } from "@hooks/useI18n";
 import { Process } from "./Process";
 
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { statusToImg } from "@const";
 import { useUserQuota } from "@store";
 import { useGetUserQuota } from "@apis/hooks";
 import { formatNumberToFinancial as fn2f } from "@utils";
 import { QuotaButtons } from "./QuotaButtons";
+import { useIsFocused } from '@react-navigation/native';
+
 
 export function Quota() {
   const { i18n, setLocale, locale } = useI18n();
@@ -20,13 +22,16 @@ export function Quota() {
     s.hasBill,
   ]);
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
     getUserQuota();
-  }, []);
+  }, [isFocused]);
 
   useEffect(() => {
     const cashloan = axiosRes?.data?.data?.cashLoan;
     if (cashloan) {
+      console.log('Sun >>> cashloan isModifyInfo === ' + cashloan.isModifyInfo)
       setCashLoan(cashloan);
     }
   }, [axiosRes]);

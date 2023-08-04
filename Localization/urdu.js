@@ -201,5 +201,7 @@ export const urdu = {
   'Please shake left, then right': 'براہ مہربانی بائیں ہلائیں، پھر دائیں',
   'Apply': 'ایپلی کیشن',
   'Loading': 'لوڈنگ...',
+  'Successful face recognition': 'Successful face recognition',
+  'modify successfully': 'modify successfully',
 
 };

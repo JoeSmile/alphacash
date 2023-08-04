@@ -20,6 +20,8 @@ import { Camera, CameraType } from "expo-camera";
 import Spinner from "react-native-loading-spinner-overlay";
 import { useNavigation } from "@react-navigation/native";
 import { useUserQuota } from "@store/useUserQuota";
+import { Toast } from "@ant-design/react-native";
+
 
 
 const imageUri = require("@assets/images/info_pic_cnic_card_positive.png");
@@ -28,7 +30,8 @@ const imageUri2 = require("@assets/images/info_pic_holding_id_card.png");
 const imageUri3 = require("@assets/images/info_pic_work_permit.png");
 
 export default function Certificate({route}) {
-  const [bill] = useUserQuota((s) => [
+  const [cashLoan,bill] = useUserQuota((s) => [
+    s.cashLoan,
     s.bill,
   ]);
   const navigation = useNavigation();
@@ -103,11 +106,11 @@ export default function Certificate({route}) {
           name: imageData.employmentProof.split("/").pop(),
         };
         console.log(
-          "Sun >>> " +
+          "Sun >>> uri = " +
             imgCnicFront.uri +
-            ">>>>>>" +
+            ">>>>>> type =" +
             imgCnicFront.type +
-            ">>>>>>>>" +
+            ">>>>>>>> name = " +
             imgCnicFront.name
         );
         setImage([
@@ -132,12 +135,16 @@ export default function Certificate({route}) {
   useEffect(() => {
     if (updateUserImagesResponse?.data?.error_code == 1) {
       console.log("0.0 >>>>>>>>>> updateUserImagesResponse");
+      Toast.info({
+        content: i18n.t('modify successfully'),
+        duration: 3,
+      });
       navigation.goBack();
     }
   }, [updateUserImagesResponse]);
 
   const showPickImageModel = (id) => {
-    if((bill.appStatus == 101 || bill.appStatus == 201 || bill.appStatus == 301 || bill.appStatus == 303) && (id == 0 || id == 1 || id == 2) ){
+    if((bill.appStatus == 101 || bill.appStatus == 201 || bill.appStatus == 301 || bill.appStatus == 303) && (id == 0 || id == 1 || id == 2) && !cashLoan.isModifyInfo ){
       //当有用户贷款行为时（审核中、打款中、使用中、逾期）或该用户变为老用户后，与姓名+CNIC+身份证正反面+手持照片不可修改
        return;
     }

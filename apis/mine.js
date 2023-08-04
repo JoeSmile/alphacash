@@ -61,7 +61,7 @@ export async function updateIdentityInfo(parameters) {
 }
 // 重新提交用户照片等
 export async function updateUserImages (parameters) {
-  return axiosPost('/user/modify/update', parameters);
+  return axiosPostFile('/user/modify/update', parameters);
 }
 
 export async function updateAccount(parameters) {

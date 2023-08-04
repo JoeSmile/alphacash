@@ -46,22 +46,22 @@ const emptyJobFormValues = {
 };
 
 const JobFormSchema = Yup.object().shape({
-  workField: Yup.string().required("Required"),
-  workName: Yup.string().required("Required"),
+  workField: Yup.number().required("Required"),
+  // workName: Yup.string().required("Required"),
   companyName: Yup.string().required("Required"),
   companyPhone: Yup.string()
     .matches(/^\d{11}$/, "Please input correct phone number")
     .required("Required"),
-  serviceLength: Yup.string().required("Required"),
-  monthlyIncome: Yup.string().required("Required"),
-  companyProviceId: Yup.string().required("Required"),
+  serviceLength: Yup.number().required("Required"),
+  monthlyIncome: Yup.number().required("Required"),
+  companyProviceId: Yup.number().required("Required"),
   companyCityId: Yup.string().required("Required"),
   companyAddressDetail: Yup.string().required("Required"),
-  haveOtherLoans: Yup.string(),
+  haveOtherLoans: Yup.number(),
   lendingInstitution: Yup.string(),
-  loanAmount: Yup.string(),
-  companyProviceName: Yup.string().required("Required"),
-  companyCityName: Yup.string().required("Required"),
+  loanAmount: Yup.number(),
+  // companyProviceName: Yup.string().required("Required"),
+  // companyCityName: Yup.string().required("Required"),
 });
 
 export default function Job({ navigation }) {
@@ -123,17 +123,18 @@ export default function Job({ navigation }) {
             const provinceId = values["companyProviceId"];
             const cityId = values["companyCityId"];
             const workId = values["workField"];
+
             const parameters = values;
             parameters["workName"] = workFieldOptions.filter(
               (work) => work.value == workId
             )[0].label;
+
             parameters["companyProviceName"] = provincesOptions.filter(
               (province) => province.province_id == provinceId
             )[0].province_name;
             parameters["companyCityName"] = citiesOptions.filter(
               (province) => province.city_id == cityId
             )[0].city_name;
-            console.log("updateWorkInfo Params: ", parameters);
             updateWorkInfo(parameters);
           }}
           validateOnChange={true}

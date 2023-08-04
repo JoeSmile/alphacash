@@ -1,17 +1,10 @@
-import React, { useCallback, useState } from "react";
-import {
-  View,
-  Text,
-  Pressable,
-  StyleSheet,
-  Platform,
-  Image,
-} from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import { View, Text, Pressable, StyleSheet, Image } from "react-native";
 import * as Calendar from "expo-calendar";
 import { Toast } from "@ant-design/react-native";
 import FModal from "@components/FModal";
 import { useSystemStore } from "@store/useSystemStore";
-import { useI18n, LocaleTypes } from "@hooks/useI18n";
+import { useI18n } from "@hooks/useI18n";
 
 export const MODAL_TYPE = {
   RATE: "RATE",
@@ -29,23 +22,24 @@ function HomeModals({ showModal }) {
       s.setRepayReminderOn,
     ]);
 
-  let initModalType, initVisible;
-  if (showModal) {
-    if (!isRatePoped) {
-      initModalType = MODAL_TYPE.RATE;
-      initVisible = true;
-    } else {
-      initModalType = MODAL_TYPE.REPAY_TIP;
-      initVisible = !isRepayReminderOn;
-    }
-  } /* else {
-    // TODO 这个else是自测用的，后面要删掉
-    initModalType = isRatePoped ? MODAL_TYPE.REPAY_TIP : MODAL_TYPE.RATE;
-    initVisible = true;
-  }*/
+  useEffect(() => {
+    let initModalType, initVisible;
+    if (showModal) {
+      if (!isRatePoped) {
+        initModalType = MODAL_TYPE.RATE;
+        initVisible = true;
+      } else {
+        initModalType = MODAL_TYPE.REPAY_TIP;
+        initVisible = !isRepayReminderOn;
+      }
 
-  const [modalType, setModalType] = useState(initModalType);
-  const [modalVisible, setModalVisible] = useState(!!initVisible);
+      setModalType(initModalType);
+      setModalVisible(!!initVisible);
+    }
+  }, [showModal]);
+
+  const [modalType, setModalType] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
 
   const renderModalHeader = useCallback(() => {
     if (!modalType) {
@@ -53,7 +47,7 @@ function HomeModals({ showModal }) {
     }
 
     if (modalType === MODAL_TYPE.REPAY_TIP) {
-      return <Text style={styles.title}>{i18n.t('Repayment Tips')}</Text>;
+      return <Text style={styles.title}>{i18n.t("Repayment Tips")}</Text>;
     } else {
       return (
         <>
@@ -61,7 +55,7 @@ function HomeModals({ showModal }) {
             source={require("@assets/applyLoan/pop_up_score_img.png")}
             style={styles.scoreImg}
           />
-          <Text style={styles.title}>{i18n.t('RateUs')}</Text>
+          <Text style={styles.title}>{i18n.t("RateUs")}</Text>
         </>
       );
     }
@@ -77,7 +71,7 @@ function HomeModals({ showModal }) {
         <>
           <View>
             <Text style={styles.tips}>
-              {i18n.t('RepaymentWords')}
+              {i18n.t("RepaymentWords")}
               {/* <Text style={styles.strong}>
                 {" "}
                 [the day before the due date and the day]{" "}
@@ -86,18 +80,12 @@ function HomeModals({ showModal }) {
             </Text>
           </View>
           <View style={styles.note}>
-            <Text style={styles.noteText}>
-            {i18n.t('NoteSettings')}
-            </Text>
+            <Text style={styles.noteText}>{i18n.t("NoteSettings")}</Text>
           </View>
         </>
       );
     } else {
-      return (
-        <Text style={styles.tips}>
-         {i18n.t('GoodReview')}
-        </Text>
-      );
+      return <Text style={styles.tips}>{i18n.t("GoodReview")}</Text>;
     }
   }, [modalType]);
 
@@ -115,14 +103,13 @@ function HomeModals({ showModal }) {
               setModalVisible(false);
             }}
           >
-         
-            <Text style={styles.btnText}>{i18n.t('NoOpen')}</Text>
+            <Text style={styles.btnText}>{i18n.t("NoOpen")}</Text>
           </Pressable>
           <Pressable
             style={[styles.button, styles.buttonOpen]}
             onPress={openCalandar}
           >
-            <Text style={styles.btnText}>{i18n.t('OpenNow')}</Text>
+            <Text style={styles.btnText}>{i18n.t("OpenNow")}</Text>
           </Pressable>
         </>
       );
@@ -136,7 +123,7 @@ function HomeModals({ showModal }) {
             // TODO, 跳到APP商店评分
           }}
         >
-          <Text style={styles.btnText}>{i18n.t('I Know')}</Text>
+          <Text style={styles.btnText}>{i18n.t("I Know")}</Text>
         </Pressable>
       );
     }
@@ -151,61 +138,9 @@ function HomeModals({ showModal }) {
           "Request Calender Permission Failed! Please Setting you Device.",
         duration: 3,
       });
-      setModalVisible(false);
-      return;
     }
 
-    // 拿之前创建的，或者创建新的calendar
-    const calendars = await Calendar.getCalendarsAsync(
-      Calendar.EntityTypes.EVENT
-    );
-    const expoCalendar = calendars.find((ca) => ca.title === "Expo Calendar");
-    let calendarID;
-    if (expoCalendar) {
-      calendarID = expoCalendar.id;
-    } else {
-      let defaultCalendarSource = {
-        isLocalAccount: true,
-        name: "Expo Calendar",
-      };
-      if (Platform.OS === "ios") {
-        const defaultCalendar = await Calendar.getDefaultCalendarAsync();
-        defaultCalendarSource = defaultCalendar.source;
-      }
-      calendarID = await Calendar.createCalendarAsync({
-        title: "Expo Calendar",
-        color: "blue",
-        entityType: Calendar.EntityTypes.EVENT,
-        sourceId: defaultCalendarSource.id,
-        source: defaultCalendarSource,
-        name: "repayment tip:",
-        allowsModifications: false,
-        ownerAccount: "personal",
-        accessLevel: Calendar.CalendarAccessLevel.OWNER,
-      });
-    }
-
-    if (!calendarID) {
-      Toast.info({
-        content: "Create Calender Failed! You can do it youself.",
-        duration: 3,
-      });
-    } else {
-      const eventID = await Calendar.createEventAsync(calendarID, {
-        title: "time to repay",
-        startDate: new Date("2023-07-25 12:30:00"),
-        endDate: new Date("2023-07-25 19:30:00"),
-      });
-      if (!eventID) {
-        Toast.info({
-          content: "Create Calender Failed! You can do it youself.",
-          duration: 3,
-        });
-      }
-
-      setModalVisible(false);
-      return;
-    }
+    setModalVisible(false);
   }, []);
 
   return (

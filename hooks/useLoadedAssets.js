@@ -25,6 +25,7 @@ export function useLoadedAssets() {
 
         // Load fonts
         await Font.loadAsync(Ionicons.font);
+
         getAsyncParams(); // 取异步公共参数的，没有用await了，因为拿不到也没关系。不能阻塞APP进入
         const data = await getUserQuota({
           app,
@@ -33,7 +34,7 @@ export function useLoadedAssets() {
           t: Date.now() + "",
           token,
         }); // 保证进入Home页不闪，优化体验
-        console.log("cashloan: ", data.data);
+
         const cashLoan = data?.data?.data?.cashLoan;
         if (cashLoan) {
           setCashLoan(cashLoan);

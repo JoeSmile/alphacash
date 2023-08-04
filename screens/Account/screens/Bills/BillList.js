@@ -20,11 +20,7 @@ const Item = ({ item }) => {
   const hasDueDateBillStatus = [LOAN_STATUS.using, LOAN_STATUS.overdue];
   return (
     <Pressable
-      onPress={() => [
-        navigation.push("BillDetail", {
-          loanId: item.loanId,
-        }),
-      ]}
+      onPress={() => navigation.push("BillDetail", { loanId: item.loanId })}
     >
       <View style={styles.item}>
         <Image
@@ -34,28 +30,33 @@ const Item = ({ item }) => {
           style={styles.imgTag}
         />
         <View>
-          <Text style={styles.title}>{`${i18n.t('Loan Amount')}: `} </Text>
+          <Text style={styles.title}>{`${i18n.t("Loan Amount")}: `} </Text>
           <Text style={styles.amount}>{fn2f(item.applyAmount)}</Text>
         </View>
         <View style={styles.line}></View>
         <View>
           <View style={{ ...styles.info, marginBottom: 12 }}>
-            <Text style={styles.title}>{`${i18n.t('LoanTerm')}: `} </Text>
-            <Text style={styles.titleValue}>{item.loanTerm}{i18n.t('Days')}</Text>
+            <Text style={styles.title}>{`${i18n.t("LoanTerm")}: `} </Text>
+            <Text style={styles.titleValue}>
+              {item.loanTerm}
+              {i18n.t("Days")}
+            </Text>
           </View>
           <View style={styles.info}>
-            <Text style={styles.title}>{`${i18n.t('Apply Date')}: `} </Text>
+            <Text style={styles.title}>{`${i18n.t("Apply Date")}: `} </Text>
             <Text style={styles.titleValue}>{item.applyDate}</Text>
           </View>
           {!!item.repaymentDate && (
             <View style={{ ...styles.info, marginTop: 12 }}>
-              <Text style={styles.title}>{`${i18n.t('Repayment Date')}: `} </Text>
+              <Text style={styles.title}>
+                {`${i18n.t("Repayment Date")}: `}{" "}
+              </Text>
               <Text style={styles.titleValue}>{item.repaymentDate}</Text>
             </View>
           )}
           {hasDueDateBillStatus.includes(item.appStatus) && !!item.dueDate && (
             <View style={{ ...styles.info, marginTop: 12 }}>
-              <Text style={styles.title}>{`${i18n.t('Due Date')}: `} </Text>
+              <Text style={styles.title}>{`${i18n.t("Due Date")}: `} </Text>
               <Text style={styles.titleValue}>{item.dueDate}</Text>
             </View>
           )}

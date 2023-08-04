@@ -31,7 +31,7 @@ module.exports = ({ config }) => ({
   web: {
     favicon: "./assets/favicon.png",
   },
-  scheme: "AlphaCash",
+  scheme: "alphacash", // 这个只能小写
   runtimeVersion:
     process.env.ENV === "dev"
       ? {
@@ -58,25 +58,24 @@ module.exports = ({ config }) => ({
         cameraPermission: "Allow $(PRODUCT_NAME) to access your camera.",
       },
     ],
-    // [
-    //   "react-native-fbsdk-next",
-    //   {
-    //     appID: "644423131050994",
-    //     clientToken: "1c78cf3a59f5d9c9f3b69bf16f150cae",
-    //     displayName: "AlphaCash",
-    //     scheme: "fb644423131050994",
-    //     advertiserIDCollectionEnabled: true,
-    //     autoLogAppEventsEnabled: true,
-    //     isAutoInitEnabled: true,
-    //     iosUserTrackingPermission:
-    //       "This identifier will be used to deliver personalized ads to you.",
-    //   },
-    // ],
+    [
+      "react-native-fbsdk-next",
+      {
+        appID: "644423131050994",
+        clientToken: "1c78cf3a59f5d9c9f3b69bf16f150cae",
+        displayName: "AlphaCash",
+        scheme: "fb644423131050994",
+        advertiserIDCollectionEnabled: true,
+        autoLogAppEventsEnabled: true,
+        isAutoInitEnabled: true,
+        iosUserTrackingPermission:
+          "This identifier will be used to deliver personalized ads to you.",
+      },
+    ],
   ],
   extra: {
     ENV: process.env.ENV,
     eas: {
-      // projectId: "c5ed18ff-989f-4bed-934b-ccce0c4d67f5", // for qinghua
       projectId: "462bceb9-15ba-4d76-bcad-d93ef54c4c31", // for sunhao
     },
   },

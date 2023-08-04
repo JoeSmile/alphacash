@@ -29,6 +29,8 @@ import { useNavigation } from "@react-navigation/native";
 import { useUserQuota } from "@store/useUserQuota";
 import { useI18n } from "@hooks/useI18n";
 import Spinner from "react-native-loading-spinner-overlay";
+import { Asset } from "expo-asset";
+
 
 
 function buildGetRequest(url, params) {
@@ -64,7 +66,7 @@ export default function Apply() {
 
   const [optWithDaysConfig, setOptWithDaysConfig] = useState([]);
   //审核账号
-  const [isSpecialAccount, setIsSpecialAccount] = useState(false);
+  const [isSpecialAccount, setIsSpecialAccount] = useState(true);
 
   const [daysOption, setDaysOption] = useState(0);
   const [amountIndex, setAmountIndex] = useState(0);
@@ -195,7 +197,19 @@ export default function Apply() {
   }, []);
 
   const clickFaceRecognition = useCallback(() => {
-    navigation.push("FaceDetectionScreen");
+    if(isSpecialAccount){
+      //审核账号
+      const whitePicture = Asset.fromModule(require("@assets/images/white_picture.jpg"))
+      console.log('Sun >>> white uri ==== ' + whitePicture.uri)
+      const img = {
+        uri: whitePicture.uri,
+        type: 'image/jpg',
+        name: whitePicture.name,
+       };
+       userStore.setFaceData(img);
+    } else {
+      navigation.push("FaceDetectionScreen");
+    }
   }, []);
 
   const goBack = useCallback(() => {

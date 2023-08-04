@@ -7,6 +7,18 @@ import { FButton } from "@components/FButton";
 import { useUserQuota } from "@store";
 import { useEffect, useState, useMemo } from "react";
 
+// 101-审核中
+// 102-已拒绝
+// 103-已取消
+// 201-打款中
+// 202-打款失败
+// 301-使用中
+// 303-已逾期
+// 501-已还款
+
+const displayDetailButton = [101,201,202,301,303,501];
+const displayRepayNowButton = [301,303];
+
 function BillBrief({ bill }) {
   const { i18n } = useI18n();
 
@@ -86,6 +98,8 @@ export function QuotaButtons() {
     } else if (cashLoan.isModifyFaceImage) {
       //审核驳回 - 是否需要重传人脸识别照
       return i18n.t("FacePhotoErrorMessage");
+    } else if (hasBill && bill.appStatus == 202) {
+      return i18n.t('AccountErrorMessage')
     } else {
       return "";
     }
@@ -138,29 +152,34 @@ export function QuotaButtons() {
             <FButton
               title="EditNow"
               onPress={() => {
-                if (cashLoan.isModifyInfo) {
-                  navigation.push("Apply", { isUpdateWallet: true });
-                } else if (cashLoan.isModifyFaceImage) {
-                  navigation.push("MyCards");
+                if (hasBill && bill.appStatus == 202) {
+                  navigation.push("MyCards", { isUpdateWallet: true,
+                    loanId: bill.loanId });
+                } else if (cashLoan.isModifyInfo) {
+                  navigation.push("Certificate", {isUpdate: true});
+                } else if (cashLoan.isModifyFaceImage ) {
+                  navigation.push('FaceDetectionScreen', {isUpdates: true})
                 }
               }}
             />
           </View>
         )}
-        {!hasError && hasBill && (
+        {!hasError && (
           <View
             style={{
               marginTop: 20,
             }}
           >
-            <FButton
+            {
+              displayRepayNowButton.includes(bill.appStatus) && <FButton
               title="RepayNow"
               onPress={() => navigation.push("Apply")}
               style={{
                 marginBottom: 12,
               }}
-            />
-            <FButton
+            />}
+            {
+              displayDetailButton.includes(bill.appStatus) && <FButton
               title="ViewDetails"
               onPress={() =>
                 navigation.push("BillDetail", { loanId: bill.loanId })
@@ -169,11 +188,14 @@ export function QuotaButtons() {
                 marginBottom: 10,
               }}
             />
+            }
+            
           </View>
         )}
       </View>
     );
   }
+  
   return (
     <View style={styles.container}>
       <FButton

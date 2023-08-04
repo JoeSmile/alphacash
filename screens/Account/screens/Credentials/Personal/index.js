@@ -216,117 +216,65 @@ export default function Personal({ navigation }) {
                             labelKey="province_name"
                           />
                         </View>
-                        <View style={{ height: 65, marginBottom: 15, flex: 1 }}>
+
+                        <View style={{ flex: 1 }}>
                           <FSelect
-                            name="gender"
-                            label="Gender"
-                            options={genderOptions}
+                            name="cityId"
+                            label="City"
+                            options={citiesOptions.filter((city) =>
+                              values["provinceId"]
+                                ? city.province_id == values["provinceId"]
+                                : true
+                            )}
+                            valueKey="city_id"
+                            labelKey="city_name"
                           />
                         </View>
                       </View>
-
-                      <View style={styles.module}>
-                        <FTextInput name="cnic" label="CNIC" />
-                      </View>
-
-                      <View style={styles.module}>
-                        <FSelect
-                          name="education"
-                          label="Education"
-                          options={educationOptions}
-                        />
-                      </View>
-
-                      <View style={styles.module}>
-                        <FSelect
-                          name="maritalStatus"
-                          label="Marital Status"
-                          options={marriageOptions}
-                        />
-                      </View>
-
-                      <View
-                        style={{
-                          marginBottom: 15,
-                        }}
-                      >
-                        <Text>{i18n.t("Residential Address")}</Text>
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            gap: 10,
-                          }}
-                        >
-                          <View style={{ flex: 1 }}>
-                            <FSelect
-                              name="provinceId"
-                              label="Province"
-                              options={provincesOptions}
-                              valueKey="province_id"
-                              labelKey="province_name"
-                            />
-                          </View>
-
-                          <View style={{ flex: 1 }}>
-                            <FSelect
-                              name="cityId"
-                              label="City"
-                              options={citiesOptions.filter((city) =>
-                                values["provinceId"]
-                                  ? city.province_id == values["provinceId"]
-                                  : true
-                              )}
-                              valueKey="city_id"
-                              labelKey="city_name"
-                            />
-                          </View>
-                        </View>
-                      </View>
-
-                      <View style={styles.module}>
-                        <FTextInput
-                          name="addressDetail"
-                          label="Detailed Address"
-                        />
-                      </View>
-
-                      <View style={styles.module}>
-                        <FTextInput name="email" label="Email" />
-                      </View>
-
-                      <Pressable
-                        style={{
-                          height: 46,
-                          marginBottom: 15,
-                          backgroundColor: "#0825B8",
-                          borderRadius: 3,
-                          alignItems: "center",
-                          justifyContent: "center",
-                          display: "flex",
-                          flexDirection: "row",
-                        }}
-                        onPress={handleSubmit}
-                      >
-                        <Text
-                          style={{
-                            textAlign: "center",
-                            borderRadius: 3,
-                            height: 46,
-                            lineHeight: 46,
-                            color: "#FFFFFF",
-                            backgroundColor: "#0825B8",
-                            fontSize: 15,
-                          }}
-                        >
-                          {i18n.t("Next")}{" "}
-                        </Text>
-                        <Image
-                          source={require("@assets/images/btn_ic_right.png")}
-                          style={{ width: 12, height: 12 }}
-                        />
-                      </Pressable>
                     </View>
+
+                    <View style={styles.module}>
+                      <FTextInput
+                        name="addressDetail"
+                        label="Detailed Address"
+                      />
+                    </View>
+
+                    <View style={styles.module}>
+                      <FTextInput name="email" label="Email" />
+                    </View>
+
+                    <Pressable
+                      style={{
+                        height: 46,
+                        marginBottom: 15,
+                        backgroundColor: "#0825B8",
+                        borderRadius: 3,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        display: "flex",
+                        flexDirection: "row",
+                      }}
+                      onPress={handleSubmit}
+                    >
+                      <Text
+                        style={{
+                          textAlign: "center",
+                          borderRadius: 3,
+                          height: 46,
+                          lineHeight: 46,
+                          color: "#FFFFFF",
+                          backgroundColor: "#0825B8",
+                          fontSize: 15,
+                        }}
+                      >
+                        {i18n.t("Next")}{" "}
+                      </Text>
+                      <Image
+                        source={require("@assets/images/btn_ic_right.png")}
+                        style={{ width: 12, height: 12 }}
+                      />
+                    </Pressable>
                   </>
                 )}
               </Formik>

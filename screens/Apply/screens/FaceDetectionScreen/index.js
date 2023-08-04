@@ -7,9 +7,10 @@ import { useUserQuota } from "@store";
 import * as ImagePicker from "expo-image-picker";
 import mime from "mime";
 import { useI18n } from "@hooks/useI18n";
+import { useUpdateUserImages } from "@apis";
+import Spinner from "react-native-loading-spinner-overlay";
 
-
-export default function FaceDetectionScreen({}) {
+export default function FaceDetectionScreen({route}) {
   const cameraRef = useRef(null);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [isBlinking, setIsBlinking] = useState(false);
@@ -25,7 +26,13 @@ export default function FaceDetectionScreen({}) {
   const [tipsss, setTipsss] = useState(0);
   const [tipssss, setTipssss] = useState(0);
 
+  const {
+    mutate: updateUserImages,
+    data: updateUserImagesResponse,
+    isLoading: isUpdateUserImagesLoading,
+  } = useUpdateUserImages();
 
+  const [isUpdate,setIsUpdate] = useState(false);
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
@@ -33,6 +40,10 @@ export default function FaceDetectionScreen({}) {
     cameraRef.current.resumePreview();
   }, [permission]);
 
+  useEffect(() => {
+    const isUpdate = route.params ? route.params.isUpdate : false;
+    setIsUpdate(!!isUpdate);
+  }, [route]);
 
   // useEffect(() => {
   //   return () => {
@@ -42,6 +53,12 @@ export default function FaceDetectionScreen({}) {
   //     }
   //   };
   // })
+  useEffect(() => {
+    if (updateUserImagesResponse?.data?.error_code == 1) {
+      console.log("0.0 >>>>>>>>>> updateUserImagesResponse");
+      navigation.goBack();
+    }
+  }, [updateUserImagesResponse]);
 
   const isSmiling = (face) => {
     // 0.6 是一个基准值，可以根据实际情况进行调整
@@ -83,9 +100,15 @@ export default function FaceDetectionScreen({}) {
            name: photo.uri.split("/").pop(),
           };
        store.setFaceData(img);
-       setTimeout(() => {
-        navigation.goBack();
-      }, 1000);
+       if (isUpdate) {
+        updateUserImages({
+          applyImage: img
+        })
+       } else {
+        setTimeout(() => {
+          navigation.goBack();
+        }, 1000);
+       }
     }
   };
 
@@ -117,6 +140,11 @@ export default function FaceDetectionScreen({}) {
 
   return (
     <View style={styles.container}>
+      <Spinner
+        visible={isUpdateUserImagesLoading}
+        textContent={i18n.t('Loading')}
+        textStyle={{ color: "#FFF" }}
+      />
       <View
         style={{
           marginTop: 96,

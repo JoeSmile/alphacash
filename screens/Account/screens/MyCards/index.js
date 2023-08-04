@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { Modal } from '@ant-design/react-native'
 import { SwipeListView } from "react-native-swipe-list-view";
-import { useDeleteEWalletAccount, useDeleteBankAccount, useGetAccounts } from '@apis';
+import { useDeleteEWalletAccount, useDeleteBankAccount, useGetAccounts, useUpdateAccount } from '@apis';
 import { useIsFocused } from '@react-navigation/native';
 import { useSystemStore } from '@store/useSystemStore'
 import { useI18n } from "@hooks/useI18n";
@@ -98,12 +98,15 @@ export default function MyCards({navigation, route}) {
   const {mutate: getAccounts, data: cards, isLoading} = useGetAccounts();
   const {mutate: deleteEWallet} = useDeleteEWalletAccount();
   const {mutate: deleteBankAccount} = useDeleteBankAccount();
+  const {mutate: updateAccount}  = useUpdateAccount();
   const { i18n } = useI18n();
   // TODO: 1. 选择某个 wallet  2. confirm (xxxStore -> useXXXStore)
 
   const [currentCard, setCurrentCard] = useState({})
   const [isApplySelect,setIsApplySelect] = useState(false)
-
+  const [isUpdateAccount,setIsUpdateAccount] = useState(false)
+  const [loanId, setLoanId] = useState('');
+  
   const store = useSystemStore()
 
   React.useEffect(() => {
@@ -111,9 +114,12 @@ export default function MyCards({navigation, route}) {
     // const editAccountType = route.params ? route.params.type : '';
     const isApplySelect = route.params ? route.params.isApplySelect : false;
     const isUpdateWallet = route.params ? route.params.isUpdateWallet : false;
+    const loanId = route.params ? route.params.loanId : '';
     // console.log("editAccountId", editAccountId);
     // console.log("editAccountType", editAccountType);
-    setIsApplySelect(isApplySelect)
+    setIsApplySelect(isApplySelect);
+    setIsUpdateAccount(isUpdateWallet);
+    setLoanId(loanId)
     if (isApplySelect || isUpdateWallet) {
       setIsSelectAccount(true);
     }
@@ -225,7 +231,10 @@ export default function MyCards({navigation, route}) {
   };
 
   const confirm = (() => {
-    store.setCardInfo(currentCard)
+    store.setCardInfo(currentCard);
+    if (isUpdateAccount) {
+      updateAccount({loanId, ...currentCard});
+    }
   
     if(isApplySelect){
       navigation.goBack();   

@@ -41,6 +41,7 @@ export default function Certificate({route}) {
     data: identityInfo,
     isLoading: isIdentityInfoLoading,
   } = useGetIdentityInfoDetail();
+
   const {
     mutate: updateIdentityInfo,
     data: updateIdentityInfoResponse,
@@ -59,6 +60,10 @@ export default function Certificate({route}) {
   const [index, setIndex] = useState();
   const [jumpPage, setJumpPage] = useState('MyCards');
   const [isUpdate, setIsUpdate] = useState(false);
+  const [modifycnicBack, setModifycnicBack] = useState(false);
+  const [modifycnicFront, setModifycnicFront] = useState(false);
+  const [modifycnicInHand, setModifycnicInHand] = useState(false);
+  const [modifyemploymentProof, setModifyemploymentProof] = useState(false);
   // const [permission, requestPermission] = Camera.useCameraPermissions();
 
   // useEffect(() => {
@@ -79,6 +84,18 @@ export default function Certificate({route}) {
   useEffect(() => {
     if (identityInfo?.data?.error_code == 1) {
       const imageData = identityInfo.data.data?.identityInfo || {};
+      const needModifyInfo = {
+        cnicBack:false,
+        cnicFront: false,
+        cnicInHand: false,
+        employmentProof: false,
+        ...(identityInfo.data.data?.needModifyInfo||{})
+      };
+      setModifycnicBack(needModifyInfo.cnicBack);
+      setModifycnicFront(needModifyInfo.cnicBack);
+      setModifycnicInHand(needModifyInfo.cnicBack);
+      setModifyemploymentProof(needModifyInfo.cnicBack);
+
       if (
         imageData.cnicFront &&
         imageData.cnicBack &&
@@ -266,6 +283,8 @@ export default function Certificate({route}) {
                 padding: 8,
                 backgroundColor: "#F4F5F7",
                 borderRadius: 4,
+                borderWidth: 1,
+                borderColor: modifycnicFront? '#E53F31': 'white'
               }}
             >
               <Image
@@ -301,6 +320,8 @@ export default function Certificate({route}) {
                 padding: 8,
                 backgroundColor: "#F4F5F7",
                 borderRadius: 4,
+                borderColor: modifycnicBack? '#E53F31': 'white'
+
               }}
             >
               <Image
@@ -348,13 +369,13 @@ export default function Certificate({route}) {
             <Text style={styles.underlineText}>{i18n.t("Example")}</Text>
           </Pressable>
         </View>
-
         <Pressable
           style={{
             width: 166,
             padding: 8,
             backgroundColor: "#F4F5F7",
             borderRadius: 4,
+            borderColor: modifycnicInHand? '#E53F31': 'white'
           }}
           onPress={() => showPickImageModel(2)}
         >
@@ -395,6 +416,7 @@ export default function Certificate({route}) {
             padding: 8,
             backgroundColor: "#F4F5F7",
             borderRadius: 4,
+            borderColor: modifyemploymentProof? '#E53F31': 'white'
           }}
           onPress={() => showPickImageModel(3)}
         >

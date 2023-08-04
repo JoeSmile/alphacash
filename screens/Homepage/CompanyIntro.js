@@ -1,42 +1,45 @@
-import { Pressable, StyleSheet, Image } from "react-native";
+import { StyleSheet, Image } from "react-native";
 import { Text, View } from "../../components/Themed";
-import { useI18n, LocaleTypes } from "@hooks/useI18n";
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { useI18n } from "@hooks/useI18n";
 import { useUserQuota } from "@store";
 
 export function CompanyIntro() {
   const { i18n } = useI18n();
-  const [bill] = useUserQuota((s) => [
-    s.bill,
-  ]);
+  const [bill] = useUserQuota((s) => [s.bill]);
 
   return (
-    <View style={styles.container}> 
-     {
-        (bill.appStatus == 101 || bill.appStatus == 201 || bill.appStatus == 202 || bill.appStatus == 301 ||  bill.appStatus == 302) ?
-      <View  style={{
-          backgroundColor:'transparent',
-          flexDirection: 'column',
-       }}>
-        <Image 
-          source={require('@assets/images/home_top_logo2.png')} 
+    <View style={styles.container}>
+      {bill.appStatus == 101 ||
+      bill.appStatus == 201 ||
+      bill.appStatus == 202 ||
+      bill.appStatus == 301 ||
+      bill.appStatus == 302 ? (
+        <View
           style={{
-          width: 205,
-          height: 42
+            backgroundColor: "transparent",
+            flexDirection: "column",
+          }}
+        >
+          <Image
+            source={require("@assets/images/home_top_logo2.png")}
+            style={{
+              width: 205,
+              height: 42,
+            }}
+          />
+          <Text style={{ color: "rgba(255, 255, 255, 0.8)", fontSize: 13 }}>
+            Fast Disburse,Loan & Repayment
+          </Text>
+        </View>
+      ) : (
+        <Image
+          source={require("@assets/images/home_top_logo2.png")}
+          style={{
+            width: 205,
+            height: 42,
           }}
         />
-         <Text style={{color: "rgba(255, 255, 255, 0.8)",fontSize: 13}}>Fast Disburse,Loan & Repayment</Text>
-      </View> :
-
-        <Image 
-          source={require('@assets/images/home_top_logo2.png')} 
-          style={{
-          width: 205,
-          height: 42
-          }}
-        />
-     }
-
+      )}
     </View>
   );
 }
@@ -44,11 +47,10 @@ export function CompanyIntro() {
 const styles = StyleSheet.create({
   container: {
     zIndex: 10,
-    width: '100%',
-    backgroundColor:'transparent',
-    color: 'white',
+    width: "100%",
+    backgroundColor: "transparent",
+    color: "white",
     paddingHorizontal: 15,
-    marginTop: 46
+    marginTop: 46,
   },
-
 });

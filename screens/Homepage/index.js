@@ -6,6 +6,8 @@ import {
 } from "react-native-responsive-screen";
 import { RFValue } from "react-native-responsive-fontsize";
 import { useCallback, useEffect, useState } from "react";
+import * as Calendar from "expo-calendar";
+import { Toast } from "@ant-design/react-native";
 
 import { LOAN_STATUS } from "@const";
 import { useSystemStore, useUserQuota } from "@store";
@@ -39,6 +41,7 @@ export default function Homepage({ route }) {
   }, [showModal]);
 
   useEffect(() => {
+    //setCalendar("01/09/2023");
     getUserQuota();
   }, [isFocused]);
 
@@ -58,7 +61,22 @@ export default function Homepage({ route }) {
       return;
     }
 
-    const dayBeforeDue = new Date(dueDate).getTime() - 11.5 * 60 * 60 * 1000;
+    const [d, m, y] = dueDate.split("/");
+    const formattedDueDate = [y, m, d].join("-");
+    const dayBeforeDue =
+      new Date(formattedDueDate + " 00:00:00").getTime() -
+      11.5 * 60 * 60 * 1000;
+
+    const { status } = await Calendar.requestCalendarPermissionsAsync();
+    if (status !== "granted") {
+      //Toast.info({
+      //  content:
+      //    "Request Calender Permission Failed! Please Setting you Device.",
+      //  duration: 3,
+      //});
+
+      return;
+    }
 
     // 拿之前创建的，或者创建新的calendar
     const calendars = await Calendar.getCalendarsAsync(
@@ -96,12 +114,17 @@ export default function Homepage({ route }) {
         duration: 3,
       });
     } else {
-      const eventID = await Calendar.createEventAsync(calendarID, {
+      const eventID1 = await Calendar.createEventAsync(calendarID, {
         title: "time to repay",
         startDate: new Date(dayBeforeDue),
         endDate: new Date(dayBeforeDue + 30 * 60 * 1000),
       });
-      if (!eventID) {
+      const eventID2 = await Calendar.createEventAsync(calendarID, {
+        title: "time to repay",
+        startDate: new Date(formattedDueDate + " 18:30:00"),
+        endDate: new Date(formattedDueDate + " 19:00:00"),
+      });
+      if (!eventID1 || !eventID2) {
         Toast.info({
           content: "Create Calender Failed! You can do it youself.",
           duration: 3,

@@ -1,11 +1,11 @@
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, BackHandler } from "react-native";
 import { View } from "../../components/Themed";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { RFValue } from "react-native-responsive-fontsize";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import * as Calendar from "expo-calendar";
 import { Toast } from "@ant-design/react-native";
 
@@ -21,7 +21,7 @@ import { OnlineService } from "./OnlineService";
 import HomeModals from "./HomeModals";
 import { useIsFocused } from "@react-navigation/native";
 
-export default function Homepage({ route }) {
+export default function Homepage({ route, navigation }) {
   const { showModal = false } = route?.params || {};
 
   const { mutate: getUserQuota, data: axiosRes } = useGetUserQuota();
@@ -32,8 +32,10 @@ export default function Homepage({ route }) {
   ]);
 
   const [modalVisible, setVisible] = useState(false);
-  const isFocused = useIsFocused();
 
+  const isFocused = useIsFocused();
+  // const [lastBackPressed, setLastBackPressed] = useState();
+  const lastBackPressed = useRef();
   useEffect(() => {
     setVisible(showModal);
   }, [showModal]);
@@ -42,6 +44,29 @@ export default function Homepage({ route }) {
     //setCalendar("01/09/2023");
     getUserQuota();
   }, [isFocused]);
+
+  const handleBackPress = useCallback(() => {
+    if(navigation.isFocused()) {
+      if(lastBackPressed.current && lastBackPressed.current + 2000 >= Date.now()) {
+        BackHandler.exitApp();
+        return true
+      }
+      lastBackPressed.current = Date.now()
+      Toast.info({
+       content:
+         "Press again exit APP",
+       duration: 2,
+      });
+      return true;
+    }
+  }, [])
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress');
+    }
+  }, []);
 
   useEffect(() => {
     const cl = axiosRes?.data?.data?.cashLoan;

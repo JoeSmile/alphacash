@@ -14,7 +14,8 @@ import { Provider } from "@ant-design/react-native";
 // import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
 import { AppEventsLogger } from "react-native-fbsdk-next";
 
-if (Platform.OS !== "web") {
+console.log('process.env.ENV', process.env.NODE_ENV);
+if (Platform.OS !== "web" && process.env.NODE_ENV !== 'development' ) {
 // Log standard event. e.g. completed registration
   AppEventsLogger.logEvent(AppEventsLogger.AppEvents.CompletedRegistration, {
     [AppEventsLogger.AppEventParams.RegistrationMethod]: "email",

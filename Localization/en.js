@@ -199,4 +199,5 @@ export const en = {
    'Loading': 'Loading...',
    'Successful face recognition': 'Successful face recognition',
    'modify successfully': 'modify successfully',
+   'APR': 'APR',
 };

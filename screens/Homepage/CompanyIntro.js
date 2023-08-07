@@ -27,16 +27,13 @@ export function CompanyIntro() {
               height: 42,
             }}
           />
-          <Text style={{ color: "rgba(255, 255, 255, 0.8)", fontSize: 13 }}>
-            Fast Disburse,Loan & Repayment
-          </Text>
         </View>
       ) : (
         <Image
-          source={require("@assets/images/home_top_logo2.png")}
+          source={require("@assets/images/home_top_logo.png")}
           style={{
-            width: 205,
-            height: 42,
+            width: 210,
+            height: 65,
           }}
         />
       )}

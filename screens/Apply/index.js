@@ -68,7 +68,7 @@ export default function Apply() {
 
   const [optWithDaysConfig, setOptWithDaysConfig] = useState([]);
   //审核账号
-  const [isSpecialAccount, setIsSpecialAccount] = useState(true);
+  const [isSpecialAccount, setIsSpecialAccount] = useState(false);
 
   const [daysOption, setDaysOption] = useState(0);
   const [amountIndex, setAmountIndex] = useState(0);

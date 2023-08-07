@@ -15,7 +15,7 @@ export function MonoText(props) {
             ios: "Courier New",
             android: "monospace",
           }),
-          fontWeight: "500",
+          fontWeight: 500,
         },
       ]}
     />

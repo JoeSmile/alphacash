@@ -62,18 +62,24 @@ const PersonalFormSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
 });
 
-export default function Personal({ navigation }) {
+export default function Personal({ navigation, route }) {
   const { mutate: getPersonalDetail, data } = useGetPersonalDetail();
   const updatePersonalInfoMutation = useUpdatePersonalInfo();
   // const getPersonalOptionsMutation = useGetPersonalOptions();
   const [initialValues, setInitialValues] = useState();
   const { i18n } = useI18n();
   const [bill, hasBill] = useUserQuota((s) => [s.bill, s.hasBill]);
+  const [isUpdate, setIsUpdate] = useState(false);
 
   useEffect(() => {
     getPersonalDetail();
     // getPersonalOptionsMutation.mutate()
   }, []);
+
+  useEffect(() => {
+    const isUpdate = route.params ? route.params.isUpdate : false;
+    setIsUpdate(!!isUpdate);
+  }, [route])
 
   useEffect(() => {
     if (data && data.data && data.data.error_code === 1) {
@@ -90,7 +96,11 @@ export default function Personal({ navigation }) {
       updatePersonalInfoMutation.data &&
       updatePersonalInfoMutation.data.data.error_code === 1
     ) {
-      navigation.push("Job");
+      if (isUpdate) {
+        navigation.goBack()
+      } else {
+        navigation.push("Job");
+      }
     }
   }, [updatePersonalInfoMutation]);
 
@@ -223,7 +233,6 @@ export default function Personal({ navigation }) {
                             name="cityId"
                             label="City"
                             enabledKey='provinceId'
-                            
                             options={citiesOptions.filter((city) =>
                               values["provinceId"]
                                 ? city.province_id == values["provinceId"]

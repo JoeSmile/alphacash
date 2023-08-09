@@ -72,7 +72,7 @@ const JobFormSchema = Yup.object().shape({
   // companyCityName: Yup.string().required("Required"),
 });
 
-export default function Job({ navigation }) {
+export default function Job({ navigation, route }) {
   const {
     mutate: getWorkInfoOptions,
     data: workOptions,
@@ -93,11 +93,18 @@ export default function Job({ navigation }) {
   const [serviceTimeOptions, setServiceTimeOptions] =
     useState(serviceLengthOptions);
   const { i18n } = useI18n();
+  const [isUpdate, setIsUpdate] = useState(false);
 
   useEffect(() => {
     getWorkInfo();
     getWorkInfoOptions();
   }, []);
+  
+  useEffect(() => {
+    const isUpdate = route.params ? route.params.isUpdate : false;
+    setIsUpdate(!!isUpdate);
+  }, [route])
+
   useEffect(() => {
     if (workOptions && workOptions.data.error_code == 1) {
       setSMonthlyIncomeOptions(workOptions.data.data.monthlyIncomeOptions);
@@ -118,7 +125,11 @@ export default function Job({ navigation }) {
   useEffect(() => {
     console.log("updateWorkInfoResponse: ", updateWorkInfoResponse?.data);
     if (updateWorkInfoResponse && updateWorkInfoResponse.data.error_code == 1) {
-      navigation.push("Emergency");
+      if (isUpdate) {
+        navigation.goBack()
+      } else {
+        navigation.push("Emergency");
+      }
     }
   }, [updateWorkInfoResponse]);
 

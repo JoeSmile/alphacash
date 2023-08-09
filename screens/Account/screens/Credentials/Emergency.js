@@ -45,7 +45,7 @@ const EmergencyFormSchema = Yup.object().shape({
     .required("Required"),
 });
 
-export default function Emergency({ navigation }) {
+export default function Emergency({ navigation, route }) {
   const {
     mutate: getReferenceContacts,
     data: referenceContactsData,
@@ -59,11 +59,17 @@ export default function Emergency({ navigation }) {
   const [relationShipOptions, setRelationShipOptions] = useState();
   const [relationShipOptions_1, setRelationShipOptions_1] = useState();
   const { i18n } = useI18n();
+  const [isUpdate, setIsUpdate] = useState(false);
 
   useEffect(() => {
     getReferenceContacts();
     getOptions();
   }, []);
+
+  useEffect(() => {
+    const isUpdate = route.params ? route.params.isUpdate : false;
+    setIsUpdate(!!isUpdate);
+  }, [route]);
 
   useEffect(() => {
     if (referenceContactsData && referenceContactsData.data) {
@@ -93,7 +99,11 @@ export default function Emergency({ navigation }) {
 
   useEffect(() => {
     if (updateContactsResponse && updateContactsResponse.data.error_code == 1) {
-      navigation.push("Certificate");
+      if (isUpdate) {
+        navigation.goBack()
+      } else {
+        navigation.push("Certificate");
+      }
     }
   }, [updateContactsResponse]);
 

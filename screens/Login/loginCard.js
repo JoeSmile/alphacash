@@ -58,7 +58,6 @@ export default function LoginCard() {
         phone: phoneNumber,
         token: data.data.data.token,
       });
-      console.log('targetScreen', targetScreen);
       if (targetScreen) {
         getUserFormStatus();
       } else {
@@ -71,7 +70,6 @@ export default function LoginCard() {
     if (formStatus?.data?.error_code == 1) {
       const status = data?.data?.data || {};
       const isCompleted = status.isCompletedPersonal && status.isCompletedWork && status.isCompletedContact && status.isCompletedIdentity; 
-      console.log('targetScreen', isCompleted);
       if (isCompleted && targetScreen) {
         // go to apply screen
         navigation.push(targetScreen);

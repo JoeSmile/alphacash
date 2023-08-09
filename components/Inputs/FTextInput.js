@@ -11,6 +11,7 @@ export const FTextInput = ({
   keyboardType = "default",
   editable = true,
   rightIcon = "",
+  displayDigit = 0
 }) => {
   const context = useFormikContext(name);
   const meta = context.getFieldMeta(name);
@@ -42,6 +43,17 @@ export const FTextInput = ({
             context.setFieldValue(name, v);
           }}
         />
+        {
+          !!displayDigit && <View style={{
+            position: 'absolute',
+            right: 10,
+            height: 55,
+            lineHeight: 55,
+            color: '#8899AC'
+          }}>
+            {`${context?.values[name]?.length ?? 0}/${displayDigit}`}
+          </View>
+        }
         {!!rightIcon && (
           <View
             style={{

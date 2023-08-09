@@ -168,6 +168,7 @@ export default function Personal({ navigation }) {
                       <FTextInput
                         name="cnic"
                         label="CNIC"
+                        displayDigit={13}
                         editable={
                           !hasBill ||
                           bill.appStatus == 101 ||

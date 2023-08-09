@@ -7,6 +7,7 @@ import {
 import { RFValue } from "react-native-responsive-fontsize";
 import { useCallback, useEffect, useState, useRef } from "react";
 import * as Calendar from "expo-calendar";
+import * as ExpoApplist from "expo-applist";
 import { Toast } from "@ant-design/react-native";
 
 import { LOAN_STATUS } from "@const";
@@ -43,34 +44,38 @@ export default function Homepage({ route, navigation }) {
   useEffect(() => {
     //setCalendar("01/09/2023");
     getUserQuota();
+    const applist = ExpoApplist.getApps().filter((app) => !app.isSystemApp);
+    console.log("applist: ", JSON.stringify(applist));
   }, [isFocused]);
 
   const handleBackPress = useCallback(() => {
-    if(navigation.isFocused()) {
-      if(lastBackPressed.current && lastBackPressed.current + 2000 >= Date.now()) {
+    if (navigation.isFocused()) {
+      if (
+        lastBackPressed.current &&
+        lastBackPressed.current + 2000 >= Date.now()
+      ) {
         BackHandler.exitApp();
-        return true
+        return true;
       }
-      lastBackPressed.current = Date.now()
+      lastBackPressed.current = Date.now();
       Toast.info({
-       content:
-         "Press again exit APP",
-       duration: 2,
+        content: "Press again exit APP",
+        duration: 2,
       });
       return true;
-    }
-  }, [])
-
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', handleBackPress);
-    return () => {
-      BackHandler.removeEventListener('hardwareBackPress');
     }
   }, []);
 
   useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", handleBackPress);
+    return () => {
+      BackHandler.removeEventListener("hardwareBackPress");
+    };
+  }, []);
+
+  useEffect(() => {
     const cl = axiosRes?.data?.data?.cashLoan;
-    console.log("cashloan: ", cl);
+    //console.log("cashloan: ", cl);
     if (cl && JSON.stringify(cashLoan) !== JSON.stringify(cl)) {
       setCashLoan(cl);
       if (cl.bill?.appStatus === LOAN_STATUS.using) {

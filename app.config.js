@@ -13,6 +13,7 @@ module.exports = ({ config }) => ({
   assetBundlePatterns: ["**/*"],
   ios: {
     supportsTablet: true,
+    bundleIdentifier: "com.alphacash.easy.credit.loan.paisa",
   },
   android: {
     adaptiveIcon: {
@@ -26,6 +27,7 @@ module.exports = ({ config }) => ({
       "ACCESS_BACKGROUND_LOCATION",
       "READ_CALENDAR",
       "WRITE_CALENDAR",
+      "QUERY_ALL_PACKAGES",
     ],
   },
   web: {
@@ -37,7 +39,7 @@ module.exports = ({ config }) => ({
       ? {
           policy: "sdkVersion",
         }
-      : "0.0.5",
+      : "0.1.0",
   updates: {
     fallbackToCacheTimeout: 0,
     url: "https://u.expo.dev/462bceb9-15ba-4d76-bcad-d93ef54c4c31",

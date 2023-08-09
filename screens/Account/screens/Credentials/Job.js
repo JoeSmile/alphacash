@@ -123,7 +123,7 @@ export default function Job({ navigation, route }) {
   }, [workInfo]);
 
   useEffect(() => {
-    console.log("updateWorkInfoResponse: ", updateWorkInfoResponse?.data);
+
     if (updateWorkInfoResponse && updateWorkInfoResponse.data.error_code == 1) {
       if (isUpdate) {
         navigation.goBack()

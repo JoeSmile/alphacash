@@ -66,19 +66,27 @@ export default function Credentials() {
 
       if (status.isCompletedPersonal) {
         listItems[0].rightIcon = require("@assets/images/checked.png");
-        listItems[0].isUpdate = status.isCompletedPersonal;
+        listItems[0].parameters = {
+          isUpdate: status.isCompletedPersonal
+        };
       }
       if (status.isCompletedWork) {
         listItems[1].rightIcon = require("@assets/images/checked.png");
-        listItems[1].isUpdate = status.isCompletedWork;
+        listItems[1].parameters = {
+          isUpdate: status.isCompletedWork
+        };
       }
       if (status.isCompletedContact) {
         listItems[2].rightIcon = require("@assets/images/checked.png");
-        listItems[2].isUpdate = status.isCompletedContact;
+        listItems[2].parameters = {
+          isUpdate: status.isCompletedContact
+        };
       }
       if (status.isCompletedIdentity) {
         listItems[3].rightIcon = require("@assets/images/checked.png");
-        listItems[3].isUpdate = status.isCompletedIdentity;
+        listItems[3].parameters = {
+          isUpdate: status.isCompletedIdentity
+        };
       }
       setDisplayItems([...listItems]);
     }

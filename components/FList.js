@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useI18n } from "@hooks/useI18n";
 
 const Item = (props) => {
-  const { title, screen, leftItem, displayIcon = true, itemStyle = {}, rightIcon='' } = props;
+  const { title, screen, leftItem, displayIcon = true, itemStyle = {}, rightIcon='', parameters = {} } = props;
   const navigation = useNavigation();
   const { i18n } = useI18n();
 
@@ -19,7 +19,7 @@ const Item = (props) => {
         itemStyle,
       ]}
       onPress={() => {
-        screen && navigation.push(screen);
+        screen && navigation.push(screen, {...parameters});
       }}
     >
       {!!leftItem ? (

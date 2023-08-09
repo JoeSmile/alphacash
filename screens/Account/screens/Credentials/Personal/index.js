@@ -96,6 +96,7 @@ export default function Personal({ navigation, route }) {
       updatePersonalInfoMutation.data &&
       updatePersonalInfoMutation.data.data.error_code === 1
     ) {
+      console.log('isUpdate----', isUpdate);
       if (isUpdate) {
         navigation.goBack()
       } else {

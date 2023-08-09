@@ -258,6 +258,7 @@ export default function Apply() {
 
               <View style={styles.loanAgreementStyle}>
                 <Checkbox
+                  style={styles.checkbox}
                   value={isChecked}
                   onValueChange={setChecked}
                   color={isChecked ? "#0825B8" : undefined}
@@ -285,13 +286,13 @@ export default function Apply() {
               </View>
 
               <Text style={{ fontSize: 12, color: "#4F5E6F" }}>
-                {`${i18n.t("Kind Tips")}:`}
+                {`${i18n.t("Kind Tips")}`}
                 {":\n"}
-                {`${i18n.t("KindTips1")}:`}
+                {`${i18n.t("KindTips1")}`}
                 {"\n\n"}
-                {`${i18n.t("KindTips2")}:`}
+                {`${i18n.t("KindTips2")}`}
                 {"\n\n"}
-                {`${i18n.t("Key Executive For Loan Handling officer Name")}:`}
+                {`${i18n.t("Key Executive For Loan Handling officer Name")}`}
                 {"\n"}
                 {`${i18n.t("Contact Email")}:xxxxt@xx.com`}
                 {"\n"}
@@ -362,4 +363,9 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     alignItems: "center",
   },
+  checkbox: {
+    width: 17,
+    height: 17,
+    borderRadius: 4,
+  }
 });

@@ -50,7 +50,7 @@ const JobFormSchema = Yup.object().shape({
   // workName: Yup.string().required("Required"),
   companyName: Yup.string().required("Required"),
   companyPhone: Yup.string()
-    .matches(/^\d{11}$/, "Please input correct phone number")
+    .matches(/^\d{11}$/, "Please input 11 characters phone number")
     .required("Required"),
   serviceLength: Yup.number().required("Required"),
   monthlyIncome: Yup.number().required("Required"),

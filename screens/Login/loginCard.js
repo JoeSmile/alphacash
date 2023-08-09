@@ -11,12 +11,13 @@ import React, { useEffect, useState } from "react";
 import { useSystemStore } from "../../store/useSystemStore";
 import { Formik } from "formik";
 import { Colors } from "@const/Colors";
-import { encodeSHA, getNetInfo } from "@apis";
+import { encodeSHA, getNetInfo, useGetUserFormStatus } from "@apis";
 import { useLogin, useGetOTP } from "@apis/hooks";
 import Spinner from "react-native-loading-spinner-overlay";
 import { useNavigation } from "@react-navigation/native";
 import { useI18n, LocaleTypes } from "@hooks/useI18n";
 import * as Yup from "yup";
+import { useRoute } from '@react-navigation/native';
 
 // encodeSHA();
 // getNetInfo();
@@ -24,7 +25,7 @@ import * as Yup from "yup";
 const LoginFormSchema = Yup.object().shape({
   OTP: Yup.string().required("Required"),
   phoneNumber: Yup.string()
-    .matches(/^\d{11}$/, "请输入正确手机号")
+    .matches(/^\d{11}$/, "Please input 11 characters phone number")
     .required("Required"),
 });
 
@@ -33,12 +34,16 @@ export default function LoginCard() {
   const navigation = useNavigation();
   const setUserInfo = useSystemStore((s) => s.setUserInfo);
   const { i18n } = useI18n();
+  const route = useRoute();
 
   const { mutate: login, data, isLoading } = useLogin();
   const { mutate: getOTP } = useGetOTP();
   const [text, setText] = useState("Get OTP");
+  const [targetScreen, setTargetScreen] = useState("");
   const [countdown, setCountdown] = useState(0);
   const [isClickable, setIsClickable] = useState(true);
+  const { mutate: getUserFormStatus, data: formStatus, isLoading: formStatusLoading } = useGetUserFormStatus();
+
   let timer = null;
 
   const [phoneNumber, setphoneNumber] = useState(null);
@@ -48,15 +53,33 @@ export default function LoginCard() {
   }, []);
 
   useEffect(() => {
-    console.log("login data", data?.data);
     if (data?.data?.error_code == 1) {
       setUserInfo({
         phone: phoneNumber,
         token: data.data.data.token,
       });
-      navigation.push("Homepage");
+      console.log('targetScreen', targetScreen);
+      if (targetScreen) {
+        getUserFormStatus();
+      } else {
+        navigation.push("Homepage");
+      }
     }
   }, [data]);
+
+  useEffect(() => {
+    if (formStatus?.data?.error_code == 1) {
+      const status = data?.data?.data || {};
+      const isCompleted = status.isCompletedPersonal && status.isCompletedWork && status.isCompletedContact && status.isCompletedIdentity; 
+      console.log('targetScreen', isCompleted);
+      if (isCompleted && targetScreen) {
+        // go to apply screen
+        navigation.push(targetScreen);
+      } else {
+        navigation.push('Homepage');
+      }
+    }
+  }, [formStatus]);
 
   const handleTextClick = () => {
     if (isClickable && countdown === 0) {
@@ -76,6 +99,11 @@ export default function LoginCard() {
     }
   };
 
+  useEffect(() => {
+    const targetScreen = route.params ? route.params.targetScreen : '';
+    setTargetScreen(targetScreen);
+  }, [route])
+
   return (
     <View>
       <Spinner
@@ -87,8 +115,6 @@ export default function LoginCard() {
         <Formik
           initialValues={{ phoneNumber: "", OTP: "" }}
           onSubmit={(values) => {
-            console.log("11111", values);
-            // setToken('IAlKWtScF1Zgjohmc4OE6ogHI04WapiQ1688892525968584')
             setphoneNumber(values.phoneNumber);
             login({
               phoneNumber: values.phoneNumber,

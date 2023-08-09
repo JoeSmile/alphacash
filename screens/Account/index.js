@@ -60,6 +60,7 @@ const data = [
 const Account = ({ navigation }) => {
   const { i18n } = useI18n();
   const [isLogin, setToken] = useSystemStore((s) => [!!s.token, s.setToken]);
+
   return (
     <UserLayout>
       <View style={styles.itemsContainer}>

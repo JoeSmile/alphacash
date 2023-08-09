@@ -51,8 +51,8 @@ const PersonalFormSchema = Yup.object().shape({
   name: Yup.string().required("Required"),
   birth: Yup.string().required("Required"),
   cnic: Yup.string()
-    .required("Required")
-    .test("len", "Must be exactly 13 characters", (val) => val.length === 13),
+  .required("Required")
+    .matches(/^\d{13}$/, "PMust be exactly 13 characters number"),
   gender: Yup.number().required("Required"),
   education: Yup.number().required("Required"),
   maritalStatus: Yup.number().required("Required"),

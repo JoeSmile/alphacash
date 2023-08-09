@@ -217,11 +217,12 @@ export default function Personal({ navigation }) {
                             labelKey="province_name"
                           />
                         </View>
-
+                       
                         <View style={{ flex: 1 }}>
                           <FSelect
                             name="cityId"
                             label="City"
+                            enabledKey='provinceId'
                             options={citiesOptions.filter((city) =>
                               values["provinceId"]
                                 ? city.province_id == values["provinceId"]

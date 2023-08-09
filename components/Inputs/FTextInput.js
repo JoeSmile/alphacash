@@ -44,7 +44,7 @@ export const FTextInput = ({
           }}
         />
         {
-          !!displayDigit && <View style={{
+          !!displayDigit && <Text style={{
             position: 'absolute',
             right: 10,
             height: 55,
@@ -52,7 +52,7 @@ export const FTextInput = ({
             color: '#8899AC'
           }}>
             {`${context?.values[name]?.length ?? 0}/${displayDigit}`}
-          </View>
+          </Text>
         }
         {!!rightIcon && (
           <View

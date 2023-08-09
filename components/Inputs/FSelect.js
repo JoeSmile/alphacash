@@ -13,11 +13,13 @@ export function FSelect({
   containerStyle = {},
   labelKey = '',
   valueKey = '',
+  enabledKey='',
   ...props
 }) {
   const context = useFormikContext(name);
   const meta = context.getFieldMeta(name);
   const { i18n } = useI18n();
+  console.log('context.values[enabledKey]', context.values);
   return <View style={{
     marginBottom: 15,
     height: 80,
@@ -34,7 +36,7 @@ export function FSelect({
       height: 55,
     }}>
       <Picker
-        enabled={true}
+        enabled={ enabledKey ? !!context.values[enabledKey] : true}
         mode="dropdown"
         onValueChange={(v) => {
           context.setFieldValue(name, v);

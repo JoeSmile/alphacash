@@ -60,7 +60,13 @@ const JobFormSchema = Yup.object().shape({
   companyCityId: Yup.string().required("Required"),
   companyAddressDetail: Yup.string().required("Required"),
   haveOtherLoans: Yup.number(),
-  lendingInstitution: Yup.string(),
+  lendingInstitution: Yup.string().test('required', 'please input the lending institution', (val, context) => {
+    if (context.parent.haveOtherLoans == 2) {
+      return !!val;
+    } else {
+      return true;
+    }
+  }),
   loanAmount: Yup.number(),
   // companyProviceName: Yup.string().required("Required"),
   // companyCityName: Yup.string().required("Required"),

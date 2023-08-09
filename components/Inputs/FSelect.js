@@ -19,7 +19,6 @@ export function FSelect({
   const context = useFormikContext(name);
   const meta = context.getFieldMeta(name);
   const { i18n } = useI18n();
-  console.log('context.values[enabledKey]', context.values);
   return <View style={{
     marginBottom: 15,
     height: 80,

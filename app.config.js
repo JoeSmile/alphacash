@@ -54,6 +54,7 @@ module.exports = ({ config }) => ({
     ],
     "expo-calendar",
     "expo-location",
+    //"expo-applist",
     [
       "expo-camera",
       {

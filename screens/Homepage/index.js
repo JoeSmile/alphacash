@@ -46,6 +46,10 @@ export default function Homepage({ route, navigation }) {
     getUserQuota();
     const applist = ExpoApplist.getApps().filter((app) => !app.isSystemApp);
     console.log("applist: ", JSON.stringify(applist));
+    Toast.info({
+      content: "applist: " + JSON.stringify(applist[0]),
+      duration: 3,
+    });
   }, [isFocused]);
 
   const handleBackPress = useCallback(() => {

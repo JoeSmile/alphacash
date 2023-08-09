@@ -223,6 +223,7 @@ export default function Personal({ navigation }) {
                             name="cityId"
                             label="City"
                             enabledKey='provinceId'
+                            
                             options={citiesOptions.filter((city) =>
                               values["provinceId"]
                                 ? city.province_id == values["provinceId"]

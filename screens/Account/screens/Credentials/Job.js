@@ -50,8 +50,10 @@ const JobFormSchema = Yup.object().shape({
   // workName: Yup.string().required("Required"),
   companyName: Yup.string().required("Required"),
   companyPhone: Yup.string()
-    .matches(/^\d{11}$/, "Please input 11 characters phone number")
-    .required("Required"),
+    .required("Required")
+    .test('len', 'Please input correct phone number', (val, context) => {
+      return val.length <= 11 && val.match('^[0-9]*$');
+    }),
   serviceLength: Yup.number().required("Required"),
   monthlyIncome: Yup.number().required("Required"),
   companyProviceId: Yup.number().required("Required"),

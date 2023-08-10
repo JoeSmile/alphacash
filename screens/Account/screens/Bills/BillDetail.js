@@ -146,7 +146,7 @@ export default function BillDetail({ route }) {
           <FButton
             style={styles.repayBtn}
             onPress={() => navigation.push("Apply")}
-            title="Repay Now"
+            title="RepayNow"
           />
         )}
       </View>

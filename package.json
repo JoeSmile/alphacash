@@ -8,7 +8,7 @@
     "web": "cross-env ENV=dev expo start --web",
     "build:preview": "cross-env ENV=production eas build -p android --profile preview",
     "build:live": "cross-env ENV=production eas build -p android --profile production",
-    "update:preview": "cross-env ENV=production eas update --branch preview --message 'update preview to 0.1.0-2'",
+    "update:preview": "cross-env ENV=production eas update --branch preview --message 'update preview to 0.1.1-1'",
     "update:live": "cross-env ENV=production eas update --branch production --message 'update preview to 0.1.0-2'"
   },
   "dependencies": {

@@ -24,7 +24,6 @@ module.exports = ({ config }) => ({
     permissions: [
       "ACCESS_COARSE_LOCATION",
       "ACCESS_FINE_LOCATION",
-      "ACCESS_BACKGROUND_LOCATION",
       "READ_CALENDAR",
       "WRITE_CALENDAR",
       "QUERY_ALL_PACKAGES",
@@ -39,7 +38,7 @@ module.exports = ({ config }) => ({
       ? {
           policy: "sdkVersion",
         }
-      : "0.1.0",
+      : "0.1.1",
   updates: {
     fallbackToCacheTimeout: 0,
     url: "https://u.expo.dev/462bceb9-15ba-4d76-bcad-d93ef54c4c31",

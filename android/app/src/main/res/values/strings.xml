@@ -2,7 +2,7 @@
   <string name="app_name">AlphaCash</string>
   <string name="expo_splash_screen_resize_mode" translatable="false">contain</string>
   <string name="expo_splash_screen_status_bar_translucent" translatable="false">false</string>
-  <string name="expo_runtime_version">0.1.0</string>
+  <string name="expo_runtime_version">0.1.1</string>
   <string name="facebook_app_id">644423131050994</string>
   <string name="facebook_client_token">1c78cf3a59f5d9c9f3b69bf16f150cae</string>
   <string name="fb_login_protocol_scheme">fb644423131050994</string>

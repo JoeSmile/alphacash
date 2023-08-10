@@ -7,6 +7,7 @@ import {
 import { RFValue } from "react-native-responsive-fontsize";
 import { useCallback, useEffect, useState, useRef } from "react";
 import * as Calendar from "expo-calendar";
+import * as Device from "expo-device";
 import * as ExpoApplist from "expo-applist";
 import { Toast } from "@ant-design/react-native";
 
@@ -44,7 +45,10 @@ export default function Homepage({ route, navigation }) {
   useEffect(() => {
     //setCalendar("01/09/2023");
     getUserQuota();
-    const applist = ExpoApplist.getApps().filter((app) => !app.isSystemApp);
+    const apiLevel = Device.platformApiLevel || 1;
+    const applist = ExpoApplist.getApps(apiLevel).filter(
+      (app) => !app.isSystemApp
+    );
     console.log("applist: ", JSON.stringify(applist));
     Toast.info({
       content: "applist: " + JSON.stringify(applist[0]),

@@ -14,6 +14,7 @@ export function FSelect({
   labelKey = '',
   valueKey = '',
   enabledKey='',
+  suffix='',
   ...props
 }) {
   const context = useFormikContext(name);
@@ -25,7 +26,7 @@ export function FSelect({
     ...containerStyle,
   }}>
     <View style={{height: 20, marginBottom:5}}>
-      <Text style={{height: 20, color: '#4F5E6F'}}>{i18n.t(label)}</Text>
+      <Text style={{height: 20, color: '#4F5E6F'}}>{i18n.t(label)}{` ${suffix}`}</Text>
     </View>
     <View style={{
       justifyContent: 'center',

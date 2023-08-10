@@ -52,14 +52,14 @@ const PersonalFormSchema = Yup.object().shape({
   birth: Yup.string().required("Required"),
   cnic: Yup.string()
   .required("Required")
-    .matches(/^\d{13}$/, "PMust be exactly 13 characters number"),
+    .matches(/^\d{13}$/, "Must be exactly 13 characters number"),
   gender: Yup.number().required("Required"),
   education: Yup.number().required("Required"),
   maritalStatus: Yup.number().required("Required"),
   provinceId: Yup.number().required("Required"),
   cityId: Yup.number().required("Required"),
   addressDetail: Yup.string().required("Required"),
-  email: Yup.string().email("Invalid email").required("Required"),
+  email: Yup.string().matches('^[A-Za-z0-9-_\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$', 'Please input correct email address').required("Required"),
 });
 
 export default function Personal({ navigation, route }) {

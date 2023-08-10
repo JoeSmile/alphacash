@@ -74,7 +74,7 @@ export function Quota() {
         </Text>
       </View>
       <QuotaButtons />
-      {!isFormCompleted && <Process />}
+      {(hasBill ? false : isFormCompleted ? false: true) && <Process />}
     </View>
   );
 }

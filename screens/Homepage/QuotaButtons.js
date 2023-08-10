@@ -95,6 +95,7 @@ export function QuotaButtons() {
 	const [isLogin, phone] = useSystemStore(s => [!!s.token, s.phone]);
   const { mutate: getUserFormStatus, data, isLoading } = useGetUserFormStatus();
   const [isFormCompleted, setIsFormCompleted] = useState(false);
+
   useEffect(() => {
     getUserFormStatus();
   }, []);

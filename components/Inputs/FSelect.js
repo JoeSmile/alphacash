@@ -24,8 +24,8 @@ export function FSelect({
     height: 80,
     ...containerStyle,
   }}>
-    <View style={{height: 20, marginBottom:10}}>
-      <Text style={styles.label}>{i18n.t(label)}</Text>
+    <View style={{height: 20, marginBottom:5}}>
+      <Text style={{height: 20, color: '#4F5E6F'}}>{i18n.t(label)}</Text>
     </View>
     <View style={{
       justifyContent: 'center',

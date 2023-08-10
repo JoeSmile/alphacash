@@ -9,6 +9,7 @@ import {
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { FTextInput, FSelect } from "@components/Inputs";
+import { useSystemStore } from "@store/useSystemStore";
 
 import Return from "./Return";
 import {
@@ -28,22 +29,29 @@ const initialValues = {
   phoneNumber2: "",
 };
 
-const EmergencyFormSchema = Yup.object().shape({
-  relationship1: Yup.number().required("Required"),
-  name1: Yup.string().required("Required"),
-  phoneNumber1: Yup.string()
-    .matches(/^\d{11}$/, "Please input 11 characters phone number")
-    .required("Required"),
-  relationship2: Yup.number().required("Required"),
-  name2: Yup.string().required("Required"),
-  phoneNumber2: Yup.string()
-    .matches(/^\d{11}$/, "Please input 11 characters phone number")
-    .notOneOf(
+const getEmergencyFormSchema = (phone) => {
+  return Yup.object().shape({
+    relationship1: Yup.number().required("Required"),
+    name1: Yup.string().required("Required"),
+    phoneNumber1: Yup.string()
+      .matches(/^\d{11}$/, "Please input 11 characters phone number")
+      .notOneOf([phone], 'should be same as your phone number')
+      .required("Required"),
+    relationship2: Yup.number().required("Required"),
+    name2: Yup.string().required("Required"),
+    phoneNumber2: Yup.string().matches(/^\d{11}$/, "Please input 11 characters phone number").notOneOf(
       [Yup.ref("phoneNumber1")],
       "Two phone numbers should be same, please input again"
     )
+    .test('phone', 'should be same as your phone number', (val, context) => {
+      if (val == phone) {
+        return false
+      }
+      return true
+    })
     .required("Required"),
-});
+  });
+}
 
 export default function Emergency({ navigation, route }) {
   const {
@@ -60,6 +68,7 @@ export default function Emergency({ navigation, route }) {
   const [relationShipOptions_1, setRelationShipOptions_1] = useState();
   const { i18n } = useI18n();
   const [isUpdate, setIsUpdate] = useState(false);
+	const [phone] = useSystemStore(s => [s.phone]);
 
   useEffect(() => {
     getReferenceContacts();
@@ -136,7 +145,7 @@ export default function Emergency({ navigation, route }) {
               validateOnChange={true}
               validateOnBlur={true}
               handleChange={(values) => console.log("values", values)}
-              validationSchema={EmergencyFormSchema}
+              validationSchema={getEmergencyFormSchema(phone)}
             >
               {({
                 handleChange,

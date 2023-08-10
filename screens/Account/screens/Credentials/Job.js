@@ -40,7 +40,7 @@ const emptyJobFormValues = {
   companyAddressDetail: "",
   haveOtherLoans: "",
   lendingInstitution: "",
-  loanAmount: "",
+  loanAmount: '',
   companyProviceName: "",
   companyCityName: "",
 };
@@ -67,7 +67,7 @@ const JobFormSchema = Yup.object().shape({
       return true;
     }
   }),
-  loanAmount: Yup.number(),
+  loanAmount: Yup.number().typeError('please input number'),
   // companyProviceName: Yup.string().required("Required"),
   // companyCityName: Yup.string().required("Required"),
 });

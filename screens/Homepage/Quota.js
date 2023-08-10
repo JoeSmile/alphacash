@@ -8,16 +8,28 @@ import { statusToImg } from "@const";
 import { useUserQuota } from "@store";
 import { formatNumberToFinancial as fn2f } from "@utils";
 import { QuotaButtons } from "./QuotaButtons";
-
+import { useGetUserFormStatus } from "@apis";
 
 export function Quota() {
   const { i18n } = useI18n();
+  const [isFormCompleted, setIsFormCompleted] = useState(false);
+  const { mutate: getUserFormStatus, data, isLoading } = useGetUserFormStatus();
   const [cashLoan, bill, hasBill] = useUserQuota((s) => [
     s.cashLoan,
     s.bill,
     s.hasBill,
   ]);
 
+  useEffect(() => {
+    getUserFormStatus();
+  }, []);
+
+  useEffect(() => {
+    if (data?.data?.error_code == 1) {
+      const status = data?.data?.data || {};
+      setIsFormCompleted(status.isCompletedPersonal && status.isCompletedWork && status.isCompletedContact && status.isCompletedIdentity);
+    }
+  }, [data]);
 
   return (
     <View style={styles.container}>
@@ -62,7 +74,7 @@ export function Quota() {
         </Text>
       </View>
       <QuotaButtons />
-      {!hasBill && <Process />}
+      {!isFormCompleted && <Process />}
     </View>
   );
 }

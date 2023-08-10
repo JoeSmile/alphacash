@@ -13,6 +13,8 @@ export function FSelect({
   containerStyle = {},
   labelKey = '',
   valueKey = '',
+  enabledKey='',
+  suffix='',
   ...props
 }) {
   const context = useFormikContext(name);
@@ -23,8 +25,8 @@ export function FSelect({
     height: 80,
     ...containerStyle,
   }}>
-    <View style={{height: 20, marginBottom:10}}>
-      <Text style={styles.label}>{i18n.t(label)}</Text>
+    <View style={{height: 20, marginBottom:5}}>
+      <Text style={{height: 20, color: '#4F5E6F'}}>{i18n.t(label)}{` ${suffix}`}</Text>
     </View>
     <View style={{
       justifyContent: 'center',
@@ -34,7 +36,7 @@ export function FSelect({
       height: 55,
     }}>
       <Picker
-        enabled={true}
+        enabled={ enabledKey ? !!context.values[enabledKey] : true}
         mode="dropdown"
         onValueChange={(v) => {
           context.setFieldValue(name, v);

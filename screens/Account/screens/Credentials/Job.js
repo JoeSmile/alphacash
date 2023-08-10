@@ -40,7 +40,7 @@ const emptyJobFormValues = {
   companyAddressDetail: "",
   haveOtherLoans: "",
   lendingInstitution: "",
-  loanAmount: "",
+  loanAmount: '',
   companyProviceName: "",
   companyCityName: "",
 };
@@ -50,21 +50,29 @@ const JobFormSchema = Yup.object().shape({
   // workName: Yup.string().required("Required"),
   companyName: Yup.string().required("Required"),
   companyPhone: Yup.string()
-    .matches(/^\d{11}$/, "Please input correct phone number")
-    .required("Required"),
+    .required("Required")
+    .test('len', 'Please input correct phone number', (val, context) => {
+      return val.length <= 11 && val.match('^[0-9]*$');
+    }),
   serviceLength: Yup.number().required("Required"),
   monthlyIncome: Yup.number().required("Required"),
   companyProviceId: Yup.number().required("Required"),
   companyCityId: Yup.string().required("Required"),
   companyAddressDetail: Yup.string().required("Required"),
   haveOtherLoans: Yup.number(),
-  lendingInstitution: Yup.string(),
-  loanAmount: Yup.number(),
+  lendingInstitution: Yup.string().test('required', 'please input the lending institution', (val, context) => {
+    if (context.parent.haveOtherLoans == 2) {
+      return !!val;
+    } else {
+      return true;
+    }
+  }),
+  loanAmount: Yup.number().typeError('please input number'),
   // companyProviceName: Yup.string().required("Required"),
   // companyCityName: Yup.string().required("Required"),
 });
 
-export default function Job({ navigation }) {
+export default function Job({ navigation, route }) {
   const {
     mutate: getWorkInfoOptions,
     data: workOptions,
@@ -85,11 +93,18 @@ export default function Job({ navigation }) {
   const [serviceTimeOptions, setServiceTimeOptions] =
     useState(serviceLengthOptions);
   const { i18n } = useI18n();
+  const [isUpdate, setIsUpdate] = useState(false);
 
   useEffect(() => {
     getWorkInfo();
     getWorkInfoOptions();
   }, []);
+  
+  useEffect(() => {
+    const isUpdate = route.params ? route.params.isUpdate : false;
+    setIsUpdate(!!isUpdate);
+  }, [route])
+
   useEffect(() => {
     if (workOptions && workOptions.data.error_code == 1) {
       setSMonthlyIncomeOptions(workOptions.data.data.monthlyIncomeOptions);
@@ -108,9 +123,13 @@ export default function Job({ navigation }) {
   }, [workInfo]);
 
   useEffect(() => {
-    console.log("updateWorkInfoResponse: ", updateWorkInfoResponse?.data);
+
     if (updateWorkInfoResponse && updateWorkInfoResponse.data.error_code == 1) {
-      navigation.push("Emergency");
+      if (isUpdate) {
+        navigation.goBack()
+      } else {
+        navigation.push("Emergency");
+      }
     }
   }, [updateWorkInfoResponse]);
 

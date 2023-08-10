@@ -20,7 +20,7 @@ const CustomChildren = ({ onPress, extra, ...resetProps }) => {
             borderRadius: 10,
           }}
         >
-          <Text>{extra}</Text>
+          <Text>{extra.split(' ')[0]}</Text>
         </View>
       </TouchableOpacity>
     </View>

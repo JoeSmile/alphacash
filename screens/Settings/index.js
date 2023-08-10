@@ -1,12 +1,13 @@
 import { StyleSheet, Text, Pressable, View, Image } from "react-native";
 import { RepayRemind } from "./RepayRemind";
 import FList from "@components/FList";
+import { useState } from "react";
 import { useI18n, LocaleTypes } from "@hooks/useI18n";
 import { useMemo } from 'react';
 import { useSystemStore } from "@store/useSystemStore";
 import { useUserQuota } from "@store/useUserQuota";
 import { useNavigation } from "@react-navigation/native";
-
+import FModal from "@components/FModal";
 
 const Item = (item) => {
   const { i18n } = useI18n();
@@ -27,16 +28,8 @@ const Item = (item) => {
   );
 };
 
-const getListData = ({locale, isLogin, setToken,cleanCardInfo, i18n,navigation,userStore}) => {
+const getListData = ({locale, isLogin, setToken,cleanCardInfo, i18n,navigation,userStore, setModalVisible}) => {
   
-  const clickLogOut = (() => {
-    setToken('')
-    //退出登录清空缓存数据
-    cleanCardInfo()
-    userStore.setFaceData({})
-    navigation.push('Homepage')
-  })
-
   const baseList = [
     {
       id: "1",
@@ -132,7 +125,7 @@ const getListData = ({locale, isLogin, setToken,cleanCardInfo, i18n,navigation,u
             alignItems: 'center',
             width: '100%'
           }}
-          onPress={() => clickLogOut()}
+          onPress={() => setModalVisible()}
           >
             <View><Text>{i18n.t('Log Out')}</Text></View>
           </Pressable>
@@ -147,9 +140,19 @@ const Settings = () => {
   const navigation = useNavigation();
   const [isLogin, setToken,cleanCardInfo] = useSystemStore((s) => [!!s.token, s.setToken,s.cleanCardInfo]);
   const userStore = useUserQuota()
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const clickLogOut = (() => {
+    setToken('')
+    //退出登录清空缓存数据
+    cleanCardInfo()
+    userStore.setFaceData({})
+    setModalVisible(false);
+    navigation.push('Homepage')
+  })
 
   const listData = useMemo(() => {
-    return getListData({locale, isLogin, setToken,cleanCardInfo, i18n,navigation,userStore});
+    return getListData({locale, isLogin, setToken,cleanCardInfo, i18n,navigation,userStore, setModalVisible});
   }, [locale, isLogin, setToken, i18n,cleanCardInfo,navigation,userStore]);
 
   return (
@@ -159,6 +162,34 @@ const Settings = () => {
       height: '100%'
     }}>
       <FList data={listData} itemStyle={styles.FList}/>
+      <FModal
+        isOpen={modalVisible}
+        displayClose={false}
+        header={null}
+        body={
+          <Text style={styles.tip}>
+            {i18n.t("Are you sure to log out?")}
+          </Text>
+        }
+        footer={
+          <>
+            <Pressable
+              style={[styles.button, styles.buttonRefuse]}
+              onPress={() => {
+                setModalVisible(false);
+              }}
+            >
+              <Text style={styles.btnText}>{i18n.t("Cancel")}</Text>
+            </Pressable>
+            <Pressable
+              style={[styles.button, styles.buttonOpen]}
+              onPress={clickLogOut}
+            >
+              <Text style={styles.btnText}>{i18n.t("Confirm")}</Text>
+            </Pressable>
+          </>
+        }
+      />
     </View>
   );
 };
@@ -195,6 +226,31 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "white",
+  },
+  tip: {
+    fontSize: 16,
+    lineHeight: 23,
+    color: "#0A233E",
+    textAlign: "center",
+  },
+  button: {
+    borderRadius: 3,
+    padding: 12,
+    elevation: 2,
+    flex: 1,
+  },
+  buttonOpen: {
+    backgroundColor: "#0825B8",
+  },
+  buttonRefuse: {
+    backgroundColor: "#C0C4D6",
+  },
+  btnText: {
+    fontSize: 16,
+    lineHeight: 24,
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
 

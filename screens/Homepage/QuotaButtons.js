@@ -6,6 +6,8 @@ import { Process } from "./Process";
 import { FButton } from "@components/FButton";
 import { useUserQuota } from "@store";
 import { useEffect, useState, useMemo } from "react";
+import { useSystemStore } from "@store/useSystemStore";
+import { useGetUserFormStatus } from "@apis";
 
 // 101-审核中
 // 102-已拒绝
@@ -90,6 +92,20 @@ export function QuotaButtons() {
     s.hasBill,
   ]);
   const [hasError, setHasError] = useState(false);
+	const [isLogin, phone] = useSystemStore(s => [!!s.token, s.phone]);
+  const { mutate: getUserFormStatus, data, isLoading } = useGetUserFormStatus();
+  const [isFormCompleted, setIsFormCompleted] = useState(false);
+
+  useEffect(() => {
+    getUserFormStatus();
+  }, []);
+
+  useEffect(() => {
+    if (data?.data?.error_code == 1) {
+      const status = data?.data?.data || {};
+      setIsFormCompleted(status.isCompletedPersonal && status.isCompletedWork && status.isCompletedContact && status.isCompletedIdentity);
+    }
+  }, [data]);
 
   const errorMsg = useMemo(() => {
     console.log('Sun >>> isModifyFaceImage = ' + cashLoan.isModifyFaceImage + 'isModifyInfo = ' + cashLoan.isModifyInfo)
@@ -105,6 +121,7 @@ export function QuotaButtons() {
       return "";
     }
   }, [cashLoan]);
+
   useEffect(() => {
     setHasError(cashLoan.isModifyInfo || cashLoan.isModifyFaceImage);
   }, [cashLoan]);
@@ -174,7 +191,9 @@ export function QuotaButtons() {
             {
               displayRepayNowButton.includes(bill.appStatus) && <FButton
               title="RepayNow"
-              onPress={() => navigation.push("Apply")}
+              onPress={() => {
+                console.log("RepayNow");
+              }}
               style={{
                 marginBottom: 12,
               }}
@@ -204,7 +223,17 @@ export function QuotaButtons() {
           marginRight: 15,
           marginLeft: 15,
         }}
-        onPress={() => navigation.push("Apply")}
+        onPress={() => {
+          if(isLogin) {
+            if (isFormCompleted) {
+              navigation.push("Apply");
+            } else {
+              navigation.push('Credentials');
+            }
+          } else {
+            navigation.push("Login", { targetScreen: 'Credentials' });
+          }
+        }}
         title="GetLoan"
         disabled={!cashLoan.isEligible}
       />

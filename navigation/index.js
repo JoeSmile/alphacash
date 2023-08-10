@@ -73,10 +73,28 @@ function RootNavigator() {
         <Stack.Screen
           name="AddNewAccount"
           component={AddNewAccount}
-          options={{
+          options={({ navigation }) => {
+            return  {
             ...pageHeader,
             headerTitle: "Add Collection Account",
+            headerLeft: () => (
+                <Pressable
+                  onPress={() => {
+                    navigation.goBack()
+                  }}
+                >
+                  <Image
+                    source={require("@assets/images/com_nav_ic_back_white.png")}
+                    style={{
+                      marginLeft: 12,
+                      width: 21,
+                      height: 21,
+                    }}
+                  />
+                </Pressable>
+              ),
             headerShown: true,
+          }
           }}
         />
       </Stack.Group>

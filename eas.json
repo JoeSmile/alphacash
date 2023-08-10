@@ -7,6 +7,23 @@
       "channel": "preview",
       "distribution": "internal"
     },
+    "preview_aab": {
+      "channel": "preview",
+      "distribution": "internal",
+      "android": {
+        "buildType": "app-bundle",
+        "gradleCommand": ":app:bundleRelease"
+      }
+    },
+    "preview_debug": {
+      "channel": "dev",
+      "developmentClient": true,
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleDebug"
+      }
+    },
     "development": {
       "channel": "dev",
       "developmentClient": true,

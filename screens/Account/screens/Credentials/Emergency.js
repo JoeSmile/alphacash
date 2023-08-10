@@ -9,6 +9,7 @@ import {
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { FTextInput, FSelect } from "@components/Inputs";
+import { useSystemStore } from "@store/useSystemStore";
 
 import Return from "./Return";
 import {
@@ -28,24 +29,31 @@ const initialValues = {
   phoneNumber2: "",
 };
 
-const EmergencyFormSchema = Yup.object().shape({
-  relationship1: Yup.number().required("Required"),
-  name1: Yup.string().required("Required"),
-  phoneNumber1: Yup.string()
-    .matches(/^\d{11}$/, "Please input correct phone number")
-    .required("Required"),
-  relationship2: Yup.number().required("Required"),
-  name2: Yup.string().required("Required"),
-  phoneNumber2: Yup.string()
-    .matches(/^\d{11}$/, "Please input correct phone number")
-    .notOneOf(
+const getEmergencyFormSchema = (phone) => {
+  return Yup.object().shape({
+    relationship1: Yup.number().required("Required"),
+    name1: Yup.string().required("Required"),
+    phoneNumber1: Yup.string()
+      .matches(/^\d{11}$/, "Please input 11 characters phone number")
+      .notOneOf([phone], 'should be same as your phone number')
+      .required("Required"),
+    relationship2: Yup.number().required("Required"),
+    name2: Yup.string().required("Required"),
+    phoneNumber2: Yup.string().matches(/^\d{11}$/, "Please input 11 characters phone number").notOneOf(
       [Yup.ref("phoneNumber1")],
       "Two phone numbers should be same, please input again"
     )
+    .test('phone', 'should be same as your phone number', (val, context) => {
+      if (val == phone) {
+        return false
+      }
+      return true
+    })
     .required("Required"),
-});
+  });
+}
 
-export default function Emergency({ navigation }) {
+export default function Emergency({ navigation, route }) {
   const {
     mutate: getReferenceContacts,
     data: referenceContactsData,
@@ -59,11 +67,18 @@ export default function Emergency({ navigation }) {
   const [relationShipOptions, setRelationShipOptions] = useState();
   const [relationShipOptions_1, setRelationShipOptions_1] = useState();
   const { i18n } = useI18n();
+  const [isUpdate, setIsUpdate] = useState(false);
+	const [phone] = useSystemStore(s => [s.phone]);
 
   useEffect(() => {
     getReferenceContacts();
     getOptions();
   }, []);
+
+  useEffect(() => {
+    const isUpdate = route.params ? route.params.isUpdate : false;
+    setIsUpdate(!!isUpdate);
+  }, [route]);
 
   useEffect(() => {
     if (referenceContactsData && referenceContactsData.data) {
@@ -93,7 +108,11 @@ export default function Emergency({ navigation }) {
 
   useEffect(() => {
     if (updateContactsResponse && updateContactsResponse.data.error_code == 1) {
-      navigation.push("Certificate");
+      if (isUpdate) {
+        navigation.goBack()
+      } else {
+        navigation.push("Certificate");
+      }
     }
   }, [updateContactsResponse]);
 
@@ -126,7 +145,7 @@ export default function Emergency({ navigation }) {
               validateOnChange={true}
               validateOnBlur={true}
               handleChange={(values) => console.log("values", values)}
-              validationSchema={EmergencyFormSchema}
+              validationSchema={getEmergencyFormSchema(phone)}
             >
               {({
                 handleChange,
@@ -140,12 +159,13 @@ export default function Emergency({ navigation }) {
                     <FSelect
                       name="relationship1"
                       label="Reference Relationship"
+                      suffix='1'
                       options={relationShipOptions}
                     />
                   </View>
 
                   <View style={styles.module}>
-                    <FTextInput name="name1" label="Reference Name" />
+                    <FTextInput name="name1" label="Reference Name" suffix='1'/>
                   </View>
 
                   <View style={styles.module}>
@@ -154,6 +174,8 @@ export default function Emergency({ navigation }) {
                       label="Reference Number"
                       hintValue="Please enter the number manually"
                       keyboardType="numeric"
+                      displayDigit={11}
+                      suffix='1'
                     />
                   </View>
 
@@ -162,19 +184,22 @@ export default function Emergency({ navigation }) {
                       name="relationship2"
                       label="Reference Relationship"
                       options={relationShipOptions_1}
+                      suffix='2'
                     />
                   </View>
 
                   <View style={styles.module}>
-                    <FTextInput name="name2" label="Reference Name" />
+                    <FTextInput name="name2" label="Reference Name"   suffix='2'/>
                   </View>
 
                   <View style={styles.module}>
                     <FTextInput
                       name="phoneNumber2"
                       label="Reference Number"
+                      suffix='2'
                       hintValue="Please enter the number manually"
                       keyboardType="numeric"
+                      displayDigit={11}
                     />
                   </View>
 

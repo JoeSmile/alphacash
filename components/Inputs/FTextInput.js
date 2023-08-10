@@ -11,6 +11,8 @@ export const FTextInput = ({
   keyboardType = "default",
   editable = true,
   rightIcon = "",
+  displayDigit = 0,
+  suffix=''
 }) => {
   const context = useFormikContext(name);
   const meta = context.getFieldMeta(name);
@@ -19,7 +21,7 @@ export const FTextInput = ({
   return (
     <View style={[styles.inputContainer, containerStyle]}>
       <View>
-        <Text style={styles.label}>{i18n.t(label)}</Text>
+        <Text style={styles.label}>{i18n.t(label)}{` ${suffix}`}</Text>
       </View>
 
       <View
@@ -42,6 +44,17 @@ export const FTextInput = ({
             context.setFieldValue(name, v);
           }}
         />
+        {
+          !!displayDigit && <Text style={{
+            position: 'absolute',
+            right: 10,
+            height: 55,
+            lineHeight: 55,
+            color: '#8899AC'
+          }}>
+            {`${context?.values[name]?.length ?? 0}/${displayDigit}`}
+          </Text>
+        }
         {!!rightIcon && (
           <View
             style={{

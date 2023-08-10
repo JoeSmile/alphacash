@@ -203,5 +203,6 @@ export const urdu = {
   'Loading': 'لوڈنگ...',
   'Successful face recognition': 'Successful face recognition',
   'modify successfully': 'modify successfully',
+  'APR': 'APR',
 
 };

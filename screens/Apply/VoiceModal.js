@@ -345,12 +345,12 @@ const styles = StyleSheet.create({
   itemLabelText: {
     fontSize: 15,
     color: "#4F5E6F",
-    fontWeight: "500",
+    fontWeight: 500,
   },
   itemValueText: {
     fontSize: 15,
     color: "#0A233E",
-    fontWeight: "800",
+    fontWeight: 800,
   },
 
   voicePlayStyle: {

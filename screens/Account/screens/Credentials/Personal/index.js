@@ -51,29 +51,35 @@ const PersonalFormSchema = Yup.object().shape({
   name: Yup.string().required("Required"),
   birth: Yup.string().required("Required"),
   cnic: Yup.string()
-    .required("Required")
-    .test("len", "Must be exactly 13 characters", (val) => val.length === 13),
+  .required("Required")
+    .matches(/^\d{13}$/, "Must be exactly 13 characters number"),
   gender: Yup.number().required("Required"),
   education: Yup.number().required("Required"),
   maritalStatus: Yup.number().required("Required"),
   provinceId: Yup.number().required("Required"),
   cityId: Yup.number().required("Required"),
   addressDetail: Yup.string().required("Required"),
-  email: Yup.string().email("Invalid email").required("Required"),
+  email: Yup.string().matches('^[A-Za-z0-9-_\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$', 'Please input correct email address').required("Required"),
 });
 
-export default function Personal({ navigation }) {
+export default function Personal({ navigation, route }) {
   const { mutate: getPersonalDetail, data } = useGetPersonalDetail();
   const updatePersonalInfoMutation = useUpdatePersonalInfo();
   // const getPersonalOptionsMutation = useGetPersonalOptions();
   const [initialValues, setInitialValues] = useState();
   const { i18n } = useI18n();
   const [bill, hasBill] = useUserQuota((s) => [s.bill, s.hasBill]);
+  const [isUpdate, setIsUpdate] = useState(false);
 
   useEffect(() => {
     getPersonalDetail();
     // getPersonalOptionsMutation.mutate()
   }, []);
+
+  useEffect(() => {
+    const isUpdate = route.params ? route.params.isUpdate : false;
+    setIsUpdate(!!isUpdate);
+  }, [route])
 
   useEffect(() => {
     if (data && data.data && data.data.error_code === 1) {
@@ -90,7 +96,12 @@ export default function Personal({ navigation }) {
       updatePersonalInfoMutation.data &&
       updatePersonalInfoMutation.data.data.error_code === 1
     ) {
-      navigation.push("Job");
+      console.log('isUpdate----', isUpdate);
+      if (isUpdate) {
+        navigation.goBack()
+      } else {
+        navigation.push("Job");
+      }
     }
   }, [updatePersonalInfoMutation]);
 
@@ -168,6 +179,7 @@ export default function Personal({ navigation }) {
                       <FTextInput
                         name="cnic"
                         label="CNIC"
+                        displayDigit={13}
                         editable={
                           !hasBill ||
                           bill.appStatus == 101 ||
@@ -216,11 +228,12 @@ export default function Personal({ navigation }) {
                             labelKey="province_name"
                           />
                         </View>
-
+                       
                         <View style={{ flex: 1 }}>
                           <FSelect
                             name="cityId"
                             label="City"
+                            enabledKey='provinceId'
                             options={citiesOptions.filter((city) =>
                               values["provinceId"]
                                 ? city.province_id == values["provinceId"]

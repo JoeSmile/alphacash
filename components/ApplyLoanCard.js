@@ -82,7 +82,7 @@ export default function ApplyLoanCard({
         </Text>
         <TouchableOpacity
           onPress={() => {
-            amountIndex < stepsLen && setAmountIndex(amountIndex + 1);
+            amountIndex < stepsLen - 1 && setAmountIndex(amountIndex + 1);
           }}
         >
           <Image

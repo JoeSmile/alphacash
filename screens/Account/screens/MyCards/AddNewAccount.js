@@ -7,6 +7,7 @@ import { useAddAccount, useBankList } from '@apis';
 import { FButton } from '@components/FButton';
 import * as Yup from 'yup';
 import { useI18n, LocaleTypes } from "@hooks/useI18n";
+import { useSystemStore } from "@store/useSystemStore";
 
 const tabs = [{
   title: 'Easypaisa',
@@ -43,22 +44,30 @@ const noticeStyle = {
 
 const AccountFormSchema = Yup.object().shape({
   account: Yup.string()
-    .required('Required')
-    .test('len', 'Please input correct account number', (val, context) => {
-      if (context.parent.type == 1) {
-        //bank
-        return val.match('^[A-Za-z0-9]+$')
+    .test('len', 'Please input correct ewallet account number', (val, context) => {
+      //ewallet
+      if (context.parent.type !== 1) {
+        return val?.match('^[0-9]*$')
       } else {
-        //ewallet
-        return val.match('^[0-9]*$')
+        return true;
       }
     }),
-
+  backAccount: Yup.string()
+    .test('len', 'Please input correct bank account number', (val, context) => {
+      //bank
+      if (context.parent.type == 1) {
+        return val?.match('^[A-Za-z0-9]+$');
+      }
+      return true;
+    }),
 });
 
 
 const defaultEmptyForm = {
+  //ewallet account
   account: '',
+  //bankAccount
+  backAccount: '',
   // bank
   bankId: '',
   bankAccountName: '',
@@ -89,6 +98,7 @@ function Notice () {
 
 export function AddNewAccount({navigation, route}) {
   const [initialData, setInitialData] = useState();
+	const [isLogin, phone] = useSystemStore(s => [!!s.token, s.phone]);
 
   const [selectedTab, setSelectedTab] = useState({});
   const { mutate: addAccount, data: result } = useAddAccount();
@@ -102,7 +112,8 @@ export function AddNewAccount({navigation, route}) {
     const card = route.params ? route.params.card : {};
     setInitialData(
       {
-        account: card.bankAccount || card.ewalletAccount || defaultEmptyForm.account,
+        account: card.ewalletAccount || defaultEmptyForm.account || phone,
+        backAccount: card.bankAccount || defaultEmptyForm.backAccount,
         // bank
         bankId: card.bankId || defaultEmptyForm.bankId,
         bankAccountName: card.bankAccountName || defaultEmptyForm.bankAccountName,
@@ -144,7 +155,7 @@ export function AddNewAccount({navigation, route}) {
               // bank
               type: selectedTab.type,
               bankAccountName: values.bankAccountName,
-              bankAccount: values.account,
+              bankAccount: values.bankAccount,
               bankId: values.bankId,
               bankAccountId: values.id
             } : {
@@ -235,7 +246,7 @@ export function AddNewAccount({navigation, route}) {
                 </View>
                 <View style={styles.inputContainer}>
                   <FTextInput 
-                    name="account" 
+                    name="backAccount" 
                     label='Bank Account'
                     type="text" 
                     rightIcon={require("@assets/images/loan_ic_edit.png")}  

@@ -459,7 +459,7 @@ export default function Certificate({route}) {
           }}
         >
           {" "}
-          {i18n.t("Next")}{" "}
+          {i18n.t("Submit")}{" "}
         </Text>
         <Image
           source={require("@assets/images/btn_ic_right.png")}

@@ -1,11 +1,13 @@
 import { Text, FlatList, Pressable, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useI18n } from "@hooks/useI18n";
+import { useSystemStore } from "@store/useSystemStore";
 
 const Item = (props) => {
-  const { title, screen, leftItem, displayIcon = true, itemStyle = {}, rightIcon='', parameters = {} } = props;
+  const { title, screen, leftItem, displayIcon = true, itemStyle = {}, rightIcon='', parameters = {}, requireLogin=false } = props;
   const navigation = useNavigation();
   const { i18n } = useI18n();
+	const [isLogin, phone] = useSystemStore(s => [!!s.token, s.phone]);
 
   return (
     <Pressable
@@ -19,7 +21,17 @@ const Item = (props) => {
         itemStyle,
       ]}
       onPress={() => {
-        screen && navigation.push(screen, {...parameters});
+
+        if (requireLogin) {
+            if (isLogin) {  
+              screen && navigation.push(screen, {...parameters});
+            } else {
+              // goto login
+              screen && navigation.push('Login', {targetScreen: screen , ...parameters});
+            }
+        } else {
+          screen && navigation.push(screen, {...parameters});
+        }
       }}
     >
       {!!leftItem ? (

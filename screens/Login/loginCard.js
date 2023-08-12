@@ -40,6 +40,7 @@ export default function LoginCard() {
   const { mutate: getOTP } = useGetOTP();
   const [text, setText] = useState("Get OTP");
   const [targetScreen, setTargetScreen] = useState("");
+  const [needFormCompleted, setNeedFormCompleted] = useState(false);
   const [countdown, setCountdown] = useState(0);
   const [isClickable, setIsClickable] = useState(true);
   const { mutate: getUserFormStatus, data: formStatus, isLoading: formStatusLoading } = useGetUserFormStatus();
@@ -58,10 +59,12 @@ export default function LoginCard() {
         phone: phoneNumber,
         token: data.data.data.token,
       });
-      if (targetScreen) {
+      if (targetScreen && needFormCompleted) {
         getUserFormStatus();
+      } if (targetScreen) {
+        navigation.replace(targetScreen)
       } else {
-        navigation.push("Homepage");
+        navigation.replace("Homepage");
       }
     }
   }, [data]);
@@ -72,9 +75,9 @@ export default function LoginCard() {
       const isCompleted = status.isCompletedPersonal && status.isCompletedWork && status.isCompletedContact && status.isCompletedIdentity; 
       if (isCompleted && targetScreen) {
         // go to apply screen
-        navigation.push(targetScreen);
+        navigation.replace(targetScreen);
       } else {
-        navigation.push('Homepage');
+        navigation.replace('Homepage');
       }
     }
   }, [formStatus]);
@@ -99,6 +102,9 @@ export default function LoginCard() {
 
   useEffect(() => {
     const targetScreen = route.params ? route.params.targetScreen : '';
+    const needFormCompleted = route.params ? route.params.needFormCompleted : '';
+
+    setNeedFormCompleted(needFormCompleted);
     setTargetScreen(targetScreen);
   }, [route])
 

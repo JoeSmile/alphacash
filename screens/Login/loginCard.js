@@ -18,6 +18,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useI18n, LocaleTypes } from "@hooks/useI18n";
 import * as Yup from "yup";
 import { useRoute } from '@react-navigation/native';
+import { Toast } from "@ant-design/react-native";
 
 // encodeSHA();
 // getNetInfo();
@@ -25,7 +26,7 @@ import { useRoute } from '@react-navigation/native';
 const LoginFormSchema = Yup.object().shape({
   OTP: Yup.string().required("Required"),
   phoneNumber: Yup.string()
-    .matches(/^\d{11}$/, "Please input 11 characters phone number")
+    .matches(/^03\d{9}/, "Please input 11 characters phone number")
     .required("Required"),
 });
 
@@ -172,10 +173,19 @@ export default function LoginCard() {
 
                   <Pressable
                     onPress={() => {
-                      getOTP({
-                        phoneNumber: "",
-                      });
-                      handleTextClick();
+                      console.log('values.phoneNumber', values.phoneNumber);
+                      if (/^03\d{9}/.test(values.phoneNumber)) {
+                          getOTP({
+                          phoneNumber: values.phoneNumber,
+                        });
+                        handleTextClick();
+                      } else {
+                        Toast.info({
+                          content: "Please input 11 characters phone number, start with 03",
+                          duration: 3,
+                        });
+                      }
+                     
                     }}
                     style={{
                       position: "absolute",

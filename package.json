@@ -76,7 +76,8 @@
     "react-native-web": "~0.18.10",
     "react-query": "^3.39.3",
     "yup": "^1.2.0",
-    "zustand": "^4.3.8"
+    "zustand": "^4.3.8",
+    "@expo/webpack-config": "^18.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

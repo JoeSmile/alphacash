@@ -16,23 +16,25 @@ export function initDataTrack() {
   // }
 
   console.log("process.env.ENV", process.env.NODE_ENV);
-  appsFlyer.initSdk(
-    {
-      devKey: "Q2tmzNXKUNFKkGKhCu6UJY",
-      isDebug: true,
-      appId: "41*****44", // only for ios
-    },
-    (res) => {
-      console.log("appFlyer init success: ", JSON.stringify(res));
-    },
-    (err) => {
-      console.error("appFlyer init error: ", JSON.stringify(err));
-    }
-  );
+  if (Platform.OS !== "web") {
+    appsFlyer.initSdk(
+      {
+        devKey: "Q2tmzNXKUNFKkGKhCu6UJY",
+        isDebug: true,
+        appId: "41*****44", // only for ios
+      },
+      (res) => {
+        console.log("appFlyer init success: ", JSON.stringify(res));
+      },
+      (err) => {
+        console.error("appFlyer init error: ", JSON.stringify(err));
+      }
+    );
+  }
 }
 
 export function doTrack(name, value) {
-  if (Platform.OS !== "web" && process.env.NODE_ENV !== "development") {
+  if (Platform.OS !== "web") {
     AppEventsLogger.logEvent(name, { name: value });
     appsFlyer.logEvent(
       name,

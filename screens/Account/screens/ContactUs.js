@@ -9,11 +9,7 @@ const Item = (item) => {
   const { i18n } = useI18n();
 
   return (
-    <Pressable
-      onPress={() => {
-        doTrack("pk16", 1);
-      }}
-    >
+    <Pressable>
       <View style={styles.item}>
         <Image
           source={item.leftIcon}
@@ -88,6 +84,7 @@ const data = [
   },
   {
     title: "Email",
+    trackName: "pk16",
     leftIcon: require("@assets/images/mine_ic_email.png"),
     leftItem: Item,
   },

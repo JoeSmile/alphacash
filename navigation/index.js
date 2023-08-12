@@ -17,6 +17,13 @@ import FaceDetectionScreen from "../screens/Apply/screens/FaceDetectionScreen";
 import { AddNewAccount } from "@screens/Account/screens/MyCards/AddNewAccount";
 import { useI18n, LocaleTypes } from "@hooks/useI18n";
 
+
+import Repay from "../screens/Repay/Repay";
+import RepayList from "../screens/Repay/RepayList";
+import RepayDemo from "../screens/Repay/RepayDemo";
+
+
+
 import { MineScreens } from "./MineNavigator";
 import { CredentialsScreens } from "./CredentialsNavigator";
 import { MyCardsScreens } from "./MyCardsNavigator";
@@ -26,6 +33,24 @@ import { ApplyScreen } from "./ApplyNavigator";
 
 
 import { pageHeader } from "@styles";
+
+const HeaderLeft = ({navigation}) => {
+  return  <Pressable
+  onPress={() => {
+    navigation.goBack()
+  }}
+>
+  <Image
+    source={require("@assets/images/com_nav_ic_back_white.png")}
+    style={{
+      marginLeft: 12,
+      width: 21,
+      height: 21,
+    }}
+  />
+</Pressable>
+}
+
 
 export default function Navigation({ colorScheme }) {
   return (
@@ -77,26 +102,40 @@ function RootNavigator() {
             return  {
             ...pageHeader,
             headerTitle: "Add Collection Account",
-            headerLeft: () => (
-                <Pressable
-                  onPress={() => {
-                    navigation.goBack()
-                  }}
-                >
-                  <Image
-                    source={require("@assets/images/com_nav_ic_back_white.png")}
-                    style={{
-                      marginLeft: 12,
-                      width: 21,
-                      height: 21,
-                    }}
-                  />
-                </Pressable>
-              ),
+            headerLeft: () => <HeaderLeft navigation={navigation}/>,
             headerShown: true,
           }
           }}
         />
+        {/* 还款 */}
+        <Stack.Screen
+          name="RepayList"
+          component={RepayList}
+          options={{
+            ...pageHeader,
+            headerTitle: "Repay",
+            headerShown: true,
+          }}
+        />
+         <Stack.Screen
+          name="Repay"
+          component={Repay}
+          options={{
+            ...pageHeader,
+            headerTitle: "Repay",
+            headerShown: true,
+          }}
+        />
+        <Stack.Screen
+          name="RepayDemo"
+          component={RepayDemo}
+          options={{
+            ...pageHeader,
+            headerTitle: "Repay",
+            headerShown: true,
+          }}
+        />
+
       </Stack.Group>
 
       <Stack.Screen name="Homepage" component={BottomTabNavigator} />
@@ -116,24 +155,7 @@ function RootNavigator() {
             return {
               headerTitle: i18n.t(screen.headerTitle),
               headerShown: !!screen.headerTitle,
-              headerLeft: () => (
-                <Pressable
-                  onPress={() => {
-                    screen.goto
-                      ? navigation.push(screen.goto)
-                      : navigation.goBack();
-                  }}
-                >
-                  <Image
-                    source={require("@assets/images/com_nav_ic_back_white.png")}
-                    style={{
-                      marginLeft: 12,
-                      width: 21,
-                      height: 21,
-                    }}
-                  />
-                </Pressable>
-              ),
+              headerLeft: () => <HeaderLeft navigation={navigation}/>,
               ...pageHeader,
             };
           }}

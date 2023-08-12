@@ -21,7 +21,6 @@ const Item = (props) => {
         itemStyle,
       ]}
       onPress={() => {
-
         if (requireLogin) {
             if (isLogin) { 
               screen && navigation.push(screen, {...parameters});

@@ -237,7 +237,7 @@ export default function MyCards({navigation, route}) {
     }
   
     if(isApplySelect){
-      navigation.goBack();   
+      navigation.replace("Apply");
      }
   })
 

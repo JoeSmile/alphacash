@@ -43,6 +43,7 @@ export function mutationFactory(func, options = {}) {
 
         switch (res.data.error_code) {
           case 5:
+            store.setToken('');
             navigation.push("Login");
             break;
 

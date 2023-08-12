@@ -23,11 +23,11 @@ const Item = (props) => {
       onPress={() => {
 
         if (requireLogin) {
-            if (isLogin) {  
+            if (isLogin) { 
               screen && navigation.push(screen, {...parameters});
             } else {
               // goto login
-              screen && navigation.push('Login', {targetScreen: screen , ...parameters});
+              navigation.push('Login', {targetScreen: screen??'' , ...parameters});
             }
         } else {
           screen && navigation.push(screen, {...parameters});

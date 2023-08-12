@@ -5,7 +5,6 @@ import {
   StyleSheet,
   ScrollView,
   Image,
-  Button,
 } from "react-native";
 import { Formik } from "formik";
 
@@ -27,6 +26,7 @@ import {
 } from "@apis";
 import { useEffect, useState } from "react";
 import { useI18n } from "@hooks/useI18n";
+import { doTrack } from "@utils/dataTrack";
 
 const emptyJobFormValues = {
   workField: "",
@@ -40,7 +40,7 @@ const emptyJobFormValues = {
   companyAddressDetail: "",
   haveOtherLoans: "",
   lendingInstitution: "",
-  loanAmount: '',
+  loanAmount: "",
   companyProviceName: "",
   companyCityName: "",
 };
@@ -51,8 +51,8 @@ const JobFormSchema = Yup.object().shape({
   companyName: Yup.string().required("Required"),
   companyPhone: Yup.string()
     .required("Required")
-    .test('len', 'Please input correct phone number', (val, context) => {
-      return val.length <= 11 && val.match('^[0-9]*$');
+    .test("len", "Please input correct phone number", (val, context) => {
+      return val.length <= 11 && val.match("^[0-9]*$");
     }),
   serviceLength: Yup.number().required("Required"),
   monthlyIncome: Yup.number().required("Required"),
@@ -60,14 +60,18 @@ const JobFormSchema = Yup.object().shape({
   companyCityId: Yup.string().required("Required"),
   companyAddressDetail: Yup.string().required("Required"),
   haveOtherLoans: Yup.number(),
-  lendingInstitution: Yup.string().test('required', 'please input the lending institution', (val, context) => {
-    if (context.parent.haveOtherLoans == 2) {
-      return !!val;
-    } else {
-      return true;
+  lendingInstitution: Yup.string().test(
+    "required",
+    "please input the lending institution",
+    (val, context) => {
+      if (context.parent.haveOtherLoans == 2) {
+        return !!val;
+      } else {
+        return true;
+      }
     }
-  }),
-  loanAmount: Yup.number().typeError('please input number'),
+  ),
+  loanAmount: Yup.number().typeError("please input number"),
   // companyProviceName: Yup.string().required("Required"),
   // companyCityName: Yup.string().required("Required"),
 });
@@ -99,11 +103,11 @@ export default function Job({ navigation, route }) {
     getWorkInfo();
     getWorkInfoOptions();
   }, []);
-  
+
   useEffect(() => {
     const isUpdate = route.params ? route.params.isUpdate : false;
     setIsUpdate(!!isUpdate);
-  }, [route])
+  }, [route]);
 
   useEffect(() => {
     if (workOptions && workOptions.data.error_code == 1) {
@@ -123,10 +127,10 @@ export default function Job({ navigation, route }) {
   }, [workInfo]);
 
   useEffect(() => {
-
     if (updateWorkInfoResponse && updateWorkInfoResponse.data.error_code == 1) {
+      doTrack("pk26", 1);
       if (isUpdate) {
-        navigation.goBack()
+        navigation.goBack();
       } else {
         navigation.push("Emergency");
       }
@@ -330,7 +334,7 @@ export default function Job({ navigation, route }) {
           )}
         </Formik>
       )}
-      <Return />
+      <Return trackName={"pk8"} />
     </ScrollView>
   );
 }

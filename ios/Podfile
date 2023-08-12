@@ -39,6 +39,9 @@ elsif podfile_properties.key?('ios.flipper') then
 end
 
 target 'AlphaCash' do
+# @generated begin AppsFlyer Strict Mode - expo prebuild (DO NOT MODIFY) sync-b29372208dd0dbd1274e957795cd756926086c3a
+$RNAppsFlyerStrictMode=false
+# @generated end AppsFlyer Strict Mode
   use_expo_modules!
   config = use_native_modules!
 

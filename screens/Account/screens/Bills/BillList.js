@@ -5,14 +5,14 @@ import {
   FlatList,
   StyleSheet,
   Text,
-  StatusBar,
   Pressable,
   Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LOAN_STATUS, statusToImg } from "@const";
 import { formatNumberToFinancial as fn2f } from "@utils";
-import { useI18n, LocaleTypes } from "@hooks/useI18n";
+import { useI18n } from "@hooks/useI18n";
+import { doTrack } from "@utils/dataTrack";
 
 const Item = ({ item }) => {
   const { i18n } = useI18n();
@@ -20,7 +20,10 @@ const Item = ({ item }) => {
   const hasDueDateBillStatus = [LOAN_STATUS.using, LOAN_STATUS.overdue];
   return (
     <Pressable
-      onPress={() => navigation.push("BillDetail", { loanId: item.loanId })}
+      onPress={() => {
+        doTrack("pk30", 1);
+        navigation.push("BillDetail", { loanId: item.loanId });
+      }}
     >
       <View style={styles.item}>
         <Image
@@ -49,7 +52,7 @@ const Item = ({ item }) => {
           {!!item.repaymentDate && (
             <View style={{ ...styles.info, marginTop: 12 }}>
               <Text style={styles.title}>
-                {`${i18n.t("Repayment Date")}: `}{" "}
+                {`${i18n.t("Repayment Date")}: `}
               </Text>
               <Text style={styles.titleValue}>{item.repaymentDate}</Text>
             </View>

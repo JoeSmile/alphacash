@@ -27,30 +27,35 @@ const Item = (item) => {
 const data = [
   {
     title: "Bill",
+    trackName: "pk43",
     screen: "CurrentBills",
     leftIcon: require("@assets/images/mine_ic_bill.png"),
     leftItem: Item,
   },
   {
     title: "Certification Info",
+    //trackName: "pk43",
     screen: "Credentials",
     leftIcon: require("@assets/images/mine_ic_certification_info.png"),
     leftItem: Item,
   },
   {
     title: "Collection Account",
+    trackName: "pk1",
     screen: "MyCards",
     leftIcon: require("@assets/images/mine_ic_my_bank_card.png"),
     leftItem: Item,
   },
   {
     title: "Contact Us",
+    trackName: "pk18",
     screen: "ContactUs",
     leftIcon: require("@assets/images/mine_ic_contact_us.png"),
     leftItem: Item,
   },
   {
     title: "Settings",
+    trackName: "pk11",
     screen: "Settings",
     leftIcon: require("@assets/images/mine_ic_settings.png"),
     leftItem: Item,

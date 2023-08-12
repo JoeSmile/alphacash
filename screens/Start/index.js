@@ -4,6 +4,7 @@ import FModal from "../../components/FModal";
 import { useSystemStore } from "../../store/useSystemStore";
 import { PrivatePolicy } from "@screens/Settings/PrivatePolicy";
 import { useI18n } from "@hooks/useI18n";
+import { doTrack } from "@utils/dataTrack";
 
 export default function Start({ navigation }) {
   const { i18n } = useI18n();
@@ -15,7 +16,7 @@ export default function Start({ navigation }) {
   const [modalVisible, setModalVisible] = useState(!isReadPolicy);
   useEffect(() => {
     if (isReadPolicy) {
-      navigation.push("Homepage");
+      navigation.replace("Homepage");
     }
   }, []);
   return (
@@ -29,21 +30,22 @@ export default function Start({ navigation }) {
             <Pressable
               style={[styles.button, styles.buttonRefuse]}
               onPress={() => {
-                console.log("exitApp");
+                doTrack("pk25", 1);
                 BackHandler.exitApp();
               }}
             >
-              <Text style={styles.textStyle}>{i18n.t('Reject')}</Text>
+              <Text style={styles.textStyle}>{i18n.t("Reject")}</Text>
             </Pressable>
             <Pressable
               style={[styles.button, styles.buttonAgree]}
               onPress={() => {
                 setModalVisible(!modalVisible);
                 setReadPolicy();
+                doTrack("pk9", 1);
                 navigation.replace("Homepage");
               }}
             >
-              <Text style={styles.textStyle}>{i18n.t('Agree')}</Text>
+              <Text style={styles.textStyle}>{i18n.t("Agree")}</Text>
             </Pressable>
           </>
         }

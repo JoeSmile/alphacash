@@ -53,13 +53,13 @@ module.exports = ({ config }) => ({
     ],
     "expo-calendar",
     "expo-location",
-    //"expo-applist",
     [
       "expo-camera",
       {
         cameraPermission: "Allow $(PRODUCT_NAME) to access your camera.",
       },
     ],
+    ["react-native-appsflyer", { shouldUseStrictMode: false }],
     [
       "react-native-fbsdk-next",
       {

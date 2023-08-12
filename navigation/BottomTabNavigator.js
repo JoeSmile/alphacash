@@ -1,15 +1,14 @@
 // Learn more about createBottomTabNavigator:
 // https://reactnavigation.org/docs/bottom-tab-navigator
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useColorScheme, Image } from "react-native";
-import { Colors } from "../constants/Colors";
+import { Image } from "react-native";
 
 import Homepage from "../screens/Homepage";
 import { useI18n } from "@hooks/useI18n";
 import { pageHeader } from "../styles/pageHeader";
 import Account from "../screens/Account";
+import { doTrack } from "@utils/dataTrack";
 
 const BottomTab = createBottomTabNavigator();
 
@@ -30,6 +29,12 @@ export default function BottomTabNavigator({ route }) {
         name="HomePage"
         component={HomePageNavigator}
         initialParams={{ showModal }}
+        listeners={{
+          tabPress: (e) => {
+            console.log("tabPress pk14");
+            doTrack("pk14", 1);
+          },
+        }}
         options={{
           title: i18n.t("Home"),
           headerShown: false,
@@ -41,13 +46,18 @@ export default function BottomTabNavigator({ route }) {
             return (
               <Image source={iconSource} style={{ width: 26, height: 26 }} />
             );
-            // <TabBarIcon name="ios-code" color={color} />
           },
         }}
       />
       <BottomTab.Screen
         name="Account"
         component={Account}
+        listeners={{
+          tabPress: (e) => {
+            console.log("tabPress pk39");
+            doTrack("pk39", 1);
+          },
+        }}
         options={{
           title: i18n.t("Mine"),
           headerShown: false,
@@ -59,18 +69,11 @@ export default function BottomTabNavigator({ route }) {
             return (
               <Image source={iconSource} style={{ width: 26, height: 26 }} />
             );
-            // <TabBarIcon name="ios-code" color={color} />
           },
         }}
       />
     </BottomTab.Navigator>
   );
-}
-
-// You can explore the built-in icon families and icons on the web at:
-// https://icons.expo.fyi/
-function TabBarIcon(props) {
-  return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
 }
 
 // Each tab has its own navigation stack, you can read more about this pattern here:

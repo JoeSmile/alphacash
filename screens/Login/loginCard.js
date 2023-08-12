@@ -17,7 +17,8 @@ import Spinner from "react-native-loading-spinner-overlay";
 import { useNavigation } from "@react-navigation/native";
 import { useI18n, LocaleTypes } from "@hooks/useI18n";
 import * as Yup from "yup";
-import { useRoute } from '@react-navigation/native';
+import { useRoute } from "@react-navigation/native";
+import { doTrack } from "@utils/dataTrack";
 
 // encodeSHA();
 // getNetInfo();
@@ -42,7 +43,11 @@ export default function LoginCard() {
   const [targetScreen, setTargetScreen] = useState("");
   const [countdown, setCountdown] = useState(0);
   const [isClickable, setIsClickable] = useState(true);
-  const { mutate: getUserFormStatus, data: formStatus, isLoading: formStatusLoading } = useGetUserFormStatus();
+  const {
+    mutate: getUserFormStatus,
+    data: formStatus,
+    isLoading: formStatusLoading,
+  } = useGetUserFormStatus();
 
   let timer = null;
 
@@ -54,6 +59,8 @@ export default function LoginCard() {
 
   useEffect(() => {
     if (data?.data?.error_code == 1) {
+      console.log("userinfo: ", JSON.stringify(data.data));
+      doTrack("pk21", 1);
       setUserInfo({
         phone: phoneNumber,
         token: data.data.data.token,
@@ -69,12 +76,16 @@ export default function LoginCard() {
   useEffect(() => {
     if (formStatus?.data?.error_code == 1) {
       const status = data?.data?.data || {};
-      const isCompleted = status.isCompletedPersonal && status.isCompletedWork && status.isCompletedContact && status.isCompletedIdentity; 
+      const isCompleted =
+        status.isCompletedPersonal &&
+        status.isCompletedWork &&
+        status.isCompletedContact &&
+        status.isCompletedIdentity;
       if (isCompleted && targetScreen) {
         // go to apply screen
         navigation.push(targetScreen);
       } else {
-        navigation.push('Homepage');
+        navigation.push("Homepage");
       }
     }
   }, [formStatus]);
@@ -98,15 +109,15 @@ export default function LoginCard() {
   };
 
   useEffect(() => {
-    const targetScreen = route.params ? route.params.targetScreen : '';
+    const targetScreen = route.params ? route.params.targetScreen : "";
     setTargetScreen(targetScreen);
-  }, [route])
+  }, [route]);
 
   return (
     <View>
       <Spinner
         visible={isLoading}
-        textContent={i18n.t('Loading')}
+        textContent={i18n.t("Loading")}
         textStyle={styles.spinnerTextStyle}
       />
       <View style={styles.container}>
@@ -137,7 +148,10 @@ export default function LoginCard() {
                   placeholder="03x xxxx xxxx"
                   style={styles.textInput}
                   onChangeText={handleChange("phoneNumber")}
-                  onBlur={handleBlur("phoneNumber")}
+                  onBlur={() => {
+                    doTrack("pk44", 1);
+                    handleBlur("phoneNumber");
+                  }}
                   value={values.phoneNumber}
                   maxLength={11}
                   keyboardType="numeric"
@@ -159,13 +173,17 @@ export default function LoginCard() {
                     name="OTP"
                     style={styles.textInput}
                     onChangeText={handleChange("OTP")}
-                    onBlur={handleBlur("OTP")}
+                    onBlur={() => {
+                      doTrack("pk12", 1);
+                      handleBlur("OTP");
+                    }}
                     value={values.OTP}
                     maxLength={6}
                   />
 
                   <Pressable
                     onPress={() => {
+                      doTrack("pk42", 1);
                       getOTP({
                         phoneNumber: "",
                       });

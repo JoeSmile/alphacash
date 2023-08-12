@@ -1,9 +1,19 @@
 import { Text, FlatList, Pressable, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useI18n } from "@hooks/useI18n";
+import { doTrack } from "@utils/dataTrack";
 
 const Item = (props) => {
-  const { title, screen, leftItem, displayIcon = true, itemStyle = {}, rightIcon='', parameters = {} } = props;
+  const {
+    title,
+    trackName,
+    screen,
+    leftItem,
+    displayIcon = true,
+    itemStyle = {},
+    rightIcon = "",
+    parameters = {},
+  } = props;
   const navigation = useNavigation();
   const { i18n } = useI18n();
 
@@ -19,7 +29,8 @@ const Item = (props) => {
         itemStyle,
       ]}
       onPress={() => {
-        screen && navigation.push(screen, {...parameters});
+        trackName && doTrack(trackName, 1);
+        screen && navigation.push(screen, { ...parameters });
       }}
     >
       {!!leftItem ? (
@@ -27,15 +38,16 @@ const Item = (props) => {
       ) : (
         <Text style={{ fontSize: 16 }}>{i18n.t(title)}</Text>
       )}
-      {
-        displayIcon && <Image
-        source={rightIcon ? rightIcon : require("@assets/images/com_ic_right.png")}
-        contentFit="cover"
-        transition={200}
-        style={{ width: 15, height: 15 }}
-      />
-      }
-      
+      {displayIcon && (
+        <Image
+          source={
+            rightIcon ? rightIcon : require("@assets/images/com_ic_right.png")
+          }
+          contentFit="cover"
+          transition={200}
+          style={{ width: 15, height: 15 }}
+        />
+      )}
     </Pressable>
   );
 };

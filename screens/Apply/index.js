@@ -30,6 +30,7 @@ import { useUserQuota } from "@store/useUserQuota";
 import { useI18n } from "@hooks/useI18n";
 import Spinner from "react-native-loading-spinner-overlay";
 import { Asset } from "expo-asset";
+import { doTrack } from "@utils/dataTrack";
 
 function buildGetRequest(url, params) {
   if (params) {
@@ -95,6 +96,7 @@ export default function Apply() {
   }, [loanProductConfigData]);
 
   const checkApply = useCallback(() => {
+    doTrack("pk19", 1);
     //参数检查
     const daysConfig = optWithDaysConfig[daysOption];
     const amountConfig = daysConfig.opt[amountIndex];
@@ -172,6 +174,7 @@ export default function Apply() {
       return;
     }
 
+    doTrack("pk37", 1);
     setToVoice(true);
 
     //拼接参数
@@ -201,6 +204,7 @@ export default function Apply() {
   const clickFaceRecognition = useCallback(() => {
     if (isSpecialAccount) {
       //审核账号
+      doTrack("pk29", 1);
       const whitePicture = Asset.fromModule(
         require("@assets/images/white_picture.jpg")
       );
@@ -248,11 +252,11 @@ export default function Apply() {
                 amountIndex={amountIndex}
               />
 
-              <Pressable onPress={() => clickCollectionAccount()}>
+              <Pressable onPress={clickCollectionAccount}>
                 <CollectionAccount />
               </Pressable>
 
-              <Pressable onPress={() => clickFaceRecognition()}>
+              <Pressable onPress={clickFaceRecognition}>
                 <FaceRecognition />
               </Pressable>
 
@@ -367,5 +371,5 @@ const styles = StyleSheet.create({
     width: 17,
     height: 17,
     borderRadius: 4,
-  }
+  },
 });

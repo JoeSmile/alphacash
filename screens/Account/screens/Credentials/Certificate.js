@@ -10,7 +10,11 @@ import SafeIntro from "./SafeIntro";
 import { useEffect, useState } from "react";
 import { EXAMPLE_TYPES, ExampleModal } from "./ExampleModal";
 import Return from "./Return";
-import { useGetIdentityInfoDetail, useUpdateIdentityInfo, useUpdateUserImages } from "@apis";
+import {
+  useGetIdentityInfoDetail,
+  useUpdateIdentityInfo,
+  useUpdateUserImages,
+} from "@apis";
 import * as ImagePicker from "expo-image-picker";
 import { Asset } from "expo-asset";
 import { useI18n } from "@hooks/useI18n";
@@ -21,19 +25,15 @@ import Spinner from "react-native-loading-spinner-overlay";
 import { useNavigation } from "@react-navigation/native";
 import { useUserQuota } from "@store/useUserQuota";
 import { Toast } from "@ant-design/react-native";
-
-
+import { doTrack } from "@utils/dataTrack";
 
 const imageUri = require("@assets/images/info_pic_cnic_card_positive.png");
 const imageUri1 = require("@assets/images/info_pic_cnic_card_negative.png");
 const imageUri2 = require("@assets/images/info_pic_holding_id_card.png");
 const imageUri3 = require("@assets/images/info_pic_work_permit.png");
 
-export default function Certificate({route}) {
-  const [cashLoan,bill] = useUserQuota((s) => [
-    s.cashLoan,
-    s.bill,
-  ]);
+export default function Certificate({ route }) {
+  const [cashLoan, bill] = useUserQuota((s) => [s.cashLoan, s.bill]);
   const navigation = useNavigation();
   const [showModalType, setShowModalType] = useState("");
   const {
@@ -58,7 +58,7 @@ export default function Certificate({route}) {
   const [imageList, setImage] = useState([]);
   const [showTips, setShowTips] = useState(false);
   const [index, setIndex] = useState();
-  const [jumpPage, setJumpPage] = useState('MyCards');
+  const [jumpPage, setJumpPage] = useState("MyCards");
   const [isUpdate, setIsUpdate] = useState(false);
   const [modifycnicBack, setModifycnicBack] = useState(false);
   const [modifycnicFront, setModifycnicFront] = useState(false);
@@ -79,17 +79,17 @@ export default function Certificate({route}) {
   useEffect(() => {
     const isUpdate = route.params ? route.params.isUpdate : false;
     setIsUpdate(!!isUpdate);
-  }, [route])
+  }, [route]);
 
   useEffect(() => {
     if (identityInfo?.data?.error_code == 1) {
       const imageData = identityInfo.data.data?.identityInfo || {};
       const needModifyInfo = {
-        cnicBack:false,
+        cnicBack: false,
         cnicFront: false,
         cnicInHand: false,
         employmentProof: false,
-        ...(identityInfo.data.data?.needModifyInfo||{})
+        ...(identityInfo.data.data?.needModifyInfo || {}),
       };
       setModifycnicBack(needModifyInfo.cnicBack);
       setModifycnicFront(needModifyInfo.cnicBack);
@@ -137,7 +137,7 @@ export default function Certificate({route}) {
           imgEmploymentProof,
         ]);
       } else {
-        setJumpPage('Homepage')
+        setJumpPage("Homepage");
       }
     }
   }, [identityInfo]);
@@ -153,7 +153,7 @@ export default function Certificate({route}) {
     if (updateUserImagesResponse?.data?.error_code == 1) {
       console.log("0.0 >>>>>>>>>> updateUserImagesResponse");
       Toast.info({
-        content: i18n.t('modify successfully'),
+        content: i18n.t("modify successfully"),
         duration: 3,
       });
       navigation.goBack();
@@ -161,9 +161,16 @@ export default function Certificate({route}) {
   }, [updateUserImagesResponse]);
 
   const showPickImageModel = (id) => {
-    if((bill.appStatus == 101 || bill.appStatus == 201 || bill.appStatus == 301 || bill.appStatus == 303) && (id == 0 || id == 1 || id == 2) && !cashLoan.isModifyInfo ){
+    if (
+      (bill.appStatus == 101 ||
+        bill.appStatus == 201 ||
+        bill.appStatus == 301 ||
+        bill.appStatus == 303) &&
+      (id == 0 || id == 1 || id == 2) &&
+      !cashLoan.isModifyInfo
+    ) {
       //当有用户贷款行为时（审核中、打款中、使用中、逾期）或该用户变为老用户后，与姓名+CNIC+身份证正反面+手持照片不可修改
-       return;
+      return;
     }
     setShowTips(true);
     setIndex(id);
@@ -218,7 +225,7 @@ export default function Certificate({route}) {
   };
 
   const onClickUpdateIdentityInfo = () => {
-    console.log("Sun >>>>>>>>>> onClickUpdateIdentityInfo");
+    doTrack("pk40", 1);
 
     const params = {
       cnicFront: imageList[0],
@@ -236,8 +243,12 @@ export default function Certificate({route}) {
   return (
     <ScrollView style={styles.container}>
       <Spinner
-        visible={isIdentityInfoLoading || isUpdateIdentityInfoLoading || isUpdateUserImagesLoading}
-        textContent={i18n.t('Loading')}
+        visible={
+          isIdentityInfoLoading ||
+          isUpdateIdentityInfoLoading ||
+          isUpdateUserImagesLoading
+        }
+        textContent={i18n.t("Loading")}
         textStyle={{ color: "#FFF" }}
       />
       <SafeIntro
@@ -284,7 +295,7 @@ export default function Certificate({route}) {
                 backgroundColor: "#F4F5F7",
                 borderRadius: 4,
                 borderWidth: 1,
-                borderColor: modifycnicFront? '#E53F31': 'white'
+                borderColor: modifycnicFront ? "#E53F31" : "white",
               }}
             >
               <Image
@@ -320,8 +331,7 @@ export default function Certificate({route}) {
                 padding: 8,
                 backgroundColor: "#F4F5F7",
                 borderRadius: 4,
-                borderColor: modifycnicBack? '#E53F31': 'white'
-
+                borderColor: modifycnicBack ? "#E53F31" : "white",
               }}
             >
               <Image
@@ -375,7 +385,7 @@ export default function Certificate({route}) {
             padding: 8,
             backgroundColor: "#F4F5F7",
             borderRadius: 4,
-            borderColor: modifycnicInHand? '#E53F31': 'white'
+            borderColor: modifycnicInHand ? "#E53F31" : "white",
           }}
           onPress={() => showPickImageModel(2)}
         >
@@ -416,7 +426,7 @@ export default function Certificate({route}) {
             padding: 8,
             backgroundColor: "#F4F5F7",
             borderRadius: 4,
-            borderColor: modifyemploymentProof? '#E53F31': 'white'
+            borderColor: modifyemploymentProof ? "#E53F31" : "white",
           }}
           onPress={() => showPickImageModel(3)}
         >
@@ -445,7 +455,7 @@ export default function Certificate({route}) {
           display: "flex",
           flexDirection: "row",
         }}
-        onPress={() => onClickUpdateIdentityInfo()}
+        onPress={onClickUpdateIdentityInfo}
       >
         <Text
           style={{
@@ -517,7 +527,7 @@ export default function Certificate({route}) {
         </View>
       </Modal>
 
-      <Return />
+      <Return trackName={"pk5"} />
     </ScrollView>
   );
 }

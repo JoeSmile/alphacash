@@ -11,23 +11,9 @@ import { QueryClient, QueryClientProvider, focusManager } from "react-query";
 import { useAppState } from "@hooks/useAppState";
 import { useOnlineManager } from "@hooks/useOnlineManager";
 import { Provider } from "@ant-design/react-native";
-// import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
-import { AppEventsLogger } from "react-native-fbsdk-next";
+import { initDataTrack } from "@utils/dataTrack";
 
-console.log("process.env.ENV", process.env.NODE_ENV);
-if (Platform.OS !== "web" && process.env.NODE_ENV !== "development") {
-  // Log standard event. e.g. completed registration
-  AppEventsLogger.logEvent(AppEventsLogger.AppEvents.CompletedRegistration, {
-    [AppEventsLogger.AppEventParams.RegistrationMethod]: "email",
-  });
-}
-// const { status } = await requestTrackingPermissionsAsync();
-
-// Settings.initializeSDK();
-
-// if (status === 'granted') {
-//     await Settings.setAdvertiserTrackingEnabled(true);
-// }
+initDataTrack();
 
 function onAppStateChange(status) {
   // React Query already supports in web browser refetch on window focus by default

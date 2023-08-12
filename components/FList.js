@@ -2,6 +2,7 @@ import { Text, FlatList, Pressable, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "@utils/dataTrack";
+import { useSystemStore } from "@store/useSystemStore";
 
 const Item = (props) => {
   const {
@@ -13,9 +14,11 @@ const Item = (props) => {
     itemStyle = {},
     rightIcon = "",
     parameters = {},
+    requireLogin = false,
   } = props;
   const navigation = useNavigation();
   const { i18n } = useI18n();
+  const [isLogin, phone] = useSystemStore((s) => [!!s.token, s.phone]);
 
   return (
     <Pressable
@@ -30,7 +33,19 @@ const Item = (props) => {
       ]}
       onPress={() => {
         trackName && doTrack(trackName, 1);
-        screen && navigation.push(screen, { ...parameters });
+        if (requireLogin) {
+          if (isLogin) {
+            screen && navigation.push(screen, { ...parameters });
+          } else {
+            // goto login
+            navigation.push("Login", {
+              targetScreen: screen ?? "",
+              ...parameters,
+            });
+          }
+        } else {
+          screen && navigation.push(screen, { ...parameters });
+        }
       }}
     >
       {!!leftItem ? (

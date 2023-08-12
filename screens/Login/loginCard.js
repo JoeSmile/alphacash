@@ -19,6 +19,7 @@ import { useI18n, LocaleTypes } from "@hooks/useI18n";
 import * as Yup from "yup";
 import { useRoute } from "@react-navigation/native";
 import { doTrack } from "@utils/dataTrack";
+import { Toast } from "@ant-design/react-native";
 
 // encodeSHA();
 // getNetInfo();
@@ -26,7 +27,7 @@ import { doTrack } from "@utils/dataTrack";
 const LoginFormSchema = Yup.object().shape({
   OTP: Yup.string().required("Required"),
   phoneNumber: Yup.string()
-    .matches(/^\d{11}$/, "Please input 11 characters phone number")
+    .matches(/^03\d{9}/, "Please input 11 characters phone number")
     .required("Required"),
 });
 
@@ -41,6 +42,7 @@ export default function LoginCard() {
   const { mutate: getOTP } = useGetOTP();
   const [text, setText] = useState("Get OTP");
   const [targetScreen, setTargetScreen] = useState("");
+  const [needFormCompleted, setNeedFormCompleted] = useState(false);
   const [countdown, setCountdown] = useState(0);
   const [isClickable, setIsClickable] = useState(true);
   const {
@@ -65,10 +67,13 @@ export default function LoginCard() {
         phone: phoneNumber,
         token: data.data.data.token,
       });
-      if (targetScreen) {
+      if (targetScreen && needFormCompleted) {
         getUserFormStatus();
+      }
+      if (targetScreen) {
+        navigation.replace(targetScreen);
       } else {
-        navigation.push("Homepage");
+        navigation.replace("Homepage");
       }
     }
   }, [data]);
@@ -83,9 +88,9 @@ export default function LoginCard() {
         status.isCompletedIdentity;
       if (isCompleted && targetScreen) {
         // go to apply screen
-        navigation.push(targetScreen);
+        navigation.replace(targetScreen);
       } else {
-        navigation.push("Homepage");
+        navigation.replace("Homepage");
       }
     }
   }, [formStatus]);
@@ -110,6 +115,11 @@ export default function LoginCard() {
 
   useEffect(() => {
     const targetScreen = route.params ? route.params.targetScreen : "";
+    const needFormCompleted = route.params
+      ? route.params.needFormCompleted
+      : "";
+
+    setNeedFormCompleted(needFormCompleted);
     setTargetScreen(targetScreen);
   }, [route]);
 
@@ -184,10 +194,19 @@ export default function LoginCard() {
                   <Pressable
                     onPress={() => {
                       doTrack("pk42", 1);
-                      getOTP({
-                        phoneNumber: "",
-                      });
-                      handleTextClick();
+                      console.log("values.phoneNumber", values.phoneNumber);
+                      if (/^03\d{9}/.test(values.phoneNumber)) {
+                        getOTP({
+                          phoneNumber: values.phoneNumber,
+                        });
+                        handleTextClick();
+                      } else {
+                        Toast.info({
+                          content:
+                            "Please input 11 characters phone number, start with 03",
+                          duration: 3,
+                        });
+                      }
                     }}
                     style={{
                       position: "absolute",

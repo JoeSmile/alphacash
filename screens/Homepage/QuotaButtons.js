@@ -152,7 +152,10 @@ export function QuotaButtons() {
         navigation.push("Credentials");
       }
     } else {
-      navigation.push("Login", { targetScreen: "Credentials" });
+      navigation.push("Login", {
+        targetScreen: "Credentials",
+        needFormCompleted: true,
+      });
     }
   }, [isLogin, isFormCompleted]);
 

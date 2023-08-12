@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -305,99 +306,102 @@ export default function MyCards({ navigation, route }) {
   };
 
   return (
-    <View
-      style={{
-        paddingVertical: 20,
-        paddingHorizontal: 15,
-        backgroundColor: "white",
-        minHeight: "100%",
-      }}
-    >
-      {!isLoading && !!listData && listData.length < 5 ? (
-        <Pressable
-          onPress={() => {
-            doTrack("pk2", 1);
-            navigation.push("AddNewAccount");
-          }}
-        >
-          <View
-            style={{
-              height: 62,
-              padding: 15,
-              borderWidth: 1,
-              borderRadius: 4,
-              borderColor: "#C0C4D6",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              marginBottom: 15,
+    <SafeAreaView style={{ flex: 1 }}>
+      <View
+        style={{
+          paddingVertical: 20,
+          paddingHorizontal: 15,
+          backgroundColor: "white",
+          minHeight: "100%",
+          paddingBottom: 40,
+        }}
+      >
+        {!isLoading && !!listData && listData.length < 5 ? (
+          <Pressable
+            onPress={() => {
+              doTrack("pk2", 1);
+              navigation.push("AddNewAccount");
             }}
           >
-            <Image
-              source={require("@assets/images/loan_ic_add.png")}
-              contentFit="cover"
-              transition={200}
-              style={{ width: 15, height: 15, marginRight: 5 }}
-            />
-            <Text
+            <View
               style={{
-                color: "#0A233E",
-                fontSize: 16,
-                fontWeight: "bold",
+                height: 62,
+                padding: 15,
+                borderWidth: 1,
+                borderRadius: 4,
+                borderColor: "#C0C4D6",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                marginBottom: 15,
               }}
             >
-              {i18n.t("Add Collection Account")}
-            </Text>
+              <Image
+                source={require("@assets/images/loan_ic_add.png")}
+                contentFit="cover"
+                transition={200}
+                style={{ width: 15, height: 15, marginRight: 5 }}
+              />
+              <Text
+                style={{
+                  color: "#0A233E",
+                  fontSize: 16,
+                  fontWeight: "bold",
+                }}
+              >
+                {i18n.t("Add Collection Account")}
+              </Text>
+            </View>
+          </Pressable>
+        ) : (
+          <></>
+        )}
+        {!isLoading && (
+          <View style={styles.container}>
+            <SwipeListView
+              data={listData}
+              renderItem={renderItem}
+              renderHiddenItem={renderHiddenItem}
+              leftOpenValue={0}
+              rightOpenValue={-150}
+              previewRowKey={"0"}
+              previewOpenValue={-40}
+              previewOpenDelay={3000}
+              onRowDidOpen={onRowDidOpen}
+              scrollEnabled={true}
+              showsVerticalScrollIndicator={false}
+            />
           </View>
-        </Pressable>
-      ) : (
-        <></>
-      )}
-      {!isLoading && (
-        <View style={styles.container}>
-          <SwipeListView
-            data={listData}
-            renderItem={renderItem}
-            renderHiddenItem={renderHiddenItem}
-            leftOpenValue={0}
-            rightOpenValue={-150}
-            previewRowKey={"0"}
-            previewOpenValue={-40}
-            previewOpenDelay={3000}
-            onRowDidOpen={onRowDidOpen}
-            scrollEnabled={true}
-            showsVerticalScrollIndicator={false}
-          />
-        </View>
-      )}
+        )}
 
-      {isSelectAccount && (
-        <TouchableOpacity
-          onPress={() => confirm()}
-          style={{
-            bottom: 136,
-            left: 12,
-            right: 12,
-            position: "absolute",
-            backgroundColor: "#0825B8",
-            height: 46,
-            zIndex: 100,
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "row",
-            borderRadius: 3,
-          }}
-        >
-          <Text style={{ color: "#FFFFFF", fontSize: 15 }}>
-            {i18n.t("Confirm")}
-          </Text>
-          <Image
-            source={require("@assets/applyLoan/btn_ic_right.png")}
-            style={{ width: 12, height: 12, marginLeft: 2 }}
-          ></Image>
-        </TouchableOpacity>
-      )}
-    </View>
+        {isSelectAccount && (
+          <TouchableOpacity
+            onPress={() => confirm()}
+            style={{
+              bottom: 136,
+              left: 12,
+              right: 12,
+              position: "absolute",
+              backgroundColor: "#0825B8",
+              height: 46,
+              zIndex: 100,
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "row",
+              borderRadius: 3,
+            }}
+          >
+            <Text style={{ color: "#FFFFFF", fontSize: 15 }}>
+              {i18n.t("Confirm")}
+            </Text>
+            <Image
+              source={require("@assets/applyLoan/btn_ic_right.png")}
+              style={{ width: 12, height: 12, marginLeft: 2 }}
+            ></Image>
+          </TouchableOpacity>
+        )}
+      </View>
+    </SafeAreaView>
   );
 }
 

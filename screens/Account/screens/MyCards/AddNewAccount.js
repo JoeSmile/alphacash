@@ -120,6 +120,7 @@ export function AddNewAccount({ navigation, route }) {
 
   React.useEffect(() => {
     const card = route.params ? route.params.card : {};
+    console.log("card---", card);
     setInitialData({
       account: card.ewalletAccount || defaultEmptyForm.account || phone,
       backAccount: card.bankAccount || defaultEmptyForm.backAccount,
@@ -156,158 +157,165 @@ export function AddNewAccount({ navigation, route }) {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "white", padding: 15 }}>
-      {!!initialData && (
-        <Formik
-          initialValues={initialData}
-          onSubmit={(values) => {
-            let params =
-              selectedTab.type == 1
-                ? {
-                    // bank
-                    type: selectedTab.type,
-                    bankAccountName: values.bankAccountName,
-                    bankAccount: values.bankAccount,
-                    bankId: values.bankId,
-                    bankAccountId: values.id,
-                  }
-                : {
-                    type: selectedTab.type,
-                    ewalletType: selectedTab.ewalletType,
-                    ewalletAccount: values.account,
-                    ewalletId: values.id,
-                    ewalletName: selectedTab.name,
-                  };
-            doTrack("pk31", 1);
-            addAccount(params);
-          }}
-          validateOnChange={true}
-          validateOnBlur={true}
-          validationSchema={AccountFormSchema}
-        >
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            context,
-            setValues,
-          }) => (
-            <>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: 15,
-                  height: 80,
-                  borderBottomColor: "#E0E3E8",
-                  borderBottomWidth: 2,
-                  marginBottom: 30,
-                }}
-              >
-                {tabs.map((tab) => {
-                  return (
-                    <View key={tab.title}>
-                      <Pressable
-                        style={[
-                          styles.tab,
-                          selectedTab.tabId === tab.tabId
-                            ? {
-                                borderBottomWidth: 3,
-                                borderBottomColor: "#0825B8",
-                              }
-                            : "",
-                        ]}
-                        onPress={() => {
-                          setSelectedTab({
-                            tabId: tab.tabId,
-                            name: tab.name,
-                            type: tab.type,
-                            ewalletType: tab.ewalletType,
-                          });
-                          setValues({
-                            ...values,
-                            name: tab.name,
-                            type: tab.type,
-                            ewalletType: tab.ewalletType,
-                          });
-                        }}
-                      >
-                        <Image
-                          source={tab.source}
-                          contentFit="cover"
-                          transition={200}
-                          style={{ width: 32, height: 32, marginBottom: 10 }}
-                        />
-                        <Text
-                          style={{
-                            color:
-                              selectedTab.tabId === tab.tabId
-                                ? "#0A233E"
-                                : "#8899AC",
-                            fontWeight: "bold",
-                            fontSize: 16,
-                          }}
-                        >
-                          {tab.title}
-                        </Text>
-                      </Pressable>
-                    </View>
-                  );
-                })}
-              </View>
-              {selectedTab.type !== 1 && (
+      <View
+        style={{
+          minHeight: 570,
+        }}
+      >
+        {!!initialData && (
+          <Formik
+            initialValues={initialData}
+            onSubmit={(values) => {
+              let params =
+                selectedTab.type == 1
+                  ? {
+                      // bank
+                      type: selectedTab.type,
+                      bankAccountName: values.bankAccountName,
+                      bankAccount: values.bankAccount,
+                      bankId: values.bankId,
+                      bankAccountId: values.id,
+                      id: values.id,
+                    }
+                  : {
+                      type: selectedTab.type,
+                      ewalletType: selectedTab.ewalletType,
+                      ewalletAccount: values.account,
+                      ewalletId: values.id,
+                      ewalletName: selectedTab.name,
+                    };
+              doTrack("pk31", 1);
+              addAccount(params);
+            }}
+            validateOnChange={true}
+            validateOnBlur={true}
+            validationSchema={AccountFormSchema}
+          >
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              context,
+              setValues,
+            }) => (
+              <>
                 <View
                   style={{
-                    marginBottom: 25,
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: 15,
+                    height: 80,
+                    borderBottomColor: "#E0E3E8",
+                    borderBottomWidth: 2,
+                    marginBottom: 30,
                   }}
                 >
-                  <FTextInput
-                    name="account"
-                    label="Mobile Wallect Account"
-                    type="text"
-                    rightIcon={require("@assets/images/loan_ic_edit.png")}
-                  />
+                  {tabs.map((tab) => {
+                    return (
+                      <View key={tab.title}>
+                        <Pressable
+                          style={[
+                            styles.tab,
+                            selectedTab.tabId === tab.tabId
+                              ? {
+                                  borderBottomWidth: 3,
+                                  borderBottomColor: "#0825B8",
+                                }
+                              : "",
+                          ]}
+                          onPress={() => {
+                            setSelectedTab({
+                              tabId: tab.tabId,
+                              name: tab.name,
+                              type: tab.type,
+                              ewalletType: tab.ewalletType,
+                            });
+                            setValues({
+                              ...values,
+                              name: tab.name,
+                              type: tab.type,
+                              ewalletType: tab.ewalletType,
+                            });
+                          }}
+                        >
+                          <Image
+                            source={tab.source}
+                            contentFit="cover"
+                            transition={200}
+                            style={{ width: 32, height: 32, marginBottom: 10 }}
+                          />
+                          <Text
+                            style={{
+                              color:
+                                selectedTab.tabId === tab.tabId
+                                  ? "#0A233E"
+                                  : "#8899AC",
+                              fontWeight: "bold",
+                              fontSize: 16,
+                            }}
+                          >
+                            {tab.title}
+                          </Text>
+                        </Pressable>
+                      </View>
+                    );
+                  })}
                 </View>
-              )}
-
-              {/* bank account form */}
-              {selectedTab.type == 1 && (
-                <View>
-                  <View style={styles.inputContainer}>
+                {selectedTab.type !== 1 && (
+                  <View
+                    style={{
+                      marginBottom: 25,
+                    }}
+                  >
                     <FTextInput
-                      name="bankAccountName"
-                      label="bank account name"
-                      type="text"
-                    />
-                  </View>
-                  <View style={styles.inputContainer}>
-                    <FTextInput
-                      name="backAccount"
-                      label="Bank Account"
+                      name="account"
+                      label="Mobile Wallect Account"
                       type="text"
                       rightIcon={require("@assets/images/loan_ic_edit.png")}
                     />
                   </View>
-                  {!isLoading && rawList && (
+                )}
+
+                {/* bank account form */}
+                {selectedTab.type == 1 && (
+                  <View>
                     <View style={styles.inputContainer}>
-                      <FSelect
-                        name="bankId"
-                        label="Bank name"
-                        valueKey="bank_id"
-                        labelKey="full_name"
-                        options={bankOptions}
+                      <FTextInput
+                        name="bankAccountName"
+                        label="bank account name"
+                        type="text"
                       />
                     </View>
-                  )}
-                </View>
-              )}
-              <FButton onPress={handleSubmit} title="Submit" />
-            </>
-          )}
-        </Formik>
-      )}
-      <Notice />
+                    <View style={styles.inputContainer}>
+                      <FTextInput
+                        name="bankAccount"
+                        label="Bank Account"
+                        type="text"
+                        rightIcon={require("@assets/images/loan_ic_edit.png")}
+                      />
+                    </View>
+                    {!isLoading && rawList && (
+                      <View style={styles.inputContainer}>
+                        <FSelect
+                          name="bankId"
+                          label="Bank name"
+                          valueKey="bank_id"
+                          labelKey="full_name"
+                          options={bankOptions}
+                        />
+                      </View>
+                    )}
+                  </View>
+                )}
+                <FButton onPress={handleSubmit} title="Submit" />
+              </>
+            )}
+          </Formik>
+        )}
+        <Notice />
+      </View>
     </ScrollView>
   );
 }

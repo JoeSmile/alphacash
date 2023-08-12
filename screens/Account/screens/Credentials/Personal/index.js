@@ -98,7 +98,6 @@ export default function Personal({ navigation, route }) {
       updatePersonalInfoMutation.data &&
       updatePersonalInfoMutation.data.data.error_code === 1
     ) {
-      console.log("isUpdate----", isUpdate);
       doTrack("pk46", 1);
       if (isUpdate) {
         navigation.goBack();
@@ -284,7 +283,7 @@ export default function Personal({ navigation, route }) {
                           fontSize: 15,
                         }}
                       >
-                        {i18n.t("Next")}{" "}
+                        {isUpdate ? i18n.t("Submit") : i18n.t("Next")}{" "}
                       </Text>
                       <Image
                         source={require("@assets/images/btn_ic_right.png")}

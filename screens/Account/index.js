@@ -31,6 +31,7 @@ const data = [
     screen: "CurrentBills",
     leftIcon: require("@assets/images/mine_ic_bill.png"),
     leftItem: Item,
+    requireLogin: true
   },
   {
     title: "Certification Info",
@@ -38,6 +39,7 @@ const data = [
     screen: "Credentials",
     leftIcon: require("@assets/images/mine_ic_certification_info.png"),
     leftItem: Item,
+    requireLogin: true
   },
   {
     title: "Collection Account",
@@ -45,6 +47,7 @@ const data = [
     screen: "MyCards",
     leftIcon: require("@assets/images/mine_ic_my_bank_card.png"),
     leftItem: Item,
+    requireLogin: true
   },
   {
     title: "Contact Us",

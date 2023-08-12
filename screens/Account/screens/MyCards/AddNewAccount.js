@@ -52,7 +52,7 @@ const AccountFormSchema = Yup.object().shape({
         return true;
       }
     }),
-  backAccount: Yup.string()
+  bankAccount: Yup.string()
     .test('len', 'Please input correct bank account number', (val, context) => {
       //bank
       if (context.parent.type == 1) {
@@ -67,7 +67,7 @@ const defaultEmptyForm = {
   //ewallet account
   account: '',
   //bankAccount
-  backAccount: '',
+  bankAccount: '',
   // bank
   bankId: '',
   bankAccountName: '',
@@ -110,10 +110,11 @@ export function AddNewAccount({navigation, route}) {
   
   React.useEffect(() => {
     const card = route.params ? route.params.card : {};
+    console.log('card---', card);
     setInitialData(
       {
         account: card.ewalletAccount || defaultEmptyForm.account || phone,
-        backAccount: card.bankAccount || defaultEmptyForm.backAccount,
+        bankAccount: card.bankAccount || defaultEmptyForm.bankAccount,
         // bank
         bankId: card.bankId || defaultEmptyForm.bankId,
         bankAccountName: card.bankAccountName || defaultEmptyForm.bankAccountName,
@@ -160,7 +161,8 @@ export function AddNewAccount({navigation, route}) {
                 bankAccountName: values.bankAccountName,
                 bankAccount: values.bankAccount,
                 bankId: values.bankId,
-                bankAccountId: values.id
+                bankAccountId: values.id,
+                id: values.id
               } : {
                 type: selectedTab.type,
                 ewalletType: selectedTab.ewalletType,
@@ -249,7 +251,7 @@ export function AddNewAccount({navigation, route}) {
                   </View>
                   <View style={styles.inputContainer}>
                     <FTextInput 
-                      name="backAccount" 
+                      name="bankAccount" 
                       label='Bank Account'
                       type="text" 
                       rightIcon={require("@assets/images/loan_ic_edit.png")}  

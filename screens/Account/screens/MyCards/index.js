@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -242,11 +243,13 @@ export default function MyCards({navigation, route}) {
   })
 
   return (
+    <SafeAreaView style={{flex: 1}}>
     <View style={{
       paddingVertical: 20,
       paddingHorizontal: 15,
       backgroundColor: 'white',
-      minHeight: '100%'
+      minHeight: '100%',
+      paddingBottom: 40
     }}> 
     {
       (!isLoading && !!listData && listData.length < 5)
@@ -315,6 +318,7 @@ export default function MyCards({navigation, route}) {
     }
 
     </View>
+    </SafeAreaView>
   );
 }
 

@@ -25,6 +25,7 @@ export const CHANNEL = {
 export default function Repay({navigation, route}) {
   const [channel, setChannel] = useState();
   const [bill] = useUserQuota((s) => [s.bill]);
+  const [paymentData, setPaymentData] = useState();
   const copyToClipboard = async (copyText) => {
     await Clipboard.setStringAsync(copyText);
   };
@@ -34,15 +35,17 @@ export default function Repay({navigation, route}) {
     const channel = route.params ? route.params.channel : false;
     setChannel(channel);
   }, [route]);
-
   useEffect(() => {
-    console.log('data---', data);
+    if(data?.data?.error_code == 1) {
+      setPaymentData(data?.data?.data.paymentData);
+    }
   }, [data]);
+
 
   useEffect(() => {
     getRepayCode({
-      businessId: 1,
-      amount:  3000,
+      businessId: bill.loanId,
+      amount:  bill.applyAmount,
       channel: channel || 1
     })
   }, [channel])
@@ -57,7 +60,7 @@ export default function Repay({navigation, route}) {
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <View style={{flexDirection: 'row'}}>
             <Text style={{color: '#4F5E6F',  fontSize: 16}}>Account Name: </Text>
-            <Text style={{color: '#0A233E',  fontSize: 16}}>{CHANNEL[channel]}</Text>
+            <Text style={{color: '#0A233E',  fontSize: 16}}>{paymentData?.channelText}</Text>
           </View>
 
           <Pressable
@@ -78,7 +81,7 @@ export default function Repay({navigation, route}) {
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <View style={{flexDirection: 'row'}}>
             <Text style={{color: '#4F5E6F', fontSize: 16}}>Consumer:</Text>
-            <Text style={{color: '#0A233E',  fontSize: 16}}>12312312313</Text>
+            <Text style={{color: '#0A233E',  fontSize: 16}}>{paymentData?.paymentCode}</Text>
           </View>
 
           <Pressable

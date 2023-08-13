@@ -192,7 +192,7 @@ export function QuotaButtons() {
               displayRepayNowButton.includes(bill.appStatus) && <FButton
               title="RepayNow"
               onPress={() => {
-                navigation.push('RepayList');
+                navigation.push("RepayList", { bill: bill });
               }}
               style={{
                 marginBottom: 12,
@@ -202,8 +202,7 @@ export function QuotaButtons() {
               displayDetailButton.includes(bill.appStatus) && <FButton
               title="ViewDetails"
               onPress={() => {
-                navigation.push("RepayList", {bill: bill});
-                // navigation.push("BillDetail", { loanId: bill.loanId })
+                navigation.push("BillDetail", { loanId: bill.loanId })
               }
                
               }

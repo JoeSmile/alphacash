@@ -7,3 +7,7 @@ export function getBills(param) {
 export function getBillDetail(param) {
   return axiosPost(`/loan/billDetail`, param);
 }
+
+export function getRepayCode(param) {
+  return axiosPost('/payment/repay', param);
+}

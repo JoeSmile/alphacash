@@ -7,7 +7,9 @@ import {
 } from "react-native";
 import { formatNumberToFinancial as fn2f } from "@utils";
 import FList from "@components/FList";
-
+import { useUserQuota } from "@store";
+import BillCard from '../BillCard';
+import { CHANNEL } from '../Repay';
 // bill: {
 //   //贷款id
 //   loanId: 1,
@@ -42,81 +44,41 @@ const Item = (item) => {
 const data = [
   {
     title: "Repayment via Easypaisa",
-    screen: "RepayDemo",
+    screen: "Repay",
     leftIcon: require("@assets/repay/repayment_ic_easypaisa.png"),
     leftItem: Item,
-    withRecommend: true
+    withRecommend: true,
+    parameters: {channel: CHANNEL.easypaisa}
   },
   {
     title: "Repayment via PayPro",
-    screen: "RepayDemo",
+    screen: "Repay",
     leftIcon: require("@assets/repay/repayment_ic_paypro.png"),
     leftItem: Item,
+    parameters: {channel: CHANNEL.paypro}
   },
   {
     title: "Repayment via JazzCash",
-    screen: "RepayDemo",
+    screen: "Repay",
     leftIcon: require("@assets/repay/repayment_ic_jazzcash.png"),
     leftItem: Item,
+    parameters: {channel: CHANNEL.jazzcash}
+
   },
   {
-    title: "Repayment via Bank Wallet" ,
-    screen: "RepayDemo",
+    title: "Repayment via hbl Wallet" ,
+    screen: "Repay",
     leftIcon: require("@assets/repay/repayment_ic_easypaisa.png"),
     leftItem: Item,
+    parameters: {channel: CHANNEL.hbl}
   },
 ];
 
 export default function RepayList({navigation, route}) {
-  const [bill, setBill] = useState({
-    dueDate: "12/02/2023",
-    applyAmount: 3000,
-  });
-  useEffect(() => {
-    const bill = route.params ? route.params.bill : '';
-    console.log('bill---123', Object.keys(bill));
-    if (bill && Object.keys(bill)) {
-      setBill(bill);
-    }
-  }, [route]);
-
-  console.log('bill---', bill);
-
-  if (!bill) {
-    return <></>
-  }
   return (
     <View style={styles.container}>
-    {/* Bill info */}
-      <View style={styles.bill}>
-        <Text style={{
-          color: '#4F5E6F',
-          fontSize: 16,
-          textAlign:'center',
-          marginVertical: 16
-        }}>还款金额</Text>
-        <Text style={{
-          color: '#0A233E',
-          fontSize: 32,
-          textAlign:'center',
-          marginBottom: 10
-        }}>{fn2f(bill.applyAmount)}</Text>
-        <View style={{borderWidth: 1, borderColor: '#F4F5F7', width: '100%'}} />
-        <View style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginTop: 10
-        }}>
-          <Text style={{
-            color: '#4F5E6F',
-            fontSize: 14
-          }}>到期日:</Text>
-          <Text style={{
-            color: '#0A233E',
-            fontSize: 14
-          }}>{bill.dueDate}</Text>
-        </View>
-      </View>
+      {/* Bill info */}
+      <BillCard />
       {/* Repay List */}
       <View style={{marginTop: 15}}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -148,8 +110,7 @@ export default function RepayList({navigation, route}) {
         </View>
       </View>
 
-      {/* 温馨提示：
-按时还款，信用额度会越来越高！ */}
+      {/* 温馨提示：按时还款，信用额度会越来越高！ */}
       <View style={{marginTop: 10}}>
         <Text style={{color: '#8899AC', fontSize: 12}}>温馨提示：</Text>
         <Text style={{color: '#8899AC', fontSize: 12}}>按时还款，信用额度会越来越高!</Text>

@@ -1,4 +1,4 @@
-import { getBills, getBillDetail } from "../bills";
+import { getBills, getBillDetail, getRepayCode } from "../bills";
 import { mutationFactory } from "./base";
 
 export function useBillList() {
@@ -9,6 +9,12 @@ export function useBillList() {
 
 export function useBillDetail() {
   const mutations = mutationFactory(getBillDetail);
+
+  return mutations;
+}
+
+export function useGetRepayCode() {
+  const mutations = mutationFactory(getRepayCode);
 
   return mutations;
 }

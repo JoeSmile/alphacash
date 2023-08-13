@@ -4,13 +4,11 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  Button,
   Image,
   Pressable,
 } from "react-native";
 import { Formik } from "formik";
 import { FTextInput, FSelect } from "@components/Inputs";
-import Return from "../Return";
 import SafeIntro from "../SafeIntro";
 import * as Yup from "yup";
 import { FDatePicker } from "@components/FDatePicker";
@@ -27,10 +25,9 @@ import {
   useUpdatePersonalInfo,
   useGetPersonalOptions,
 } from "@apis/hooks";
-import dayjs from "dayjs";
-import { Toast } from "@ant-design/react-native";
-import { useI18n, LocaleTypes } from "@hooks/useI18n";
+import { useI18n } from "@hooks/useI18n";
 import { useUserQuota } from "@store/useUserQuota";
+import { doTrack } from "@utils/dataTrack";
 
 const emptyInitialValues = {
   name: "",
@@ -51,7 +48,7 @@ const PersonalFormSchema = Yup.object().shape({
   name: Yup.string().required("Required"),
   birth: Yup.string().required("Required"),
   cnic: Yup.string()
-  .required("Required")
+    .required("Required")
     .matches(/^\d{13}$/, "Must be exactly 13 characters number"),
   gender: Yup.number().required("Required"),
   education: Yup.number().required("Required"),
@@ -59,7 +56,12 @@ const PersonalFormSchema = Yup.object().shape({
   provinceId: Yup.number().required("Required"),
   cityId: Yup.number().required("Required"),
   addressDetail: Yup.string().required("Required"),
-  email: Yup.string().matches('^[A-Za-z0-9-_\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$', 'Please input correct email address').required("Required"),
+  email: Yup.string()
+    .matches(
+      "^[A-Za-z0-9-_\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(.[a-zA-Z0-9_-]+)+$",
+      "Please input correct email address"
+    )
+    .required("Required"),
 });
 
 export default function Personal({ navigation, route }) {
@@ -79,7 +81,7 @@ export default function Personal({ navigation, route }) {
   useEffect(() => {
     const isUpdate = route.params ? route.params.isUpdate : false;
     setIsUpdate(!!isUpdate);
-  }, [route])
+  }, [route]);
 
   useEffect(() => {
     if (data && data.data && data.data.error_code === 1) {
@@ -96,8 +98,9 @@ export default function Personal({ navigation, route }) {
       updatePersonalInfoMutation.data &&
       updatePersonalInfoMutation.data.data.error_code === 1
     ) {
+      doTrack("pk46", 1);
       if (isUpdate) {
-        navigation.goBack()
+        navigation.goBack();
       } else {
         navigation.push("Job");
       }
@@ -227,12 +230,12 @@ export default function Personal({ navigation, route }) {
                             labelKey="province_name"
                           />
                         </View>
-                       
+
                         <View style={{ flex: 1 }}>
                           <FSelect
                             name="cityId"
                             label="City"
-                            enabledKey='provinceId'
+                            enabledKey="provinceId"
                             options={citiesOptions.filter((city) =>
                               values["provinceId"]
                                 ? city.province_id == values["provinceId"]

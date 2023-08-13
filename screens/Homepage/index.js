@@ -12,6 +12,8 @@ import { Toast } from "@ant-design/react-native";
 import { LOAN_STATUS } from "@const";
 import { useSystemStore, useUserQuota } from "@store";
 import { useGetUserQuota } from "@apis/hooks";
+import { getAsyncParams } from "@apis/commonParameter/common";
+import { useI18n } from "@hooks/useI18n";
 
 import { CompanyIntro } from "./CompanyIntro";
 import { Quota } from "./Quota";
@@ -20,8 +22,10 @@ import { AntiFraudTips } from "./AntiFraudTips";
 import { OnlineService } from "./OnlineService";
 import HomeModals from "./HomeModals";
 import { useIsFocused } from "@react-navigation/native";
+import { doTrack } from "../../utils/dataTrack";
 
 export default function Homepage({ route, navigation }) {
+  const { i18n } = useI18n();
   const { showModal = false } = route?.params || {};
 
   const { mutate: getUserQuota, data: axiosRes } = useGetUserQuota();
@@ -42,38 +46,42 @@ export default function Homepage({ route, navigation }) {
 
   useEffect(() => {
     //setCalendar("01/09/2023");
-    getUserQuota();
+    isFocused && getUserQuota();
   }, [isFocused]);
 
   const handleBackPress = useCallback(() => {
-    if(navigation.isFocused()) {
-      if(lastBackPressed.current && lastBackPressed.current + 2000 >= Date.now()) {
+    if (navigation.isFocused()) {
+      if (
+        lastBackPressed.current &&
+        lastBackPressed.current + 2000 >= Date.now()
+      ) {
         BackHandler.exitApp();
-        return true
+        return true;
       }
-      lastBackPressed.current = Date.now()
+      lastBackPressed.current = Date.now();
       Toast.info({
-       content:
-         "Press again exit APP",
-       duration: 2,
+        content: "Press again exit APP",
+        duration: 2,
       });
       return true;
-    }
-  }, [])
-
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', handleBackPress);
-    return () => {
-      BackHandler.removeEventListener('hardwareBackPress');
     }
   }, []);
 
   useEffect(() => {
+    getAsyncParams(); // 取异步公共参数，包括位置信息，第一次安装进来会有位置授权弹框
+    BackHandler.addEventListener("hardwareBackPress", handleBackPress);
+    return () => {
+      BackHandler.removeEventListener("hardwareBackPress");
+    };
+  }, []);
+
+  useEffect(() => {
     const cl = axiosRes?.data?.data?.cashLoan;
-    console.log("cashloan: ", cl);
+    //console.log("cashloan: ", cl);
     if (cl && JSON.stringify(cashLoan) !== JSON.stringify(cl)) {
       setCashLoan(cl);
       if (cl.bill?.appStatus === LOAN_STATUS.using) {
+        doTrack("pk33", 1);
         isRepayReminderOn ? setCalendar(cl.bill?.dueDate) : setVisible(true);
       }
     }
@@ -132,28 +140,46 @@ export default function Homepage({ route, navigation }) {
     }
 
     if (!calendarID) {
-      Toast.info({
-        content: "Create Calender Failed! You can do it youself.",
-        duration: 3,
-      });
-    } else {
-      const eventID1 = await Calendar.createEventAsync(calendarID, {
-        title: "time to repay",
-        startDate: new Date(dayBeforeDue),
-        endDate: new Date(dayBeforeDue + 30 * 60 * 1000),
-      });
-      const eventID2 = await Calendar.createEventAsync(calendarID, {
-        title: "time to repay",
-        startDate: new Date(formattedDueDate + " 18:30:00"),
-        endDate: new Date(formattedDueDate + " 19:00:00"),
-      });
-      if (!eventID1 || !eventID2) {
-        Toast.info({
-          content: "Create Calender Failed! You can do it youself.",
-          duration: 3,
-        });
-      }
+      //Toast.info({
+      //  content: "Create Calender Failed! You can do it youself.",
+      //  duration: 3,
+      //});
+      return;
     }
+    const eventID1 = await Calendar.createEventAsync(calendarID, {
+      title: i18n.t("Repayment Tips"),
+      notes: i18n.t(
+        "[AlphaCash]The loan you applied for is about to expire, please repay it in time!"
+      ),
+      startDate: new Date(dayBeforeDue),
+      endDate: new Date(dayBeforeDue + 30 * 60 * 1000),
+      alarms: [
+        {
+          method: Calendar.AlarmMethod.ALARM,
+          relativeOffset: 0,
+        },
+      ],
+    });
+    const eventID2 = await Calendar.createEventAsync(calendarID, {
+      title: i18n.t("Repayment Tips"),
+      notes: i18n.t(
+        "[AlphaCash]The loan you applied for is due, and you must repay it in time today to avoid overdue!"
+      ),
+      startDate: new Date(formattedDueDate + " 18:30:00"),
+      endDate: new Date(formattedDueDate + " 19:00:00"),
+      alarms: [
+        {
+          method: Calendar.AlarmMethod.ALARM,
+          relativeOffset: 0,
+        },
+      ],
+    });
+    //if (!eventID1 || !eventID2) {
+    //  Toast.info({
+    //    content: "Create Calender Failed! You can do it youself.",
+    //    duration: 3,
+    //  });
+    //}
   }, []);
 
   return (

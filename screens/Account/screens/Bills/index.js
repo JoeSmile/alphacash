@@ -4,6 +4,7 @@ import { TabView, TabBar, SceneMap } from "react-native-tab-view";
 import Processing from "./Processing";
 import Completed from "./Completed";
 import { useI18n } from "@hooks/useI18n";
+import { doTrack } from "@utils/dataTrack";
 
 const renderScene = SceneMap({
   processing: Processing,
@@ -39,6 +40,11 @@ export default function BillList() {
           {route.title + ""}
         </Text>
       )}
+      onTabPress={({ route }) => {
+        if (route.key === "completed") {
+          doTrack("pk34", 1);
+        }
+      }}
     />
   );
 

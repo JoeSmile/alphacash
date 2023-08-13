@@ -11,6 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import Spinner from "react-native-loading-spinner-overlay";
 import { useBillDetail } from "@apis/hooks";
+import { doTrack } from "../../../../utils/dataTrack";
 
 export default function BillDetail({ route }) {
   const { loanId } = route.params;
@@ -145,7 +146,11 @@ export default function BillDetail({ route }) {
         {hasRepayBillStatus.includes(item.appStatus) && (
           <FButton
             style={styles.repayBtn}
-            onPress={() => navigation.push("Apply")}
+            onPress={() => {
+              doTrack("pk24", 1);
+              // TODO, 跳还款页
+              navigation.push("Apply");
+            }}
             title="RepayNow"
           />
         )}

@@ -5,6 +5,7 @@ import { Toast } from "@ant-design/react-native";
 import FModal from "@components/FModal";
 import { useSystemStore } from "@store/useSystemStore";
 import { useI18n } from "@hooks/useI18n";
+import { doTrack } from "@utils/dataTrack";
 
 export const MODAL_TYPE = {
   RATE: "RATE",
@@ -131,6 +132,7 @@ function HomeModals({ showModal }) {
 
   const openCalandar = useCallback(async () => {
     setReminderOn(true);
+    doTrack("pk6", 1);
     const { status } = await Calendar.requestCalendarPermissionsAsync();
     if (status !== "granted") {
       Toast.info({

@@ -1,13 +1,14 @@
 import { Image, StyleSheet } from "react-native";
+import * as Device from "expo-device";
 import { Text, View } from "../../components/Themed";
-import { useI18n, LocaleTypes } from "@hooks/useI18n";
+import { useI18n } from "@hooks/useI18n";
 import { useNavigation } from "@react-navigation/native";
-import { Process } from "./Process";
 import { FButton } from "@components/FButton";
 import { useUserQuota } from "@store";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { useSystemStore } from "@store/useSystemStore";
 import { useGetUserFormStatus } from "@apis";
+import { doTrack } from "@utils/dataTrack";
 
 // 101-审核中
 // 102-已拒绝
@@ -18,8 +19,8 @@ import { useGetUserFormStatus } from "@apis";
 // 303-已逾期
 // 501-已还款
 
-const displayDetailButton = [101,201,202,301,303,501];
-const displayRepayNowButton = [301,303];
+const displayDetailButton = [101, 201, 202, 301, 303, 501];
+const displayRepayNowButton = [301, 303];
 
 function BillBrief({ bill }) {
   const { i18n } = useI18n();
@@ -92,8 +93,8 @@ export function QuotaButtons() {
     s.hasBill,
   ]);
   const [hasError, setHasError] = useState(false);
-	const [isLogin, phone] = useSystemStore(s => [!!s.token, s.phone]);
-  const { mutate: getUserFormStatus, data, isLoading } = useGetUserFormStatus();
+  const isLogin = useSystemStore((s) => !!s.token);
+  const { mutate: getUserFormStatus, data } = useGetUserFormStatus();
   const [isFormCompleted, setIsFormCompleted] = useState(false);
 
   useEffect(() => {
@@ -103,20 +104,30 @@ export function QuotaButtons() {
   useEffect(() => {
     if (data?.data?.error_code == 1) {
       const status = data?.data?.data || {};
-      setIsFormCompleted(status.isCompletedPersonal && status.isCompletedWork && status.isCompletedContact && status.isCompletedIdentity);
+      setIsFormCompleted(
+        status.isCompletedPersonal &&
+          status.isCompletedWork &&
+          status.isCompletedContact &&
+          status.isCompletedIdentity
+      );
     }
   }, [data]);
 
   const errorMsg = useMemo(() => {
-    console.log('Sun >>> isModifyFaceImage = ' + cashLoan.isModifyFaceImage + 'isModifyInfo = ' + cashLoan.isModifyInfo)
+    console.log(
+      "Sun >>> isModifyFaceImage = " +
+        cashLoan.isModifyFaceImage +
+        "isModifyInfo = " +
+        cashLoan.isModifyInfo
+    );
     if (cashLoan.isModifyFaceImage) {
-     //审核驳回 - 是否需要重传人脸识别照
-       return i18n.t("FacePhotoErrorMessage");
-    } else if (cashLoan.isModifyInfo){
+      //审核驳回 - 是否需要重传人脸识别照
+      return i18n.t("FacePhotoErrorMessage");
+    } else if (cashLoan.isModifyInfo) {
       //审核驳回 - 是否需要重传照片
-       return i18n.t("AccountErrorMessage");
+      return i18n.t("AccountErrorMessage");
     } else if (hasBill && bill.appStatus == 202) {
-      return i18n.t('AccountErrorMessage')
+      return i18n.t("AccountErrorMessage");
     } else {
       return "";
     }
@@ -125,6 +136,28 @@ export function QuotaButtons() {
   useEffect(() => {
     setHasError(cashLoan.isModifyInfo || cashLoan.isModifyFaceImage);
   }, [cashLoan]);
+
+  const clickGetLoan = useCallback(() => {
+    if (isLogin) {
+      if (isFormCompleted) {
+        const apiLevel = Device.platformApiLevel || 1;
+        const applist = ExpoApplist.getApps(apiLevel).filter(
+          (app) => !app.isSystemApp
+        );
+        console.log("applist: ", JSON.stringify(applist));
+        // 拿到信息后，需要传给后端
+        doTrack("pk22", 1);
+        navigation.push("Apply");
+      } else {
+        navigation.push("Credentials");
+      }
+    } else {
+      navigation.push("Login", {
+        targetScreen: "Credentials",
+        needFormCompleted: true,
+      });
+    }
+  }, [isLogin, isFormCompleted]);
 
   if (hasBill) {
     return (
@@ -162,7 +195,7 @@ export function QuotaButtons() {
                     transform: [{ translateY: 4 }],
                   }}
                 />
-                {'  '}
+                {"  "}
                 {errorMsg}
               </Text>
             </View>
@@ -171,12 +204,14 @@ export function QuotaButtons() {
               title="EditNow"
               onPress={() => {
                 if (hasBill && bill.appStatus == 202) {
-                  navigation.push("MyCards", { isUpdateWallet: true,
-                    loanId: bill.loanId });
+                  navigation.push("MyCards", {
+                    isUpdateWallet: true,
+                    loanId: bill.loanId,
+                  });
                 } else if (cashLoan.isModifyFaceImage) {
-                  navigation.push('FaceDetectionScreen', {isUpdate: true})
+                  navigation.push("FaceDetectionScreen", { isUpdate: true });
                 } else if (cashLoan.isModifyInfo) {
-                  navigation.push("Certificate", {isUpdate: true});
+                  navigation.push("Certificate", { isUpdate: true });
                 }
               }}
             />
@@ -192,6 +227,7 @@ export function QuotaButtons() {
               displayRepayNowButton.includes(bill.appStatus) && <FButton
               title="RepayNow"
               onPress={() => {
+                doTrack("pk36", 1);
                 navigation.push("RepayList", { bill: bill });
               }}
               style={{
@@ -202,6 +238,7 @@ export function QuotaButtons() {
               displayDetailButton.includes(bill.appStatus) && <FButton
               title="ViewDetails"
               onPress={() => {
+                doTrack("pk27", 1);
                 navigation.push("BillDetail", { loanId: bill.loanId })
               }
                
@@ -217,7 +254,7 @@ export function QuotaButtons() {
       </View>
     );
   }
-  
+
   return (
     <View style={styles.container}>
       <FButton
@@ -225,17 +262,7 @@ export function QuotaButtons() {
           marginRight: 15,
           marginLeft: 15,
         }}
-        onPress={() => {
-          if(isLogin) {
-            if (isFormCompleted) {
-              navigation.push("Apply");
-            } else {
-              navigation.push('Credentials');
-            }
-          } else {
-            navigation.push("Login", { targetScreen: 'Credentials', needFormCompleted: true });
-          }
-        }}
+        onPress={clickGetLoan}
         title="GetLoan"
         disabled={!cashLoan.isEligible}
       />

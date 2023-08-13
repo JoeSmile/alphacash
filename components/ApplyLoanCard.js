@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { useI18n } from "@hooks/useI18n";
 import { formatNumberToFinancial as fn2f } from "@utils";
+import { doTrack } from "@utils/dataTrack";
 
 export default function ApplyLoanCard({
   optWithDaysConfig,
@@ -18,6 +19,7 @@ export default function ApplyLoanCard({
   const handleItemPress = useCallback((item, index) => {
     if (item.isApply) {
       // 处理点击事件的逻辑
+      doTrack("pk45", item.days);
       setDaysOption(index);
     }
   }, []);

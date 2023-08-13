@@ -13,6 +13,7 @@ module.exports = ({ config }) => ({
   assetBundlePatterns: ["**/*"],
   ios: {
     supportsTablet: true,
+    bundleIdentifier: "com.alphacash.easy.credit.loan.paisa",
   },
   android: {
     adaptiveIcon: {
@@ -23,9 +24,9 @@ module.exports = ({ config }) => ({
     permissions: [
       "ACCESS_COARSE_LOCATION",
       "ACCESS_FINE_LOCATION",
-      "ACCESS_BACKGROUND_LOCATION",
       "READ_CALENDAR",
       "WRITE_CALENDAR",
+      "QUERY_ALL_PACKAGES",
     ],
   },
   web: {
@@ -37,7 +38,7 @@ module.exports = ({ config }) => ({
       ? {
           policy: "sdkVersion",
         }
-      : "0.0.5",
+      : "0.1.1",
   updates: {
     fallbackToCacheTimeout: 0,
     url: "https://u.expo.dev/462bceb9-15ba-4d76-bcad-d93ef54c4c31",
@@ -58,6 +59,7 @@ module.exports = ({ config }) => ({
         cameraPermission: "Allow $(PRODUCT_NAME) to access your camera.",
       },
     ],
+    ["react-native-appsflyer", { shouldUseStrictMode: false }],
     [
       "react-native-fbsdk-next",
       {

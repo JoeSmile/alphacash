@@ -2,7 +2,6 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import React from "react";
-import { getAsyncParams } from "@apis/commonParameter/common";
 import { getUserQuota } from "@apis";
 import { useSystemStore, useUserQuota } from "@store";
 
@@ -26,7 +25,6 @@ export function useLoadedAssets() {
         // Load fonts
         await Font.loadAsync(Ionicons.font);
 
-        getAsyncParams(); // 取异步公共参数的，没有用await了，因为拿不到也没关系。不能阻塞APP进入
         const data = await getUserQuota({
           app,
           sign,

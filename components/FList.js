@@ -1,13 +1,24 @@
 import { Text, FlatList, Pressable, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useI18n } from "@hooks/useI18n";
+import { doTrack } from "@utils/dataTrack";
 import { useSystemStore } from "@store/useSystemStore";
 
 const Item = (props) => {
-  const { title, screen, leftItem, displayIcon = true, itemStyle = {}, rightIcon='', parameters = {}, requireLogin=false } = props;
+  const {
+    title,
+    trackName,
+    screen,
+    leftItem,
+    displayIcon = true,
+    itemStyle = {},
+    rightIcon = "",
+    parameters = {},
+    requireLogin = false,
+  } = props;
   const navigation = useNavigation();
   const { i18n } = useI18n();
-	const [isLogin, phone] = useSystemStore(s => [!!s.token, s.phone]);
+  const [isLogin, phone] = useSystemStore((s) => [!!s.token, s.phone]);
 
   return (
     <Pressable
@@ -21,15 +32,19 @@ const Item = (props) => {
         itemStyle,
       ]}
       onPress={() => {
+        trackName && doTrack(trackName, 1);
         if (requireLogin) {
-            if (isLogin) { 
-              screen && navigation.push(screen, {...parameters});
-            } else {
-              // goto login
-              navigation.push('Login', {targetScreen: screen??'' , ...parameters});
-            }
+          if (isLogin) {
+            screen && navigation.push(screen, { ...parameters });
+          } else {
+            // goto login
+            navigation.push("Login", {
+              targetScreen: screen ?? "",
+              ...parameters,
+            });
+          }
         } else {
-          screen && navigation.push(screen, {...parameters});
+          screen && navigation.push(screen, { ...parameters });
         }
       }}
     >
@@ -38,15 +53,16 @@ const Item = (props) => {
       ) : (
         <Text style={{ fontSize: 16 }}>{i18n.t(title)}</Text>
       )}
-      {
-        displayIcon && <Image
-        source={rightIcon ? rightIcon : require("@assets/images/com_ic_right.png")}
-        contentFit="cover"
-        transition={200}
-        style={{ width: 15, height: 15 }}
-      />
-      }
-      
+      {displayIcon && (
+        <Image
+          source={
+            rightIcon ? rightIcon : require("@assets/images/com_ic_right.png")
+          }
+          contentFit="cover"
+          transition={200}
+          style={{ width: 15, height: 15 }}
+        />
+      )}
     </Pressable>
   );
 };

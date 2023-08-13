@@ -1,28 +1,35 @@
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import FList from "@components/FList";
-import * as Linking from "expo-linking"
+import * as Linking from "expo-linking";
 import { A } from "@expo/html-elements";
 import { useI18n } from "@hooks/useI18n";
+import { doTrack } from "../../../utils/dataTrack";
 
 const Item = (item) => {
   const { i18n } = useI18n();
 
   return (
-    <View style={styles.item}>
-      <Image
-        source={item.leftIcon}
-        contentFit="cover"
-        transition={1000}
-        style={{
-          width: 25,
-          height: 25,
-          marginRight: 12,
-        }}
-      />
-        <Text style={{
-          fontSize: 16
-        }}>{i18n.t(item.title)}</Text>
-    </View>
+    <Pressable>
+      <View style={styles.item}>
+        <Image
+          source={item.leftIcon}
+          contentFit="cover"
+          transition={1000}
+          style={{
+            width: 25,
+            height: 25,
+            marginRight: 12,
+          }}
+        />
+        <Text
+          style={{
+            fontSize: 16,
+          }}
+        >
+          {i18n.t(item.title)}
+        </Text>
+      </View>
+    </Pressable>
   );
 };
 
@@ -43,10 +50,12 @@ const data = [
               fontWeight: "bold",
             }}
           >
-            <View style={{
-              flexDirection: 'row',
-              alignItems:'center'
-            }}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
               <Image
                 source={item.leftIcon}
                 contentFit="cover"
@@ -54,15 +63,19 @@ const data = [
                 style={{
                   width: 25,
                   height: 25,
-                  marginRight: 12, 
+                  marginRight: 12,
                 }}
               />
-              <Text style={{color: '#0A233E'}}>{i18n.t(item.title)}</Text>
-              <Text style={{
-                color: '#8899AC',
-                marginLeft: 5,
-                marginRight: 5,
-              }}>{i18n.t('Recommend')}</Text>
+              <Text style={{ color: "#0A233E" }}>{i18n.t(item.title)}</Text>
+              <Text
+                style={{
+                  color: "#8899AC",
+                  marginLeft: 5,
+                  marginRight: 5,
+                }}
+              >
+                {i18n.t("Recommend")}
+              </Text>
             </View>
           </A>
         </>
@@ -71,12 +84,13 @@ const data = [
   },
   {
     title: "Email",
+    trackName: "pk16",
     leftIcon: require("@assets/images/mine_ic_email.png"),
     leftItem: Item,
   },
   {
     title: "Contact Number",
-    tel: 'xxxx',
+    tel: "xxxx",
     leftIcon: require("@assets/images/mine_ic_contact_number.png"),
     displayIcon: false,
     leftItem: (item) => {
@@ -84,10 +98,12 @@ const data = [
 
       return (
         <>
-          <View style={{
-            flexDirection: 'row',
-            alignItems:'center'
-          }}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
             <Image
               source={item.leftIcon}
               contentFit="cover"
@@ -100,15 +116,22 @@ const data = [
             />
             <Text>{i18n.t(item.title)}</Text>
           </View>
-          <Pressable onPress={() => {
+          <Pressable
+            onPress={() => {
+              doTrack("pk13", 1);
               //TODO: +区号
-              Linking.openURL(`tel: ${item.tel}`)
-            }}>
-              <Text style={{
-                color: '#0825B8',
+              Linking.openURL(`tel: ${item.tel}`);
+            }}
+          >
+            <Text
+              style={{
+                color: "#0825B8",
                 fontSize: 15,
-                fontWeight: 'bold',
-              }}>{i18n.t('Call')}</Text>
+                fontWeight: "bold",
+              }}
+            >
+              {i18n.t("Call")}
+            </Text>
           </Pressable>
         </>
       );
@@ -118,23 +141,26 @@ const data = [
 
 export default function ContactUs() {
   return (
-    <View style={{
-      backgroundColor: 'white',
-      height: '100%'
-    }}>
+    <View
+      style={{
+        backgroundColor: "white",
+        height: "100%",
+      }}
+    >
       <View style={styles.container}>
-        <FList data={data} itemStyle={styles.FList}/>
-        <Text style={{
-          color: '#8899AC',
-          fontSize: 12,
-          lineHeight: 18
-        }}>
+        <FList data={data} itemStyle={styles.FList} />
+        <Text
+          style={{
+            color: "#8899AC",
+            fontSize: 12,
+            lineHeight: 18,
+          }}
+        >
           Key Executive For Loan Handling officer Name: xxxxxxx Contact
           Email:XXXXXX@com
         </Text>
       </View>
     </View>
-   
   );
 }
 const styles = StyleSheet.create({
@@ -159,7 +185,7 @@ const styles = StyleSheet.create({
   FList: {
     height: 60,
     borderWidth: 1,
-    borderColor: '#C0C4D6',
+    borderColor: "#C0C4D6",
     backgroundColor: "white",
     paddingHorizontal: 12,
     paddingVertical: 12,

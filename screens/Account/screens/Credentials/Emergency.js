@@ -19,6 +19,7 @@ import {
 } from "@apis/hooks";
 import { useEffect, useState } from "react";
 import { useI18n } from "@hooks/useI18n";
+import { doTrack } from "@utils/dataTrack";
 
 const initialValues = {
   relationship1: "",
@@ -35,23 +36,25 @@ const getEmergencyFormSchema = (phone) => {
     name1: Yup.string().required("Required"),
     phoneNumber1: Yup.string()
       .matches(/^\d{11}$/, "Please input 11 characters phone number")
-      .notOneOf([phone], 'should be same as your phone number')
+      .notOneOf([phone], "should be same as your phone number")
       .required("Required"),
     relationship2: Yup.number().required("Required"),
     name2: Yup.string().required("Required"),
-    phoneNumber2: Yup.string().matches(/^\d{11}$/, "Please input 11 characters phone number").notOneOf(
-      [Yup.ref("phoneNumber1")],
-      "Two phone numbers should be same, please input again"
-    )
-    .test('phone', 'should be same as your phone number', (val, context) => {
-      if (val == phone) {
-        return false
-      }
-      return true
-    })
-    .required("Required"),
+    phoneNumber2: Yup.string()
+      .matches(/^\d{11}$/, "Please input 11 characters phone number")
+      .notOneOf(
+        [Yup.ref("phoneNumber1")],
+        "Two phone numbers should be same, please input again"
+      )
+      .test("phone", "should be same as your phone number", (val, context) => {
+        if (val == phone) {
+          return false;
+        }
+        return true;
+      })
+      .required("Required"),
   });
-}
+};
 
 export default function Emergency({ navigation, route }) {
   const {
@@ -68,7 +71,7 @@ export default function Emergency({ navigation, route }) {
   const [relationShipOptions_1, setRelationShipOptions_1] = useState();
   const { i18n } = useI18n();
   const [isUpdate, setIsUpdate] = useState(false);
-	const [phone] = useSystemStore(s => [s.phone]);
+  const [phone] = useSystemStore((s) => [s.phone]);
 
   useEffect(() => {
     getReferenceContacts();
@@ -108,8 +111,9 @@ export default function Emergency({ navigation, route }) {
 
   useEffect(() => {
     if (updateContactsResponse && updateContactsResponse.data.error_code == 1) {
+      doTrack("pk38", 1);
       if (isUpdate) {
-        navigation.goBack()
+        navigation.goBack();
       } else {
         navigation.push("Certificate");
       }
@@ -159,13 +163,17 @@ export default function Emergency({ navigation, route }) {
                     <FSelect
                       name="relationship1"
                       label="Reference Relationship"
-                      suffix='1'
+                      suffix="1"
                       options={relationShipOptions}
                     />
                   </View>
 
                   <View style={styles.module}>
-                    <FTextInput name="name1" label="Reference Name" suffix='1'/>
+                    <FTextInput
+                      name="name1"
+                      label="Reference Name"
+                      suffix="1"
+                    />
                   </View>
 
                   <View style={styles.module}>
@@ -175,7 +183,7 @@ export default function Emergency({ navigation, route }) {
                       hintValue="Please enter the number manually"
                       keyboardType="numeric"
                       displayDigit={11}
-                      suffix='1'
+                      suffix="1"
                     />
                   </View>
 
@@ -184,19 +192,23 @@ export default function Emergency({ navigation, route }) {
                       name="relationship2"
                       label="Reference Relationship"
                       options={relationShipOptions_1}
-                      suffix='2'
+                      suffix="2"
                     />
                   </View>
 
                   <View style={styles.module}>
-                    <FTextInput name="name2" label="Reference Name"   suffix='2'/>
+                    <FTextInput
+                      name="name2"
+                      label="Reference Name"
+                      suffix="2"
+                    />
                   </View>
 
                   <View style={styles.module}>
                     <FTextInput
                       name="phoneNumber2"
                       label="Reference Number"
-                      suffix='2'
+                      suffix="2"
                       hintValue="Please enter the number manually"
                       keyboardType="numeric"
                       displayDigit={11}
@@ -239,7 +251,7 @@ export default function Emergency({ navigation, route }) {
               )}
             </Formik>
           )}
-        <Return />
+        <Return trackName={"pk10"} />
       </View>
     </ScrollView>
   );

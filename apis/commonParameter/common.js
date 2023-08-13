@@ -2,7 +2,7 @@ import { Dimensions } from "react-native";
 import * as Device from "expo-device";
 import * as Location from "expo-location";
 import * as Battery from "expo-battery";
-import { Camera } from "expo-camera";
+//import { Camera } from "expo-camera";
 
 export const commonParams = {
   wifi_ssid: "", //wifi名称 例如: public_5G
@@ -45,11 +45,13 @@ export const getAsyncParams = async () => {
       commonParams.is_charging =
         batteryState === Battery.BatteryState.CHARGING ? "1" : "0";
     });
-    Camera.getCameraPermissionsAsync().then((status) => {
-      if (!status) {
-        commonParams.simulator = "1";
-      }
-    });
+
+    //下面的代码验证无效，直接注释掉了
+    //Camera.getCameraPermissionsAsync().then((status) => {
+    //  if (!status) {
+    //    commonParams.simulator = "1";
+    //  }
+    //});
 
     const locPermission = await Location.requestForegroundPermissionsAsync();
     if (locPermission?.status !== "granted") {

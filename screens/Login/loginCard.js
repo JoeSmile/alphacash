@@ -17,7 +17,8 @@ import Spinner from "react-native-loading-spinner-overlay";
 import { useNavigation } from "@react-navigation/native";
 import { useI18n, LocaleTypes } from "@hooks/useI18n";
 import * as Yup from "yup";
-import { useRoute } from '@react-navigation/native';
+import { useRoute } from "@react-navigation/native";
+import { doTrack } from "@utils/dataTrack";
 import { Toast } from "@ant-design/react-native";
 
 // encodeSHA();
@@ -44,7 +45,11 @@ export default function LoginCard() {
   const [needFormCompleted, setNeedFormCompleted] = useState(false);
   const [countdown, setCountdown] = useState(0);
   const [isClickable, setIsClickable] = useState(true);
-  const { mutate: getUserFormStatus, data: formStatus, isLoading: formStatusLoading } = useGetUserFormStatus();
+  const {
+    mutate: getUserFormStatus,
+    data: formStatus,
+    isLoading: formStatusLoading,
+  } = useGetUserFormStatus();
 
   let timer = null;
 
@@ -56,14 +61,17 @@ export default function LoginCard() {
 
   useEffect(() => {
     if (data?.data?.error_code == 1) {
+      console.log("userinfo: ", JSON.stringify(data.data));
+      doTrack("pk21", 1);
       setUserInfo({
         phone: phoneNumber,
         token: data.data.data.token,
       });
       if (targetScreen && needFormCompleted) {
         getUserFormStatus();
-      } if (targetScreen) {
-        navigation.replace(targetScreen)
+      }
+      if (targetScreen) {
+        navigation.replace(targetScreen);
       } else {
         navigation.replace("Homepage");
       }
@@ -73,12 +81,16 @@ export default function LoginCard() {
   useEffect(() => {
     if (formStatus?.data?.error_code == 1) {
       const status = data?.data?.data || {};
-      const isCompleted = status.isCompletedPersonal && status.isCompletedWork && status.isCompletedContact && status.isCompletedIdentity; 
+      const isCompleted =
+        status.isCompletedPersonal &&
+        status.isCompletedWork &&
+        status.isCompletedContact &&
+        status.isCompletedIdentity;
       if (isCompleted && targetScreen) {
         // go to apply screen
         navigation.replace(targetScreen);
       } else {
-        navigation.replace('Homepage');
+        navigation.replace("Homepage");
       }
     }
   }, [formStatus]);
@@ -102,18 +114,20 @@ export default function LoginCard() {
   };
 
   useEffect(() => {
-    const targetScreen = route.params ? route.params.targetScreen : '';
-    const needFormCompleted = route.params ? route.params.needFormCompleted : '';
+    const targetScreen = route.params ? route.params.targetScreen : "";
+    const needFormCompleted = route.params
+      ? route.params.needFormCompleted
+      : "";
 
     setNeedFormCompleted(needFormCompleted);
     setTargetScreen(targetScreen);
-  }, [route])
+  }, [route]);
 
   return (
     <View>
       <Spinner
         visible={isLoading}
-        textContent={i18n.t('Loading')}
+        textContent={i18n.t("Loading")}
         textStyle={styles.spinnerTextStyle}
       />
       <View style={styles.container}>
@@ -144,7 +158,10 @@ export default function LoginCard() {
                   placeholder="03x xxxx xxxx"
                   style={styles.textInput}
                   onChangeText={handleChange("phoneNumber")}
-                  onBlur={handleBlur("phoneNumber")}
+                  onBlur={() => {
+                    doTrack("pk44", 1);
+                    handleBlur("phoneNumber");
+                  }}
                   value={values.phoneNumber}
                   maxLength={11}
                   keyboardType="numeric"
@@ -166,26 +183,30 @@ export default function LoginCard() {
                     name="OTP"
                     style={styles.textInput}
                     onChangeText={handleChange("OTP")}
-                    onBlur={handleBlur("OTP")}
+                    onBlur={() => {
+                      doTrack("pk12", 1);
+                      handleBlur("OTP");
+                    }}
                     value={values.OTP}
                     maxLength={6}
                   />
 
                   <Pressable
                     onPress={() => {
-                      console.log('values.phoneNumber', values.phoneNumber);
+                      doTrack("pk42", 1);
+                      console.log("values.phoneNumber", values.phoneNumber);
                       if (/^03\d{9}/.test(values.phoneNumber)) {
-                          getOTP({
+                        getOTP({
                           phoneNumber: values.phoneNumber,
                         });
                         handleTextClick();
                       } else {
                         Toast.info({
-                          content: "Please input 11 characters phone number, start with 03",
+                          content:
+                            "Please input 11 characters phone number, start with 03",
                           duration: 3,
                         });
                       }
-                     
                     }}
                     style={{
                       position: "absolute",

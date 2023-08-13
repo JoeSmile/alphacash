@@ -1,8 +1,9 @@
 import { View, Switch, Text, Image, StyleSheet, Pressable } from "react-native";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { useSystemStore } from "@store/useSystemStore";
 import FModal from "@components/FModal";
 import { useI18n } from "@hooks/useI18n";
+import { doTrack } from "@utils/dataTrack";
 
 export const RepayRemind = (item) => {
   const { i18n } = useI18n();
@@ -24,6 +25,7 @@ export const RepayRemind = (item) => {
   }, [isEnabled]);
 
   const closeReminder = useCallback(() => {
+    doTrack("pk47", 1);
     setModalVisible(false);
     setIsEnabled(false);
     setOn(false);

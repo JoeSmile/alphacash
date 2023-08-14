@@ -34,6 +34,7 @@ export function initDataTrack() {
 }
 
 export function doTrack(name, value) {
+  console.log("doTrack: ", name);
   if (Platform.OS !== "web") {
     AppEventsLogger.logEvent(name, { name: value });
     appsFlyer.logEvent(

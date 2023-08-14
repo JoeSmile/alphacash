@@ -31,7 +31,6 @@ export default function BottomTabNavigator({ route }) {
         initialParams={{ showModal }}
         listeners={{
           tabPress: (e) => {
-            console.log("tabPress pk14");
             doTrack("pk14", 1);
           },
         }}
@@ -54,7 +53,6 @@ export default function BottomTabNavigator({ route }) {
         component={Account}
         listeners={{
           tabPress: (e) => {
-            console.log("tabPress pk39");
             doTrack("pk39", 1);
           },
         }}

@@ -1,5 +1,5 @@
 import "react-native-gesture-handler";
-
+import { Text } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
@@ -34,6 +34,7 @@ export default function App() {
   useInitialStore();
   if (!isLoadingComplete) {
     return null;
+    //return <Text>hhh</Text>;
   } else {
     return (
       <SafeAreaProvider>

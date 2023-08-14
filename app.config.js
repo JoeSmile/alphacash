@@ -7,8 +7,8 @@ module.exports = ({ config }) => ({
   userInterfaceStyle: "light",
   splash: {
     image: "./assets/splash.png",
-    resizeMode: "contain",
-    backgroundColor: "#ffffff",
+    resizeMode: "cover",
+    backgroundColor: "#0825B8",
   },
   assetBundlePatterns: ["**/*"],
   ios: {
@@ -17,7 +17,7 @@ module.exports = ({ config }) => ({
   },
   android: {
     adaptiveIcon: {
-      foregroundImage: "./assets/adaptive-icon.png",
+      foregroundImage: "./assets/icon.png",
       backgroundColor: "#ffffff",
     },
     package: "com.alphacash.easy.credit.loan.paisa",

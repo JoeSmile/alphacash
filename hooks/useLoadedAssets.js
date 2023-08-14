@@ -21,10 +21,8 @@ export function useLoadedAssets() {
     async function loadResourcesAndDataAsync() {
       try {
         SplashScreen.preventAutoHideAsync();
-
         // Load fonts
         await Font.loadAsync(Ionicons.font);
-
         const data = await getUserQuota({
           app,
           sign,
@@ -32,7 +30,6 @@ export function useLoadedAssets() {
           t: Date.now() + "",
           token,
         }); // 保证进入Home页不闪，优化体验
-
         const cashLoan = data?.data?.data?.cashLoan;
         if (cashLoan) {
           setCashLoan(cashLoan);

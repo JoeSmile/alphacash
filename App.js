@@ -106,12 +106,12 @@ const styles = StyleSheet.create({
     lineHeight: 28,
   },
   license: {
+    width: "100%",
     color: "white",
     fontSize: 14,
     lineHeight: 20,
     position: "absolute",
     bottom: 60,
-    left: "50%",
-    transform: [{ translateX: "-50%" }],
+    textAlign: "center",
   },
 });

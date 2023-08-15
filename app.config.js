@@ -8,7 +8,7 @@ module.exports = ({ config }) => ({
   splash: {
     image: "./assets/splash.png",
     resizeMode: "cover",
-    backgroundColor: "#0825B8",
+    backgroundColor: "#FFFFFF",
   },
   assetBundlePatterns: ["**/*"],
   ios: {
@@ -20,11 +20,11 @@ module.exports = ({ config }) => ({
       foregroundImage: "./assets/playstore-icon.png",
       backgroundColor: "#ffffff",
     },
-    splash: {
-      image: "./assets/splash.png",
-      resizeMode: "cover",
-      backgroundColor: "#0825B8",
-    },
+    //splash: {
+    //  image: "./assets/splash.png",
+    //  resizeMode: "cover",
+    //  backgroundColor: "#0825B8",
+    //},
     package: "com.alphacash.easy.credit.loan.paisa",
     permissions: [
       "ACCESS_COARSE_LOCATION",

@@ -63,6 +63,11 @@ export default function LoginCard() {
     if (data?.data?.error_code == 1) {
       console.log("userinfo: ", JSON.stringify(data.data));
       doTrack("pk21", 1);
+      if (data.data.data.isNewAccount) {
+        doTrack("pk28", 1);
+      } else {
+        doTrack("pk35", 1);
+      }
       setUserInfo({
         phone: phoneNumber,
         token: data.data.data.token,

@@ -30,10 +30,9 @@ export default function Homepage({ route, navigation }) {
 
   const { mutate: getUserQuota, data: axiosRes } = useGetUserQuota();
   const isRepayReminderOn = useSystemStore((s) => s.isRepayReminderOn);
-  const [cashLoan, setCashLoan] = useUserQuota((s) => [
-    s.cashLoan,
-    s.setCashLoan,
-  ]);
+  const [cashLoan, setCashLoan, loanIds, setLoanIdInTips] = useUserQuota(
+    (s) => [s.cashLoan, s.setCashLoan, s.loanIdInTips, s.setLoanIdInTips]
+  );
 
   const [modalVisible, setVisible] = useState(false);
 
@@ -82,7 +81,10 @@ export default function Homepage({ route, navigation }) {
       setCashLoan(cl);
       if (cl.bill?.appStatus === LOAN_STATUS.using) {
         doTrack("pk33", 1);
-        isRepayReminderOn ? setCalendar(cl.bill?.dueDate) : setVisible(true);
+        if (!loanIds.includes(cl.bill.loanId)) {
+          isRepayReminderOn ? setCalendar(cl.bill?.dueDate) : setVisible(true);
+          setLoanIdInTips(cl.bill.loanId);
+        }
       }
     }
   }, [axiosRes]);
@@ -149,7 +151,7 @@ export default function Homepage({ route, navigation }) {
     const eventID1 = await Calendar.createEventAsync(calendarID, {
       title: i18n.t("Repayment Tips"),
       notes: i18n.t(
-        "[AlphaCash]The loan you applied for is about to expire, please repay it in time!"
+        "The loan you applied for is about to expire, please repay it in time!"
       ),
       startDate: new Date(dayBeforeDue),
       endDate: new Date(dayBeforeDue + 30 * 60 * 1000),
@@ -163,7 +165,7 @@ export default function Homepage({ route, navigation }) {
     const eventID2 = await Calendar.createEventAsync(calendarID, {
       title: i18n.t("Repayment Tips"),
       notes: i18n.t(
-        "[AlphaCash]The loan you applied for is due, and you must repay it in time today to avoid overdue!"
+        "The loan you applied for is due, and you must repay it in time today to avoid overdue!"
       ),
       startDate: new Date(formattedDueDate + " 18:30:00"),
       endDate: new Date(formattedDueDate + " 19:00:00"),

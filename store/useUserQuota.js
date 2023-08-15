@@ -49,6 +49,7 @@ export const useUserQuota = create((set, get) => ({
     type: "",
     name: "",
   },
+  loanIdInTips: [],
   setFaceData: (newFaceData) => {
     set(() => ({
       faceData: newFaceData,
@@ -60,5 +61,11 @@ export const useUserQuota = create((set, get) => ({
       bill: cashLoan.bill,
       hasBill: !!Object.keys(cashLoan.bill).length,
     });
+  },
+  setLoanIdInTips: (loadId) => {
+    set((state) => ({
+      ...state,
+      loanIdInTips: state.loanIdInTips.push(loadId),
+    }));
   },
 }));

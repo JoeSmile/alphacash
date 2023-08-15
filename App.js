@@ -1,5 +1,6 @@
+import { useEffect, useRef, useState } from "react";
 import "react-native-gesture-handler";
-import { Text } from "react-native";
+import { Text, View, ImageBackground, StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
@@ -26,25 +27,91 @@ const queryClient = new QueryClient();
 
 export default function App() {
   useOnlineManager();
-
   useAppState(onAppStateChange);
 
   const isLoadingComplete = useLoadedAssets();
   const colorScheme = useColorScheme();
   useInitialStore();
-  if (!isLoadingComplete) {
-    return null;
-    //return <Text>hhh</Text>;
-  } else {
-    return (
-      <SafeAreaProvider>
+
+  const timer = useRef(null);
+  const [count, setCount] = useState(5);
+  useEffect(() => {
+    if (isLoadingComplete) {
+      timer.current = setInterval(() => {
+        setCount((count) => count - 1);
+      }, 1000);
+    }
+
+    return () => {
+      timer.current && clearInterval(timer.current);
+    };
+  }, [isLoadingComplete]);
+
+  useEffect(() => {
+    if (count < 0) {
+      timer.current && clearInterval(timer.current);
+      timer.current = null;
+    }
+  }, [count]);
+
+  return (
+    <SafeAreaProvider>
+      {count > 0 ? (
+        <View style={styles.container}>
+          <ImageBackground
+            style={{ flex: 1 }}
+            source={require("./assets/splash.png")}
+          >
+            <View style={styles.countDown}>
+              <Text style={styles.countText}>{count}</Text>
+            </View>
+            <Text style={styles.license}>License No:xxxxxxxxxxxxxx</Text>
+          </ImageBackground>
+        </View>
+      ) : (
         <QueryClientProvider client={queryClient}>
           <Provider>
             <Navigation colorScheme={colorScheme} />
           </Provider>
           <StatusBar />
         </QueryClientProvider>
-      </SafeAreaProvider>
-    );
-  }
+      )}
+    </SafeAreaProvider>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#0825B8",
+    position: "relative",
+  },
+  bg: {
+    flex: 1,
+  },
+  countDown: {
+    borderWidth: 1,
+    borderColor: "white",
+    borderRadius: 20,
+    fontSize: 14,
+    width: 28,
+    height: 28,
+    position: "absolute",
+    top: 32,
+    right: 28,
+  },
+  countText: {
+    color: "white",
+    textAlign: "center",
+    lineHeight: 28,
+  },
+  license: {
+    color: "white",
+    fontSize: 14,
+    lineHeight: 20,
+    position: "absolute",
+    bottom: 60,
+    left: "50%",
+    transform: [{ translateX: "-50%" }],
+  },
+});

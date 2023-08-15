@@ -23,17 +23,17 @@ export function useLoadedAssets() {
         SplashScreen.preventAutoHideAsync();
         // Load fonts
         await Font.loadAsync(Ionicons.font);
-        const data = await getUserQuota({
-          app,
-          sign,
-          l,
-          t: Date.now() + "",
-          token,
-        }); // 保证进入Home页不闪，优化体验
-        const cashLoan = data?.data?.data?.cashLoan;
-        if (cashLoan) {
-          setCashLoan(cashLoan);
-        }
+        //const data = await getUserQuota({
+        //  app,
+        //  sign,
+        //  l,
+        //  t: Date.now() + "",
+        //  token,
+        //}); // 保证进入Home页不闪，优化体验
+        //const cashLoan = data?.data?.data?.cashLoan;
+        //if (cashLoan) {
+        //  setCashLoan(cashLoan);
+        //}
       } catch (e) {
         // We might want to provide this error information to an error reporting service
         console.warn(e);

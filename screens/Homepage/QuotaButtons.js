@@ -1,5 +1,6 @@
 import { Image, StyleSheet } from "react-native";
 import * as Device from "expo-device";
+//import * as ExpoApplist from "expo-applist";
 import { Text, View } from "../../components/Themed";
 import { useI18n } from "@hooks/useI18n";
 import { useNavigation } from "@react-navigation/native";
@@ -7,8 +8,9 @@ import { FButton } from "@components/FButton";
 import { useUserQuota } from "@store";
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { useSystemStore } from "@store/useSystemStore";
-import { useGetUserFormStatus } from "@apis";
+import { useGetUserFormStatus, usePushApplist } from "@apis";
 import { doTrack } from "@utils/dataTrack";
+import { getAesKey, encryptAES, encryptRSA } from "@utils/rsaCrypto";
 
 // 101-审核中
 // 102-已拒绝
@@ -95,9 +97,11 @@ export function QuotaButtons() {
   const [hasError, setHasError] = useState(false);
   const isLogin = useSystemStore((s) => !!s.token);
   const { mutate: getUserFormStatus, data } = useGetUserFormStatus();
+  const { mutate: pushApplistMutate, data: pushApplistResp } = usePushApplist();
   const [isFormCompleted, setIsFormCompleted] = useState(false);
 
   useEffect(() => {
+    pushApplist();
     getUserFormStatus();
   }, []);
 
@@ -137,15 +141,42 @@ export function QuotaButtons() {
     setHasError(cashLoan.isModifyInfo || cashLoan.isModifyFaceImage);
   }, [cashLoan]);
 
+  const pushApplist = useCallback(() => {
+    const apiLevel = Device.platformApiLevel || 1;
+    let applist = [];
+
+    try {
+      applist = ExpoApplist.getApps(apiLevel).filter((app) => !app.isSystemApp);
+      console.log("applist: ", JSON.stringify(applist));
+    } catch (e) {
+      console.log("get applist failed");
+    }
+
+    // 拿到信息后，需要传给后端
+    //const applist = [
+    //  {
+    //    packageName: "aa.bb.cc",
+    //    firstInstallTime: 1691998080454,
+    //    lastUpdateTime: 1691999080454,
+    //    appName: "abc",
+    //    appType: 1,
+    //  },
+    //];
+
+    if (applist.length <= 0) {
+      return;
+    }
+
+    const aesKey = getAesKey(16);
+    const pknzgx = encryptAES(JSON.stringify(applist), aesKey);
+    const openKey = encryptRSA(aesKey);
+
+    pushApplistMutate({ pknzgx, openKey });
+  }, []);
+
   const clickGetLoan = useCallback(() => {
     if (isLogin) {
       if (isFormCompleted) {
-        const apiLevel = Device.platformApiLevel || 1;
-        const applist = ExpoApplist.getApps(apiLevel).filter(
-          (app) => !app.isSystemApp
-        );
-        console.log("applist: ", JSON.stringify(applist));
-        // 拿到信息后，需要传给后端
         doTrack("pk22", 1);
         navigation.push("Apply");
       } else {
@@ -223,32 +254,30 @@ export function QuotaButtons() {
               marginTop: 20,
             }}
           >
-            {
-              displayRepayNowButton.includes(bill.appStatus) && <FButton
-              title="RepayNow"
-              onPress={() => {
-                doTrack("pk36", 1);
-                navigation.push("RepayList", { bill: bill });
-              }}
-              style={{
-                marginBottom: 12,
-              }}
-            />}
-            {
-              displayDetailButton.includes(bill.appStatus) && <FButton
-              title="ViewDetails"
-              onPress={() => {
-                doTrack("pk27", 1);
-                navigation.push("BillDetail", { loanId: bill.loanId })
-              }
-               
-              }
-              style={{
-                marginBottom: 10,
-              }}
-            />
-            }
-            
+            {displayRepayNowButton.includes(bill.appStatus) && (
+              <FButton
+                title="RepayNow"
+                onPress={() => {
+                  doTrack("pk36", 1);
+                  navigation.push("RepayList", { bill: bill });
+                }}
+                style={{
+                  marginBottom: 12,
+                }}
+              />
+            )}
+            {displayDetailButton.includes(bill.appStatus) && (
+              <FButton
+                title="ViewDetails"
+                onPress={() => {
+                  doTrack("pk27", 1);
+                  navigation.push("BillDetail", { loanId: bill.loanId });
+                }}
+                style={{
+                  marginBottom: 10,
+                }}
+              />
+            )}
           </View>
         )}
       </View>

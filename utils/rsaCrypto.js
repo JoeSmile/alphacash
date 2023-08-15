@@ -41,9 +41,9 @@ export function encryptAES(text, key) {
   );
   const cipherString = cipherText.ciphertext.toString(CryptoJS.enc.Base64);
 
-  console.log("AES crypt: text ", text);
-  console.log("AES crypt: key", key);
-  console.log("AES crypt: aes string", cipherString);
+  //console.log("AES crypt: text ", text);
+  //console.log("AES crypt: key", key);
+  //console.log("AES crypt: aes string", cipherString);
 
   return cipherString;
 }
@@ -54,8 +54,8 @@ export function encryptRSA(text) {
   encryptor.setPublicKey(rasPublicKey); //设置公钥
   var rsaPassWord = encryptor.encrypt(text); // 对内容进行加密
 
-  console.log("RSA crypt: src string", text);
-  console.log("RSA crypt: rsa string", rsaPassWord);
+  //console.log("RSA crypt: src string", text);
+  //console.log("RSA crypt: rsa string", rsaPassWord);
 
   return rsaPassWord;
 }

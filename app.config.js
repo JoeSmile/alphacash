@@ -8,7 +8,7 @@ module.exports = ({ config }) => ({
   splash: {
     image: "./assets/splash.png",
     resizeMode: "cover",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#0825B8",
   },
   assetBundlePatterns: ["**/*"],
   ios: {

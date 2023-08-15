@@ -20,7 +20,7 @@ import { Quota } from "./Quota";
 import { Advantage } from "./Advantage";
 import { AntiFraudTips } from "./AntiFraudTips";
 import { OnlineService } from "./OnlineService";
-import HomeModals from "./HomeModals";
+import HomeModals, { MODAL_TYPE } from "./HomeModals";
 import { useIsFocused } from "@react-navigation/native";
 import { doTrack } from "../../utils/dataTrack";
 
@@ -35,6 +35,7 @@ export default function Homepage({ route, navigation }) {
   );
 
   const [modalVisible, setVisible] = useState(false);
+  const [modalType, setType] = useState(MODAL_TYPE.RATE);
 
   const isFocused = useIsFocused();
   // const [lastBackPressed, setLastBackPressed] = useState();
@@ -79,6 +80,12 @@ export default function Homepage({ route, navigation }) {
     //console.log("cashloan: ", cl);
     if (cl && JSON.stringify(cashLoan) !== JSON.stringify(cl)) {
       setCashLoan(cl);
+      if (!cl.isEligible) {
+        setVisible(true);
+        setType(MODAL_TYPE.ELIGIBLE);
+        return;
+      }
+
       if (cl.bill?.appStatus === LOAN_STATUS.using) {
         doTrack("pk33", 1);
         if (!loanIds.includes(cl.bill.loanId)) {
@@ -192,7 +199,7 @@ export default function Homepage({ route, navigation }) {
       <Advantage />
       <AntiFraudTips />
       <OnlineService />
-      <HomeModals showModal={modalVisible} />
+      <HomeModals showModal={modalVisible} type={modalType} />
     </ScrollView>
   );
 }

@@ -10,9 +10,10 @@ import { doTrack } from "@utils/dataTrack";
 export const MODAL_TYPE = {
   RATE: "RATE",
   REPAY_TIP: "REPAY_TIP",
+  ELIGIBLE: "ELIGIBLE",
 };
 
-function HomeModals({ showModal }) {
+function HomeModals({ showModal, type }) {
   const { i18n } = useI18n();
 
   const [isRatePoped, isRepayReminderOn, setRatePoped, setReminderOn] =
@@ -26,108 +27,161 @@ function HomeModals({ showModal }) {
   useEffect(() => {
     let initModalType, initVisible;
     if (showModal) {
-      if (!isRatePoped) {
-        initModalType = MODAL_TYPE.RATE;
+      if (type === MODAL_TYPE.ELIGIBLE) {
+        initModalType = MODAL_TYPE.ELIGIBLE;
         initVisible = true;
       } else {
-        initModalType = MODAL_TYPE.REPAY_TIP;
-        initVisible = !isRepayReminderOn;
+        if (!isRatePoped) {
+          initModalType = MODAL_TYPE.RATE;
+          initVisible = true;
+        } else {
+          initModalType = MODAL_TYPE.REPAY_TIP;
+          initVisible = !isRepayReminderOn;
+        }
       }
 
       setModalType(initModalType);
       setModalVisible(!!initVisible);
     }
-  }, [showModal]);
+  }, [showModal, type]);
 
   const [modalType, setModalType] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
   const renderModalHeader = useCallback(() => {
-    if (!modalType) {
-      return null;
+    let header;
+
+    switch (modalType) {
+      case MODAL_TYPE.REPAY_TIP:
+        header = <Text style={styles.title}>{i18n.t("Repayment Tips")}</Text>;
+        break;
+      case MODAL_TYPE.RATE:
+        header = (
+          <>
+            <Image
+              source={require("@assets/applyLoan/pop_up_score_img.png")}
+              style={styles.scoreImg}
+            />
+            <Text style={styles.title}>{i18n.t("RateUs")}</Text>
+          </>
+        );
+        break;
+      case MODAL_TYPE.ELIGIBLE:
+        header = (
+          <>
+            <Image
+              source={require("@assets/applyLoan/pop_up_ic_apply_qualification.png")}
+              style={{ ...styles.scoreImg, width: 80, height: 80 }}
+            />
+            <Text style={styles.title}>{i18n.t("Apply Qualification")}</Text>
+          </>
+        );
+        break;
+
+      default:
+        header = null;
+        break;
     }
 
-    if (modalType === MODAL_TYPE.REPAY_TIP) {
-      return <Text style={styles.title}>{i18n.t("Repayment Tips")}</Text>;
-    } else {
-      return (
-        <>
-          <Image
-            source={require("@assets/applyLoan/pop_up_score_img.png")}
-            style={styles.scoreImg}
-          />
-          <Text style={styles.title}>{i18n.t("RateUs")}</Text>
-        </>
-      );
-    }
+    return header;
   }, [modalType]);
 
   const renderModalBody = useCallback(() => {
-    if (!modalType) {
-      return null;
+    let body;
+
+    switch (modalType) {
+      case MODAL_TYPE.REPAY_TIP:
+        body = (
+          <>
+            <View>
+              <Text style={styles.tips}>
+                {i18n.t("RepaymentWords")}
+                {/* <Text style={styles.strong}>
+              {" "}
+              [the day before the due date and the day]{" "}
+            </Text>
+            and increase the amount. */}
+              </Text>
+            </View>
+            <View style={styles.note}>
+              <Text style={styles.noteText}>{i18n.t("NoteSettings")}</Text>
+            </View>
+          </>
+        );
+        break;
+      case MODAL_TYPE.RATE:
+        body = <Text style={styles.tips}>{i18n.t("GoodReview")}</Text>;
+        break;
+      case MODAL_TYPE.ELIGIBLE:
+        body = <Text style={styles.tips}>{i18n.t("Terribly sorry")}</Text>;
+        break;
+
+      default:
+        body = null;
+        break;
     }
 
-    if (modalType === MODAL_TYPE.REPAY_TIP) {
-      return (
-        <>
-          <View>
-            <Text style={styles.tips}>
-              {i18n.t("RepaymentWords")}
-              {/* <Text style={styles.strong}>
-                {" "}
-                [the day before the due date and the day]{" "}
-              </Text>
-              and increase the amount. */}
-            </Text>
-          </View>
-          <View style={styles.note}>
-            <Text style={styles.noteText}>{i18n.t("NoteSettings")}</Text>
-          </View>
-        </>
-      );
-    } else {
-      return <Text style={styles.tips}>{i18n.t("GoodReview")}</Text>;
-    }
+    return body;
   }, [modalType]);
 
   const renderModalFooter = useCallback(() => {
-    if (!modalType) {
-      return null;
-    }
+    let footer;
 
-    if (modalType === MODAL_TYPE.REPAY_TIP) {
-      return (
-        <>
+    switch (modalType) {
+      case MODAL_TYPE.REPAY_TIP:
+        footer = (
+          <>
+            <Pressable
+              style={[styles.button, styles.buttonRefuse]}
+              onPress={() => {
+                setModalVisible(false);
+              }}
+            >
+              <Text style={styles.btnText}>{i18n.t("NoOpen")}</Text>
+            </Pressable>
+            <Pressable
+              style={[styles.button, styles.buttonOpen]}
+              onPress={openCalandar}
+            >
+              <Text style={styles.btnText}>{i18n.t("OpenNow")}</Text>
+            </Pressable>
+          </>
+        );
+        break;
+      case MODAL_TYPE.RATE:
+        footer = (
           <Pressable
-            style={[styles.button, styles.buttonRefuse]}
+            style={[styles.button, styles.buttonOpen]}
             onPress={() => {
+              setRatePoped();
+              setModalType(MODAL_TYPE.REPAY_TIP);
+              // TODO, 跳到APP商店评分
+            }}
+          >
+            <Text style={styles.btnText}>{i18n.t("I Know")}</Text>
+          </Pressable>
+        );
+        break;
+      case MODAL_TYPE.ELIGIBLE:
+        footer = (
+          <Pressable
+            style={[styles.button, styles.buttonOpen]}
+            onPress={() => {
+              doTrack("pk7", 1);
               setModalVisible(false);
             }}
           >
-            <Text style={styles.btnText}>{i18n.t("NoOpen")}</Text>
+            <Text style={styles.btnText}>{i18n.t("I Know")}</Text>
           </Pressable>
-          <Pressable
-            style={[styles.button, styles.buttonOpen]}
-            onPress={openCalandar}
-          >
-            <Text style={styles.btnText}>{i18n.t("OpenNow")}</Text>
-          </Pressable>
-        </>
-      );
-    } else {
-      return (
-        <Pressable
-          style={[styles.button, styles.buttonOpen]}
-          onPress={() => {
-            setRatePoped();
-            setModalType(MODAL_TYPE.REPAY_TIP);
-            // TODO, 跳到APP商店评分
-          }}
-        >
-          <Text style={styles.btnText}>{i18n.t("I Know")}</Text>
-        </Pressable>
-      );
+        );
+        break;
+
+      default:
+        footer = null;
+        break;
     }
+
+    return footer;
   }, [modalType]);
 
   const openCalandar = useCallback(async () => {
@@ -210,5 +264,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
-  scoreImg: { width: 180, height: 80, marginBottom: 24 },
+  scoreImg: {
+    width: 180,
+    height: 80,
+    marginBottom: 24,
+  },
 });

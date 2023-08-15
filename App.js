@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   countText: {
     color: "white",
     textAlign: "center",
-    lineHeight: 28,
+    lineHeight: 26,
   },
   license: {
     width: "100%",

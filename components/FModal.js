@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     color: "#0A233E",
     fontWeight: "bold",
     marginBottom: 12,
+    alignItems: "center",
   },
   modalText: {
     marginBottom: 20,

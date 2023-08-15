@@ -1,6 +1,6 @@
 import { Image, StyleSheet } from "react-native";
 import * as Device from "expo-device";
-//import * as ExpoApplist from "expo-applist";
+import * as ExpoApplist from "expo-applist";
 import { Text, View } from "../../components/Themed";
 import { useI18n } from "@hooks/useI18n";
 import { useNavigation } from "@react-navigation/native";
@@ -101,7 +101,7 @@ export function QuotaButtons() {
   const [isFormCompleted, setIsFormCompleted] = useState(false);
 
   useEffect(() => {
-    pushApplist();
+    //pushApplist();
     getUserFormStatus();
   }, []);
 
@@ -118,12 +118,6 @@ export function QuotaButtons() {
   }, [data]);
 
   const errorMsg = useMemo(() => {
-    console.log(
-      "Sun >>> isModifyFaceImage = " +
-        cashLoan.isModifyFaceImage +
-        "isModifyInfo = " +
-        cashLoan.isModifyInfo
-    );
     if (cashLoan.isModifyFaceImage) {
       //审核驳回 - 是否需要重传人脸识别照
       return i18n.t("FacePhotoErrorMessage");
@@ -149,7 +143,7 @@ export function QuotaButtons() {
       applist = ExpoApplist.getApps(apiLevel).filter((app) => !app.isSystemApp);
       console.log("applist: ", JSON.stringify(applist));
     } catch (e) {
-      console.log("get applist failed");
+      console.log("get applist faile: ", JSON.stringify(e));
     }
 
     // 拿到信息后，需要传给后端
@@ -177,6 +171,7 @@ export function QuotaButtons() {
   const clickGetLoan = useCallback(() => {
     if (isLogin) {
       if (isFormCompleted) {
+        pushApplist();
         doTrack("pk22", 1);
         navigation.push("Apply");
       } else {

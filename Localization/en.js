@@ -93,7 +93,7 @@ export const en = {
   "Processing Fee Charges": "Processing Fee Charges",
   "Any other charges": "Any other charges",
   "Apply Qualification": "Apply Qualification",
-  "Terribly sorry,after evaluating you are currently not Qualification to apply, please apply again in another day!":
+  "Terribly sorry":
     "Terribly sorry,after evaluating you are currently not Qualification to apply, please apply again in another day!",
   "I Know": "I Know",
   Bill: "Bill",

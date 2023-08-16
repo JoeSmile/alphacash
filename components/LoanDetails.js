@@ -89,7 +89,7 @@ export default function LoanDetails({
       <View style={styles.listItemStyle}>
         <Text>{i18n.t("Markup")}</Text>
         { optWithDaysConfig[daysOption].days === 30 &&
-          <Text style={{flex: 1,marginLeft: 6}}>{`(${i18n.t("APR")}):${loanData.yearInterestRate}`}</Text>
+          <Text style={{flex: 1,marginLeft: 6}}>{`(${i18n.t("APR")}:${loanData.yearInterestRate})`}</Text>
           }
         <Text style={styles.listItemTitle}>{fn2f(loanData.totalInterest)}</Text>
       </View>

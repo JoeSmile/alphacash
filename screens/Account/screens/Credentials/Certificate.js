@@ -14,10 +14,12 @@ import {
   useGetIdentityInfoDetail,
   useUpdateIdentityInfo,
   useUpdateUserImages,
+  useGetAccounts
 } from "@apis";
 import * as ImagePicker from "expo-image-picker";
 import { Asset } from "expo-asset";
 import { useI18n } from "@hooks/useI18n";
+import { useAbleImage } from "@hooks/useAbleImage";
 import mime from "mime";
 import { Image } from "expo-image";
 import { Camera, CameraType } from "expo-camera";
@@ -54,6 +56,8 @@ export default function Certificate({ route }) {
     isLoading: isUpdateUserImagesLoading,
   } = useUpdateUserImages();
 
+  const { mutate: getAccounts, data: cards, isLoading } = useGetAccounts();
+
   const { i18n } = useI18n();
   const [imageList, setImage] = useState([]);
   const [showTips, setShowTips] = useState(false);
@@ -64,6 +68,8 @@ export default function Certificate({ route }) {
   const [modifycnicFront, setModifycnicFront] = useState(false);
   const [modifycnicInHand, setModifycnicInHand] = useState(false);
   const [modifyemploymentProof, setModifyemploymentProof] = useState(false);
+  const [hasCards, setHasCards] = useState(false);
+  const editAble = useAbleImage();
   // const [permission, requestPermission] = Camera.useCameraPermissions();
 
   // useEffect(() => {
@@ -75,6 +81,14 @@ export default function Certificate({ route }) {
   useEffect(() => {
     getIdentityInfo();
   }, []);
+
+  useEffect(() => {
+    if (cards && cards.data && Array.isArray(cards.data.data)) {
+      setHasCards(true)
+    } else {
+      setHasCards(false);
+    }
+  }, [cards]);
 
   useEffect(() => {
     const isUpdate = route.params ? route.params.isUpdate : false;
@@ -145,7 +159,12 @@ export default function Certificate({ route }) {
   useEffect(() => {
     if (updateIdentityInfoResponse?.data?.error_code == 1) {
       console.log("Sun >>>>>>>>>> updateIdentityInfoResponse");
-      navigation.push(jumpPage);
+      if (hasCards) {
+        navigation.push(jumpPage);
+      } else {
+        // 如果没有收款账号，就跳转到 添加新收款账号
+        navigation.push("AddNewAccount");
+      }
     }
   }, [updateIdentityInfoResponse]);
 
@@ -162,10 +181,7 @@ export default function Certificate({ route }) {
 
   const showPickImageModel = (id) => {
     if (
-      (bill.appStatus == 101 ||
-        bill.appStatus == 201 ||
-        bill.appStatus == 301 ||
-        bill.appStatus == 303) &&
+      !editAble &&
       (id == 0 || id == 1 || id == 2) &&
       !cashLoan.isModifyInfo
     ) {

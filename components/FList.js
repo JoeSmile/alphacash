@@ -15,6 +15,7 @@ const Item = (props) => {
     rightIcon = "",
     parameters = {},
     requireLogin = false,
+    clickItem
   } = props;
   const navigation = useNavigation();
   const { i18n } = useI18n();
@@ -33,9 +34,14 @@ const Item = (props) => {
       ]}
       onPress={() => {
         trackName && doTrack(trackName, 1);
+      
         if (requireLogin) {
           if (isLogin) {
-            screen && navigation.push(screen, { ...parameters });
+            if (clickItem) {
+              clickItem(props);
+            } else {
+              screen && navigation.push(screen, { ...parameters });
+            }
           } else {
             // goto login
             navigation.push("Login", {
@@ -44,7 +50,11 @@ const Item = (props) => {
             });
           }
         } else {
-          screen && navigation.push(screen, { ...parameters });
+          if (clickItem) {
+              clickItem(props);
+            } else {
+              screen && navigation.push(screen, { ...parameters });
+            }
         }
       }}
     >
@@ -67,7 +77,7 @@ const Item = (props) => {
   );
 };
 
-const FList = ({ data, itemStyle, ...restProps }) => {
+const FList = ({ data, itemStyle, clickItem, ...restProps }) => {
   return (
     <FlatList
       data={data}
@@ -75,7 +85,7 @@ const FList = ({ data, itemStyle, ...restProps }) => {
         item.render ? (
           item.render(item)
         ) : (
-          <Item {...item} itemStyle={itemStyle} />
+          <Item {...item} itemStyle={itemStyle} clickItem={clickItem}/>
         )
       }
       keyExtractor={(item) => item.id || item.title}

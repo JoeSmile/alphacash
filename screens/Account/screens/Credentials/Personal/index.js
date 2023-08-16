@@ -28,6 +28,8 @@ import {
 import { useI18n } from "@hooks/useI18n";
 import { useUserQuota } from "@store/useUserQuota";
 import { doTrack } from "@utils/dataTrack";
+import { useAbleImage } from "@hooks/useAbleImage";
+
 
 const emptyInitialValues = {
   name: "",
@@ -72,7 +74,7 @@ export default function Personal({ navigation, route }) {
   const { i18n } = useI18n();
   const [bill, hasBill] = useUserQuota((s) => [s.bill, s.hasBill]);
   const [isUpdate, setIsUpdate] = useState(false);
-
+  const editAble = useAbleImage();
   useEffect(() => {
     getPersonalDetail();
     // getPersonalOptionsMutation.mutate()
@@ -99,6 +101,7 @@ export default function Personal({ navigation, route }) {
       updatePersonalInfoMutation.data.data.error_code === 1
     ) {
       doTrack("pk46", 1);
+      console.log('111111');
       if (isUpdate) {
         navigation.goBack();
       } else {
@@ -147,13 +150,7 @@ export default function Personal({ navigation, route }) {
                         name="name"
                         label="Name"
                         type="text"
-                        editable={
-                          !hasBill ||
-                          bill.appStatus == 101 ||
-                          bill.appStatus == 201 ||
-                          bill.appStatus == 301 ||
-                          bill.appStatus == 303
-                        }
+                        editable={editAble}
                       />
                     </View>
                     <View
@@ -182,13 +179,7 @@ export default function Personal({ navigation, route }) {
                         name="cnic"
                         label="CNIC"
                         displayDigit={13}
-                        editable={
-                          !hasBill ||
-                          bill.appStatus == 101 ||
-                          bill.appStatus == 201 ||
-                          bill.appStatus == 301 ||
-                          bill.appStatus == 303
-                        }
+                        editable={editAble}
                       />
                     </View>
 

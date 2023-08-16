@@ -31,10 +31,10 @@ export const FDatePicker = ({ label, name }) => {
   const context = useFormikContext(name);
   const { i18n } = useI18n();
   const [date, setDate] = useState(
-    dayjs(context.values[name] || new Date(), "MM/DD/YYYY").toDate()
+    dayjs(context.values[name] || new Date(), "YYYY-MM-DD").toDate()
   );
   const onChange = (selectedDate) => {
-    context.setFieldValue(name, selectedDate);
+    context.setFieldValue(name, dayjs(selectedDate, "YYYY-MM-DD").format("YYYY-MM-DD"));
     setDate(selectedDate);
   };
 
@@ -58,7 +58,7 @@ export const FDatePicker = ({ label, name }) => {
         minDate={new Date(1950, 0, 0)}
         maxDate={new Date()}
         onChange={onChange}
-        format="MM/DD/YYYY"
+        format={(value) => dayjs(value, "YYYY-MM-DD").format("MM/DD/YYYY")}
         locale={{
           okText: 'OK',
           dismissText:'Dismiss',

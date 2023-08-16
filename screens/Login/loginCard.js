@@ -27,7 +27,7 @@ import { Toast } from "@ant-design/react-native";
 const LoginFormSchema = Yup.object().shape({
   OTP: Yup.string().required("Required"),
   phoneNumber: Yup.string()
-    .matches(/^03\d{9}/, "Please input 11 characters phone number")
+    .matches(/^03\d{9}/, "Please input 11 characters phone number,start with 03")
     .required("Required"),
 });
 

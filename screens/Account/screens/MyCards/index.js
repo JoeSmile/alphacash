@@ -133,8 +133,8 @@ export default function MyCards({ navigation, route }) {
   const [listData, setListData] = useState();
   const [isSelectAccount, setIsSelectAccount] = useState(false);
   const { mutate: getAccounts, data: cards, isLoading } = useGetAccounts();
-  const { mutate: deleteEWallet } = useDeleteEWalletAccount();
-  const { mutate: deleteBankAccount } = useDeleteBankAccount();
+  const { mutate: deleteEWallet, isLoading: isRemovingEWallet} = useDeleteEWalletAccount();
+  const { mutate: deleteBankAccount, isLoading: isRemovingBankCard } = useDeleteBankAccount();
   const { mutate: updateAccount } = useUpdateAccount();
   const { i18n } = useI18n();
   // TODO: 1. 选择某个 wallet  2. confirm (xxxStore -> useXXXStore)
@@ -174,6 +174,7 @@ export default function MyCards({ navigation, route }) {
 
   useEffect(() => {
     if (cards && cards.data && Array.isArray(cards.data.data)) {
+      console.log('cards.----', cards.data.data);
       setListData(
         cards.data.data.map((item, index) => {
           return {
@@ -207,7 +208,7 @@ export default function MyCards({ navigation, route }) {
         },
         {
           text: "Confirm",
-          onPress: () => {
+          onPress: async () => {
             if (
               card.bankAccountId == store.cardInfo.bankAccountId ||
               card.ewalletId == store.cardInfo.ewalletId
@@ -218,12 +219,15 @@ export default function MyCards({ navigation, route }) {
               deleteBankAccount({
                 bankAccountId: card.bankAccountId,
               });
+             
             } else {
               deleteEWallet({
                 ewalletId: card.ewalletId,
               });
             }
-            getAccounts();
+            setTimeout(() => {
+              getAccounts();
+            }, 500);
           },
           style: { color: "#0825B8" },
         },
@@ -378,10 +382,6 @@ export default function MyCards({ navigation, route }) {
           <TouchableOpacity
             onPress={() => confirm()}
             style={{
-              bottom: 136,
-              left: 12,
-              right: 12,
-              position: "absolute",
               backgroundColor: "#0825B8",
               height: 46,
               zIndex: 100,

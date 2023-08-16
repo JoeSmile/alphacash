@@ -58,7 +58,7 @@ export default function Certificate({ route }) {
   const [imageList, setImage] = useState([]);
   const [showTips, setShowTips] = useState(false);
   const [index, setIndex] = useState();
-  const [jumpPage, setJumpPage] = useState("MyCards");
+  const [jumpPage, setJumpPage] = useState("Homepage");
   const [isUpdate, setIsUpdate] = useState(false);
   const [modifycnicBack, setModifycnicBack] = useState(false);
   const [modifycnicFront, setModifycnicFront] = useState(false);
@@ -78,6 +78,7 @@ export default function Certificate({ route }) {
 
   useEffect(() => {
     const isUpdate = route.params ? route.params.isUpdate : false;
+    console.log('Dun >>> update == ' + isUpdate)
     setIsUpdate(!!isUpdate);
   }, [route]);
 
@@ -137,7 +138,7 @@ export default function Certificate({ route }) {
           imgEmploymentProof,
         ]);
       } else {
-        setJumpPage("Homepage");
+        setJumpPage("MyCards");
       }
     }
   }, [identityInfo]);
@@ -156,7 +157,7 @@ export default function Certificate({ route }) {
         content: i18n.t("modify successfully"),
         duration: 3,
       });
-      navigation.goBack();
+      navigation.push(jumpPage)
     }
   }, [updateUserImagesResponse]);
 

@@ -41,8 +41,7 @@ const Item = ({ item }) => {
           <View style={{ ...styles.info, marginBottom: 12 }}>
             <Text style={styles.title}>{`${i18n.t("LoanTerm")}: `} </Text>
             <Text style={styles.titleValue}>
-              {item.loanTerm}
-              {i18n.t("Days")}
+              {item.loanTerm + " " + i18n.t("Days")}
             </Text>
           </View>
           <View style={styles.info}>
@@ -94,7 +93,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
     borderRadius: 4,
   },
-  title: { color: "#4F5E6F", fontSize: 14, lineHeight: 20 },
+  title: { textAlign: "left", color: "#4F5E6F", fontSize: 14, lineHeight: 20 },
   imgTag: {
     width: 102,
     height: 73,

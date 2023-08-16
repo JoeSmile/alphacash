@@ -123,9 +123,9 @@ function EWalletCard({ card, selected, isSelectAccount }) {
 
 function getCardKey(card) {
   if (card.type == 1) {
-    return `${card.type}_${card.bankAccount}`;
+    return `${card.type}_${card.bankId}`;
   }
-  return `${card.type}_${card.ewalletAccount}`;
+  return `${card.type}_${card.ewalletId}`;
 }
 
 export default function MyCards({ navigation, route }) {
@@ -299,14 +299,15 @@ export default function MyCards({ navigation, route }) {
 
   const confirm = () => {
     store.setCardInfo(currentCard);
-    if (isUpdateAccount) {
-      updateAccount({ loanId, ...currentCard });
-    }
 
     if (isApplySelect) {
       doTrack("pk17", 1);
       navigation.goBack();
     }
+    if (isUpdateAccount) {
+      updateAccount({ loanId, ...currentCard });
+    }
+
   };
 
   return (

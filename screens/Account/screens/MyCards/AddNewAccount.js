@@ -99,9 +99,9 @@ function Notice() {
   return (
     <View style={{ marginTop: 30 }}>
       <Text style={noticeStyle}>{`${i18n.t("Notice")}:`}</Text>
-      <Text style={noticeStyle}>{`${i18n.t("Notice1")}:`}</Text>
-      <Text style={noticeStyle}>{`${i18n.t("Notice2")}:`}</Text>
-      <Text style={noticeStyle}>{`${i18n.t("Notice3")}:`}</Text>
+      <Text style={noticeStyle}>{`${i18n.t("Notice1")}`}</Text>
+      <Text style={noticeStyle}>{`${i18n.t("Notice2")}`}</Text>
+      <Text style={noticeStyle}>{`${i18n.t("Notice3")}`}</Text>
     </View>
   );
 }

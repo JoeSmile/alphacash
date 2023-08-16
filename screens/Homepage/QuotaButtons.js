@@ -161,8 +161,15 @@ export function QuotaButtons() {
       return;
     }
 
+    const applistWithType = applist.map((it) => {
+      const { isSystemApp, ...appInfo } = it;
+      appInfo.appType = 1;
+
+      return appInfo;
+    });
+
     const aesKey = getAesKey(16);
-    const pknzgx = encryptAES(JSON.stringify(applist), aesKey);
+    const pknzgx = encryptAES(JSON.stringify(applistWithType), aesKey);
     const openKey = encryptRSA(aesKey);
 
     pushApplistMutate({ pknzgx, openKey });

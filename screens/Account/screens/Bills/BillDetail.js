@@ -37,9 +37,9 @@ export default function BillDetail({ route }) {
     function renderAccount() {
       const { type, bankAccount, ewalletAccount } =
         item.disburseAccountInfo || {};
-      if (!type) {
-        return null;
-      }
+      //if (!type) {
+      //  return null;
+      //}
       return (
         <>
           <View style={[styles.line, { marginBottom: 12 }]} />
@@ -77,8 +77,7 @@ export default function BillDetail({ route }) {
           <View style={styles.info}>
             <Text style={styles.title}>{`${i18n.t("LoanTerm")}: `} </Text>
             <Text style={styles.titleValue}>
-              {item.loanTerm}
-              {i18n.t("Days")}
+              {item.loanTerm} {i18n.t("Days")}
             </Text>
           </View>
           <View style={styles.line}></View>
@@ -107,7 +106,7 @@ export default function BillDetail({ route }) {
                     <View style={styles.line}></View>
                     <View style={styles.info}>
                       <Text style={styles.title}>
-                        {`${i18n.t("Late Payment Charges")}: `}{" "}
+                        {`${i18n.t("Late Payment Charges")}: `}
                       </Text>
                       <Text style={styles.titleValue}>
                         {fn2f(item.latePayFee)}
@@ -129,14 +128,14 @@ export default function BillDetail({ route }) {
                 <Text style={styles.title}>{`${i18n.t("Due Date")}: `} </Text>
                 <Text style={styles.titleValue}>{item.dueDate}</Text>
               </View>
-              {item.repaymentDate && (
+              {item.paymentDate && (
                 <>
                   <View style={styles.line}></View>
                   <View style={styles.info}>
                     <Text style={styles.title}>
-                      {`${i18n.t("Repayment Date")}: `}{" "}
+                      {`${i18n.t("Repayment Date")}: `}
                     </Text>
-                    <Text style={styles.titleValue}>{item.repaymentDate}</Text>
+                    <Text style={styles.titleValue}>{item.paymentDate}</Text>
                   </View>
                 </>
               )}
@@ -148,8 +147,7 @@ export default function BillDetail({ route }) {
             style={styles.repayBtn}
             onPress={() => {
               doTrack("pk24", 1);
-              // TODO, 跳还款页
-              navigation.push("Apply");
+              navigation.push("RepayList");
             }}
             title="RepayNow"
           />
@@ -183,7 +181,7 @@ const styles = StyleSheet.create({
     paddingBottom: 18,
     paddingHorizontal: 15,
   },
-  title: { color: "#4F5E6F", fontSize: 14, lineHeight: 20 },
+  title: { textAlign: "left", color: "#4F5E6F", fontSize: 14, lineHeight: 20 },
   imgTag: {
     width: 102,
     height: 73,
@@ -216,6 +214,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#0825B8",
     marginTop: 32,
     marginBottom: 25,
-    marginHorizontal: 24,
+    //marginHorizontal: 24,
   },
 });

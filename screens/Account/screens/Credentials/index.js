@@ -2,8 +2,9 @@ import { View, Text, StyleSheet, SafeAreaView, Image } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
 import FList from "@components/FList";
 import { useGetUserFormStatus } from "@apis";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useI18n } from "@hooks/useI18n";
+import { useNavigation } from "@react-navigation/native";
 
 const Item = (item) => {
   const { i18n } = useI18n();
@@ -55,6 +56,7 @@ export default function Credentials() {
   const { mutate: getUserFormStatus, data, isLoading } = useGetUserFormStatus();
   const [displayItems, setDisplayItems] = useState(listItems);
   const { i18n } = useI18n();
+  const navigation = useNavigation();
 
   useEffect(() => {
     getUserFormStatus();
@@ -92,6 +94,20 @@ export default function Credentials() {
     }
   }, [data]);
 
+  const checkFormStates = ({parameters = {}, screen}) => {
+    if (parameters.isUpdate) {
+      navigation.push(screen);
+    } else if(!displayItems[0]?.parameters?.isUpdate) {
+      navigation.push('Personal');
+    } else if(!displayItems[1]?.parameters?.isUpdate) {
+      navigation.push('Job');
+    } else if(!displayItems[2]?.parameters?.isUpdate) {
+      navigation.push('Emergency');
+    } else if(!displayItems[3]?.parameters?.isUpdate) {
+      navigation.push('Certificate');
+    }
+  };
+
   return (
     <SafeAreaView style={styles.itemsContainer}>
       <Spinner
@@ -99,7 +115,7 @@ export default function Credentials() {
         textContent={i18n.t('Loading')}
         textStyle={{ color: "#FFF" }}
       />
-      <FList data={displayItems} itemStyle={styles.FList} />
+      <FList data={displayItems} itemStyle={styles.FList} clickItem = {(item) => checkFormStates(item)}/>
     </SafeAreaView>
   );
 }

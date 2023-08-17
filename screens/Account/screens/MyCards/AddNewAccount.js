@@ -66,7 +66,7 @@ const AccountFormSchema = Yup.object().shape({
       }
     }
   ),
-  backAccount: Yup.string().test(
+  bankAccount: Yup.string().test(
     "len",
     "Please input correct bank account number",
     (val, context) => {
@@ -83,7 +83,7 @@ const defaultEmptyForm = {
   //ewallet account
   account: "",
   //bankAccount
-  backAccount: "",
+  bankAccount: "",
   // bank
   bankId: "",
   bankAccountName: "",
@@ -123,7 +123,7 @@ export function AddNewAccount({ navigation, route }) {
     console.log("card---", card);
     setInitialData({
       account: card.ewalletAccount || defaultEmptyForm.account || phone,
-      backAccount: card.bankAccount || defaultEmptyForm.backAccount,
+      bankAccount: card.bankAccount || defaultEmptyForm.bankAccount,
       // bank
       bankId: card.bankId || defaultEmptyForm.bankId,
       bankAccountName: card.bankAccountName || defaultEmptyForm.bankAccountName,

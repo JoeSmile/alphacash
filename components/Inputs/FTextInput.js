@@ -91,8 +91,8 @@ const styles = StyleSheet.create({
     height: 80,
   },
   label: {
-    height: 15,
-    marginBottom: 10,
+    height: 20,
+    marginBottom: 6,
     color: "#4F5E6F",
     fontSize: 14,
   },

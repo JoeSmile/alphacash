@@ -62,14 +62,19 @@ export default function Certificate({ route }) {
   const [imageList, setImage] = useState([]);
   const [showTips, setShowTips] = useState(false);
   const [index, setIndex] = useState();
-  const [jumpPage, setJumpPage] = useState("Homepage");
+  const [jumpPage, setJumpPage] = useState("MyCards");
+  // 没有错误，直接更新
   const [isUpdate, setIsUpdate] = useState(false);
+  // 申请bill中有错误，需要修改
+  const [isModify, setIsModify] = useState(false);
   const [modifycnicBack, setModifycnicBack] = useState(false);
   const [modifycnicFront, setModifycnicFront] = useState(false);
   const [modifycnicInHand, setModifycnicInHand] = useState(false);
   const [modifyemploymentProof, setModifyemploymentProof] = useState(false);
   const [hasCards, setHasCards] = useState(false);
   const editAble = useAbleImage();
+  const [fromScreen, setFromScreen] = useState('');
+
   // const [permission, requestPermission] = Camera.useCameraPermissions();
 
   // useEffect(() => {
@@ -92,8 +97,12 @@ export default function Certificate({ route }) {
 
   useEffect(() => {
     const isUpdate = route.params ? route.params.isUpdate : false;
-    console.log('Dun >>> update == ' + isUpdate)
+    const isModify = route.params ? route.params.isModify : false;
+    
+    const fromScreen = route.params ? route.params.fromScreen : '';
+    setFromScreen(fromScreen);
     setIsUpdate(!!isUpdate);
+    setIsUpdate(!!isModify);
   }, [route]);
 
   useEffect(() => {
@@ -151,24 +160,34 @@ export default function Certificate({ route }) {
           imgCnicInHand,
           imgEmploymentProof,
         ]);
-      } else {
-        setJumpPage("MyCards");
       }
     }
   }, [identityInfo]);
 
+
+  // 首次添加 或 更改图片
   useEffect(() => {
     if (updateIdentityInfoResponse?.data?.error_code == 1) {
       console.log("Sun >>>>>>>>>> updateIdentityInfoResponse");
-      if (hasCards) {
-        navigation.push(jumpPage);
+      if(isUpdate) {
+        navigation.goBack();
       } else {
-        // 如果没有收款账号，就跳转到 添加新收款账号
-        navigation.push("AddNewAccount");
+        //1. 点击apply,跳转到个人信息
+        if(fromScreen == 'Apply') {
+          if (hasCards) {
+            navigation.push('Apply');
+          } else {
+            // 如果没有收款账号，就跳转到 添加新收款账号
+            navigation.push("AddNewAccount", {fromScreen: 'Apply'});
+          }
+        } else {
+          navigation.push('Credentials');
+        }
       }
     }
   }, [updateIdentityInfoResponse]);
 
+  //bill中有错 修改错误图片
   useEffect(() => {
     if (updateUserImagesResponse?.data?.error_code == 1) {
       console.log("0.0 >>>>>>>>>> updateUserImagesResponse");
@@ -176,7 +195,7 @@ export default function Certificate({ route }) {
         content: i18n.t("modify successfully"),
         duration: 3,
       });
-      navigation.push(jumpPage)
+      navigation.push('Homepage')
     }
   }, [updateUserImagesResponse]);
 
@@ -250,10 +269,11 @@ export default function Certificate({ route }) {
       cnicInHand: imageList[2],
       employmentProof: imageList[3],
     };
-    if (isUpdate) {
-      updateUserImages(params);
-    } else {
+
+    if (isModify) {
       updateIdentityInfo(params);
+    } else {
+      updateUserImages(params);
     }
   };
 

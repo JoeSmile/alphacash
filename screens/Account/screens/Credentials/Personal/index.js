@@ -60,7 +60,8 @@ const PersonalFormSchema = Yup.object().shape({
   addressDetail: Yup.string().required("Required"),
   email: Yup.string()
     .matches(
-      "^[A-Za-z0-9-_\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(.[a-zA-Z0-9_-]+)+$",
+      // @之前必须有内容且只能是字母（大小写）、数字、下划线(_)、减号（-）、点（.）​​​​@和最后一个点（.）之间必须有内容且只能是字母（大小写）、数字、点（.）、减号（-），且两个点不能挨着​​​​最后一个点（.）之后必须有内容且内容只能是字母（大小写）、数字且长度为大于等于2个字节，小于等于6个字节​​
+      "^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$",
       "Please input correct email address"
     )
     .required("Required"),
@@ -75,6 +76,8 @@ export default function Personal({ navigation, route }) {
   const [bill, hasBill] = useUserQuota((s) => [s.bill, s.hasBill]);
   const [isUpdate, setIsUpdate] = useState(false);
   const editAble = useAbleImage();
+  const [fromScreen, setFromScreen] = useState('');
+
   useEffect(() => {
     getPersonalDetail();
     // getPersonalOptionsMutation.mutate()
@@ -82,6 +85,8 @@ export default function Personal({ navigation, route }) {
 
   useEffect(() => {
     const isUpdate = route.params ? route.params.isUpdate : false;
+    const fromScreen = route.params ? route.params.fromScreen : '';
+    setFromScreen(fromScreen);
     setIsUpdate(!!isUpdate);
   }, [route]);
 
@@ -101,11 +106,10 @@ export default function Personal({ navigation, route }) {
       updatePersonalInfoMutation.data.data.error_code === 1
     ) {
       doTrack("pk46", 1);
-      console.log('111111');
       if (isUpdate) {
         navigation.goBack();
       } else {
-        navigation.push("Job");
+        navigation.push("Job", {fromScreen});
       }
     }
   }, [updatePersonalInfoMutation]);

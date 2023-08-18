@@ -5,6 +5,8 @@ import { useGetUserFormStatus } from "@apis";
 import { useCallback, useEffect, useState } from "react";
 import { useI18n } from "@hooks/useI18n";
 import { useNavigation } from "@react-navigation/native";
+import { useIsFocused } from "@react-navigation/native";
+import { cloneDeep } from 'lodash';
 
 const Item = (item) => {
   const { i18n } = useI18n();
@@ -25,7 +27,7 @@ const Item = (item) => {
   );
 };
 
-const listItems = [
+const DefaultListItems = [
   {
     title: "Personal Info",
     screen: "Personal",
@@ -54,49 +56,48 @@ const listItems = [
 
 export default function Credentials() {
   const { mutate: getUserFormStatus, data, isLoading } = useGetUserFormStatus();
-  const [displayItems, setDisplayItems] = useState(listItems);
+  const [displayItems, setDisplayItems] = useState(DefaultListItems);
   const { i18n } = useI18n();
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     getUserFormStatus();
-  }, []);
+  }, [isFocused]);
 
   useEffect(() => {
+    const listItems = cloneDeep(DefaultListItems);
+
     if (data?.data?.error_code == 1) {
       const status = data?.data?.data || {};
 
-      if (status.isCompletedPersonal) {
-        listItems[0].rightIcon = require("@assets/images/checked.png");
-        listItems[0].parameters = {
-          isUpdate: status.isCompletedPersonal
-        };
-      }
-      if (status.isCompletedWork) {
-        listItems[1].rightIcon = require("@assets/images/checked.png");
-        listItems[1].parameters = {
-          isUpdate: status.isCompletedWork
-        };
-      }
-      if (status.isCompletedContact) {
-        listItems[2].rightIcon = require("@assets/images/checked.png");
-        listItems[2].parameters = {
-          isUpdate: status.isCompletedContact
-        };
-      }
-      if (status.isCompletedIdentity) {
-        listItems[3].rightIcon = require("@assets/images/checked.png");
-        listItems[3].parameters = {
-          isUpdate: status.isCompletedIdentity
-        };
-      }
+      listItems[0].rightIcon = status.isCompletedPersonal ? require("@assets/images/checked.png") : ''
+      listItems[0].parameters = {
+        isUpdate: status.isCompletedPersonal
+      };
+
+      listItems[1].rightIcon = status.isCompletedWork ? require("@assets/images/checked.png") : '';
+      listItems[1].parameters = {
+        isUpdate: status.isCompletedWork
+      };
+
+      listItems[2].rightIcon = status.isCompletedContact ? require("@assets/images/checked.png") : '';
+      listItems[2].parameters = {
+        isUpdate: status.isCompletedContact
+      };
+
+      listItems[3].rightIcon = status.isCompletedIdentity ? require("@assets/images/checked.png") : '';
+      listItems[3].parameters = {
+        isUpdate: status.isCompletedIdentity
+      };
+
       setDisplayItems([...listItems]);
     }
   }, [data]);
 
   const checkFormStates = ({parameters = {}, screen}) => {
     if (parameters.isUpdate) {
-      navigation.push(screen);
+      navigation.push(screen, {isUpdate: true});
     } else if(!displayItems[0]?.parameters?.isUpdate) {
       navigation.push('Personal');
     } else if(!displayItems[1]?.parameters?.isUpdate) {

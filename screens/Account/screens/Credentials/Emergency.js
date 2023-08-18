@@ -72,6 +72,7 @@ export default function Emergency({ navigation, route }) {
   const { i18n } = useI18n();
   const [isUpdate, setIsUpdate] = useState(false);
   const [phone] = useSystemStore((s) => [s.phone]);
+  const [fromScreen, setFromScreen] = useState('');
 
   useEffect(() => {
     getReferenceContacts();
@@ -80,6 +81,8 @@ export default function Emergency({ navigation, route }) {
 
   useEffect(() => {
     const isUpdate = route.params ? route.params.isUpdate : false;
+    const fromScreen = route.params ? route.params.fromScreen : '';
+    setFromScreen(fromScreen);
     setIsUpdate(!!isUpdate);
   }, [route]);
 
@@ -115,7 +118,7 @@ export default function Emergency({ navigation, route }) {
       if (isUpdate) {
         navigation.goBack();
       } else {
-        navigation.push("Certificate");
+        navigation.push("Certificate", { fromScreen });
       }
     }
   }, [updateContactsResponse]);

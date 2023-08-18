@@ -9,9 +9,6 @@ export default function Avatar({ title, style = {}, alwayCompany=false }) {
 		<View style={[styles.container, style]}>
 			<ImageCard
 				title={isLogin ? phone : title}
-				imageStyle={{
-					borderRadius: 50
-				}}
 				imgSource={
 					(!isLogin || alwayCompany)
 						? require("@assets/images/mine_logo.png")

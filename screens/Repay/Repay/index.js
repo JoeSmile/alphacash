@@ -102,7 +102,7 @@ export default function Repay({ navigation, route }) {
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <View style={{ flexDirection: "row" }}>
-              <Text style={{ color: "#4F5E6F", fontSize: 16 }}>Consumer:</Text>
+              <Text style={{ color: "#4F5E6F", fontSize: 16 }}>Consumer ID:</Text>
               <Text style={{ color: "#0A233E", fontSize: 16 }}>
                 {paymentData?.paymentCode}
               </Text>

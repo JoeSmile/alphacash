@@ -47,7 +47,8 @@ function buildGetRequest(url, params) {
 const baseURL = "https://alphacashapi.tangbull.com/api/app/laon/voice";
 
 export default function Apply() {
-  const store = useSystemStore();
+  const currentUserCardInfo = useSystemStore(s => [s.usersInfo[s.phone]?.cardInfo ?? {}, s.setCardInfo, s.cleanCardInfo]);
+
   const userStore = useUserQuota();
   const navigation = useNavigation();
   const { i18n } = useI18n();
@@ -127,18 +128,18 @@ export default function Apply() {
         selfieImage: userStore.faceData,
       };
       let cardParams = {};
-      if (store.cardInfo.bankAccount) {
+      if (currentUserCardInfo.bankAccount) {
         cardParams = {
           paymentType: "1",
-          bankAccountName: store.cardInfo.bankAccountName,
-          bankAccount: store.cardInfo.bankAccount,
-          bankId: store.cardInfo.bankId,
+          bankAccountName: currentUserCardInfo.bankAccountName,
+          bankAccount: currentUserCardInfo.bankAccount,
+          bankId: currentUserCardInfo.bankId,
         };
-      } else if (store.cardInfo.ewalletAccount) {
+      } else if (currentUserCardInfo.ewalletAccount) {
         cardParams = {
           paymentType: "2",
-          ewalletType: store.cardInfo.ewalletType,
-          ewalletAccount: store.cardInfo.ewalletAccount,
+          ewalletType: currentUserCardInfo.ewalletType,
+          ewalletAccount: currentUserCardInfo.ewalletAccount,
         };
       }
       const allParams = { ...params, ...cardParams };

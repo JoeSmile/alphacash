@@ -15,11 +15,10 @@ export const MODAL_TYPE = {
 
 function HomeModals({ showModal, type }) {
   const { i18n } = useI18n();
-
   const [isRatePoped, isRepayReminderOn, setRatePoped, setReminderOn] =
     useSystemStore((s) => [
-      s.isRatePoped,
-      s.isRepayReminderOn,
+      s.usersInfo[s.phone]?.isRatePoped ?? false,
+      s.usersInfo[s.phone]?.isRepayReminderOn ?? false,
       s.setRatePoped,
       s.setRepayReminderOn,
     ]);

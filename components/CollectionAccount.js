@@ -4,9 +4,9 @@ import { useI18n } from "@hooks/useI18n";
 import { formatAccountToFinancial as fa2f } from "@utils";
 
 export default function CollectionAccount() {
-  const store = useSystemStore();
+  const currentUserCardInfo = useSystemStore(s => s.usersInfo[s.phone]?.cardInfo ?? {});
   const { i18n } = useI18n();
-  const account = store.cardInfo.bankAccount || store.cardInfo.ewalletAccount;
+  const account = currentUserCardInfo.bankAccount || currentUserCardInfo.ewalletAccount;
 
   return (
     <View style={styles.container}>

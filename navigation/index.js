@@ -111,28 +111,37 @@ function RootNavigator() {
         <Stack.Screen
           name="RepayList"
           component={RepayList}
-          options={{
-            ...pageHeader,
-            headerTitle: "Repay",
-            headerShown: true,
+          options={({navigation}) => {
+            return {
+              ...pageHeader,
+              headerTitle: "Repay",
+              headerShown: true,
+              headerLeft: () => <HeaderLeft navigation={navigation}/>,
+            }
           }}
         />
          <Stack.Screen
           name="Repay"
           component={Repay}
-          options={{
-            ...pageHeader,
-            headerTitle: "Repay",
-            headerShown: true,
+          options={({navigation}) => {
+            return {
+              ...pageHeader,
+              headerTitle: "Repay",
+              headerShown: true,
+              headerLeft: () => <HeaderLeft navigation={navigation}/>,
+            }
           }}
         />
         <Stack.Screen
           name="RepayDemo"
           component={RepayDemo}
-          options={{
-            ...pageHeader,
-            headerTitle: "Repay",
-            headerShown: true,
+          options={({navigation}) => {
+            return {
+              ...pageHeader,
+              headerTitle: "Repay",
+              headerShown: true,
+              headerLeft: () => <HeaderLeft navigation={navigation}/>,
+            }
           }}
         />
 

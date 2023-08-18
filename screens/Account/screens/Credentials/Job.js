@@ -98,6 +98,7 @@ export default function Job({ navigation, route }) {
     useState(serviceLengthOptions);
   const { i18n } = useI18n();
   const [isUpdate, setIsUpdate] = useState(false);
+  const [fromScreen, setFromScreen] = useState('');
 
   useEffect(() => {
     getWorkInfo();
@@ -106,6 +107,8 @@ export default function Job({ navigation, route }) {
 
   useEffect(() => {
     const isUpdate = route.params ? route.params.isUpdate : false;
+    const fromScreen = route.params ? route.params.fromScreen : '';
+    setFromScreen(fromScreen);
     setIsUpdate(!!isUpdate);
   }, [route]);
 
@@ -132,7 +135,7 @@ export default function Job({ navigation, route }) {
       if (isUpdate) {
         navigation.goBack();
       } else {
-        navigation.push("Emergency");
+        navigation.push("Emergency", { fromScreen });
       }
     }
   }, [updateWorkInfoResponse]);

@@ -145,7 +145,7 @@ export default function MyCards({ navigation, route }) {
   const [loanId, setLoanId] = useState("");
 
   const store = useSystemStore();
-
+  const [currentUserCardInfo, setCardInfo, cleanCardInfo] = useSystemStore(s => [s.usersInfo[s.phone]?.cardInfo ?? {}, s.setCardInfo, s.cleanCardInfo]);
   React.useEffect(() => {
     // const editAccountId = route.params ? route.params.accountId : '';
     // const editAccountType = route.params ? route.params.type : '';
@@ -210,10 +210,10 @@ export default function MyCards({ navigation, route }) {
           text: "Confirm",
           onPress: async () => {
             if (
-              card.bankAccountId == store.cardInfo.bankAccountId ||
-              card.ewalletId == store.cardInfo.ewalletId
+              card.bankAccountId == currentUserCardInfo.bankAccountId ||
+              card.ewalletId == currentUserCardInfo.ewalletId
             ) {
-              store.cleanCardInfo();
+              cleanCardInfo();
             }
             if (card.type == 1) {
               deleteBankAccount({
@@ -298,7 +298,7 @@ export default function MyCards({ navigation, route }) {
   };
 
   const confirm = () => {
-    store.setCardInfo(currentCard);
+    setCardInfo(currentCard);
 
     if (isApplySelect) {
       doTrack("pk17", 1);

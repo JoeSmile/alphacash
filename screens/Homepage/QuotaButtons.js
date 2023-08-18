@@ -99,7 +99,7 @@ export function QuotaButtons() {
   const { mutate: getUserFormStatus, data } = useGetUserFormStatus();
   const { mutate: pushApplistMutate, data: pushApplistResp } = usePushApplist();
   const [isFormCompleted, setIsFormCompleted] = useState(false);
-
+  const [targeFormStep, setTargetFormStep] = useState('');
   useEffect(() => {
     //pushApplist();
     getUserFormStatus();
@@ -114,6 +114,16 @@ export function QuotaButtons() {
           status.isCompletedContact &&
           status.isCompletedIdentity
       );
+      if (!status.isCompletedPersonal) {
+        setTargetFormStep('Personal')
+      } else if (!status.isCompletedWork) {
+        setTargetFormStep('Job')
+      } else if (!status.isCompletedContact) {
+        setTargetFormStep('Emergency')
+      } else if (!status.isCompletedIdentity) {
+        setTargetFormStep('Certificate')
+      }
+
     }
   }, [data]);
 
@@ -182,15 +192,15 @@ export function QuotaButtons() {
         doTrack("pk22", 1);
         navigation.push("Apply");
       } else {
-        navigation.push("Credentials");
+        navigation.push(targeFormStep, {fromScreen: "Apply"});
       }
     } else {
       navigation.push("Login", {
-        targetScreen: "Credentials",
+        targetScreen: "Apply",
         needFormCompleted: true,
       });
     }
-  }, [isLogin, isFormCompleted]);
+  }, [isLogin, isFormCompleted, targeFormStep]);
 
   if (hasBill) {
     return (
@@ -242,9 +252,9 @@ export function QuotaButtons() {
                     loanId: bill.loanId,
                   });
                 } else if (cashLoan.isModifyFaceImage) {
-                  navigation.push("FaceDetectionScreen", { isUpdate: true });
+                  navigation.push("FaceDetectionScreen", { isModify: true });
                 } else if (cashLoan.isModifyInfo) {
-                  navigation.push("Certificate", { isUpdate: true });
+                  navigation.push("Certificate", { isModify: true });
                 }
               }}
             />

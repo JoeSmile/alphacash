@@ -19,7 +19,7 @@ export function initDataTrack() {
   if (Platform.OS !== "web") {
     appsFlyer.initSdk(
       {
-        devKey: "Q2tmzNXKUNFKkGKhCu6UJY",
+        devKey: "zBXtqhm7JbkGmWBifoyA7m",
         isDebug: true,
         appId: "41*****44", // only for ios
       },

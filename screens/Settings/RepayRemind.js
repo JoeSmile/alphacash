@@ -9,7 +9,7 @@ export const RepayRemind = (item) => {
   const { i18n } = useI18n();
 
   const [isOn, setOn] = useSystemStore((s) => [
-    s.isRepayReminderOn,
+   s.usersInfo[s.phone]?.isRepayReminderOn ?? false,
     s.setRepayReminderOn,
   ]);
   const [isEnabled, setIsEnabled] = useState(isOn);

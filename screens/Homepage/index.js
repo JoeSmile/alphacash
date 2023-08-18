@@ -29,7 +29,7 @@ export default function Homepage({ route, navigation }) {
   const { showModal = false } = route?.params || {};
 
   const { mutate: getUserQuota, data: axiosRes } = useGetUserQuota();
-  const isRepayReminderOn = useSystemStore((s) => s.isRepayReminderOn);
+  const isRepayReminderOn = useSystemStore((s) => s.usersInfo[s.phone]?.isRepayReminderOn ?? false);
   const [cashLoan, setCashLoan, loanIds, setLoanIdInTips] = useUserQuota(
     (s) => [s.cashLoan, s.setCashLoan, s.loanIdInTips, s.setLoanIdInTips]
   );
@@ -237,3 +237,4 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
+

@@ -113,6 +113,7 @@ export function AddNewAccount({ navigation, route }) {
   const [selectedTab, setSelectedTab] = useState({});
   const { mutate: addAccount, data: result } = useAddAccount();
   const { mutate: getBankList, data: rawList, isLoading } = useBankList();
+  const [fromScreen, setFromScreen] = useState('');
 
   useEffect(() => {
     getBankList();
@@ -120,6 +121,8 @@ export function AddNewAccount({ navigation, route }) {
 
   React.useEffect(() => {
     const card = route.params ? route.params.card : {};
+    const fromScreen = route.params ? route.params.fromScreen : '';
+    setFromScreen(fromScreen);
     console.log("card---", card);
     setInitialData({
       account: card.ewalletAccount || defaultEmptyForm.account || phone,
@@ -151,7 +154,11 @@ export function AddNewAccount({ navigation, route }) {
   useEffect(() => {
     if (!result) return;
     if (result.data.error_code == 1) {
-      navigation.goBack();
+      if (fromScreen) {
+        navigation.push(fromScreen)
+      } else {
+        navigation.goBack();
+      }
     }
   }, [result]);
 

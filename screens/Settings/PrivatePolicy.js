@@ -3,6 +3,7 @@ import { StyleSheet, Text, Pressable, View, BackHandler } from "react-native";
 import FModal from "@components/FModal";
 import { A } from "@expo/html-elements";
 import { useI18n } from "@hooks/useI18n";
+import { getWritingDirectionStyle } from '@styles';
 
 export function PrivatePolicy() {
   const { i18n } = useI18n();
@@ -55,11 +56,12 @@ export function PrivatePolicy() {
 }
 
 export function PrivatePolicyScreen() {
+  const { i18n, locale } = useI18n();
   return (
     <View
-      style={{
+      style={[{
         padding: 20,
-      }}
+      }, getWritingDirectionStyle(locale)]}
     >
       <PrivatePolicy />
     </View>

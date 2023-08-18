@@ -3,6 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "@utils/dataTrack";
 import { useSystemStore } from "@store/useSystemStore";
+import { getRevertImage } from '@styles';
 
 const Item = (props) => {
   const {
@@ -18,7 +19,7 @@ const Item = (props) => {
     clickItem
   } = props;
   const navigation = useNavigation();
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
   const [isLogin, phone] = useSystemStore((s) => [!!s.token, s.phone]);
 
   return (
@@ -70,7 +71,7 @@ const Item = (props) => {
           }
           contentFit="cover"
           transition={200}
-          style={{ width: 15, height: 15 }}
+          style={[{ width: 15, height: 15 }, getRevertImage(locale)]}
         />
       )}
     </Pressable>

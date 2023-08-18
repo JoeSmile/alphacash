@@ -380,6 +380,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     paddingLeft: 15,
+    paddingRight: 15,
     height: 50,
     width: "auto",
     backgroundColor: "#F4F5F7",

@@ -13,9 +13,10 @@ import { LOAN_STATUS, statusToImg } from "@const";
 import { formatNumberToFinancial as fn2f } from "@utils";
 import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "@utils/dataTrack";
+import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
 
 const Item = ({ item }) => {
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
   const navigation = useNavigation();
   const hasDueDateBillStatus = [LOAN_STATUS.using, LOAN_STATUS.overdue];
   return (
@@ -33,33 +34,33 @@ const Item = ({ item }) => {
           style={styles.imgTag}
         />
         <View>
-          <Text style={styles.title}>{`${i18n.t("Loan Amount")}: `} </Text>
-          <Text style={styles.amount}>{fn2f(item.applyAmount)}</Text>
+          <Text style={[styles.title, getWritingDirectionStyle(locale)]}>{`${i18n.t("Loan Amount")}: `} </Text>
+          <Text style={[styles.amount, getWritingDirectionStyle(locale)]}>{fn2f(item.applyAmount)}</Text>
         </View>
         <View style={styles.line}></View>
         <View>
           <View style={{ ...styles.info, marginBottom: 12 }}>
-            <Text style={styles.title}>{`${i18n.t("LoanTerm")}: `} </Text>
-            <Text style={styles.titleValue}>
+            <Text style={[styles.title, getWritingDirectionStyle(locale)]}>{`${i18n.t("LoanTerm")}: `} </Text>
+            <Text style={[styles.titleValue, getWritingDirectionStyle(locale)]}>
               {item.loanTerm + " " + i18n.t("Days")}
             </Text>
           </View>
           <View style={styles.info}>
-            <Text style={styles.title}>{`${i18n.t("Apply Date")}: `} </Text>
-            <Text style={styles.titleValue}>{item.applyDate}</Text>
+            <Text style={[styles.title, getWritingDirectionStyle(locale)]}>{`${i18n.t("Apply Date")}: `} </Text>
+            <Text style={[styles.titleValue, getWritingDirectionStyle(locale)]}>{item.applyDate}</Text>
           </View>
           {!!item.repaymentDate && (
             <View style={{ ...styles.info, marginTop: 12 }}>
-              <Text style={styles.title}>
+              <Text style={[styles.title, getWritingDirectionStyle(locale)]}>
                 {`${i18n.t("Repayment Date")}: `}
               </Text>
-              <Text style={styles.titleValue}>{item.repaymentDate}</Text>
+              <Text style={[styles.titleValue, getWritingDirectionStyle(locale)]}>{item.repaymentDate}</Text>
             </View>
           )}
           {hasDueDateBillStatus.includes(item.appStatus) && !!item.dueDate && (
             <View style={{ ...styles.info, marginTop: 12 }}>
-              <Text style={styles.title}>{`${i18n.t("Due Date")}: `} </Text>
-              <Text style={styles.titleValue}>{item.dueDate}</Text>
+              <Text style={[styles.title, getWritingDirectionStyle(locale)]}>{`${i18n.t("Due Date")}: `} </Text>
+              <Text style={[styles.titleValue, getWritingDirectionStyle(locale)]}>{item.dueDate}</Text>
             </View>
           )}
         </View>
@@ -69,8 +70,10 @@ const Item = ({ item }) => {
 };
 
 export default function BillList({ bills }) {
+  const { i18n, locale } = useI18n();
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, getWritingDirectionStyle(locale)]}>
       <FlatList
         data={bills}
         renderItem={({ item }) => <Item item={item} />}
@@ -93,7 +96,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
     borderRadius: 4,
   },
-  title: { textAlign: "left", color: "#4F5E6F", fontSize: 14, lineHeight: 20 },
+  title: {color: "#4F5E6F", fontSize: 14, lineHeight: 20 },
   imgTag: {
     width: 102,
     height: 73,

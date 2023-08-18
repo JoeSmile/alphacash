@@ -44,6 +44,7 @@ export function AntiFraudTips () {
               fontSize: 16,
               fontWeight: 'bold',
               paddingLeft: 10,
+              paddingRight: 10
             }}>  {`${i18n.t('Anti-fraud Tips')}:`} </Text>
           </View>
           <View style={{

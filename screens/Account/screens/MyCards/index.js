@@ -21,8 +21,11 @@ import { useIsFocused } from "@react-navigation/native";
 import { useSystemStore } from "@store/useSystemStore";
 import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "@utils/dataTrack";
+import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
 
 function BankCard({ card, selected, isSelectAccount }) {
+  const { i18n, locale } = useI18n();
+
   return (
     <View style={styles.cardContainer}>
       <View
@@ -56,7 +59,7 @@ function BankCard({ card, selected, isSelectAccount }) {
           source={require("@assets/images/loan_ic_bank.png")}
           contentFit="cover"
           transition={200}
-          style={{ width: 32, height: 32, marginRight: 20 }}
+          style={[{ width: 32, height: 32 }, getMarginRightOrLeft(locale, 20)]}
         />
         <Text style={styles.cardNumber}>
           {card.bankAccount
@@ -70,6 +73,7 @@ function BankCard({ card, selected, isSelectAccount }) {
 }
 
 function EWalletCard({ card, selected, isSelectAccount }) {
+  const { i18n, locale } = useI18n();
   return (
     <View style={styles.cardContainer}>
       <View
@@ -108,7 +112,7 @@ function EWalletCard({ card, selected, isSelectAccount }) {
           }
           contentFit="cover"
           transition={200}
-          style={{ width: 32, height: 32, marginRight: 20 }}
+          style={[{ width: 32, height: 32 }, getMarginRightOrLeft(locale, 20)]}
         />
         <Text style={styles.cardNumber}>
           {card.ewalletAccount
@@ -136,7 +140,7 @@ export default function MyCards({ navigation, route }) {
   const { mutate: deleteEWallet, isLoading: isRemovingEWallet} = useDeleteEWalletAccount();
   const { mutate: deleteBankAccount, isLoading: isRemovingBankCard } = useDeleteBankAccount();
   const { mutate: updateAccount } = useUpdateAccount();
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
   // TODO: 1. 选择某个 wallet  2. confirm (xxxStore -> useXXXStore)
 
   const [currentCard, setCurrentCard] = useState({});
@@ -311,7 +315,7 @@ export default function MyCards({ navigation, route }) {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={[{ flex: 1 }, getWritingDirectionStyle(locale)]}>
       <View
         style={{
           paddingVertical: 20,

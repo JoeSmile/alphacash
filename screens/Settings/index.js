@@ -9,20 +9,20 @@ import { useUserQuota } from "@store/useUserQuota";
 import { useNavigation } from "@react-navigation/native";
 import FModal from "@components/FModal";
 import { doTrack } from "@utils/dataTrack";
+import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
 
 const Item = (item) => {
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
   return (
     <View style={styles.item}>
       <Image
         source={item.leftIcon}
         contentFit="cover"
         transition={1000}
-        style={{
+        style={[{
           width: 24,
           height: 24,
-          marginRight: 12,
-        }}
+        }, getMarginRightOrLeft(locale, 12)]}
       />
       <Text style={{ color: "#0A233E", fontSize: 16 }}>
         {i18n.t(item.title)}
@@ -67,11 +67,10 @@ const getListData = ({
               source={item.leftIcon}
               contentFit="cover"
               transition={1000}
-              style={{
+              style={[{
                 width: 24,
                 height: 24,
-                marginRight: 12,
-              }}
+              }, getMarginRightOrLeft(locale, 12)]}
             />
             <View
               style={{
@@ -121,6 +120,7 @@ const getListData = ({
                 width: 24,
                 height: 24,
                 marginRight: 12,
+                marginLeft: 12
               }}
             />
             <View
@@ -202,11 +202,11 @@ const Settings = () => {
 
   return (
     <View
-      style={{
+      style={[{
         padding: 20,
         backgroundColor: "white",
         height: "100%",
-      }}
+      }, getWritingDirectionStyle(locale)]}
     >
       <FList data={listData} itemStyle={styles.FList} />
       <FModal

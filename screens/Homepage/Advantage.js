@@ -6,9 +6,10 @@ import {
 } from "react-native";
 import { Asset } from "expo-asset";
 import { useI18n, LocaleTypes } from "@hooks/useI18n";
+import { getPaddingRightOrLeft } from '@styles';
 
 export function Advantage () {
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
 
   return (
     <View style={{
@@ -24,12 +25,11 @@ export function Advantage () {
           width:3,
           backgroundColor: '#0825B8',
         }}/>
-        <Text style={{
+        <Text style={[{
           color: '#0A233E',
           fontSize: 16,
           fontWeight: 'bold',
-          paddingLeft: 10
-        }}>{i18n.t('Advantage')}</Text>
+        }, getPaddingRightOrLeft(locale, 0, 10)]}>{i18n.t('Advantage')}</Text>
       </View>
       <View style={{
         height: 56,

@@ -70,7 +70,7 @@ const Stack = createStackNavigator();
 function RootNavigator() {
   const { locale, setLocale, i18n } = useI18n();
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator screenOptions={{ headerShown: false }} >
       <Stack.Group>
         <Stack.Screen
           name="Start"
@@ -148,6 +148,7 @@ function RootNavigator() {
       </Stack.Group>
 
       <Stack.Screen name="Homepage" component={BottomTabNavigator} />
+      
       {[
         ...MineScreens,
         ...CredentialsScreens,

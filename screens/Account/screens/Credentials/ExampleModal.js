@@ -1,5 +1,6 @@
 import { Modal, View, Text, Pressable, StyleSheet, Image } from "react-native";
 import { useI18n, LocaleTypes } from "@hooks/useI18n";
+import { getWritingDirectionStyle } from '@styles';
 
 export const EXAMPLE_TYPES = {
   CNIC_CARD: "CNIC_CARD",
@@ -107,10 +108,10 @@ function ExampleImage({ type,i18n }) {
 }
 
 export function ExampleModal({ isVisible, onClose, type }) {
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
   return (
     <Modal animationType="fade" transparent={true} visible={isVisible}>
-      <View style={styles.container}>
+      <View style={[styles.container, getWritingDirectionStyle(locale)]}>
         <View style={styles.content}>
           <ExampleImage type={type} i18n={i18n} />
           <Pressable onPress={() => onClose("")}>

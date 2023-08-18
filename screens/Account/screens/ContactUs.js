@@ -4,9 +4,10 @@ import * as Linking from "expo-linking";
 import { A } from "@expo/html-elements";
 import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "../../../utils/dataTrack";
+import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
 
 const Item = (item) => {
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
 
   return (
     <Pressable>
@@ -15,11 +16,10 @@ const Item = (item) => {
           source={item.leftIcon}
           contentFit="cover"
           transition={1000}
-          style={{
+          style={[{
             width: 25,
             height: 25,
-            marginRight: 12,
-          }}
+          }, getMarginRightOrLeft(locale,12)]}
         />
         <Text
           style={{
@@ -38,7 +38,7 @@ const data = [
     title: "Online Service",
     leftIcon: require("@assets/images/mine_ic_online_service.png"),
     leftItem: (item) => {
-      const { i18n } = useI18n();
+      const { i18n, locale } = useI18n();
 
       return (
         <>
@@ -60,11 +60,10 @@ const data = [
                 source={item.leftIcon}
                 contentFit="cover"
                 transition={1000}
-                style={{
+                style={[{
                   width: 25,
                   height: 25,
-                  marginRight: 12,
-                }}
+                }, getMarginRightOrLeft(locale,12)]}
               />
               <Text style={{ color: "#0A233E" }}>{i18n.t(item.title)}</Text>
               <Text
@@ -94,7 +93,7 @@ const data = [
     leftIcon: require("@assets/images/mine_ic_contact_number.png"),
     displayIcon: false,
     leftItem: (item) => {
-      const { i18n } = useI18n();
+      const { i18n, locale } = useI18n();
 
       return (
         <>
@@ -108,11 +107,10 @@ const data = [
               source={item.leftIcon}
               contentFit="cover"
               transition={1000}
-              style={{
+              style={[{
                 width: 25,
                 height: 25,
-                marginRight: 12,
-              }}
+              }, getMarginRightOrLeft(locale, 12)]}
             />
             <Text>{i18n.t(item.title)}</Text>
           </View>
@@ -140,12 +138,13 @@ const data = [
 ];
 
 export default function ContactUs() {
+  const { i18n, locale } = useI18n();
   return (
     <View
-      style={{
+      style={[{
         backgroundColor: "white",
         height: "100%",
-      }}
+      }, getWritingDirectionStyle(locale)]}
     >
       <View style={styles.container}>
         <FList data={data} itemStyle={styles.FList} />

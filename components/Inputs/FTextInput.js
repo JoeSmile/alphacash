@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, TextInput, StyleSheet, Image } from "react-native";
 import { useFormikContext, useField } from "formik";
 import { useI18n } from "@hooks/useI18n";
+import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
 
 export const FTextInput = ({
   label,
@@ -16,12 +17,12 @@ export const FTextInput = ({
 }) => {
   const context = useFormikContext(name);
   const meta = context.getFieldMeta(name);
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
 
   return (
-    <View style={[styles.inputContainer, containerStyle]}>
+    <View style={[styles.inputContainer, containerStyle, getWritingDirectionStyle(locale)]}>
       <View>
-        <Text style={styles.label}>{i18n.t(label)}{` ${suffix}`}</Text>
+        <Text style={[styles.label, [getWritingDirectionStyle(locale)]]} >{i18n.t(label)}{` ${suffix}`}</Text>
       </View>
 
       <View

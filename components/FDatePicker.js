@@ -5,22 +5,23 @@ import dayjs from "dayjs";
 import { useI18n } from "@hooks/useI18n";
 import { DatePicker } from "@ant-design/react-native";
 import enUS from '@ant-design/react-native/lib/locale-provider/en_US';
+import { getWritingDirectionStyle, getPaddingRightOrLeft } from '@styles';
 
 const CustomChildren = ({ onPress, extra, ...resetProps }) => {
+  const { i18n, locale } = useI18n();
   return (
     <View>
       <TouchableOpacity activeOpacity={0.32} onPress={onPress}>
         <View
-          style={{
+          style={[{
             height: 55,
-            paddingLeft: 15,
             justifyContent: "center",
             borderWidth: 1,
             borderColor: "#c0c4d6",
             borderRadius: 10,
-          }}
+          }, getPaddingRightOrLeft(locale, 0, 15)]}
         >
-          <Text>{extra.split(' ')[0]}</Text>
+          <Text style={getWritingDirectionStyle(locale)}>{extra.split(' ')[0]}</Text>
         </View>
       </TouchableOpacity>
     </View>
@@ -29,7 +30,7 @@ const CustomChildren = ({ onPress, extra, ...resetProps }) => {
 
 export const FDatePicker = ({ label, name }) => {
   const context = useFormikContext(name);
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
   const [date, setDate] = useState(
     dayjs(context.values[name] || new Date(), "YYYY-MM-DD").toDate()
   );
@@ -40,18 +41,18 @@ export const FDatePicker = ({ label, name }) => {
 
   return (
     <View
-      style={{
+      style={[{
         marginBottom: 15,
         height: 80,
-      }}
+      }, getWritingDirectionStyle(locale)]}
     >
       <View style={{ height: 20, marginBottom: 10 }}>
-        <Text>{i18n.t(label)}</Text>
+        <Text style={[{textIndent:20}, getWritingDirectionStyle(locale)]}>{i18n.t(label)}</Text>
       </View>
       <DatePicker
-        style={{
+        style={[{
           borderWidth: 0,
-        }}
+        }, getWritingDirectionStyle(locale)]}
         value={date}
         mode="date"
         defaultDate={date}

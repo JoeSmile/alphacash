@@ -1,6 +1,6 @@
 import { Text, Pressable, View, FlatList, Image } from "react-native";
-import { useI18n, LocaleTypes } from "@hooks/useI18n";
-
+import { useI18n } from "@hooks/useI18n";
+import { getWritingDirectionStyle } from '@styles';
 const data = [
   {
     title: "English",
@@ -50,12 +50,14 @@ const Item = ({ locale, title }) => {
   );
 };
 export const Language = () => {
+  const { i18n, locale } = useI18n();
+
   return (
-    <View style={{
+    <View style={[{
       padding: 20,
       backgroundColor: 'white',
       height: '100%'
-    }}>
+    }, getWritingDirectionStyle(locale)]}>
       <FlatList
         data={data}
         renderItem={({ item }) => (

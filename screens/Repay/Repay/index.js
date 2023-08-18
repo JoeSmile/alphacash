@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useUserQuota } from "@store/useUserQuota";
 import { FButton } from "../../../components/FButton";
 import { doTrack } from "@utils/dataTrack";
+import { useI18n } from "@hooks/useI18n";
 
 export const CHANNEL = {
   easypaisa: 1,
@@ -22,6 +23,8 @@ export default function Repay({ navigation, route }) {
   const [channel, setChannel] = useState();
   const [bill] = useUserQuota((s) => [s.bill]);
   const [paymentData, setPaymentData] = useState();
+  const { i18n, locale } = useI18n();
+
   const copyToClipboard = async (copyText) => {
     await Clipboard.setStringAsync(copyText);
   };
@@ -46,7 +49,7 @@ export default function Repay({ navigation, route }) {
   }, [channel]);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, getWritingDirectionStyle(locale)]}>
       <View style={{ flex: 1, height: "100%" }}>
         <BillCard />
 

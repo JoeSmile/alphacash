@@ -7,20 +7,21 @@ import { useI18n } from "@hooks/useI18n";
 import { useNavigation } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/native";
 import { cloneDeep } from 'lodash';
+import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
 
 const Item = (item) => {
-  const { i18n } = useI18n();
+  const { i18n, locale} = useI18n();
   return (
     <View style={styles.item}>
       <Image
         source={item.leftIcon}
         contentFit="cover"
         transition={1000}
-        style={{
+        style={[{
           width: 32,
           height: 32,
-          marginRight: 12,
-        }}
+          
+        }, getMarginRightOrLeft(locale, 12)]}
       />
       <Text>{i18n.t(item.title)}</Text>
     </View>
@@ -57,7 +58,7 @@ const DefaultListItems = [
 export default function Credentials() {
   const { mutate: getUserFormStatus, data, isLoading } = useGetUserFormStatus();
   const [displayItems, setDisplayItems] = useState(DefaultListItems);
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
   const navigation = useNavigation();
   const isFocused = useIsFocused();
 
@@ -110,7 +111,7 @@ export default function Credentials() {
   };
 
   return (
-    <SafeAreaView style={styles.itemsContainer}>
+    <SafeAreaView style={[styles.itemsContainer, getWritingDirectionStyle(locale)]}>
       <Spinner
         visible={isLoading}
         textContent={i18n.t('Loading')}

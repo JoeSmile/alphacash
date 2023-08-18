@@ -27,6 +27,7 @@ import {
 import { useEffect, useState } from "react";
 import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "@utils/dataTrack";
+import { getWritingDirectionStyle, getRevertImage } from '@styles';
 
 const emptyJobFormValues = {
   workField: "",
@@ -96,7 +97,7 @@ export default function Job({ navigation, route }) {
   const [occupationOptions, setOccupationOptions] = useState(workFieldOptions);
   const [serviceTimeOptions, setServiceTimeOptions] =
     useState(serviceLengthOptions);
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
   const [isUpdate, setIsUpdate] = useState(false);
   const [fromScreen, setFromScreen] = useState('');
 
@@ -141,7 +142,7 @@ export default function Job({ navigation, route }) {
   }, [updateWorkInfoResponse]);
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={[styles.container, getWritingDirectionStyle(locale)]}>
       {!isWorkInfoLoading && !isOptionsDataLoading && !!initialValues && (
         <Formik
           initialValues={initialValues}
@@ -203,7 +204,7 @@ export default function Job({ navigation, route }) {
                   marginBottom: 15,
                 }}
               >
-                <Text>{i18n.t("Company Address")}</Text>
+                <Text style={getWritingDirectionStyle(locale)}>{i18n.t("Company Address")}</Text>
                 <View
                   style={{
                     flexDirection: "row",
@@ -250,7 +251,7 @@ export default function Job({ navigation, route }) {
                   gap: 5,
                 }}
               >
-                <Text>{i18n.t("Have Other Loans?")}</Text>
+                <Text style={getWritingDirectionStyle(locale)}>{i18n.t("Have Other Loans?")}</Text>
                 <View
                   style={{
                     flexDirection: "row",
@@ -330,7 +331,7 @@ export default function Job({ navigation, route }) {
                 </Text>
                 <Image
                   source={require("@assets/images/btn_ic_right.png")}
-                  style={{ width: 12, height: 12 }}
+                  style={[{ width: 12, height: 12 },  getRevertImage(locale)]}
                 />
               </Pressable>
             </>

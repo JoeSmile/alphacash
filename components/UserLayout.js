@@ -12,11 +12,15 @@ import Avatar from "@components/Avatar";
 import { useNavigation } from "@react-navigation/native";
 import { LanguageSwitcher } from "@components/LanguageSwitcher";
 import { Asset } from "expo-asset";
+import { getWritingDirectionStyle } from '@styles';
+import { useI18n } from "@hooks/useI18n";
 
 export default function UserLayout({ displayGoBack = false, children, alwayCompany=false }) {
+  const { i18n, locale } = useI18n();
   const navigation = useNavigation();
+
   return (
-    <SafeAreaView>
+    <SafeAreaView style={getWritingDirectionStyle(locale)}>
       <View
         style={{
           width: "100%",

@@ -4,20 +4,20 @@ import FList from "@components/FList";
 import UserLayout from "@components/UserLayout";
 import { useSystemStore } from "@store/useSystemStore";
 import { useI18n } from "@hooks/useI18n";
+import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
 
 const Item = (item) => {
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
   return (
     <View style={styles.item}>
       <Image
         source={item.leftIcon}
         contentFit="cover"
         transition={1000}
-        style={{
+        style={[{
           width: 32,
           height: 32,
-          marginRight: 12,
-        }}
+        }, getMarginRightOrLeft(locale, 12)]}
       />
       <Text>{i18n.t(item.title)}</Text>
     </View>

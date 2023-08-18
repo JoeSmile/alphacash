@@ -28,6 +28,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useUserQuota } from "@store/useUserQuota";
 import { Toast } from "@ant-design/react-native";
 import { doTrack } from "@utils/dataTrack";
+import { getWritingDirectionStyle, getRevertImage } from '@styles';
 
 const imageUri = require("@assets/images/info_pic_cnic_card_positive.png");
 const imageUri1 = require("@assets/images/info_pic_cnic_card_negative.png");
@@ -58,7 +59,7 @@ export default function Certificate({ route }) {
 
   const { mutate: getAccounts, data: cards, isLoading } = useGetAccounts();
 
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
   const [imageList, setImage] = useState([]);
   const [showTips, setShowTips] = useState(false);
   const [index, setIndex] = useState();
@@ -282,7 +283,7 @@ export default function Certificate({ route }) {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={[styles.container, getWritingDirectionStyle(locale)]}>
       <Spinner
         visible={
           isIdentityInfoLoading ||
@@ -514,7 +515,7 @@ export default function Certificate({ route }) {
         </Text>
         <Image
           source={require("@assets/images/btn_ic_right.png")}
-          style={{ width: 12, height: 12 }}
+          style={[{ width: 12, height: 12 }, getRevertImage(locale)]}
         />
       </Pressable>
 

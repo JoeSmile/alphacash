@@ -10,6 +10,9 @@ import FList from "@components/FList";
 import { useUserQuota } from "@store";
 import BillCard from '../BillCard';
 import { CHANNEL } from '../Repay';
+import { useI18n } from "@hooks/useI18n";
+import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
+
 // bill: {
 //   //贷款id
 //   loanId: 1,
@@ -25,16 +28,18 @@ import { CHANNEL } from '../Repay';
 //   appStatus: 101,
 // },
 const Item = (item) => {
+  const { i18n, locale } = useI18n();
+
   return (
     <View style={styles.item}>
       <Image
         source={item.leftIcon}
         contentFit="cover"
         transition={1000}
-        style={{
+        style={[{
           width: 32,
           height: 32,
-        }}
+        }, getMarginRightOrLeft(locale, 12)]}
       />
       <Text style={{marginLeft: 12}}>{item.title}</Text>
     </View>
@@ -75,8 +80,10 @@ const data = [
 ];
 
 export default function RepayList({navigation, route}) {
+  const { i18n, locale } = useI18n();
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, getWritingDirectionStyle(locale)]}>
       {/* Bill info */}
       <BillCard />
       {/* Repay List */}

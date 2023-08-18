@@ -31,6 +31,7 @@ import { useI18n } from "@hooks/useI18n";
 import Spinner from "react-native-loading-spinner-overlay";
 import { Asset } from "expo-asset";
 import { doTrack } from "@utils/dataTrack";
+import { getWritingDirectionStyle } from '@styles';
 
 function buildGetRequest(url, params) {
   if (params) {
@@ -51,7 +52,7 @@ export default function Apply() {
 
   const userStore = useUserQuota();
   const navigation = useNavigation();
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
 
   const {
     mutate: getCashLoanProductConfig,
@@ -226,7 +227,7 @@ export default function Apply() {
   }, []);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={getWritingDirectionStyle(locale)}>
       <Spinner
         visible={isGetCashLoanProductConfigLoading || isApplyCreateBillLoading}
         textContent={i18n.t("Loading")}

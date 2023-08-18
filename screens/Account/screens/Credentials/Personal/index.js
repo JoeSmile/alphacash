@@ -29,6 +29,7 @@ import { useI18n } from "@hooks/useI18n";
 import { useUserQuota } from "@store/useUserQuota";
 import { doTrack } from "@utils/dataTrack";
 import { useAbleImage } from "@hooks/useAbleImage";
+import { getWritingDirectionStyle, getRevertImage } from '@styles';
 
 
 const emptyInitialValues = {
@@ -72,7 +73,7 @@ export default function Personal({ navigation, route }) {
   const updatePersonalInfoMutation = useUpdatePersonalInfo();
   // const getPersonalOptionsMutation = useGetPersonalOptions();
   const [initialValues, setInitialValues] = useState();
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
   const [bill, hasBill] = useUserQuota((s) => [s.bill, s.hasBill]);
   const [isUpdate, setIsUpdate] = useState(false);
   const editAble = useAbleImage();
@@ -116,7 +117,7 @@ export default function Personal({ navigation, route }) {
 
   return (
     <SafeAreaView>
-      <ScrollView style={{ backgroundColor: "white" }}>
+      <ScrollView style={[{ backgroundColor: "white" }, getWritingDirectionStyle(locale)]}>
         <View>
           <SafeIntro safeText={i18n.t("information security")} />
           <View
@@ -282,7 +283,7 @@ export default function Personal({ navigation, route }) {
                       </Text>
                       <Image
                         source={require("@assets/images/btn_ic_right.png")}
-                        style={{ width: 12, height: 12 }}
+                        style={[{ width: 12, height: 12 }, getRevertImage(locale)]}
                       />
                     </Pressable>
                   </>

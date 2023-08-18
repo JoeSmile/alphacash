@@ -3,8 +3,9 @@ import { View, Text, useWindowDimensions } from "react-native";
 import { TabView, TabBar, SceneMap } from "react-native-tab-view";
 import Processing from "./Processing";
 import Completed from "./Completed";
-import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "@utils/dataTrack";
+import { useI18n } from "@hooks/useI18n";
+import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
 
 const renderScene = SceneMap({
   processing: Processing,
@@ -13,7 +14,7 @@ const renderScene = SceneMap({
 
 export default function BillList() {
   const layout = useWindowDimensions();
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
   const [index, setIndex] = React.useState(0);
 
   const routes = React.useMemo(
@@ -47,13 +48,12 @@ export default function BillList() {
       }}
     />
   );
-
   return (
     <View
-      style={{
+      style={[{
         paddingHorizontal: 15,
         flex: 1,
-      }}
+      }, getWritingDirectionStyle(locale)]}
     >
       <TabView
         navigationState={{ index, routes }}

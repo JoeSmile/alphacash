@@ -4,9 +4,10 @@ import { useSystemStore } from "@store/useSystemStore";
 import FModal from "@components/FModal";
 import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "@utils/dataTrack";
+import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
 
 export const RepayRemind = (item) => {
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
 
   const [isOn, setOn] = useSystemStore((s) => [
    s.usersInfo[s.phone]?.isRepayReminderOn ?? false,
@@ -33,11 +34,11 @@ export const RepayRemind = (item) => {
 
   return (
     <View
-      style={{
+      style={[{
         justifyContent: "space-between",
         flexDirection: "row",
         width: "100%",
-      }}
+      }, getWritingDirectionStyle(locale)]}
     >
       <View
         style={{
@@ -49,11 +50,10 @@ export const RepayRemind = (item) => {
           source={item.leftIcon}
           contentFit="cover"
           transition={1000}
-          style={{
+          style={[{
             width: 24,
             height: 24,
-            marginRight: 12,
-          }}
+          }, getMarginRightOrLeft(locale, 12)]}
         />
         <Text style={{ color: "#0A233E", fontSize: 16 }}>
           {i18n.t(item.title)}

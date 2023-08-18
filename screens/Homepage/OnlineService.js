@@ -5,9 +5,10 @@ import {
 } from "react-native";
 
 import { useI18n, LocaleTypes } from "@hooks/useI18n";
+import { getRevertImage, getMarginRightOrLeft} from '@styles';
 
 export function OnlineService () {
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
 
   return (
     <View style={{
@@ -36,18 +37,16 @@ export function OnlineService () {
             height: 20,
           }}
         />
-        <Text style={{
-          marginLeft: 10
-        }}>{i18n.t('Online Service')}</Text>
+        <Text style={getMarginRightOrLeft(locale, 0, 10)}>{i18n.t('Online Service')}</Text>
       </View>
       <Image
         source={require("@assets/images/home_ic_right.png")}
         contentFit="cover"
         transition={1000}
-        style={{
+        style={[{
           width: 12,
           height: 12,
-        }}
+        }, getRevertImage(locale)]}
       />
     </View>
   )

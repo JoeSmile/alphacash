@@ -16,6 +16,8 @@ import * as Yup from "yup";
 import { useI18n } from "@hooks/useI18n";
 import { useSystemStore } from "@store/useSystemStore";
 import { doTrack } from "@utils/dataTrack";
+import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
+import { locale } from "dayjs";
 
 const tabs = [
   {
@@ -109,7 +111,7 @@ function Notice() {
 export function AddNewAccount({ navigation, route }) {
   const [initialData, setInitialData] = useState();
   const [isLogin, phone] = useSystemStore((s) => [!!s.token, s.phone]);
-
+  const { i18n, locale } = useI18n();
   const [selectedTab, setSelectedTab] = useState({});
   const { mutate: addAccount, data: result } = useAddAccount();
   const { mutate: getBankList, data: rawList, isLoading } = useBankList();
@@ -163,7 +165,7 @@ export function AddNewAccount({ navigation, route }) {
   }, [result]);
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: "white", padding: 15 }}>
+    <ScrollView style={[{ flex: 1, backgroundColor: "white", padding: 15 }, getWritingDirectionStyle(locale)]}>
       <View
         style={{
           minHeight: 570,

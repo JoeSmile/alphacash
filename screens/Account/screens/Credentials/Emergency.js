@@ -20,6 +20,7 @@ import {
 import { useEffect, useState } from "react";
 import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "@utils/dataTrack";
+import { getWritingDirectionStyle, getRevertImage } from '@styles';
 
 const initialValues = {
   relationship1: "",
@@ -69,7 +70,7 @@ export default function Emergency({ navigation, route }) {
     useState();
   const [relationShipOptions, setRelationShipOptions] = useState();
   const [relationShipOptions_1, setRelationShipOptions_1] = useState();
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
   const [isUpdate, setIsUpdate] = useState(false);
   const [phone] = useSystemStore((s) => [s.phone]);
   const [fromScreen, setFromScreen] = useState('');
@@ -124,7 +125,7 @@ export default function Emergency({ navigation, route }) {
   }, [updateContactsResponse]);
 
   return (
-    <ScrollView>
+    <ScrollView style={getWritingDirectionStyle(locale)}>
       <View style={styles.container}>
         {!isGetReferenceContactsLoading &&
           initialReferenceContactInfo &&
@@ -247,7 +248,7 @@ export default function Emergency({ navigation, route }) {
                     </Text>
                     <Image
                       source={require("@assets/images/btn_ic_right.png")}
-                      style={{ width: 12, height: 12 }}
+                      style={[{ width: 12, height: 12 }, getRevertImage(locale)]}
                     />
                   </Pressable>
                 </>

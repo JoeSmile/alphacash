@@ -13,6 +13,8 @@ import { useAppState } from "@hooks/useAppState";
 import { useOnlineManager } from "@hooks/useOnlineManager";
 import { Provider } from "@ant-design/react-native";
 import { initDataTrack } from "@utils/dataTrack";
+import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
+import { useI18n } from "@hooks/useI18n";
 
 initDataTrack();
 
@@ -27,8 +29,9 @@ const queryClient = new QueryClient();
 
 export default function App() {
   useOnlineManager();
-  useAppState(onAppStateChange);
+  const { i18n, locale } = useI18n();
 
+  useAppState(onAppStateChange);
   const isLoadingComplete = useLoadedAssets();
   const colorScheme = useColorScheme();
   useInitialStore();
@@ -65,7 +68,7 @@ export default function App() {
             <View style={styles.countDown}>
               <Text style={styles.countText}>{count}</Text>
             </View>
-            <Text style={styles.license}>License No:xxxxxxxxxxxxxx</Text>
+            <Text style={[styles.license, getWritingDirectionStyle(locale)]}>License No: {`xxxxxxxxxxxxxx`}</Text>
           </ImageBackground>
         </View>
       ) : (

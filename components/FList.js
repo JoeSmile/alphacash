@@ -15,7 +15,7 @@ const Item = (props) => {
     rightIcon = "",
     parameters = {},
     requireLogin = false,
-    clickItem
+    clickItem,
   } = props;
   const navigation = useNavigation();
   const { i18n } = useI18n();
@@ -28,13 +28,13 @@ const Item = (props) => {
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
-          marginBottom: 10,
+          marginBottom: 12,
         },
         itemStyle,
       ]}
       onPress={() => {
         trackName && doTrack(trackName, 1);
-      
+
         if (requireLogin) {
           if (isLogin) {
             if (clickItem) {
@@ -51,10 +51,10 @@ const Item = (props) => {
           }
         } else {
           if (clickItem) {
-              clickItem(props);
-            } else {
-              screen && navigation.push(screen, { ...parameters });
-            }
+            clickItem(props);
+          } else {
+            screen && navigation.push(screen, { ...parameters });
+          }
         }
       }}
     >
@@ -65,12 +65,12 @@ const Item = (props) => {
       )}
       {displayIcon && (
         <Image
-          source={
-            rightIcon ? rightIcon : require("@assets/images/com_ic_right.png")
-          }
+          source={rightIcon || require("@assets/images/com_ic_right.png")}
           contentFit="cover"
           transition={200}
-          style={{ width: 15, height: 15 }}
+          style={
+            rightIcon ? { width: 20, height: 20 } : { width: 16, height: 16 }
+          }
         />
       )}
     </Pressable>
@@ -85,7 +85,7 @@ const FList = ({ data, itemStyle, clickItem, ...restProps }) => {
         item.render ? (
           item.render(item)
         ) : (
-          <Item {...item} itemStyle={itemStyle} clickItem={clickItem}/>
+          <Item {...item} itemStyle={itemStyle} clickItem={clickItem} />
         )
       }
       keyExtractor={(item) => item.id || item.title}

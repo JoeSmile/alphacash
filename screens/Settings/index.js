@@ -31,16 +31,7 @@ const Item = (item) => {
   );
 };
 
-const getListData = ({
-  locale,
-  isLogin,
-  setToken,
-  cleanCardInfo,
-  i18n,
-  navigation,
-  userStore,
-  setModalVisible,
-}) => {
+const getListData = ({ locale, isLogin, i18n, setModalVisible }) => {
   const baseList = [
     {
       id: "1",
@@ -191,14 +182,10 @@ const Settings = () => {
     return getListData({
       locale,
       isLogin,
-      setToken,
-      cleanCardInfo,
       i18n,
-      navigation,
-      userStore,
       setModalVisible,
     });
-  }, [locale, isLogin, setToken, i18n, cleanCardInfo, navigation, userStore]);
+  }, [locale, isLogin, i18n]);
 
   return (
     <View
@@ -240,18 +227,10 @@ const Settings = () => {
 };
 
 const styles = StyleSheet.create({
-  image: {
-    height: "100%",
-    width: "100%",
-  },
   container: {
     paddingVertical: 30,
     paddingHorizontal: 20,
     backgroundColor: "transparent",
-  },
-  itemsContainer: {
-    margin: 15,
-    transform: [{ translateY: -50 }],
   },
   item: {
     flexDirection: "row",
@@ -266,11 +245,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 12,
     borderRadius: 4,
-    elevation: 3,
-    shadowColor: "#000",
-  },
-  text: {
-    color: "white",
   },
   tip: {
     fontSize: 16,

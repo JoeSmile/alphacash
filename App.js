@@ -34,7 +34,7 @@ export default function App() {
   useInitialStore();
 
   const timer = useRef(null);
-  const [count, setCount] = useState(5);
+  const [count, setCount] = useState(-1);
   useEffect(() => {
     if (isLoadingComplete) {
       timer.current = setInterval(() => {

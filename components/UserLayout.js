@@ -13,10 +13,14 @@ import { useNavigation } from "@react-navigation/native";
 import { LanguageSwitcher } from "@components/LanguageSwitcher";
 import { Asset } from "expo-asset";
 
-export default function UserLayout({ displayGoBack = false, children, alwayCompany=false }) {
+export default function UserLayout({
+  displayGoBack = false,
+  children,
+  alwayCompany = false,
+}) {
   const navigation = useNavigation();
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ backgroundColor: "#F4F5F7" }}>
       <View
         style={{
           width: "100%",

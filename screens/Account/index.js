@@ -31,7 +31,7 @@ const data = [
     screen: "CurrentBills",
     leftIcon: require("@assets/images/mine_ic_bill.png"),
     leftItem: Item,
-    requireLogin: true
+    requireLogin: true,
   },
   {
     title: "Certification Info",
@@ -39,7 +39,7 @@ const data = [
     screen: "Credentials",
     leftIcon: require("@assets/images/mine_ic_certification_info.png"),
     leftItem: Item,
-    requireLogin: true
+    requireLogin: true,
   },
   {
     title: "Collection Account",
@@ -47,7 +47,7 @@ const data = [
     screen: "MyCards",
     leftIcon: require("@assets/images/mine_ic_my_bank_card.png"),
     leftItem: Item,
-    requireLogin: true
+    requireLogin: true,
   },
   {
     title: "Contact Us",
@@ -80,30 +80,30 @@ const Account = ({ navigation }) => {
           style={{
             transform: [{ translateY: -50 }],
             alignItems: "center",
+
+            paddingHorizontal: 15,
           }}
         >
           <Pressable
             style={{
-              width: "75%",
+              width: "100%",
               backgroundColor: "#0825B8",
               borderRadius: 3,
             }}
             onPress={() => {
-              isLogin ? setToken("") : navigation.push("Login");
+              navigation.push("Login");
             }}
           >
             <Text
               style={{
                 textAlign: "center",
-                borderRadius: 3,
-                height: 46,
+                height: 48,
                 lineHeight: 46,
                 color: "#FFFFFF",
-                backgroundColor: "#0825B8",
-                fontSize: 15,
+                fontSize: 16,
               }}
             >
-              {isLogin ? i18n.t("Log Out") : i18n.t("Log In")}
+              {i18n.t("Log In")}
             </Text>
           </Pressable>
         </View>
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 1.5,
     },
     shadowOpacity: 0.16,
     shadowRadius: 3,

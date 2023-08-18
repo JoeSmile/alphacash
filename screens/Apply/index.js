@@ -226,18 +226,18 @@ export default function Apply() {
   }, []);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <Spinner
         visible={isGetCashLoanProductConfigLoading || isApplyCreateBillLoading}
         textContent={i18n.t("Loading")}
         textStyle={{ color: "#FFF" }}
       />
-      <ScrollView style={styles.container}>
+      <ScrollView>
         <View style={styles.bgBanner} />
 
         {!!optWithDaysConfig[daysOption] &&
           !isGetCashLoanProductConfigLoading && (
-            <View style={{ padding: 12 }}>
+            <View style={{ padding: 15, paddingTop: 10 }}>
               <ApplyLoanCard
                 optWithDaysConfig={optWithDaysConfig}
                 setOptWithDaysConfig={setOptWithDaysConfig}
@@ -304,34 +304,28 @@ export default function Apply() {
                 {`${i18n.t("Address")}:XXXXXXXX`}
                 {"\n"}
               </Text>
-              <View style={{ height: 80 }}></View>
+              <View style={{ height: 108 }}></View>
             </View>
           )}
       </ScrollView>
 
-      <TouchableOpacity
-        onPress={getLoan}
-        style={{
-          bottom: 36,
-          left: 36,
-          right: 36,
-          position: "absolute",
-          backgroundColor: isChecked ? "#0825B8" : "#C0C4D6",
-          height: 46,
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection: "row",
-          borderRadius: 3,
-        }}
-      >
-        <Text style={{ color: "#FFFFFF", fontSize: 15 }}>
-          {i18n.t("GetLoan")}
-        </Text>
-        <Image
-          source={require("@assets/applyLoan/btn_ic_right.png")}
-          style={{ width: 12, height: 12, marginLeft: 2 }}
-        />
-      </TouchableOpacity>
+      <View style={styles.getLoan}>
+        <TouchableOpacity
+          onPress={getLoan}
+          style={{
+            ...styles.getLoanBtn,
+            backgroundColor: isChecked ? "#0825B8" : "#C0C4D6",
+          }}
+        >
+          <Text style={{ color: "#FFFFFF", fontSize: 16 }}>
+            {i18n.t("GetLoan")}
+          </Text>
+          <Image
+            source={require("@assets/applyLoan/btn_ic_right.png")}
+            style={{ width: 12, height: 12, marginLeft: 4 }}
+          />
+        </TouchableOpacity>
+      </View>
 
       {/* 语音 */}
 
@@ -372,5 +366,21 @@ const styles = StyleSheet.create({
     width: 17,
     height: 17,
     borderRadius: 4,
+  },
+  getLoan: {
+    bottom: 0,
+    paddingHorizontal: 15,
+    paddingTop: 16,
+    paddingBottom: 40,
+    position: "fixed",
+    backgroundColor: "white",
+    width: "100%",
+  },
+  getLoanBtn: {
+    height: 48,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    borderRadius: 3,
   },
 });

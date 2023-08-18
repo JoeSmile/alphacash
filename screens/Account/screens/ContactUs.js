@@ -16,18 +16,12 @@ const Item = (item) => {
           contentFit="cover"
           transition={1000}
           style={{
-            width: 25,
-            height: 25,
+            width: 24,
+            height: 24,
             marginRight: 12,
           }}
         />
-        <Text
-          style={{
-            fontSize: 16,
-          }}
-        >
-          {i18n.t(item.title)}
-        </Text>
+        <Text style={styles.title}>{i18n.t(item.title)}</Text>
       </View>
     </Pressable>
   );
@@ -41,44 +35,42 @@ const data = [
       const { i18n } = useI18n();
 
       return (
-        <>
-          <A
-            href="https://google.com"
+        <A
+          href="https://google.com"
+          style={{
+            color: "#0825B8",
+            textDecorationLine: "none",
+            fontWeight: "bold",
+          }}
+        >
+          <View
             style={{
-              color: "#0825B8",
-              textDecorationLine: "none",
-              fontWeight: "bold",
+              flexDirection: "row",
+              alignItems: "center",
             }}
           >
-            <View
+            <Image
+              source={item.leftIcon}
+              contentFit="cover"
+              transition={1000}
               style={{
-                flexDirection: "row",
-                alignItems: "center",
+                width: 24,
+                height: 24,
+                marginRight: 12,
+              }}
+            />
+            <Text style={styles.title}>{i18n.t(item.title)}</Text>
+            <Text
+              style={{
+                ...styles.title,
+                color: "#8899AC",
+                marginLeft: 8,
               }}
             >
-              <Image
-                source={item.leftIcon}
-                contentFit="cover"
-                transition={1000}
-                style={{
-                  width: 25,
-                  height: 25,
-                  marginRight: 12,
-                }}
-              />
-              <Text style={{ color: "#0A233E" }}>{i18n.t(item.title)}</Text>
-              <Text
-                style={{
-                  color: "#8899AC",
-                  marginLeft: 5,
-                  marginRight: 5,
-                }}
-              >
-                {i18n.t("Recommend")}
-              </Text>
-            </View>
-          </A>
-        </>
+              {i18n.t("Recommend")}
+            </Text>
+          </View>
+        </A>
       );
     },
   },
@@ -102,6 +94,8 @@ const data = [
             style={{
               flexDirection: "row",
               alignItems: "center",
+              fontSize: 16,
+              fontWeight: "600",
             }}
           >
             <Image
@@ -109,12 +103,12 @@ const data = [
               contentFit="cover"
               transition={1000}
               style={{
-                width: 25,
-                height: 25,
+                width: 24,
+                height: 24,
                 marginRight: 12,
               }}
             />
-            <Text>{i18n.t(item.title)}</Text>
+            <Text style={styles.title}>{i18n.t(item.title)}</Text>
           </View>
           <Pressable
             onPress={() => {
@@ -125,9 +119,8 @@ const data = [
           >
             <Text
               style={{
+                ...styles.title,
                 color: "#0825B8",
-                fontSize: 15,
-                fontWeight: "bold",
               }}
             >
               {i18n.t("Call")}
@@ -164,18 +157,10 @@ export default function ContactUs() {
   );
 }
 const styles = StyleSheet.create({
-  image: {
-    height: "100%",
-    width: "100%",
-  },
   container: {
-    paddingVertical: 30,
-    paddingHorizontal: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 15,
     backgroundColor: "white",
-  },
-  itemsContainer: {
-    margin: 15,
-    transform: [{ translateY: -50 }],
   },
   item: {
     flexDirection: "row",
@@ -183,7 +168,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   FList: {
-    height: 60,
+    height: 62,
     borderWidth: 1,
     borderColor: "#C0C4D6",
     backgroundColor: "white",
@@ -191,7 +176,9 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 4,
   },
-  text: {
-    color: "white",
+  title: {
+    color: "#0A233E",
+    fontSize: 16,
+    fontWeight: "600",
   },
 });

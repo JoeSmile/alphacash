@@ -86,6 +86,10 @@ export default function Certificate({ route }) {
   useEffect(() => {
     getIdentityInfo();
   }, []);
+  
+  useEffect(() => {
+    getAccounts();
+  }, []);
 
   useEffect(() => {
     if (cards && cards.data && Array.isArray(cards.data.data)) {

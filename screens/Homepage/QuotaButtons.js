@@ -1,6 +1,6 @@
 import { Image, StyleSheet } from "react-native";
 import * as Device from "expo-device";
-import * as ExpoApplist from "expo-applist";
+//import * as ExpoApplist from "expo-applist";
 import { Text, View } from "../../components/Themed";
 import { useI18n } from "@hooks/useI18n";
 import { useNavigation } from "@react-navigation/native";

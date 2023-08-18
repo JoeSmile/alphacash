@@ -1,8 +1,6 @@
 import {
-  SafeAreaView,
   View,
   Text,
-  Pressable,
   StyleSheet,
   Image,
 } from "react-native";
@@ -35,13 +33,19 @@ const styles = StyleSheet.create({
   safeTextContainer: {
     borderRadius: 4,
     backgroundColor: "#F6F9FD",
-    paddingHorizontal: 15,
-    paddingVertical: 15,
+    marginHorizontal: 15,
+    marginTop: 16,
+    marginBottom: 5,
+    paddingHorizontal: 8,
+    paddingVertical: 12,
     flexDirection: "row",
+    borderWidth: 1,
+    borderColor: "#698EC7",
   },
   safeText: {
-    marginLeft: 10,
+    marginLeft: 8,
     fontSize: 12,
     color: "#4F5E6F",
+    lineHeight: 18,
   },
 });

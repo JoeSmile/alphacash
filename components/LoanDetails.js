@@ -37,7 +37,7 @@ export default function LoanDetails({
     <View style={styles.container}>
       <Pressable onPress={handleFeePress} style={styles.listItemStyle}>
         <View style={styles.feeItemStyle}>
-          <Text>{i18n.t("Fee")}</Text>
+          <Text style={styles.title}>{i18n.t("Fee")}</Text>
           <Text style={styles.listItemTitle}>{fn2f(loanData.manageFee)}</Text>
         </View>
         <Image
@@ -87,27 +87,29 @@ export default function LoanDetails({
       )}
 
       <View style={styles.listItemStyle}>
-        <Text>{i18n.t("Markup")}</Text>
-        { optWithDaysConfig[daysOption].days === 30 &&
-          <Text style={{flex: 1,marginLeft: 6}}>{`(${i18n.t("APR")}:${loanData.yearInterestRate}%)`}</Text>
-          }
+        <Text style={styles.title}>{i18n.t("Markup")}</Text>
+        {optWithDaysConfig[daysOption].days === 30 && (
+          <Text style={{ ...styles.title, flex: 1, marginLeft: 6 }}>{`(${i18n.t(
+            "APR"
+          )}:${loanData.yearInterestRate}%)`}</Text>
+        )}
         <Text style={styles.listItemTitle}>{fn2f(loanData.totalInterest)}</Text>
       </View>
 
       <View style={styles.listItemStyle}>
-        <Text>{i18n.t("DisburseAmount")}</Text>
+        <Text style={styles.title}>{i18n.t("DisburseAmount")}</Text>
         <Text style={styles.listItemTitle}>{fn2f(loanData.disburseMoney)}</Text>
       </View>
 
       <View style={styles.listItemStyle}>
-        <Text>{i18n.t("Lump Sum Repayment Amount")}</Text>
+        <Text style={styles.title}>{i18n.t("Lump Sum Repayment Amount")}</Text>
         <Text style={styles.listItemTitle}>
           {fn2f(loanData.dueRepayAmount)}
         </Text>
       </View>
 
       <View style={styles.listItemStyle}>
-        <Text>{i18n.t("Due Date")}</Text>
+        <Text style={styles.title}>{i18n.t("Due Date")}</Text>
         <Text style={styles.listItemTitle}>{loanData.repaymentDate}</Text>
       </View>
 
@@ -199,8 +201,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: "#4F5E6F",
   },
+  title: {
+    color: "#4F5E6F",
+    fontSize: 16,
+  },
 
-  listItemTitle: { color: "#0A233E", fontWeight: 800 },
+  listItemTitle: { color: "#0A233E", fontSize: 16, fontWeight: 600 },
 
   feeItemStyle: {
     flex: 1,

@@ -15,12 +15,16 @@ import { Asset } from "expo-asset";
 import { getWritingDirectionStyle } from '@styles';
 import { useI18n } from "@hooks/useI18n";
 
-export default function UserLayout({ displayGoBack = false, children, alwayCompany=false }) {
-  const { i18n, locale } = useI18n();
+export default function UserLayout({
+  displayGoBack = false,
+  children,
+  alwayCompany = false,
+}) {
   const navigation = useNavigation();
+  const { i18n, locale } = useI18n();
 
   return (
-    <SafeAreaView style={getWritingDirectionStyle(locale)}>
+    <SafeAreaView style={[{ backgroundColor: "#F4F5F7" }, getWritingDirectionStyle(locale)]}>
       <View
         style={{
           width: "100%",

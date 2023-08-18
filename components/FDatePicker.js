@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { View, Text, Pressable, TouchableOpacity } from "react-native";
+import { useState, useMemo } from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useFormikContext } from "formik";
 import dayjs from "dayjs";
 import { useI18n } from "@hooks/useI18n";
@@ -21,7 +21,7 @@ const CustomChildren = ({ onPress, extra, ...resetProps }) => {
             borderRadius: 10,
           }, getPaddingRightOrLeft(locale, 0, 15)]}
         >
-          <Text style={getWritingDirectionStyle(locale)}>{extra.split(' ')[0]}</Text>
+          <Text style={getWritingDirectionStyle(locale)}>{extra.split(" ")[0]}</Text>
         </View>
       </TouchableOpacity>
     </View>
@@ -35,9 +35,30 @@ export const FDatePicker = ({ label, name }) => {
     dayjs(context.values[name] || new Date(), "YYYY-MM-DD").toDate()
   );
   const onChange = (selectedDate) => {
-    context.setFieldValue(name, dayjs(selectedDate, "YYYY-MM-DD").format("YYYY-MM-DD"));
+    context.setFieldValue(
+      name,
+      dayjs(selectedDate, "YYYY-MM-DD").format("YYYY-MM-DD")
+    );
     setDate(selectedDate);
   };
+
+  const local = useMemo(
+    () => ({
+      okText: "OK",
+      dismissText: "Dismiss",
+      extra: "extra",
+      DatePickerLocale: {
+        year: "Year",
+        month: "Month",
+        day: "Day",
+        hour: "Hour",
+        minute: "Minute",
+        am: "AM",
+        pm: "PM",
+      },
+    }),
+    []
+  );
 
   return (
     <View
@@ -46,8 +67,8 @@ export const FDatePicker = ({ label, name }) => {
         height: 80,
       }, getWritingDirectionStyle(locale)]}
     >
-      <View style={{ height: 20, marginBottom: 10 }}>
-        <Text style={[{textIndent:20}, getWritingDirectionStyle(locale)]}>{i18n.t(label)}</Text>
+      <View>
+        <Text style={[styles.label, getWritingDirectionStyle(locale)]}>{i18n.t(label)}</Text>
       </View>
       <DatePicker
         style={[{
@@ -60,23 +81,19 @@ export const FDatePicker = ({ label, name }) => {
         maxDate={new Date()}
         onChange={onChange}
         format={(value) => dayjs(value, "YYYY-MM-DD").format("MM/DD/YYYY")}
-        locale={{
-          okText: 'OK',
-          dismissText:'Dismiss',
-          extra:'extra',
-          DatePickerLocale: {
-            year:'Year',
-            month:'Month',
-            day:'Day',
-            hour:'Hour',
-            minute:'Minute',
-            am:'AM',
-            pm:'PM',
-            }
-        }}
+        locale={local}
       >
         <CustomChildren />
       </DatePicker>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  label: {
+    lineHeight: 20,
+    marginBottom: 8,
+    color: "#4F5E6F",
+    fontSize: 14,
+  },
+});

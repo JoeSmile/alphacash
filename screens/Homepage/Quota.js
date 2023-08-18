@@ -3,7 +3,7 @@ import { Text, View } from "../../components/Themed";
 import { useI18n } from "@hooks/useI18n";
 import { Process } from "./Process";
 
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { statusToImg } from "@const";
 import { useUserQuota } from "@store";
 import { formatNumberToFinancial as fn2f } from "@utils";
@@ -27,7 +27,12 @@ export function Quota() {
   useEffect(() => {
     if (data?.data?.error_code == 1) {
       const status = data?.data?.data || {};
-      setIsFormCompleted(status.isCompletedPersonal && status.isCompletedWork && status.isCompletedContact && status.isCompletedIdentity);
+      setIsFormCompleted(
+        status.isCompletedPersonal &&
+          status.isCompletedWork &&
+          status.isCompletedContact &&
+          status.isCompletedIdentity
+      );
     }
   }, [data]);
 
@@ -74,14 +79,15 @@ export function Quota() {
         </Text>
       </View>
       <QuotaButtons />
-      {(hasBill ? false : isFormCompleted ? false: true) && <Process />}
+      {(hasBill ? false : isFormCompleted ? false : true) && <Process />}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    margin: 15,
+    marginHorizontal: 15,
+    marginVertical: 12,
     borderRadius: 4,
     paddingBottom: 12,
     position: "relative",

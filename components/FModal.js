@@ -18,7 +18,7 @@ export default function FModal({
       {...restProps}
     >
       <View style={styles.centeredView}>
-        <View style={styles.modalView}>
+        <View style={{ ...styles.modalView, paddingTop: header ? 24 : 32 }}>
           {displayClose && (
             <Ionicons
               name="close-outline"
@@ -32,7 +32,7 @@ export default function FModal({
               onPress={onCloseClick}
             />
           )}
-          <View style={styles.modalHeader}>{header}</View>
+          {header && <View style={styles.modalHeader}>{header}</View>}
           <View style={styles.modalText}>{body}</View>
           {footer && <View style={styles.modalFooter}>{footer}</View>}
         </View>
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     margin: 40,
     backgroundColor: "white",
     borderRadius: 8,
-    paddingTop: 24,
+    //paddingTop: 24,
     paddingBottom: 20,
     paddingHorizontal: 12,
     alignItems: "center",

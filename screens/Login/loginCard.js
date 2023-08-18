@@ -15,7 +15,7 @@ import { encodeSHA, getNetInfo, useGetUserFormStatus } from "@apis";
 import { useLogin, useGetOTP } from "@apis/hooks";
 import Spinner from "react-native-loading-spinner-overlay";
 import { useNavigation } from "@react-navigation/native";
-import { useI18n, LocaleTypes } from "@hooks/useI18n";
+import { useI18n } from "@hooks/useI18n";
 import * as Yup from "yup";
 import { useRoute } from "@react-navigation/native";
 import { doTrack } from "@utils/dataTrack";
@@ -27,7 +27,10 @@ import { Toast } from "@ant-design/react-native";
 const LoginFormSchema = Yup.object().shape({
   OTP: Yup.string().required("Required"),
   phoneNumber: Yup.string()
-    .matches(/^03\d{9}/, "Please input 11 characters phone number,start with 03")
+    .matches(
+      /^03\d{9}/,
+      "Please input 11 characters phone number,start with 03"
+    )
     .required("Required"),
 });
 
@@ -271,7 +274,6 @@ export default function LoginCard() {
                   {"Log In"}
                 </Text>
               </Pressable>
-              {/* <Button color={Colors.light.primary} disabled={!isSelected} style={styles.loginButton} onPress={handleSubmit} title="Log In" /> */}
             </>
           )}
         </Formik>
@@ -349,30 +351,16 @@ const styles = StyleSheet.create({
     elevation: 3,
     shadowColor: "#000",
   },
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-  },
-  loginContainer: {
-    width: "80%",
-    alignItems: "center",
-    padding: 10,
-    elevation: 10,
-  },
   inputContainer: {
     width: "100%",
     marginBottom: 20,
   },
   otpText: {
-    width: 64,
     color: Colors.light.primary,
-    fontSize: 15,
-    fontWeight: "bold",
+    fontSize: 16,
+    fontWeight: "500",
     textAlign: "center",
-    height: 52,
-    lineHeight: 52,
+    lineHeight: 48,
   },
   label: {
     color: "#595959",
@@ -384,20 +372,8 @@ const styles = StyleSheet.create({
     height: 50,
     width: "auto",
     backgroundColor: "#F4F5F7",
-    borderColor: "gray",
-    borderWidth: StyleSheet.hairlineWidth,
-    borderRadius: 10,
-    //outlineColor: "#0825B8",
-  },
-  loginButton: {
-    height: 46,
-    width: "95%",
-    backgroundColor: Colors.light.primary,
-    alignSelf: "center",
-  },
-  checkbox: {
-    marginRight: 5,
-    textAlignVertical: "sub",
+    borderRadius: 8,
+    fontSize: 16,
   },
   spinnerTextStyle: {
     color: "#FFF",

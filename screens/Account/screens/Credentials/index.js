@@ -21,7 +21,7 @@ const Item = (item) => {
           width: 32,
           height: 32,
           
-        }, getMarginRightOrLeft(locale, 12)]}
+        }, getMarginRightOrLeft(locale, 16)]}
       />
       <Text>{i18n.t(item.title)}</Text>
     </View>
@@ -72,41 +72,49 @@ export default function Credentials() {
     if (data?.data?.error_code == 1) {
       const status = data?.data?.data || {};
 
-      listItems[0].rightIcon = status.isCompletedPersonal ? require("@assets/images/checked.png") : ''
+      listItems[0].rightIcon = status.isCompletedPersonal
+        ? require("@assets/images/checked.png")
+        : "";
       listItems[0].parameters = {
-        isUpdate: status.isCompletedPersonal
+        isUpdate: status.isCompletedPersonal,
       };
 
-      listItems[1].rightIcon = status.isCompletedWork ? require("@assets/images/checked.png") : '';
+      listItems[1].rightIcon = status.isCompletedWork
+        ? require("@assets/images/checked.png")
+        : "";
       listItems[1].parameters = {
-        isUpdate: status.isCompletedWork
+        isUpdate: status.isCompletedWork,
       };
 
-      listItems[2].rightIcon = status.isCompletedContact ? require("@assets/images/checked.png") : '';
+      listItems[2].rightIcon = status.isCompletedContact
+        ? require("@assets/images/checked.png")
+        : "";
       listItems[2].parameters = {
-        isUpdate: status.isCompletedContact
+        isUpdate: status.isCompletedContact,
       };
 
-      listItems[3].rightIcon = status.isCompletedIdentity ? require("@assets/images/checked.png") : '';
+      listItems[3].rightIcon = status.isCompletedIdentity
+        ? require("@assets/images/checked.png")
+        : "";
       listItems[3].parameters = {
-        isUpdate: status.isCompletedIdentity
+        isUpdate: status.isCompletedIdentity,
       };
 
       setDisplayItems([...listItems]);
     }
   }, [data]);
 
-  const checkFormStates = ({parameters = {}, screen}) => {
+  const checkFormStates = ({ parameters = {}, screen }) => {
     if (parameters.isUpdate) {
-      navigation.push(screen, {isUpdate: true});
-    } else if(!displayItems[0]?.parameters?.isUpdate) {
-      navigation.push('Personal');
-    } else if(!displayItems[1]?.parameters?.isUpdate) {
-      navigation.push('Job');
-    } else if(!displayItems[2]?.parameters?.isUpdate) {
-      navigation.push('Emergency');
-    } else if(!displayItems[3]?.parameters?.isUpdate) {
-      navigation.push('Certificate');
+      navigation.push(screen, { isUpdate: true });
+    } else if (!displayItems[0]?.parameters?.isUpdate) {
+      navigation.push("Personal");
+    } else if (!displayItems[1]?.parameters?.isUpdate) {
+      navigation.push("Job");
+    } else if (!displayItems[2]?.parameters?.isUpdate) {
+      navigation.push("Emergency");
+    } else if (!displayItems[3]?.parameters?.isUpdate) {
+      navigation.push("Certificate");
     }
   };
 
@@ -114,10 +122,14 @@ export default function Credentials() {
     <SafeAreaView style={[styles.itemsContainer, getWritingDirectionStyle(locale)]}>
       <Spinner
         visible={isLoading}
-        textContent={i18n.t('Loading')}
+        textContent={i18n.t("Loading")}
         textStyle={{ color: "#FFF" }}
       />
-      <FList data={displayItems} itemStyle={styles.FList} clickItem = {(item) => checkFormStates(item)}/>
+      <FList
+        data={displayItems}
+        itemStyle={styles.FList}
+        clickItem={(item) => checkFormStates(item)}
+      />
     </SafeAreaView>
   );
 }
@@ -134,10 +146,16 @@ const styles = StyleSheet.create({
   },
   FList: {
     backgroundColor: "white",
-    paddingHorizontal: 12,
-    paddingVertical: 30,
+    paddingHorizontal: 15,
+    paddingVertical: 20,
     borderRadius: 4,
-    elevation: 2,
-    shadowColor: '#000',
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1.5,
+    },
+    shadowOpacity: 0.16,
+    shadowRadius: 3,
   },
 });

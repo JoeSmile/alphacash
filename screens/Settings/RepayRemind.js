@@ -60,8 +60,8 @@ export const RepayRemind = (item) => {
         </Text>
       </View>
       <Switch
-        trackColor={{ false: "#767577", true: "#81b0ff" }}
-        thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+        trackColor={{ false: "#E1E0E0", true: "#BFEBBF" }}
+        thumbColor={isEnabled ? "#01AE01" : "#A9A9A9"}
         onValueChange={toggleSwitch}
         value={isEnabled}
       />
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
     color: "white",
-    fontWeight: "bold",
+    fontWeight: "500",
     textAlign: "center",
   },
 });

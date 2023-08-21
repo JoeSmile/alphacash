@@ -56,11 +56,6 @@ export function FSelect({
               padding: 0,
               paddingLeft: 15,
               color: "#0A233E",
-              // height: 55,
-              // borderColor: '#C0C4D6',
-              // borderRadius: 10,
-              // borderWidth: 1,
-              // outlineColor: '#0825B8'
             },
             meta.touched && meta.error ? styles.error : {},
           ]}

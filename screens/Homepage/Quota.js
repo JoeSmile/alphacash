@@ -4,14 +4,14 @@ import { useI18n } from "@hooks/useI18n";
 import { Process } from "./Process";
 
 import { useEffect, useState } from "react";
-import { statusToImg } from "@const";
+import { getStatusImgByLocale } from "@const";
 import { useUserQuota } from "@store";
 import { formatNumberToFinancial as fn2f } from "@utils";
 import { QuotaButtons } from "./QuotaButtons";
 import { useGetUserFormStatus } from "@apis";
 
 export function Quota() {
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
   const [isFormCompleted, setIsFormCompleted] = useState(false);
   const { mutate: getUserFormStatus, data, isLoading } = useGetUserFormStatus();
   const [cashLoan, bill, hasBill] = useUserQuota((s) => [
@@ -47,14 +47,13 @@ export function Quota() {
       >
         {hasBill && (
           <Image
-            source={statusToImg[bill.appStatus]}
-            style={{
+            source={getStatusImgByLocale(bill.appStatus, locale)}
+            style={[{
               position: "absolute",
               width: 102,
               height: 73,
               top: -2,
-              right: -2,
-            }}
+            },  locale == 'en' ? {right: -2} : {left: -2}]}
           />
         )}
 

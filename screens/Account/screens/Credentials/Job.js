@@ -123,9 +123,10 @@ export default function Job({ navigation, route }) {
 
   useEffect(() => {
     if (workInfo && workInfo.data.error_code == 1) {
+      const info = workInfo.data.data.workInfo
       setInitialValues({
         ...emptyJobFormValues,
-        ...workInfo.data.data.workInfo,
+        ...info,
       });
     }
   }, [workInfo]);

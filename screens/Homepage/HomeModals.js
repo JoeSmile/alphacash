@@ -15,8 +15,10 @@ export const MODAL_TYPE = {
 
 function HomeModals({ showModal, type }) {
   const { i18n } = useI18n();
-  const [isRatePoped, isRepayReminderOn, setRatePoped, setReminderOn] =
+
+  const [isLogin, isRatePoped, isRepayReminderOn, setRatePoped, setReminderOn] =
     useSystemStore((s) => [
+      !!s.token,
       s.usersInfo[s.phone]?.isRatePoped ?? false,
       s.usersInfo[s.phone]?.isRepayReminderOn ?? false,
       s.setRatePoped,
@@ -25,6 +27,9 @@ function HomeModals({ showModal, type }) {
 
   useEffect(() => {
     let initModalType, initVisible;
+    if (!isLogin) {
+      return
+    }
     if (showModal) {
       if (type === MODAL_TYPE.ELIGIBLE) {
         initModalType = MODAL_TYPE.ELIGIBLE;

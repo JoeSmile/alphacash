@@ -55,7 +55,9 @@ export const useSystemStore = create(
         const currentPhone = get().phone;
         const allUsersInfo = get().usersInfo;
         const currentUserInfo = allUsersInfo[currentPhone];
-        currentUserInfo.isRatePoped = true;
+        if (currentUserInfo) {
+          currentUserInfo.isRatePoped = true;
+        }
 
         set((state) => ({
           ...state,
@@ -66,7 +68,9 @@ export const useSystemStore = create(
         const currentPhone = get().phone;
         const allUsersInfo = get().usersInfo;
         const currentUserInfo = allUsersInfo[currentPhone];
-        currentUserInfo.isRepayReminderOn = isOn;
+        if (currentUserInfo) {
+          currentUserInfo.isRepayReminderOn = isOn;
+        }
 
         set((state) => ({
           ...state,

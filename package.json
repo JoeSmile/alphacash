@@ -30,7 +30,6 @@
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.9",
     "expo": "~48.0.18",
-    "expo-applist": "https://github.com/qinghuama320/expo-applist",
     "expo-asset": "^8.9.1",
     "expo-av": "~13.2.1",
     "expo-battery": "~7.1.1",

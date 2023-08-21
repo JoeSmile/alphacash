@@ -48,7 +48,7 @@ function buildGetRequest(url, params) {
 const baseURL = "https://alphacashapi.tangbull.com/api/app/laon/voice";
 
 export default function Apply() {
-  const currentUserCardInfo = useSystemStore(s => [s.usersInfo[s.phone]?.cardInfo ?? {}, s.setCardInfo, s.cleanCardInfo]);
+  const [currentUserCardInfo,app,sign,token] = useSystemStore(s => [s.usersInfo[s.phone]?.cardInfo ?? {},s.app,s.sign,s.token]);
 
   const userStore = useUserQuota();
   const navigation = useNavigation();
@@ -182,11 +182,12 @@ export default function Apply() {
     //拼接参数
     const daysConfig = optWithDaysConfig[daysOption];
     const amountConfig = daysConfig.opt[amountIndex];
+    //唯一的get请求，修改代码时注意！
     const params = {
-      app: store.app,
-      sign: store.sign,
-      token: store.token,
-      language: store.locale,
+      app: app,
+      sign: sign,
+      token: token,
+      language: locale,
       applyAmount: amountConfig.applyAmount,
       dayNum: daysConfig.days,
       disburseMoney: amountConfig.disburseMoney,

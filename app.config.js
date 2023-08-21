@@ -33,6 +33,7 @@ module.exports = ({ config }) => ({
       "WRITE_CALENDAR",
       "QUERY_ALL_PACKAGES",
     ],
+    blockedPermissions: ["android.permission.READ_EXTERNAL_STORAGE","android.permission.ACCESS_FINE_LOCATION"]
   },
   web: {
     favicon: "./assets/favicon.png",

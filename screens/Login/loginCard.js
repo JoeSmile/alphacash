@@ -218,6 +218,7 @@ export default function LoginCard() {
                     style={{
                       position: "absolute",
                       right: 15,
+                      marginTop: 2
                     }}
                   >
                     <View

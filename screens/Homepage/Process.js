@@ -30,7 +30,7 @@ export function Process() {
           style={{
             flexDirection: "row",
             width: "100%",
-            transform: [{ translateY: -10 }],
+            transform: [{ translateY: -9 }],
           }}
         >
           <View style={styles.textContainer}>
@@ -68,7 +68,6 @@ const styles = StyleSheet.create({
     width: 15,
     height: 15,
     fontSize: 12,
-    lineHeight: 13,
     textAlign: "center",
     borderRadius: 10,
     color: "#00B295",

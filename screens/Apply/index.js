@@ -373,8 +373,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingTop: 16,
     paddingBottom: 40,
-    position: "fixed",
-    backgroundColor: "white",
+    position: 'absolute',
     width: "100%",
   },
   getLoanBtn: {

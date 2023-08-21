@@ -18,6 +18,6 @@ export function getPaddingRightOrLeft(locale, paddingRight = 0, paddingLeft = 0)
 
 export function getRevertImage(locale) {
   return {
-    transform: [{rotate: locale == 'en' ? '0' : '180deg'}]
+    transform: [{rotate: locale == 'en' ? '0deg' : '180deg'}]
   }
 }

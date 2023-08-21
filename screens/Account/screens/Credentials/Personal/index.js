@@ -34,7 +34,7 @@ import { getWritingDirectionStyle, getRevertImage } from '@styles';
 
 const emptyInitialValues = {
   name: "",
-  birth: "1999-01-01",
+  birth: "1990-01-01",
   gender: "",
   cnic: "",
   education: "",
@@ -69,7 +69,7 @@ const PersonalFormSchema = Yup.object().shape({
 });
 
 export default function Personal({ navigation, route }) {
-  const { mutate: getPersonalDetail, data } = useGetPersonalDetail();
+  const { mutate: getPersonalDetail, data, isLoading } = useGetPersonalDetail();
   const updatePersonalInfoMutation = useUpdatePersonalInfo();
   // const getPersonalOptionsMutation = useGetPersonalOptions();
   const [initialValues, setInitialValues] = useState();
@@ -129,7 +129,7 @@ export default function Personal({ navigation, route }) {
               paddingVertical: 15,
             }}
           >
-            {!!initialValues && (
+            {!!initialValues && !isLoading && (
               <Formik
                 initialValues={initialValues}
                 onSubmit={(values) => {

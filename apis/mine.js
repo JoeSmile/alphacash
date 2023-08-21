@@ -1,7 +1,7 @@
 import { axiosPost, axiosGet, axiosPostFile } from "./basic";
 
-export function getOTP(phoneNumber) {
-  return axiosPost("/otp", { phoneNumber });
+export function getOTP(parameters) {
+  return axiosPost("/otp", parameters);
 }
 
 export async function login(parameters) {

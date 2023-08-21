@@ -9,7 +9,7 @@ import {
   Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { LOAN_STATUS, statusToImg } from "@const";
+import { LOAN_STATUS, getStatusImgByLocale } from "@const";
 import { formatNumberToFinancial as fn2f } from "@utils";
 import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "@utils/dataTrack";
@@ -28,10 +28,10 @@ const Item = ({ item }) => {
     >
       <View style={styles.item}>
         <Image
-          source={statusToImg[item.appStatus]}
+          source={getStatusImgByLocale(item.appStatus, locale)}
           contentFit="cover"
           transition={1000}
-          style={styles.imgTag}
+          style={[styles.imgTag, locale == 'en' ? {right: 0} : {left: 0}]}
         />
         <View>
           <Text style={[styles.title, getWritingDirectionStyle(locale)]}>{`${i18n.t("Loan Amount")}: `} </Text>
@@ -101,7 +101,6 @@ const styles = StyleSheet.create({
     width: 102,
     height: 73,
     position: "absolute",
-    right: 0,
     top: 0,
   },
   amount: {

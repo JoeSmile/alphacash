@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from "react";
 import { View, StyleSheet, Text, StatusBar, Image } from "react-native";
-import { LOAN_STATUS, statusToImg } from "@const";
+import { LOAN_STATUS, getStatusImgByLocale } from "@const";
 import { FButton } from "@components/FButton";
 import {
   formatNumberToFinancial as fn2f,
@@ -17,7 +17,7 @@ export default function BillDetail({ route }) {
   const { loanId } = route.params;
   const hasRepayBillStatus = [LOAN_STATUS.using, LOAN_STATUS.overdue];
   const hasDueDateBillStatus = [...hasRepayBillStatus, LOAN_STATUS.repaid];
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
   const navigation = useNavigation();
 
   const { mutate: getBillDetail, data: axiosRes, isLoading } = useBillDetail();
@@ -54,15 +54,15 @@ export default function BillDetail({ route }) {
         </>
       );
     }
-
+    console.log('locale=======', locale);
     return (
       <View style={styles.container}>
         <View style={styles.infoSection}>
           <Image
-            source={statusToImg[item.appStatus]}
+            source={ getStatusImgByLocale(item.appStatus, locale) }
             contentFit="cover"
             transition={1000}
-            style={styles.imgTag}
+            style={[styles.imgTag, locale == 'en'? {right: 0} : {left: 0}]}
           />
           <View>
             <Text style={styles.title}>{`${i18n.t("Loan Amount")}: `}</Text>
@@ -186,7 +186,6 @@ const styles = StyleSheet.create({
     width: 102,
     height: 73,
     position: "absolute",
-    right: 0,
     top: 0,
   },
   amount: {

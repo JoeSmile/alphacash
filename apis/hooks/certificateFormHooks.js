@@ -5,9 +5,12 @@ export function useGetIdentityInfoDetail() {
   return mutationFactory(getIdentityInfoDetail);
 }
 
+
 export function useUpdateIdentityInfo() {
   return mutationFactory(updateIdentityInfo);
 }
-export function useUpdateUserImages() {
+
+// bill 有错
+export function useUpdateBillUserImages() {
   return mutationFactory(updateUserImages);
 }

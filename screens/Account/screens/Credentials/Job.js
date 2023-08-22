@@ -13,8 +13,6 @@ import {
   workFieldOptions,
   serviceLengthOptions,
   monthlyIncomeOptions,
-  citiesOptions,
-  provincesOptions,
   otherLoanOptions,
 } from "@const";
 import Return from "./Return";
@@ -23,7 +21,10 @@ import {
   useWorkInfoOptions,
   useGetWorkInfoDetail,
   useUpdateWorkInfo,
+  useGetProvinceList,
+  useGetCityList
 } from "@apis";
+
 import { useEffect, useState } from "react";
 import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "@utils/dataTrack";
@@ -100,11 +101,31 @@ export default function Job({ navigation, route }) {
   const { i18n, locale } = useI18n();
   const [isUpdate, setIsUpdate] = useState(false);
   const [fromScreen, setFromScreen] = useState('');
+  const {mutate: getProvinceList, data: provinceListData } = useGetProvinceList();
+  const {mutate: getCityList, data: cityListData } = useGetCityList();
+  const [provinceOptions, setProvinceOptions] = useState();
+  const [cityOptions, setCityOptions] = useState();
 
   useEffect(() => {
     getWorkInfo();
     getWorkInfoOptions();
+    getProvinceList();
+    getCityList({
+      parentId: '1'
+    })
   }, []);
+
+  useEffect(() => {
+    if(provinceListData?.data?.error_code == 1) {
+      setProvinceOptions(provinceListData.data.data);
+    }
+  }, [provinceListData]);
+
+  useEffect(() => {
+    if(cityListData?.data?.error_code == 1) {
+      setCityOptions(cityListData.data.data);
+    }
+  }, [cityListData]);
 
   useEffect(() => {
     const isUpdate = route.params ? route.params.isUpdate : false;
@@ -157,12 +178,12 @@ export default function Job({ navigation, route }) {
               (work) => work.value == workId
             )[0].label;
 
-            parameters["companyProviceName"] = provincesOptions.filter(
-              (province) => province.province_id == provinceId
-            )[0].province_name;
-            parameters["companyCityName"] = citiesOptions.filter(
-              (province) => province.city_id == cityId
-            )[0].city_name;
+            parameters["companyProviceName"] = provinceOptions.filter(
+              (province) => province.code == provinceId
+            )[0].name;
+            parameters["companyCityName"] = cityOptions.filter(
+              (province) => province.code == cityId
+            )[0].name;
             updateWorkInfo(parameters);
           }}
           validateOnChange={true}
@@ -217,22 +238,23 @@ export default function Job({ navigation, route }) {
                     <FSelect
                       name="companyProviceId"
                       label="Province"
-                      options={provincesOptions}
-                      valueKey="province_id"
-                      labelKey="province_name"
+                      options={provinceOptions}
+                      valueKey="code"
+                      labelKey="name"
+                      afterChange={({name, value}) => {
+                        getCityList({
+                          parentId: value
+                        })
+                      }}
                     />
                   </View>
                   <View style={{ flex: 1 }}>
                     <FSelect
                       name="companyCityId"
                       label="City"
-                      options={citiesOptions.filter((city) =>
-                        values["companyProviceId"]
-                          ? city.province_id == values["companyProviceId"]
-                          : true
-                      )}
-                      valueKey="city_id"
-                      labelKey="city_name"
+                      options={cityOptions}
+                      valueKey="code"
+                      labelKey="name"
                     />
                   </View>
                 </View>

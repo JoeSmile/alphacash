@@ -18,7 +18,7 @@ export async function getPersonalInfoDetail(parameters) {
 }
 
 export async function getPersonalOptions(parameters) {
-  return axiosPost("/getpersonaloptions", parameters);
+  return axiosPost("/getPersonalOptions", parameters);
 }
 
 export async function updatePersonalInfo(parameters) {
@@ -108,4 +108,20 @@ export async function applyCreateBill(parameters) {
 // homepage
 export async function getUserQuota(parameters) {
   return axiosPost("/userQuota", parameters);
+}
+
+
+// cities
+export async function getProvinceList(parameters) {
+  return axiosPost("/config/getLocationList",{
+    level: 1,
+    ...parameters
+  });
+}
+
+export async function getCityList(parameters) {
+  return axiosPost("/config/getLocationList",{
+    level: 2,
+    ...parameters
+  });
 }

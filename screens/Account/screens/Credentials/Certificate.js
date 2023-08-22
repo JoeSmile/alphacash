@@ -13,7 +13,7 @@ import Return from "./Return";
 import {
   useGetIdentityInfoDetail,
   useUpdateIdentityInfo,
-  useUpdateUserImages,
+  useUpdateBillUserImages,
   useGetAccounts
 } from "@apis";
 import * as ImagePicker from "expo-image-picker";
@@ -45,17 +45,19 @@ export default function Certificate({ route }) {
     isLoading: isIdentityInfoLoading,
   } = useGetIdentityInfoDetail();
 
+  // 没有错误，直接更新
   const {
     mutate: updateIdentityInfo,
     data: updateIdentityInfoResponse,
     isLoading: isUpdateIdentityInfoLoading,
   } = useUpdateIdentityInfo();
 
+  // 申请bill中有错误，需要修改
   const {
-    mutate: updateUserImages,
-    data: updateUserImagesResponse,
-    isLoading: isUpdateUserImagesLoading,
-  } = useUpdateUserImages();
+    mutate: updateBillUserImages,
+    data: updateBillUserImagesResponse,
+    isLoading: isUpdateBillUserImagesLoading,
+  } = useUpdateBillUserImages();
 
   const { mutate: getAccounts, data: cards, isLoading } = useGetAccounts();
 
@@ -194,15 +196,15 @@ export default function Certificate({ route }) {
 
   //bill中有错 修改错误图片
   useEffect(() => {
-    if (updateUserImagesResponse?.data?.error_code == 1) {
-      console.log("0.0 >>>>>>>>>> updateUserImagesResponse");
+    if (updateBillUserImagesResponse?.data?.error_code == 1) {
+      console.log("0.0 >>>>>>>>>> updateBillUserImagesResponse");
       Toast.info({
         content: i18n.t("modify successfully"),
         duration: 3,
       });
       navigation.push('Homepage')
     }
-  }, [updateUserImagesResponse]);
+  }, [updateBillUserImagesResponse]);
 
   const showPickImageModel = (id) => {
     if (
@@ -276,9 +278,9 @@ export default function Certificate({ route }) {
     };
 
     if (isModify) {
-      updateIdentityInfo(params);
+      updateBillUserImages(params);
     } else {
-      updateUserImages(params);
+      updateIdentityInfo(params);
     }
   };
 
@@ -288,7 +290,7 @@ export default function Certificate({ route }) {
         visible={
           isIdentityInfoLoading ||
           isUpdateIdentityInfoLoading ||
-          isUpdateUserImagesLoading
+          isUpdateBillUserImagesLoading
         }
         textContent={i18n.t("Loading")}
         textStyle={{ color: "#FFF" }}

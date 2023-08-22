@@ -16,6 +16,7 @@ export function FSelect({
   valueKey = "",
   enabledKey = "",
   suffix = "",
+  afterChange = '',
   ...props
 }) {
   const context = useFormikContext(name);
@@ -49,6 +50,12 @@ export function FSelect({
           mode="dropdown"
           onValueChange={(v) => {
             context.setFieldValue(name, v);
+            if (afterChange) {
+              afterChange({
+                name,
+                value: v
+              })
+            }
           }}
           selectedValue={context.values[name]}
           style={[

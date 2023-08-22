@@ -7,7 +7,7 @@ import { useUserQuota } from "@store";
 import * as ImagePicker from "expo-image-picker";
 import mime from "mime";
 import { useI18n } from "@hooks/useI18n";
-import { useUpdateUserImages } from "@apis";
+import { useUpdateBillUserImages } from "@apis";
 import Spinner from "react-native-loading-spinner-overlay";
 import { Toast } from "@ant-design/react-native";
 import { doTrack } from "@utils/dataTrack";
@@ -25,10 +25,10 @@ export default function FaceDetectionScreen({ route }) {
   const { i18n } = useI18n();
 
   const {
-    mutate: updateUserImages,
-    data: updateUserImagesResponse,
-    isLoading: isUpdateUserImagesLoading,
-  } = useUpdateUserImages();
+    mutate: updateBillUserImages,
+    data: updateBillUserImagesResponse,
+    isLoading: isUpdateBillUserImagesLoading,
+  } = useUpdateBillUserImages();
 
   const [isUpdate, setIsUpdate] = useState(false);
   useEffect(() => {
@@ -52,15 +52,15 @@ export default function FaceDetectionScreen({ route }) {
   //   };
   // })
   useEffect(() => {
-    if (updateUserImagesResponse?.data?.error_code == 1) {
-      console.log("0.0 >>>>>>>>>> updateUserImagesResponse");
+    if (updateBillUserImagesResponse?.data?.error_code == 1) {
+      console.log("0.0 >>>>>>>>>> updateBillUserImagesResponse");
       Toast.info({
         content: i18n.t("Successful face recognition"),
         duration: 3,
       });
       navigation.goBack();
     }
-  }, [updateUserImagesResponse]);
+  }, [updateBillUserImagesResponse]);
 
   const isSmiling = (face) => {
     // 0.6 是一个基准值，可以根据实际情况进行调整
@@ -103,7 +103,7 @@ export default function FaceDetectionScreen({ route }) {
       };
       store.setFaceData(img);
       if (isUpdate) {
-        updateUserImages({
+        updateBillUserImages({
           applyImage: img,
         });
       } else {
@@ -144,7 +144,7 @@ export default function FaceDetectionScreen({ route }) {
   return (
     <View style={styles.container}>
       <Spinner
-        visible={isUpdateUserImagesLoading}
+        visible={isUpdateBillUserImagesLoading}
         textContent={i18n.t("Loading")}
         textStyle={{ color: "#FFF" }}
       />

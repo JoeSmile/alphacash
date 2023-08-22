@@ -7,3 +7,4 @@ export * from "./accountHooks";
 export * from "./applyLoanFromHooks";
 export * from "./homepageHooks";
 export * from "./billHooks";
+export * from './location';

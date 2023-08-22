@@ -13,8 +13,6 @@ import SafeIntro from "../SafeIntro";
 import * as Yup from "yup";
 import { FDatePicker } from "@components/FDatePicker";
 import {
-  provincesOptions,
-  citiesOptions,
   genderOptions,
   marriageOptions,
   educationOptions,
@@ -24,13 +22,14 @@ import {
   useGetPersonalDetail,
   useUpdatePersonalInfo,
   useGetPersonalOptions,
+  useGetProvinceList,
+  useGetCityList
 } from "@apis/hooks";
 import { useI18n } from "@hooks/useI18n";
 import { useUserQuota } from "@store/useUserQuota";
 import { doTrack } from "@utils/dataTrack";
 import { useAbleImage } from "@hooks/useAbleImage";
 import { getWritingDirectionStyle, getRevertImage } from '@styles';
-
 
 const emptyInitialValues = {
   name: "",
@@ -71,18 +70,44 @@ const PersonalFormSchema = Yup.object().shape({
 export default function Personal({ navigation, route }) {
   const { mutate: getPersonalDetail, data, isLoading } = useGetPersonalDetail();
   const updatePersonalInfoMutation = useUpdatePersonalInfo();
-  // const getPersonalOptionsMutation = useGetPersonalOptions();
+  const {mutate: getPersonalOptions, data: personFormOptions, isLoading: isPersonFormOptionsLoading} = useGetPersonalOptions();
+  const {mutate: getProvinceList, data: provinceListData } = useGetProvinceList();
+  const {mutate: getCityList, data: cityListData } = useGetCityList();
   const [initialValues, setInitialValues] = useState();
   const { i18n, locale } = useI18n();
   const [bill, hasBill] = useUserQuota((s) => [s.bill, s.hasBill]);
   const [isUpdate, setIsUpdate] = useState(false);
   const editAble = useAbleImage();
   const [fromScreen, setFromScreen] = useState('');
+  // options
+  const [educationOptionsBE, setEducationOptions] = useState(educationOptions);
+  const [genderOptionsBE, setGenderOptions] = useState(genderOptions);
+  const [maritalStatusOptionsBE, setMaritalStatusOptions] = useState(marriageOptions);
+  const [provinceOptions, setProvinceOptions] = useState();
+  const [cityOptions, setCityOptions] = useState();
 
   useEffect(() => {
     getPersonalDetail();
-    // getPersonalOptionsMutation.mutate()
+    getPersonalOptions();
+    getProvinceList();
+    getCityList({
+      parentId: '1'
+    })
   }, []);
+
+  useEffect(() => {
+    if(provinceListData?.data?.error_code == 1) {
+      console.log("provinceListData", provinceListData.data.data);
+      setProvinceOptions(provinceListData.data.data);
+    }
+  }, [provinceListData]);
+
+  useEffect(() => {
+    if(cityListData?.data?.error_code == 1) {
+      console.log("cityOptions", cityListData.data.data);
+      setCityOptions(cityListData.data.data);
+    }
+  }, [cityListData]);
 
   useEffect(() => {
     const isUpdate = route.params ? route.params.isUpdate : false;
@@ -90,6 +115,20 @@ export default function Personal({ navigation, route }) {
     setFromScreen(fromScreen);
     setIsUpdate(!!isUpdate);
   }, [route]);
+
+  useEffect(() => {
+    console.log('personFormOptions?.data', personFormOptions?.data);
+    if(personFormOptions?.data?.error_code == 1) {
+      const options = personFormOptions.data.data;
+      //educationOptions
+      //genderOptions
+      //maritalStatusOptions
+      setEducationOptions(options.educationOptions);
+      setGenderOptions(options.genderOptions);
+      setMaritalStatusOptions(options.maritalStatusOptions);
+    }
+   
+  }, [personFormOptions]);
 
   useEffect(() => {
     if (data && data.data && data.data.error_code === 1) {
@@ -136,12 +175,12 @@ export default function Personal({ navigation, route }) {
                   const provinceId = values["provinceId"];
                   const cityId = values["cityId"];
                   const parameters = values;
-                  parameters["provinceName"] = provincesOptions.filter(
-                    (province) => province.province_id == provinceId
-                  )[0].province_name;
-                  parameters["cityName"] = citiesOptions.filter(
-                    (province) => province.city_id == cityId
-                  )[0].city_name;
+                  parameters["provinceName"] = provinceOptions.filter(
+                    (province) => province.code == provinceId
+                  )[0].name;
+                  parameters["cityName"] = cityOptions.filter(
+                    (province) => province.code == cityId
+                  )[0].name;
                   updatePersonalInfoMutation.mutate({ ...parameters });
                 }}
                 validateOnChange={true}
@@ -174,7 +213,7 @@ export default function Personal({ navigation, route }) {
                         <FSelect
                           name="gender"
                           label="Gender"
-                          options={genderOptions}
+                          options={genderOptionsBE}
                         />
                       </View>
                     </View>
@@ -192,7 +231,7 @@ export default function Personal({ navigation, route }) {
                       <FSelect
                         name="education"
                         label="Education"
-                        options={educationOptions}
+                        options={educationOptionsBE}
                       />
                     </View>
 
@@ -200,7 +239,7 @@ export default function Personal({ navigation, route }) {
                       <FSelect
                         name="maritalStatus"
                         label="Marital Status"
-                        options={marriageOptions}
+                        options={maritalStatusOptionsBE}
                       />
                     </View>
 
@@ -221,9 +260,14 @@ export default function Personal({ navigation, route }) {
                           <FSelect
                             name="provinceId"
                             label="Province"
-                            options={provincesOptions}
-                            valueKey="province_id"
-                            labelKey="province_name"
+                            options={provinceOptions}
+                            valueKey="code"
+                            labelKey="name"
+                            afterChange={({name, value}) => {
+                              getCityList({
+                                parentId: value
+                              })
+                            }}
                           />
                         </View>
 
@@ -232,13 +276,9 @@ export default function Personal({ navigation, route }) {
                             name="cityId"
                             label="City"
                             enabledKey="provinceId"
-                            options={citiesOptions.filter((city) =>
-                              values["provinceId"]
-                                ? city.province_id == values["provinceId"]
-                                : true
-                            )}
-                            valueKey="city_id"
-                            labelKey="city_name"
+                            options={cityOptions}
+                            valueKey="code"
+                            labelKey="name"
                           />
                         </View>
                       </View>
@@ -254,7 +294,7 @@ export default function Personal({ navigation, route }) {
                     <View style={styles.module}>
                       <FTextInput name="email" label="Email" />
                     </View>
-
+                    
                     <Pressable
                       style={{
                         height: 46,

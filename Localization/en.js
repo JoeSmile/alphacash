@@ -231,4 +231,19 @@ export const en = {
   "Successful face recognition": "Successful face recognition",
   "modify successfully": "modify successfully",
   APR: "APR",
+"Repayment via Easypaisa": "Repayment via Easypaisa",
+
+"Account Name": "Account Name",
+"Consumer ID": "Consumer ID",
+"Kind Tips": "Kind Tips",
+"Use EasyPaisa to make repayment, the operation instructions": "Use EasyPaisa to make repayment, the operation instructions",
+"click to view>>": "click to view>>",
+"EasyPaisa Repayment Operation Instructions": "%{type} Repayment Operation Instructions",
+"Operating steps": "Operating steps",
+"Log in EasyPaisa Account and then enter Consumer ID": "Log in [%{type} Account]>>Click Search and enter [AlphaCash]>> and then enter [Consumer ID]",
+"As shown in the example below": "As shown in the example below",
+"Log in EasyPaisa Account": "Log in[%{type} Account]",
+"Click Search , enter AlphaCash, and select AlphaCash": "Click [Search], enter [AlphaCash], and select [AlphaCash]",
+"Enter Consumer ID, click Next, and then click PAY NOW": "Enter [Consumer ID], click [Next], and then click [PAY NOW]",
+"Repayment method": "Repayment method"
 };

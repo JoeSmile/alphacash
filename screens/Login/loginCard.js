@@ -163,6 +163,7 @@ export default function LoginCard() {
                 <TextInput
                   name="phoneNumber"
                   placeholder="03x xxxx xxxx"
+                  placeholderTextColor={"#8899AC"}
                   style={styles.textInput}
                   onChangeText={handleChange("phoneNumber")}
                   onBlur={() => {

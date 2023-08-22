@@ -6,13 +6,15 @@ import {
   Pressable,
   ScrollView
 } from "react-native";
+import { useI18n } from "@hooks/useI18n";
 import { FButton } from '@components/FButton';
 
-export default function EasypaisaDemo({navigation}) {
+export default function EasypaisaDemo({navigation, type}) {
+  const { i18n, locale } = useI18n();
   return (
     <ScrollView>
       <View style={styles.card}>
-        <Text style={styles.title}>{`1.登录【EasyPaisa 账号】`}</Text>
+        <Text style={styles.title}>{i18n.t('Log in EasyPaisa Account', {type: type})}</Text>
         <Image
           source={require("@assets/repay/repayment_pic_easypaisa_step1.png")}
           style={styles.image}
@@ -21,7 +23,7 @@ export default function EasypaisaDemo({navigation}) {
       </View>
      
       <View style={styles.card}>
-        <Text style={styles.title}>{`2.点击 【search】输入【AlphaCash】，选择【AlphaCash】`}</Text>
+        <Text style={styles.title}>{i18n.t('Click Search , enter AlphaCash, and select AlphaCash')}</Text>
         <Image
           source={require("@assets/repay/repayment_pic_easypaisa_step2.png")}
           style={styles.image}
@@ -35,8 +37,7 @@ export default function EasypaisaDemo({navigation}) {
       </View>
 
       <View style={styles.card}>
-        <Text style={styles.title}>{`3.输入【Consumer ID】，点击【Next】，
-再点击【PAY NOW】`}</Text>
+        <Text style={styles.title}>{i18n.t('Enter Consumer ID, click Next, and then click PAY NOW')}</Text>
         <Image
           source={require("@assets/repay/repayment_pic_easypaisa_step3.png")}
           style={styles.image}

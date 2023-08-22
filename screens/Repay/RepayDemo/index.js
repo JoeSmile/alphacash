@@ -17,23 +17,22 @@ export default function RepayDemo({navigation, route}) {
   useEffect(() => {
     const type = route.params ? route.params.type : '';
     setType(type);
-    navigation.setOptions({ headerTitle: `${type}还款操作说明` });
+    navigation.setOptions({ headerTitle: i18n.t('EasyPaisa Repayment Operation Instructions', {type: type}) });
   }, [navigation, route]);
 
-  console.log('type----', type);
   
   return (
     <View style={[styles.container, getWritingDirectionStyle(locale)]}>
       <View>
-        <Text style={{color: '#0A233E', fontSize: 16, fontWeight: 600, marginBottom: 10}}>操作步骤说明：</Text>
-        <Text style={{color: '#4F5E6F', fontSize: 14}}>{`登录 【${type} 账号】>>点击搜索输入`}</Text>
-        <Text style={{color: '#4F5E6F', fontSize: 14}}>{`【AlphaCash】>>再输入【Consumer ID】`}</Text>
+        <Text style={{color: '#0A233E', fontSize: 16, fontWeight: 600, marginBottom: 10}}>{i18n.t('Operating steps')}:</Text>
+        <Text style={{color: '#4F5E6F', fontSize: 14}}>{i18n.t('Log in EasyPaisa Account and then enter Consumer ID', {type: type})}</Text>
+  
       </View>
       
       <View style={{marginTop: 20}}>
-        <Text style={{color: '#0A233E', fontSize: 16, fontWeight: 600, marginBottom: 10}}>如下图示例：</Text>
+        <Text style={{color: '#0A233E', fontSize: 16, fontWeight: 600, marginBottom: 10}}>{i18n.t('As shown in the example below')}</Text>
         {
-          type.toLowerCase() == 'easypaisa' && <EasypaisaDemo />
+          type.toLowerCase() == 'easypaisa' && <EasypaisaDemo type={type}/>
         }
       </View>
     </View>

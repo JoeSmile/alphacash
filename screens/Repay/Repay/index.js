@@ -7,6 +7,7 @@ import { useUserQuota } from "@store/useUserQuota";
 import { FButton } from "../../../components/FButton";
 import { doTrack } from "@utils/dataTrack";
 import { useI18n } from "@hooks/useI18n";
+import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
 
 export const CHANNEL = {
   easypaisa: 1,
@@ -68,7 +69,7 @@ export default function Repay({ navigation, route }) {
           >
             <View style={{ flexDirection: "row" }}>
               <Text style={{ color: "#4F5E6F", fontSize: 16 }}>
-                Account Name:{" "}
+              {i18n.t("Account Name")}:{" "}
               </Text>
               <Text style={{ color: "#0A233E", fontSize: 16 }}>
                 {paymentData?.channelText}
@@ -105,7 +106,7 @@ export default function Repay({ navigation, route }) {
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <View style={{ flexDirection: "row" }}>
-              <Text style={{ color: "#4F5E6F", fontSize: 16 }}>Consumer ID:</Text>
+              <Text style={{ color: "#4F5E6F", fontSize: 16 }}>{i18n.t('Consumer ID')}:</Text>
               <Text style={{ color: "#0A233E", fontSize: 16 }}>
                 {paymentData?.paymentCode}
               </Text>
@@ -114,7 +115,7 @@ export default function Repay({ navigation, route }) {
             <Pressable
               onPress={() => {
                 doTrack("pk3", 1);
-                copyToClipboard("12312312313");
+                copyToClipboard(paymentData?.paymentCode);
               }}
             >
               <Text
@@ -132,14 +133,14 @@ export default function Repay({ navigation, route }) {
 
         {/* Notice */}
         <View style={{ marginTop: 20 }}>
-          <Text style={{ color: "#8899AC", fontSize: 12 }}>提示：</Text>
+          <Text style={{ color: "#8899AC", fontSize: 12 }}>{i18n.t("Kind Tips")}:</Text>
           <View
             style={{
               flexDirection: "row",
             }}
           >
             <Text style={{ color: "#8899AC", fontSize: 12 }}>
-              使用 EasyPaisa 进行还款，操作说明{" "}
+             {i18n.t('Use EasyPaisa to make repayment, the operation instructions')}{" "}
             </Text>
             <Pressable
               onPress={() => {
@@ -148,7 +149,7 @@ export default function Repay({ navigation, route }) {
             >
               <Text
                 style={{ color: "#0825B8", fontSize: 12 }}
-              >{`点击查看>>`}</Text>
+              >{i18n.t('click to view>>')}</Text>
             </Pressable>
           </View>
         </View>

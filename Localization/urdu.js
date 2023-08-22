@@ -233,4 +233,18 @@ export const urdu = {
   "Successful face recognition": "Successful face recognition",
   "modify successfully": "modify successfully",
   APR: "APR",
-};
+  "Repayment via Easypaisa": "Repayment via Easypaisa",
+  "Account Name": "کھاتے کا نام",
+  "Consumer ID": "صارف کی شناخت",
+  "Kind Tips": "اشارہ",
+  "Use EasyPaisa to make repayment, the operation instructions": "EasyPaisa کا استعمال کرتے ہوئے ادائیگی، ہدایات",
+  "click to view>>": "دیکھنے کے لیے کلک کریں >>",
+  "EasyPaisa Repayment Operation Instructions": "%{type} ادائیگی کے آپریشن کی ہدایات",
+  "Operating steps": "آپریشن کے اقدامات",
+  "Log in EasyPaisa Account and then enter Consumer ID": "لاگ ان کریں 【%{type} اکاؤنٹ】>>تلاش پر کلک کریں اور 【AlphaCash】>> درج کریں اور پھر 【کنزیومر آئی ڈی】 درج کریں۔",
+  "As shown in the example below": "جیسا کہ ذیل کی مثال میں دکھایا گیا ہے۔",
+  "Log in EasyPaisa Account": "لاگ ان کریں 【%{type} اکاؤنٹ】",
+  "Click Search , enter AlphaCash, and select AlphaCash": "[تلاش] پر کلک کریں، [AlphaCash] درج کریں، اور [AlphaCash] کو منتخب کریں",
+  "Enter Consumer ID, click Next, and then click PAY NOW": "[کنزیومر آئی ڈی] درج کریں، [اگلا] پر کلک کریں، اور پھر [ابھی ادائیگی کریں] پر کلک کریں",
+  "Repayment method": "ادائیگی کا طریقہ"
+  };

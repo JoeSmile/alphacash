@@ -8,9 +8,12 @@ import { formatNumberToFinancial as fn2f } from "@utils";
 import { useEffect, useState } from "react";
 import React from "react";
 import { useUserQuota } from "@store";
+import { useI18n } from "@hooks/useI18n";
 
 export default function BillCard ({navigation}) {
   const bill = useUserQuota((s) => s.bill);
+  const { i18n, locale } = useI18n();
+
   return (
     <>
      <View style={styles.bill}>
@@ -19,7 +22,7 @@ export default function BillCard ({navigation}) {
         fontSize: 16,
         textAlign:'center',
         marginVertical: 16
-      }}>还款金额</Text>
+      }}>{i18n.t('Lump Sum Repayment Amount')}</Text>
       <Text style={{
         color: '#0A233E',
         fontSize: 32,
@@ -35,7 +38,7 @@ export default function BillCard ({navigation}) {
         <Text style={{
           color: '#4F5E6F',
           fontSize: 14
-        }}>到期日:</Text>
+        }}>{i18n.t('Due Date')}:</Text>
         <Text style={{
           color: '#0A233E',
           fontSize: 14

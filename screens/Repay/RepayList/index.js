@@ -41,7 +41,7 @@ const Item = (item) => {
           height: 32,
         }, getMarginRightOrLeft(locale, 12)]}
       />
-      <Text style={{marginLeft: 12}}>{item.title}</Text>
+      <Text style={getMarginRightOrLeft(locale, 12)}>{item.title}</Text>
     </View>
   );
 };
@@ -94,9 +94,7 @@ export default function RepayList({navigation, route}) {
           borderLeftWidth: 2,
           height: 12
         }}/>
-        <Text style={{
-          marginLeft: 5
-          }}>还款方式</Text>
+        <Text style={getMarginRightOrLeft(locale, 0, 5)}>{i18n.t('Repayment method')}</Text>
       </View>
        
         <View style={{position: 'relative', marginTop: 15}}>
@@ -119,8 +117,8 @@ export default function RepayList({navigation, route}) {
 
       {/* 温馨提示：按时还款，信用额度会越来越高！ */}
       <View style={{marginTop: 10}}>
-        <Text style={{color: '#8899AC', fontSize: 12}}>温馨提示：</Text>
-        <Text style={{color: '#8899AC', fontSize: 12}}>按时还款，信用额度会越来越高!</Text>
+        <Text style={{color: '#8899AC', fontSize: 12}}>{i18n.t('Kind Tips')}:</Text>
+        <Text style={{color: '#8899AC', fontSize: 12}}>{i18n.t('Repay on time, the credit limit will be higher and higher!')}</Text>
       </View>
     </View>
   );

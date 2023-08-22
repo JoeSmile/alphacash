@@ -65,7 +65,7 @@ export function Quota() {
             marginBottom: 15,
           }}
         >
-          {i18n.t("MaxAmount")}
+          { hasBill ? i18n.t("Lump Sum Repayment Amount") : i18n.t("MaxAmount")}
         </Text>
         <Text
           style={{

@@ -49,6 +49,7 @@ export function FSelect({
           enabled={enabledKey ? !!context.values[enabledKey] : true}
           mode="dropdown"
           onValueChange={(v) => {
+            console.log('name, v', name, v)
             context.setFieldValue(name, v);
             if (afterChange) {
               afterChange({

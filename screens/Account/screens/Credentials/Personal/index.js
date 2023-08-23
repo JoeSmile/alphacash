@@ -90,9 +90,6 @@ export default function Personal({ navigation, route }) {
     getPersonalDetail();
     getPersonalOptions();
     getProvinceList();
-    getCityList({
-      parentId: '1'
-    })
   }, []);
 
   useEffect(() => {
@@ -104,7 +101,6 @@ export default function Personal({ navigation, route }) {
 
   useEffect(() => {
     if(cityListData?.data?.error_code == 1) {
-      console.log("cityOptions", cityListData.data.data);
       setCityOptions(cityListData.data.data);
     }
   }, [cityListData]);
@@ -117,7 +113,6 @@ export default function Personal({ navigation, route }) {
   }, [route]);
 
   useEffect(() => {
-    console.log('personFormOptions?.data', personFormOptions?.data);
     if(personFormOptions?.data?.error_code == 1) {
       const options = personFormOptions.data.data;
       //educationOptions
@@ -133,6 +128,9 @@ export default function Personal({ navigation, route }) {
   useEffect(() => {
     if (data && data.data && data.data.error_code === 1) {
       const userInfo = data.data.data.userInfo;
+      getCityList({
+        parentId: userInfo?.provinceId ?? '1'
+      })
       setInitialValues({
         ...emptyInitialValues,
         ...userInfo,
@@ -181,6 +179,7 @@ export default function Personal({ navigation, route }) {
                   parameters["cityName"] = cityOptions.filter(
                     (province) => province.code == cityId
                   )[0].name;
+                  console.log('values---', values);
                   updatePersonalInfoMutation.mutate({ ...parameters });
                 }}
                 validateOnChange={true}
@@ -257,7 +256,8 @@ export default function Personal({ navigation, route }) {
                         }}
                       >
                         <View style={{ flex: 1 }}>
-                          <FSelect
+                         {
+                          provinceOptions &&  <FSelect
                             name="provinceId"
                             label="Province"
                             options={provinceOptions}
@@ -268,18 +268,19 @@ export default function Personal({ navigation, route }) {
                                 parentId: value
                               })
                             }}
-                          />
+                          />}
                         </View>
 
                         <View style={{ flex: 1 }}>
-                          <FSelect
+                          {
+                            cityOptions && <FSelect
                             name="cityId"
                             label="City"
                             enabledKey="provinceId"
                             options={cityOptions}
                             valueKey="code"
                             labelKey="name"
-                          />
+                          />}
                         </View>
                       </View>
                     </View>

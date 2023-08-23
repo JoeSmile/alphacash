@@ -71,7 +71,10 @@ function BillBrief({ bill }) {
             fontSize: 15,
           }}
         >
-          {i18n.t("Apply Date")}
+          {
+            [301, 303].includes(bill.appStatus) ? i18n.t('Due Date') : 
+            i18n.t("Apply Date")
+          }
         </Text>
         <Text
           style={{

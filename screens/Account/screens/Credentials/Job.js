@@ -110,9 +110,6 @@ export default function Job({ navigation, route }) {
     getWorkInfo();
     getWorkInfoOptions();
     getProvinceList();
-    getCityList({
-      parentId: '1'
-    })
   }, []);
 
   useEffect(() => {
@@ -145,6 +142,10 @@ export default function Job({ navigation, route }) {
   useEffect(() => {
     if (workInfo && workInfo.data.error_code == 1) {
       const info = workInfo.data.data.workInfo
+
+      getCityList({
+        parentId: info?.companyProviceId ?? '1'
+      })
       setInitialValues({
         ...emptyJobFormValues,
         ...info,
@@ -235,7 +236,8 @@ export default function Job({ navigation, route }) {
                   }}
                 >
                   <View style={{ flex: 1 }}>
-                    <FSelect
+                    {
+                      provinceOptions && <FSelect
                       name="companyProviceId"
                       label="Province"
                       options={provinceOptions}
@@ -246,16 +248,16 @@ export default function Job({ navigation, route }) {
                           parentId: value
                         })
                       }}
-                    />
+                    />}
                   </View>
                   <View style={{ flex: 1 }}>
-                    <FSelect
+                    { provinceOptions && cityOptions && <FSelect
                       name="companyCityId"
                       label="City"
                       options={cityOptions}
                       valueKey="code"
                       labelKey="name"
-                    />
+                    />}
                   </View>
                 </View>
               </View>

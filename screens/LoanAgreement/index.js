@@ -11,16 +11,13 @@ import {WebView} from "react-native-webview";
 
 export default function LoanAgreement() {
 
-return(
-  <SafeAreaView style={styles.container}>
-    {
-    <WebView 
+return(   
+  <WebView 
     style={{flex: 1,padding: 12}}
-    source={{uri: 'https://github.com/facebook/react-native'}}
+    source={{uri: 'https://www.google.com'}}
     >
     </WebView>
-    }
-  </SafeAreaView>
+    
 );
 }
 

@@ -245,5 +245,6 @@ export const en = {
 "Log in EasyPaisa Account": "Log in[%{type} Account]",
 "Click Search , enter AlphaCash, and select AlphaCash": "Click [Search], enter [AlphaCash], and select [AlphaCash]",
 "Enter Consumer ID, click Next, and then click PAY NOW": "Enter [Consumer ID], click [Next], and then click [PAY NOW]",
-"Repayment method": "Repayment method"
+"Repayment method": "Repayment method",
+"LoanAgreement":"Loan Agreement"
 };

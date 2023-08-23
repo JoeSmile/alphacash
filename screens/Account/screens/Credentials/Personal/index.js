@@ -12,24 +12,20 @@ import { FTextInput, FSelect } from "@components/Inputs";
 import SafeIntro from "../SafeIntro";
 import * as Yup from "yup";
 import { FDatePicker } from "@components/FDatePicker";
-import {
-  genderOptions,
-  marriageOptions,
-  educationOptions,
-} from "@const";
+import { genderOptions, marriageOptions, educationOptions } from "@const";
 import { useEffect, useState } from "react";
 import {
   useGetPersonalDetail,
   useUpdatePersonalInfo,
   useGetPersonalOptions,
   useGetProvinceList,
-  useGetCityList
+  useGetCityList,
 } from "@apis/hooks";
 import { useI18n } from "@hooks/useI18n";
 import { useUserQuota } from "@store/useUserQuota";
 import { doTrack } from "@utils/dataTrack";
 import { useAbleImage } from "@hooks/useAbleImage";
-import { getWritingDirectionStyle, getRevertImage } from '@styles';
+import { getWritingDirectionStyle, getRevertImage } from "@styles";
 
 const emptyInitialValues = {
   name: "",
@@ -61,7 +57,7 @@ const PersonalFormSchema = Yup.object().shape({
   email: Yup.string()
     .matches(
       // @之前必须有内容且只能是字母（大小写）、数字、下划线(_)、减号（-）、点（.）​​​​@和最后一个点（.）之间必须有内容且只能是字母（大小写）、数字、点（.）、减号（-），且两个点不能挨着​​​​最后一个点（.）之后必须有内容且内容只能是字母（大小写）、数字且长度为大于等于2个字节，小于等于6个字节​​
-      "^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$",
+      "^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(.[a-zA-Z0-9-]+)*.[a-zA-Z0-9]{2,6}$",
       "Please input correct email address"
     )
     .required("Required"),
@@ -70,19 +66,25 @@ const PersonalFormSchema = Yup.object().shape({
 export default function Personal({ navigation, route }) {
   const { mutate: getPersonalDetail, data, isLoading } = useGetPersonalDetail();
   const updatePersonalInfoMutation = useUpdatePersonalInfo();
-  const {mutate: getPersonalOptions, data: personFormOptions, isLoading: isPersonFormOptionsLoading} = useGetPersonalOptions();
-  const {mutate: getProvinceList, data: provinceListData } = useGetProvinceList();
-  const {mutate: getCityList, data: cityListData } = useGetCityList();
+  const {
+    mutate: getPersonalOptions,
+    data: personFormOptions,
+    isLoading: isPersonFormOptionsLoading,
+  } = useGetPersonalOptions();
+  const { mutate: getProvinceList, data: provinceListData } =
+    useGetProvinceList();
+  const { mutate: getCityList, data: cityListData } = useGetCityList();
   const [initialValues, setInitialValues] = useState();
   const { i18n, locale } = useI18n();
   const [bill, hasBill] = useUserQuota((s) => [s.bill, s.hasBill]);
   const [isUpdate, setIsUpdate] = useState(false);
   const editAble = useAbleImage();
-  const [fromScreen, setFromScreen] = useState('');
+  const [fromScreen, setFromScreen] = useState("");
   // options
   const [educationOptionsBE, setEducationOptions] = useState(educationOptions);
   const [genderOptionsBE, setGenderOptions] = useState(genderOptions);
-  const [maritalStatusOptionsBE, setMaritalStatusOptions] = useState(marriageOptions);
+  const [maritalStatusOptionsBE, setMaritalStatusOptions] =
+    useState(marriageOptions);
   const [provinceOptions, setProvinceOptions] = useState();
   const [cityOptions, setCityOptions] = useState();
 
@@ -93,27 +95,27 @@ export default function Personal({ navigation, route }) {
   }, []);
 
   useEffect(() => {
-    if(provinceListData?.data?.error_code == 1) {
+    if (provinceListData?.data?.error_code == 1) {
       console.log("provinceListData", provinceListData.data.data);
       setProvinceOptions(provinceListData.data.data);
     }
   }, [provinceListData]);
 
   useEffect(() => {
-    if(cityListData?.data?.error_code == 1) {
+    if (cityListData?.data?.error_code == 1) {
       setCityOptions(cityListData.data.data);
     }
   }, [cityListData]);
 
   useEffect(() => {
     const isUpdate = route.params ? route.params.isUpdate : false;
-    const fromScreen = route.params ? route.params.fromScreen : '';
+    const fromScreen = route.params ? route.params.fromScreen : "";
     setFromScreen(fromScreen);
     setIsUpdate(!!isUpdate);
   }, [route]);
 
   useEffect(() => {
-    if(personFormOptions?.data?.error_code == 1) {
+    if (personFormOptions?.data?.error_code == 1) {
       const options = personFormOptions.data.data;
       //educationOptions
       //genderOptions
@@ -122,15 +124,14 @@ export default function Personal({ navigation, route }) {
       setGenderOptions(options.genderOptions);
       setMaritalStatusOptions(options.maritalStatusOptions);
     }
-   
   }, [personFormOptions]);
 
   useEffect(() => {
     if (data && data.data && data.data.error_code === 1) {
       const userInfo = data.data.data.userInfo;
       getCityList({
-        parentId: userInfo?.provinceId ?? '1'
-      })
+        parentId: userInfo?.provinceId ?? "1",
+      });
       setInitialValues({
         ...emptyInitialValues,
         ...userInfo,
@@ -147,20 +148,20 @@ export default function Personal({ navigation, route }) {
       if (isUpdate) {
         navigation.goBack();
       } else {
-        navigation.push("Job", {fromScreen});
+        navigation.push("Job", { fromScreen });
       }
     }
   }, [updatePersonalInfoMutation]);
 
   return (
     <SafeAreaView>
-      <ScrollView style={[{ backgroundColor: "white" }, getWritingDirectionStyle(locale)]}>
+      <ScrollView
+        style={[{ backgroundColor: "white" }, getWritingDirectionStyle(locale)]}
+      >
         <View>
           <SafeIntro safeText={i18n.t("information security")} />
           <View
             style={{
-              marginBottom: 15,
-              height: 950,
               backgroundColor: "white",
               paddingHorizontal: 15,
               paddingVertical: 15,
@@ -179,7 +180,7 @@ export default function Personal({ navigation, route }) {
                   parameters["cityName"] = cityOptions.filter(
                     (province) => province.code == cityId
                   )[0].name;
-                  console.log('values---', values);
+                  console.log("values---", values);
                   updatePersonalInfoMutation.mutate({ ...parameters });
                 }}
                 validateOnChange={true}
@@ -200,15 +201,14 @@ export default function Personal({ navigation, route }) {
                       style={{
                         flexDirection: "row",
                         justifyContent: "space-between",
-                        gap: 10,
-                        height: 90,
-                        marginBottom: 15,
+                        gap: 15,
+                        marginBottom: 20,
                       }}
                     >
-                      <View style={{ height: 65, marginBottom: 15, flex: 1 }}>
+                      <View style={{ flex: 1 }}>
                         <FDatePicker name="birth" label="Date of Birth" />
                       </View>
-                      <View style={{ height: 65, marginBottom: 15, flex: 1 }}>
+                      <View style={{ flex: 1 }}>
                         <FSelect
                           name="gender"
                           label="Gender"
@@ -252,35 +252,37 @@ export default function Personal({ navigation, route }) {
                         style={{
                           flexDirection: "row",
                           justifyContent: "space-between",
-                          gap: 10,
+                          gap: 15,
                         }}
                       >
                         <View style={{ flex: 1 }}>
-                         {
-                          provinceOptions &&  <FSelect
-                            name="provinceId"
-                            label="Province"
-                            options={provinceOptions}
-                            valueKey="code"
-                            labelKey="name"
-                            afterChange={({name, value}) => {
-                              getCityList({
-                                parentId: value
-                              })
-                            }}
-                          />}
+                          {provinceOptions && (
+                            <FSelect
+                              name="provinceId"
+                              label="Province"
+                              options={provinceOptions}
+                              valueKey="code"
+                              labelKey="name"
+                              afterChange={({ name, value }) => {
+                                getCityList({
+                                  parentId: value,
+                                });
+                              }}
+                            />
+                          )}
                         </View>
 
                         <View style={{ flex: 1 }}>
-                          {
-                            cityOptions && <FSelect
-                            name="cityId"
-                            label="City"
-                            enabledKey="provinceId"
-                            options={cityOptions}
-                            valueKey="code"
-                            labelKey="name"
-                          />}
+                          {cityOptions && (
+                            <FSelect
+                              name="cityId"
+                              label="City"
+                              enabledKey="provinceId"
+                              options={cityOptions}
+                              valueKey="code"
+                              labelKey="name"
+                            />
+                          )}
                         </View>
                       </View>
                     </View>
@@ -295,11 +297,10 @@ export default function Personal({ navigation, route }) {
                     <View style={styles.module}>
                       <FTextInput name="email" label="Email" />
                     </View>
-                    
+
                     <Pressable
                       style={{
-                        height: 46,
-                        marginBottom: 15,
+                        marginVertical: 20,
                         backgroundColor: "#0825B8",
                         borderRadius: 3,
                         alignItems: "center",
@@ -313,8 +314,8 @@ export default function Personal({ navigation, route }) {
                         style={{
                           textAlign: "center",
                           borderRadius: 3,
-                          height: 46,
-                          lineHeight: 46,
+                          height: 48,
+                          lineHeight: 48,
                           color: "#FFFFFF",
                           backgroundColor: "#0825B8",
                           fontSize: 15,
@@ -324,7 +325,10 @@ export default function Personal({ navigation, route }) {
                       </Text>
                       <Image
                         source={require("@assets/images/btn_ic_right.png")}
-                        style={[{ width: 12, height: 12 }, getRevertImage(locale)]}
+                        style={[
+                          { width: 12, height: 12 },
+                          getRevertImage(locale),
+                        ]}
                       />
                     </Pressable>
                   </>
@@ -360,22 +364,7 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 10,
   },
-  picker: {
-    width: "100%",
-    height: 44,
-    borderRadius: 4,
-    paddingHorizontal: 4,
-  },
-  pickerItem: {
-    height: 44,
-  },
-  submitBtn: {
-    height: 65,
-    borderRadius: 3,
-    color: "white",
-  },
   module: {
-    height: 90,
-    marginBottom: 15,
+    marginBottom: 20,
   },
 });

@@ -1,12 +1,7 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-} from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import { useI18n } from "@hooks/useI18n";
 
-import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
+import { getWritingDirectionStyle, getMarginRightOrLeft } from "@styles";
 
 export default function SafeIntro({ safeText }) {
   const { i18n, locale } = useI18n();
@@ -18,10 +13,12 @@ export default function SafeIntro({ safeText }) {
           source={require("@assets/images/mine_info_ic_safe.png")}
           contentFit="cover"
           transition={1000}
-          style={[{
-            width: 22,
-            height: 22,
-          },]}
+          style={[
+            {
+              width: 22,
+              height: 22,
+            },
+          ]}
         />
       </View>
       <Text style={styles.safeText}>{safeText}</Text>
@@ -43,8 +40,8 @@ const styles = StyleSheet.create({
     borderColor: "#698EC7",
   },
   safeText: {
-    marginLeft: 6,
-    marginRight: 15,
+    marginLeft: 8,
+    //marginRight: 15,
     fontSize: 12,
     color: "#4F5E6F",
     lineHeight: 17,

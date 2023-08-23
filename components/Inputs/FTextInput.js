@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, Image } from "react-native";
 import { useFormikContext, useField } from "formik";
 import { useI18n } from "@hooks/useI18n";
-import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
+import { getWritingDirectionStyle, getMarginRightOrLeft } from "@styles";
 
 export const FTextInput = ({
   label,
@@ -18,16 +18,24 @@ export const FTextInput = ({
   const context = useFormikContext(name);
   const meta = context.getFieldMeta(name);
   const { i18n, locale } = useI18n();
+  const [focused, setFocused] = useState(false);
 
   return (
-    <View style={[styles.inputContainer, containerStyle, getWritingDirectionStyle(locale)]}>
+    <View style={[containerStyle, getWritingDirectionStyle(locale)]}>
       <View>
-        <Text style={[styles.label, [getWritingDirectionStyle(locale)]]} >{i18n.t(label)}{` ${suffix}`}</Text>
+        <Text
+          style={[
+            styles.label,
+            getWritingDirectionStyle(locale),
+            { color: focused ? "#0825B8" : "#4F5E6F" },
+          ]}
+        >
+          {`${i18n.t(label)} ${suffix}`}
+        </Text>
       </View>
 
       <View
         style={{
-          height: 55,
           position: "relative",
         }}
       >
@@ -44,14 +52,15 @@ export const FTextInput = ({
           onChangeText={(v) => {
             context.setFieldValue(name, v);
           }}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
         />
         {!!displayDigit && (
           <Text
             style={{
               position: "absolute",
               right: 10,
-              height: 55,
-              lineHeight: 55,
+              lineHeight: 48,
               color: "#8899AC",
             }}
           >
@@ -90,20 +99,17 @@ export const FTextInput = ({
 };
 
 const styles = StyleSheet.create({
-  inputContainer: {
-    height: 80,
-  },
   label: {
     lineHeight: 20,
     marginBottom: 8,
-    color: "#4F5E6F",
     fontSize: 14,
+    fontWeight: "500",
   },
   textInput: {
     paddingLeft: 15,
     paddingRight: 35,
     width: "auto",
-    height: 55,
+    height: 48,
     borderColor: "#C0C4D6",
     borderWidth: 1,
     borderRadius: 10,

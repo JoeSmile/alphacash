@@ -22,13 +22,13 @@ import {
   useGetWorkInfoDetail,
   useUpdateWorkInfo,
   useGetProvinceList,
-  useGetCityList
+  useGetCityList,
 } from "@apis";
 
 import { useEffect, useState } from "react";
 import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "@utils/dataTrack";
-import { getWritingDirectionStyle, getRevertImage } from '@styles';
+import { getWritingDirectionStyle, getRevertImage } from "@styles";
 
 const emptyJobFormValues = {
   workField: "",
@@ -100,9 +100,10 @@ export default function Job({ navigation, route }) {
     useState(serviceLengthOptions);
   const { i18n, locale } = useI18n();
   const [isUpdate, setIsUpdate] = useState(false);
-  const [fromScreen, setFromScreen] = useState('');
-  const {mutate: getProvinceList, data: provinceListData } = useGetProvinceList();
-  const {mutate: getCityList, data: cityListData } = useGetCityList();
+  const [fromScreen, setFromScreen] = useState("");
+  const { mutate: getProvinceList, data: provinceListData } =
+    useGetProvinceList();
+  const { mutate: getCityList, data: cityListData } = useGetCityList();
   const [provinceOptions, setProvinceOptions] = useState();
   const [cityOptions, setCityOptions] = useState();
 
@@ -113,20 +114,20 @@ export default function Job({ navigation, route }) {
   }, []);
 
   useEffect(() => {
-    if(provinceListData?.data?.error_code == 1) {
+    if (provinceListData?.data?.error_code == 1) {
       setProvinceOptions(provinceListData.data.data);
     }
   }, [provinceListData]);
 
   useEffect(() => {
-    if(cityListData?.data?.error_code == 1) {
+    if (cityListData?.data?.error_code == 1) {
       setCityOptions(cityListData.data.data);
     }
   }, [cityListData]);
 
   useEffect(() => {
     const isUpdate = route.params ? route.params.isUpdate : false;
-    const fromScreen = route.params ? route.params.fromScreen : '';
+    const fromScreen = route.params ? route.params.fromScreen : "";
     setFromScreen(fromScreen);
     setIsUpdate(!!isUpdate);
   }, [route]);
@@ -141,11 +142,11 @@ export default function Job({ navigation, route }) {
 
   useEffect(() => {
     if (workInfo && workInfo.data.error_code == 1) {
-      const info = workInfo.data.data.workInfo
+      const info = workInfo.data.data.workInfo;
 
       getCityList({
-        parentId: info?.companyProviceId ?? '1'
-      })
+        parentId: info?.companyProviceId ?? "1",
+      });
       setInitialValues({
         ...emptyJobFormValues,
         ...info,
@@ -227,7 +228,9 @@ export default function Job({ navigation, route }) {
                   marginBottom: 15,
                 }}
               >
-                <Text style={getWritingDirectionStyle(locale)}>{i18n.t("Company Address")}</Text>
+                <Text style={getWritingDirectionStyle(locale)}>
+                  {i18n.t("Company Address")}
+                </Text>
                 <View
                   style={{
                     flexDirection: "row",
@@ -236,28 +239,31 @@ export default function Job({ navigation, route }) {
                   }}
                 >
                   <View style={{ flex: 1 }}>
-                    {
-                      provinceOptions && <FSelect
-                      name="companyProviceId"
-                      label="Province"
-                      options={provinceOptions}
-                      valueKey="code"
-                      labelKey="name"
-                      afterChange={({name, value}) => {
-                        getCityList({
-                          parentId: value
-                        })
-                      }}
-                    />}
+                    {provinceOptions && (
+                      <FSelect
+                        name="companyProviceId"
+                        label="Province"
+                        options={provinceOptions}
+                        valueKey="code"
+                        labelKey="name"
+                        afterChange={({ name, value }) => {
+                          getCityList({
+                            parentId: value,
+                          });
+                        }}
+                      />
+                    )}
                   </View>
                   <View style={{ flex: 1 }}>
-                    { provinceOptions && cityOptions && <FSelect
-                      name="companyCityId"
-                      label="City"
-                      options={cityOptions}
-                      valueKey="code"
-                      labelKey="name"
-                    />}
+                    {provinceOptions && cityOptions && (
+                      <FSelect
+                        name="companyCityId"
+                        label="City"
+                        options={cityOptions}
+                        valueKey="code"
+                        labelKey="name"
+                      />
+                    )}
                   </View>
                 </View>
               </View>
@@ -273,10 +279,11 @@ export default function Job({ navigation, route }) {
                 style={{
                   height: 80,
                   marginBottom: 15,
-                  gap: 5,
                 }}
               >
-                <Text style={getWritingDirectionStyle(locale)}>{i18n.t("Have Other Loans?")}</Text>
+                <Text style={[getWritingDirectionStyle(locale), styles.label]}>
+                  {i18n.t("Have Other Loans?")}
+                </Text>
                 <View
                   style={{
                     flexDirection: "row",
@@ -302,7 +309,7 @@ export default function Job({ navigation, route }) {
                             styles.loanBtn,
                             item.value == values["haveOtherLoans"]
                               ? styles.loanBtnSelected
-                              : {},
+                              : styles.btnNoSelected,
                           ]}
                         >
                           {item.label}
@@ -329,8 +336,7 @@ export default function Job({ navigation, route }) {
 
               <Pressable
                 style={{
-                  height: 46,
-                  marginBottom: 15,
+                  marginVertical: 20,
                   backgroundColor: "#0825B8",
                   borderRadius: 3,
                   alignItems: "center",
@@ -344,19 +350,18 @@ export default function Job({ navigation, route }) {
                   style={{
                     textAlign: "center",
                     borderRadius: 3,
-                    height: 46,
-                    lineHeight: 46,
+                    height: 48,
+                    lineHeight: 48,
                     color: "#FFFFFF",
                     backgroundColor: "#0825B8",
                     fontSize: 15,
                   }}
                 >
-                  {" "}
                   {i18n.t("Next")}{" "}
                 </Text>
                 <Image
                   source={require("@assets/images/btn_ic_right.png")}
-                  style={[{ width: 12, height: 12 },  getRevertImage(locale)]}
+                  style={[{ width: 12, height: 12 }, getRevertImage(locale)]}
                 />
               </Pressable>
             </>
@@ -373,23 +378,32 @@ const styles = StyleSheet.create({
     height: 900,
     backgroundColor: "white",
   },
-  submitBtn: {
-    height: 50,
-    borderRadius: 3,
-    color: "white",
+  label: {
+    color: "#4F5E6F",
+    lineHeight: 20,
+    marginBottom: 8,
+    fontSize: 14,
+    fontWeight: "500",
   },
   loanBtn: {
-    borderRadius: 10,
+    fontSize: 15,
+    lineHeight: 20,
+    borderRadius: 8,
     textAlign: "center",
-    paddingVertical: 10,
-    color: "#99A5B4",
+    paddingVertical: 13,
+    borderWidth: 1,
+    fontWeight: "500",
+  },
+  btnNoSelected: {
+    color: "#8899AC",
+    borderColor: "#C0C4D6",
   },
   loanBtnSelected: {
     color: "#032BB1",
-    backgroundColor: "#E6E8F7",
+    borderColor: "#0825B8",
+    backgroundColor: "rgba(8, 37, 184, 0.1)",
   },
   module: {
-    height: 90,
-    marginBottom: 15,
+    marginBottom: 20,
   },
 });

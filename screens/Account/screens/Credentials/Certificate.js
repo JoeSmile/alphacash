@@ -14,10 +14,9 @@ import {
   useGetIdentityInfoDetail,
   useUpdateIdentityInfo,
   useUpdateBillUserImages,
-  useGetAccounts
+  useGetAccounts,
 } from "@apis";
 import * as ImagePicker from "expo-image-picker";
-import { Asset } from "expo-asset";
 import { useI18n } from "@hooks/useI18n";
 import { useAbleImage } from "@hooks/useAbleImage";
 import mime from "mime";
@@ -28,7 +27,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useUserQuota } from "@store/useUserQuota";
 import { Toast } from "@ant-design/react-native";
 import { doTrack } from "@utils/dataTrack";
-import { getWritingDirectionStyle, getRevertImage } from '@styles';
+import { getWritingDirectionStyle, getRevertImage } from "@styles";
 
 const imageUri = require("@assets/images/info_pic_cnic_card_positive.png");
 const imageUri1 = require("@assets/images/info_pic_cnic_card_negative.png");
@@ -76,7 +75,7 @@ export default function Certificate({ route }) {
   const [modifyemploymentProof, setModifyemploymentProof] = useState(false);
   const [hasCards, setHasCards] = useState(false);
   const editAble = useAbleImage();
-  const [fromScreen, setFromScreen] = useState('');
+  const [fromScreen, setFromScreen] = useState("");
 
   // const [permission, requestPermission] = Camera.useCameraPermissions();
 
@@ -89,14 +88,14 @@ export default function Certificate({ route }) {
   useEffect(() => {
     getIdentityInfo();
   }, []);
-  
+
   useEffect(() => {
     getAccounts();
   }, []);
 
   useEffect(() => {
     if (cards && cards.data && Array.isArray(cards.data.data)) {
-      setHasCards(true)
+      setHasCards(true);
     } else {
       setHasCards(false);
     }
@@ -105,8 +104,8 @@ export default function Certificate({ route }) {
   useEffect(() => {
     const isUpdate = route.params ? route.params.isUpdate : false;
     const isModify = route.params ? route.params.isModify : false;
-    
-    const fromScreen = route.params ? route.params.fromScreen : '';
+
+    const fromScreen = route.params ? route.params.fromScreen : "";
     setFromScreen(fromScreen);
     setIsUpdate(!!isUpdate);
     setIsUpdate(!!isModify);
@@ -171,24 +170,23 @@ export default function Certificate({ route }) {
     }
   }, [identityInfo]);
 
-
   // 首次添加 或 更改图片
   useEffect(() => {
     if (updateIdentityInfoResponse?.data?.error_code == 1) {
       console.log("Sun >>>>>>>>>> updateIdentityInfoResponse");
-      if(isUpdate) {
+      if (isUpdate) {
         navigation.goBack();
       } else {
         //1. 点击apply,跳转到个人信息
-        if(fromScreen == 'Apply') {
+        if (fromScreen == "Apply") {
           if (hasCards) {
-            navigation.push('Apply');
+            navigation.push("Apply");
           } else {
             // 如果没有收款账号，就跳转到 添加新收款账号
-            navigation.push("AddNewAccount", {fromScreen: 'Apply'});
+            navigation.push("AddNewAccount", { fromScreen: "Apply" });
           }
         } else {
-          navigation.push('Credentials');
+          navigation.push("Credentials");
         }
       }
     }
@@ -202,7 +200,7 @@ export default function Certificate({ route }) {
         content: i18n.t("modify successfully"),
         duration: 3,
       });
-      navigation.push('Homepage')
+      navigation.push("Homepage");
     }
   }, [updateBillUserImagesResponse]);
 
@@ -300,227 +298,226 @@ export default function Certificate({ route }) {
           "Upload credential information, only for user identity verification, we will encrypt and store it, and it will never be used for other purposes!"
         )}
       />
-      <View style={{padding: 15}}>
-
-      {/* CNIC card */}
-      <View
-        style={{
-          marginTop: 20,
-        }}
-      >
+      <View style={{ padding: 0 }}>
+        {/* CNIC card */}
         <View
           style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginBottom: 15,
+            paddingHorizontal: 15,
+            marginTop: 20,
           }}
         >
-          <Text style={styles.boldTextStyle}>{i18n.t("CNIC Card")}</Text>
-
-          <Pressable onPress={() => setShowModalType(EXAMPLE_TYPES.CNIC_CARD)}>
-            <Text style={styles.underlineText}>{i18n.t("Example")}</Text>
-          </Pressable>
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            gap: 15,
-          }}
-        >
-          <Pressable
-            onPress={() => showPickImageModel(0)}
+          <View
             style={{
-              flex: 1,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginBottom: 12,
             }}
           >
-            <View
-              style={{
-                width: 166,
-                padding: 8,
-                backgroundColor: "#F4F5F7",
-                borderRadius: 4,
-                borderWidth: 1,
-                borderColor: modifycnicFront ? "#E53F31" : "white",
-              }}
+            <Text style={styles.boldTextStyle}>{i18n.t("CNIC Card")}</Text>
+            <Pressable
+              onPress={() => setShowModalType(EXAMPLE_TYPES.CNIC_CARD)}
             >
-              <Image
-                style={{
-                  height: 96,
-                  width: 150,
-                }}
-                source={imageList[0] ? imageList[0].uri : imageUri}
-                contentFit="cover"
-                transition={500}
-              />
-            </View>
-            <Text
-              style={{
-                fontSize: 12,
-                color: "#8899AC",
-                alignSelf: "center",
-                marginTop: 6,
-              }}
-            >
-              CNIC Card Front
-            </Text>
-          </Pressable>
-          <Pressable
-            onPress={() => showPickImageModel(1)}
+              <Text style={styles.underlineText}>{i18n.t("Example")}</Text>
+            </Pressable>
+          </View>
+          <View
             style={{
-              flex: 1,
+              flexDirection: "row",
+              gap: 15,
             }}
           >
-            <View
+            <Pressable
+              onPress={() => showPickImageModel(0)}
               style={{
-                width: 166,
-                padding: 8,
-                backgroundColor: "#F4F5F7",
-                borderRadius: 4,
-                borderColor: modifycnicBack ? "#E53F31" : "white",
+                flex: 1,
               }}
             >
-              <Image
+              <View
                 style={{
-                  height: 96,
-                  width: 150,
+                  width: 166,
+                  padding: 8,
+                  backgroundColor: "#F4F5F7",
+                  borderRadius: 4,
+                  borderWidth: 1,
+                  borderColor: modifycnicFront ? "#E53F31" : "white",
                 }}
-                source={imageList[1] ? imageList[1].uri : imageUri1}
-                contentFit="cover"
-                transition={500}
-              />
-            </View>
-            <Text
+              >
+                <Image
+                  style={{
+                    height: 96,
+                    width: 150,
+                  }}
+                  source={imageList[0] ? imageList[0].uri : imageUri}
+                  contentFit="cover"
+                  transition={500}
+                />
+              </View>
+              <Text
+                style={{
+                  fontSize: 12,
+                  color: "#8899AC",
+                  alignSelf: "center",
+                  marginTop: 6,
+                }}
+              >
+                CNIC Card Front
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={() => showPickImageModel(1)}
               style={{
-                fontSize: 12,
-                color: "#8899AC",
-                alignSelf: "center",
-                marginTop: 6,
+                flex: 1,
               }}
             >
-              CNIC Card Back
-            </Text>
-          </Pressable>
+              <View
+                style={{
+                  width: 166,
+                  padding: 8,
+                  backgroundColor: "#F4F5F7",
+                  borderRadius: 4,
+                  borderColor: modifycnicBack ? "#E53F31" : "white",
+                }}
+              >
+                <Image
+                  style={{
+                    height: 96,
+                    width: 150,
+                  }}
+                  source={imageList[1] ? imageList[1].uri : imageUri1}
+                  contentFit="cover"
+                  transition={500}
+                />
+              </View>
+              <Text
+                style={{
+                  fontSize: 12,
+                  color: "#8899AC",
+                  alignSelf: "center",
+                  marginTop: 6,
+                }}
+              >
+                CNIC Card Back
+              </Text>
+            </Pressable>
+          </View>
         </View>
-      </View>
 
-      <View style={styles.shadowContent}></View>
+        <View style={styles.shadowContent}></View>
 
-      {/* in hand */}
-      <View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginTop: 18,
-            marginBottom: 15,
-          }}
-        >
-          <Text style={styles.boldTextStyle}>
-            {i18n.t("Take photo with CNIC card in hand")}
-          </Text>
-          <Pressable
-            onPress={() => setShowModalType(EXAMPLE_TYPES.CNIC_IN_HAND)}
+        {/* in hand */}
+        <View style={{ paddingHorizontal: 15, marginTop: 20 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginBottom: 12,
+            }}
           >
-            <Text style={styles.underlineText}>{i18n.t("Example")}</Text>
+            <Text style={styles.boldTextStyle}>
+              {i18n.t("Take photo with CNIC card in hand")}
+            </Text>
+            <Pressable
+              onPress={() => setShowModalType(EXAMPLE_TYPES.CNIC_IN_HAND)}
+            >
+              <Text style={styles.underlineText}>{i18n.t("Example")}</Text>
+            </Pressable>
+          </View>
+          <Pressable
+            style={{
+              width: 166,
+              padding: 8,
+              backgroundColor: "#F4F5F7",
+              borderRadius: 4,
+              borderColor: modifycnicInHand ? "#E53F31" : "white",
+            }}
+            onPress={() => showPickImageModel(2)}
+          >
+            <Image
+              style={{
+                height: 96,
+                width: 150,
+              }}
+              source={imageList[2] ? imageList[2].uri : imageUri2}
+              contentFit="cover"
+              transition={500}
+            />
           </Pressable>
         </View>
+
+        <View style={styles.shadowContent}></View>
+
+        {/* proof employment */}
+        <View style={{ paddingHorizontal: 15, marginTop: 20 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginBottom: 12,
+            }}
+          >
+            <Text style={styles.boldTextStyle}>
+              {i18n.t("Proof Employment")}
+            </Text>
+            <Pressable
+              onPress={() => setShowModalType(EXAMPLE_TYPES.PROOF_EMPLOYMENT)}
+            >
+              <Text style={styles.underlineText}>{i18n.t("Example")}</Text>
+            </Pressable>
+          </View>
+          <Pressable
+            style={{
+              width: 166,
+              padding: 8,
+              backgroundColor: "#F4F5F7",
+              borderRadius: 4,
+              borderColor: modifyemploymentProof ? "#E53F31" : "white",
+            }}
+            onPress={() => showPickImageModel(3)}
+          >
+            <Image
+              style={{
+                height: 96,
+                width: 150,
+              }}
+              source={imageList[3] ? imageList[3].uri : imageUri3}
+              contentFit="cover"
+              transition={500}
+            />
+          </Pressable>
+        </View>
+
         <Pressable
           style={{
-            width: 166,
-            padding: 8,
-            backgroundColor: "#F4F5F7",
-            borderRadius: 4,
-            borderColor: modifycnicInHand ? "#E53F31" : "white",
-          }}
-          onPress={() => showPickImageModel(2)}
-        >
-          <Image
-            style={{
-              height: 96,
-              width: 150,
-            }}
-            source={imageList[2] ? imageList[2].uri : imageUri2}
-            contentFit="cover"
-            transition={500}
-          />
-        </Pressable>
-      </View>
-
-      <View style={styles.shadowContent}></View>
-
-      {/* proof employment */}
-      <View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginTop: 18,
+            marginTop: 32,
             marginBottom: 15,
-          }}
-        >
-          <Text style={styles.boldTextStyle}>{i18n.t("Proof Employment")}</Text>
-          <Pressable
-            onPress={() => setShowModalType(EXAMPLE_TYPES.PROOF_EMPLOYMENT)}
-          >
-            <Text style={styles.underlineText}>{i18n.t("Example")}</Text>
-          </Pressable>
-        </View>
-        <Pressable
-          style={{
-            width: 166,
-            padding: 8,
-            backgroundColor: "#F4F5F7",
-            borderRadius: 4,
-            borderColor: modifyemploymentProof ? "#E53F31" : "white",
-          }}
-          onPress={() => showPickImageModel(3)}
-        >
-          <Image
-            style={{
-              height: 96,
-              width: 150,
-            }}
-            source={imageList[3] ? imageList[3].uri : imageUri3}
-            contentFit="cover"
-            transition={500}
-          />
-        </Pressable>
-      </View>
-
-      <Pressable
-        style={{
-          height: 46,
-          marginTop: 24,
-          marginBottom: 15,
-          marginHorizontal: 0,
-          backgroundColor: "#0825B8",
-          borderRadius: 3,
-          alignItems: "center",
-          justifyContent: "center",
-          display: "flex",
-          flexDirection: "row",
-        }}
-        onPress={onClickUpdateIdentityInfo}
-      >
-        <Text
-          style={{
-            textAlign: "center",
-            borderRadius: 3,
-            height: 46,
-            lineHeight: 46,
-            color: "#FFFFFF",
+            marginHorizontal: 15,
             backgroundColor: "#0825B8",
-            fontSize: 15,
+            borderRadius: 3,
+            alignItems: "center",
+            justifyContent: "center",
+            display: "flex",
+            flexDirection: "row",
           }}
+          onPress={onClickUpdateIdentityInfo}
         >
-          {" "}
-          {i18n.t("Submit")}{" "}
-        </Text>
-        <Image
-          source={require("@assets/images/btn_ic_right.png")}
-          style={[{ width: 12, height: 12 }, getRevertImage(locale)]}
-        />
-      </Pressable>
+          <Text
+            style={{
+              textAlign: "center",
+              borderRadius: 3,
+              height: 48,
+              lineHeight: 48,
+              color: "#FFFFFF",
+              backgroundColor: "#0825B8",
+              fontSize: 15,
+            }}
+          >
+            {i18n.t("Submit")}{" "}
+          </Text>
+          <Image
+            source={require("@assets/images/btn_ic_right.png")}
+            style={[{ width: 12, height: 12 }, getRevertImage(locale)]}
+          />
+        </Pressable>
       </View>
       <ExampleModal
         isVisible={!!showModalType}
@@ -571,7 +568,9 @@ export default function Certificate({ route }) {
           </View>
         </View>
       </Modal>
-      <Return trackName={"pk5"} />
+      <View style={{ paddingHorizontal: 15 }}>
+        <Return trackName={"pk5"} />
+      </View>
     </ScrollView>
   );
 }
@@ -579,7 +578,6 @@ export default function Certificate({ route }) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-    height: "100%",
   },
   submitBtn: {
     height: 50,
@@ -589,20 +587,19 @@ const styles = StyleSheet.create({
 
   boldTextStyle: {
     fontSize: 15,
-    fontWeight: "bold",
+    fontWeight: "600",
     color: "#0A233E",
   },
 
   shadowContent: {
     height: 4,
     backgroundColor: "#F4F5F7",
-    opacity: 1,
-    marginTop: 18,
+    marginTop: 24,
   },
 
   underlineText: {
     fontSize: 15,
-    fontWeight: "bold",
+    fontWeight: "600",
     color: "#0825B8",
     textDecorationLine: "underline",
   },

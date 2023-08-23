@@ -28,12 +28,14 @@ module.exports = ({ config }) => ({
     package: "com.alphacash.easy.credit.loan.paisa",
     permissions: [
       "ACCESS_COARSE_LOCATION",
-      "ACCESS_FINE_LOCATION",
       "READ_CALENDAR",
       "WRITE_CALENDAR",
       "QUERY_ALL_PACKAGES",
     ],
-    blockedPermissions: ["android.permission.READ_EXTERNAL_STORAGE","android.permission.ACCESS_FINE_LOCATION"]
+    blockedPermissions: [
+      "android.permission.READ_EXTERNAL_STORAGE",
+      "android.permission.ACCESS_FINE_LOCATION",
+    ],
   },
   web: {
     favicon: "./assets/favicon.png",

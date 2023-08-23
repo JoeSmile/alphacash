@@ -1,9 +1,14 @@
+import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 import { Picker } from "@react-native-picker/picker";
 import { useFormikContext } from "formik";
 import { useI18n } from "@hooks/useI18n";
-import { getWritingDirectionStyle, getMarginRightOrLeft, getPaddingRightOrLeft } from '@styles';
+import {
+  getWritingDirectionStyle,
+  getMarginRightOrLeft,
+  getPaddingRightOrLeft,
+} from "@styles";
 
 // const defaultOptions = [{ label: '男', value: '1' }, { label: '女', value: '2' }]
 
@@ -16,33 +21,33 @@ export function FSelect({
   valueKey = "",
   enabledKey = "",
   suffix = "",
-  afterChange = '',
+  afterChange = "",
   ...props
 }) {
   const context = useFormikContext(name);
   const meta = context.getFieldMeta(name);
   const { i18n, locale } = useI18n();
+  const [focused, setFocused] = useState(false);
   return (
-    <View
-      style={[{
-        marginBottom: 15,
-        height: 80,
-        ...containerStyle,
-      }, getWritingDirectionStyle(locale)]}
-    >
+    <View style={[containerStyle, getWritingDirectionStyle(locale)]}>
       <View>
-        <Text style={[styles.label, getWritingDirectionStyle(locale)]}>
-          {i18n.t(label)}
-          {` ${suffix}`}
+        <Text
+          style={[
+            styles.label,
+            getWritingDirectionStyle(locale),
+            { color: focused ? "#0825B8" : "#4F5E6F" },
+          ]}
+        >
+          {`${i18n.t(label)} ${suffix}`}
         </Text>
       </View>
       <View
         style={{
           justifyContent: "center",
-          borderColor: "#C0C4D6",
+          borderColor: focused ? "#0825B8" : "#C0C4D6",
           borderRadius: 10,
           borderWidth: 1,
-          height: 55,
+          height: 48,
         }}
       >
         <Picker
@@ -54,10 +59,12 @@ export function FSelect({
             if (afterChange) {
               afterChange({
                 name,
-                value: v
-              })
+                value: v,
+              });
             }
           }}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
           selectedValue={context.values[name]}
           style={[
             {
@@ -93,8 +100,8 @@ const styles = StyleSheet.create({
   label: {
     lineHeight: 20,
     marginBottom: 8,
-    color: "#4F5E6F",
     fontSize: 14,
+    fontWeight: "500",
   },
   error: {
     color: "#E53F31",

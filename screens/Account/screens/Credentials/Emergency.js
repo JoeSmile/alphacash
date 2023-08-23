@@ -20,7 +20,7 @@ import {
 import { useEffect, useState } from "react";
 import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "@utils/dataTrack";
-import { getWritingDirectionStyle, getRevertImage } from '@styles';
+import { getWritingDirectionStyle, getRevertImage } from "@styles";
 
 const initialValues = {
   relationship1: "",
@@ -73,7 +73,7 @@ export default function Emergency({ navigation, route }) {
   const { i18n, locale } = useI18n();
   const [isUpdate, setIsUpdate] = useState(false);
   const [phone] = useSystemStore((s) => [s.phone]);
-  const [fromScreen, setFromScreen] = useState('');
+  const [fromScreen, setFromScreen] = useState("");
 
   useEffect(() => {
     getReferenceContacts();
@@ -82,7 +82,7 @@ export default function Emergency({ navigation, route }) {
 
   useEffect(() => {
     const isUpdate = route.params ? route.params.isUpdate : false;
-    const fromScreen = route.params ? route.params.fromScreen : '';
+    const fromScreen = route.params ? route.params.fromScreen : "";
     setFromScreen(fromScreen);
     setIsUpdate(!!isUpdate);
   }, [route]);
@@ -191,6 +191,8 @@ export default function Emergency({ navigation, route }) {
                     />
                   </View>
 
+                  <View style={styles.divider} />
+
                   <View style={styles.module}>
                     <FSelect
                       name="relationship2"
@@ -221,8 +223,8 @@ export default function Emergency({ navigation, route }) {
 
                   <Pressable
                     style={{
-                      height: 46,
-                      marginBottom: 15,
+                      marginHorizontal: 15,
+                      marginVertical: 20,
                       backgroundColor: "#0825B8",
                       borderRadius: 3,
                       alignItems: "center",
@@ -236,26 +238,30 @@ export default function Emergency({ navigation, route }) {
                       style={{
                         textAlign: "center",
                         borderRadius: 3,
-                        height: 46,
-                        lineHeight: 46,
+                        height: 48,
+                        lineHeight: 48,
                         color: "#FFFFFF",
                         backgroundColor: "#0825B8",
                         fontSize: 15,
                       }}
                     >
-                      {" "}
                       {i18n.t("Next")}{" "}
                     </Text>
                     <Image
                       source={require("@assets/images/btn_ic_right.png")}
-                      style={[{ width: 12, height: 12 }, getRevertImage(locale)]}
+                      style={[
+                        { width: 12, height: 12 },
+                        getRevertImage(locale),
+                      ]}
                     />
                   </Pressable>
                 </>
               )}
             </Formik>
           )}
-        <Return trackName={"pk10"} />
+        <View style={{ paddingHorizontal: 15 }}>
+          <Return trackName={"pk10"} />
+        </View>
       </View>
     </ScrollView>
   );
@@ -263,16 +269,17 @@ export default function Emergency({ navigation, route }) {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
+    paddingVertical: 15,
     backgroundColor: "white",
   },
-  submitBtn: {
-    height: 50,
-    borderRadius: 3,
-    color: "white",
+  divider: {
+    height: 4,
+    backgroundColor: "#F4F5F7",
+    marginTop: 20,
+    marginBottom: 25,
   },
   module: {
-    height: 90,
-    marginBottom: 15,
+    paddingHorizontal: 15,
+    marginBottom: 20,
   },
 });

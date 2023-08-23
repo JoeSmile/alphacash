@@ -74,7 +74,7 @@ export function Quota() {
             fontWeight: 600,
           }}
         >
-          {fn2f(bill.applyAmount) || fn2f(cashLoan.quota) || "Rs.60,000"}
+          {fn2f(bill.currentAmountDue) || fn2f(cashLoan.quota) || "Rs.60,000"}
         </Text>
       </View>
       <QuotaButtons />

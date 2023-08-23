@@ -10,6 +10,13 @@ import { formatNumberToFinancial as fn2f } from "@utils";
 import { QuotaButtons } from "./QuotaButtons";
 import { useGetUserFormStatus } from "@apis";
 
+const displayLoanAmount = [
+  101, 201, 202
+]
+const displayLumpSumRepaymentAmount = [
+  301, 303
+]
+
 export function Quota() {
   const { i18n, locale } = useI18n();
   const [isFormCompleted, setIsFormCompleted] = useState(false);
@@ -63,9 +70,12 @@ export function Quota() {
             color: "#0A233E",
             marginTop: 30,
             marginBottom: 15,
+            zIndex: 100
           }}
         >
-          { hasBill ? i18n.t("Lump Sum Repayment Amount") : i18n.t("MaxAmount")}
+          { hasBill ? (
+            displayLumpSumRepaymentAmount.includes(bill.appStatus) ? i18n.t("Lump Sum Repayment Amount") : i18n.t("LoanAmount")
+          ) : i18n.t("MaxAmount")}
         </Text>
         <Text
           style={{
@@ -74,7 +84,7 @@ export function Quota() {
             fontWeight: 600,
           }}
         >
-          {fn2f(bill.applyAmount) || fn2f(cashLoan.quota) || "Rs.60,000"}
+          {fn2f(bill.currentAmountDue) || fn2f(cashLoan.quota) || "Rs.60,000"}
         </Text>
       </View>
       <QuotaButtons />

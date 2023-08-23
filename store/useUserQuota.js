@@ -27,6 +27,8 @@ export const useUserQuota = create((set, get) => ({
     //   applyDate: "12/02/2023",
     //   //订单状态
     //   appStatus: 101,
+    //   //需要还多少钱
+    //   currentAmountDue： 7800
     // },
   },
   bill: {
@@ -42,6 +44,8 @@ export const useUserQuota = create((set, get) => ({
     // applyDate: "12/02/2023",
     // //订单状态
     // appStatus: 101,
+    //   //需要还多少钱 
+    //   currentAmountDue： 7800
   },
   hasBill: false,
   faceData: {

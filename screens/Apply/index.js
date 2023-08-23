@@ -159,16 +159,17 @@ export default function Apply() {
   }, [billData]);
 
   const clickLoanAgreement = useCallback(() => {
-    const url = "https://www.baidu.com";
-    Linking.canOpenURL(url)
-      .then((supported) => {
-        if (supported) {
-          Linking.openURL(url);
-        } else {
-          console.log("Don't know how to open URL: " + url);
-        }
-      })
-      .catch((error) => console.error("An error occurred: ", error));
+    navigation.push('LoanAgreement');
+    // const url = "https://www.baidu.com";
+    // Linking.canOpenURL(url)
+    //   .then((supported) => {
+    //     if (supported) {
+    //       Linking.openURL(url);
+    //     } else {
+    //       console.log("Don't know how to open URL: " + url);
+    //     }
+    //   })
+    //   .catch((error) => console.error("An error occurred: ", error));
   }, []);
 
   const getLoan = () => {

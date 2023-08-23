@@ -30,6 +30,8 @@ import { MyCardsScreens } from "./MyCardsNavigator";
 import { SettingsScreens } from "./SettingNavigator";
 import { BillsScreens } from "./BillsNavigator";
 import { ApplyScreen } from "./ApplyNavigator";
+import { LoanAgreementScreen } from "./LoanAgreementNavigator";
+
 
 
 import { pageHeader } from "@styles";
@@ -156,6 +158,7 @@ function RootNavigator() {
         ...SettingsScreens,
         ...BillsScreens,
         ...ApplyScreen,
+        ...LoanAgreementScreen,
       ].map((screen) => (
         <Stack.Screen
           key={screen.name}

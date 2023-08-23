@@ -300,6 +300,7 @@ export default function Certificate({ route }) {
           "Upload credential information, only for user identity verification, we will encrypt and store it, and it will never be used for other purposes!"
         )}
       />
+      <View style={{padding: 15}}>
 
       {/* CNIC card */}
       <View
@@ -520,7 +521,7 @@ export default function Certificate({ route }) {
           style={[{ width: 12, height: 12 }, getRevertImage(locale)]}
         />
       </Pressable>
-
+      </View>
       <ExampleModal
         isVisible={!!showModalType}
         onClose={() => setShowModalType("")}
@@ -570,7 +571,6 @@ export default function Certificate({ route }) {
           </View>
         </View>
       </Modal>
-
       <Return trackName={"pk5"} />
     </ScrollView>
   );
@@ -578,7 +578,6 @@ export default function Certificate({ route }) {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
     backgroundColor: "white",
     height: "100%",
   },

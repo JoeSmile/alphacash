@@ -21,7 +21,7 @@ export default function SafeIntro({ safeText }) {
           style={[{
             width: 22,
             height: 22,
-          }, getMarginRightOrLeft(locale, 5)]}
+          },]}
         />
       </View>
       <Text style={styles.safeText}>{safeText}</Text>
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   safeTextContainer: {
     borderRadius: 4,
     backgroundColor: "#F6F9FD",
-    marginHorizontal: 15,
+    marginHorizontal: 14,
     marginTop: 16,
     marginBottom: 5,
     paddingHorizontal: 8,
@@ -43,9 +43,10 @@ const styles = StyleSheet.create({
     borderColor: "#698EC7",
   },
   safeText: {
-    marginLeft: 8,
+    marginLeft: 6,
+    marginRight: 15,
     fontSize: 12,
     color: "#4F5E6F",
-    lineHeight: 18,
+    lineHeight: 17,
   },
 });

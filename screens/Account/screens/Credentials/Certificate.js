@@ -94,7 +94,7 @@ export default function Certificate({ route }) {
   }, []);
 
   useEffect(() => {
-    if (cards && cards.data && Array.isArray(cards.data.data)) {
+    if (cards && cards.data && Array.isArray(cards.data.data) && cards.data.data.length > 0) {
       setHasCards(true);
     } else {
       setHasCards(false);

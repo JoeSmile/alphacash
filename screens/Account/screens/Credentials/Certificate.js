@@ -122,9 +122,9 @@ export default function Certificate({ route }) {
         ...(identityInfo.data.data?.needModifyInfo || {}),
       };
       setModifycnicBack(needModifyInfo.cnicBack);
-      setModifycnicFront(needModifyInfo.cnicBack);
-      setModifycnicInHand(needModifyInfo.cnicBack);
-      setModifyemploymentProof(needModifyInfo.cnicBack);
+      setModifycnicFront(needModifyInfo.cnicFront);
+      setModifycnicInHand(needModifyInfo.cnicInHand);
+      setModifyemploymentProof(needModifyInfo.employmentProof);
 
       if (
         imageData.cnicFront &&

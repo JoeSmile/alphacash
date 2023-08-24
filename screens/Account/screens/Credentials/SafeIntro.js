@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
   safeText: {
     marginLeft: 8,
-    //marginRight: 15,
+    marginRight: 11,
     fontSize: 12,
     color: "#4F5E6F",
     lineHeight: 17,

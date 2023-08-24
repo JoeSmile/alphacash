@@ -173,7 +173,7 @@ export default function Apply() {
   }, []);
 
   const getLoan = () => {
-    if (!isChecked || userStore.faceData.name === "") {
+    if (!isChecked || userStore.faceData.name === "" || (!currentUserCardInfo.bankAccount && !currentUserCardInfo.ewalletAccount)) {
       return;
     }
 

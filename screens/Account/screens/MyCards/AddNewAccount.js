@@ -159,7 +159,7 @@ export function AddNewAccount({ navigation, route }) {
       if (fromScreen) {
         navigation.push(fromScreen)
       } else {
-        navigation.goBack();
+        navigation.replace("Homepage");
       }
     }
   }, [result]);

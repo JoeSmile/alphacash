@@ -183,10 +183,15 @@ export default function Certificate({ route }) {
             navigation.push("Apply");
           } else {
             // 如果没有收款账号，就跳转到 添加新收款账号
-            navigation.push("AddNewAccount", { fromScreen: "Apply" });
+            navigation.push("AddNewAccount", { fromScreen: "Apply",card: {} });
           }
         } else {
-          navigation.push("Credentials");
+          if (hasCards) {
+            navigation.push("Credentials");
+          } else {
+             // 如果没有收款账号，就跳转到 添加新收款账号
+             navigation.push("AddNewAccount", { fromScreen: "",card: {} });
+          }
         }
       }
     }

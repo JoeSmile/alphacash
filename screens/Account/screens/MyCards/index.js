@@ -306,7 +306,7 @@ export default function MyCards({ navigation, route }) {
 
     if (isApplySelect) {
       doTrack("pk17", 1);
-      navigation.goBack();
+      navigation.navigate('Apply');
     }
     if (isUpdateAccount) {
       updateAccount({ loanId, ...currentCard });

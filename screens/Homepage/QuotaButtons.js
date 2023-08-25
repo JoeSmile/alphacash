@@ -11,6 +11,8 @@ import { useSystemStore } from "@store/useSystemStore";
 import { useGetUserFormStatus, usePushApplist } from "@apis";
 import { doTrack } from "@utils/dataTrack";
 import { getAesKey, encryptAES, encryptRSA } from "@utils/rsaCrypto";
+import { useIsFocused } from "@react-navigation/native";
+
 
 // 101-审核中
 // 102-已拒绝
@@ -103,10 +105,15 @@ export function QuotaButtons() {
   const { mutate: pushApplistMutate, data: pushApplistResp } = usePushApplist();
   const [isFormCompleted, setIsFormCompleted] = useState(false);
   const [targeFormStep, setTargetFormStep] = useState('');
+  const isFocused = useIsFocused();
+  // useEffect(() => {
+  //   //pushApplist();
+  //   getUserFormStatus();
+  // }, []);
+
   useEffect(() => {
-    //pushApplist();
     getUserFormStatus();
-  }, []);
+  }, [isFocused]);
 
   useEffect(() => {
     if (data?.data?.error_code == 1) {

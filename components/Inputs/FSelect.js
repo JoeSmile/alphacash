@@ -29,9 +29,6 @@ export function FSelect({
   const { i18n, locale } = useI18n();
   const [focused, setFocused] = useState(false);
 
-  useEffect(() => {
-   console.log('Sun >>> context == ' + context.values[name])
-  }, []);
   return (
     <View style={[containerStyle, getWritingDirectionStyle(locale)]}>
       <View>

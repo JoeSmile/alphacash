@@ -38,8 +38,10 @@ const Item = (props) => {
   useEffect(() => {
     if (data?.data?.error_code == 1) {
       const status = data.data.data;
-      if(status.setFormStatus && status.isCompletedWork && status.isCompletedContact && status.isCompletedIdentity){
+      if(status.isCompletedPersonal && status.isCompletedWork && status.isCompletedContact && status.isCompletedIdentity){
         setFormStatus(true)
+      } else {
+        setFormStatus(false)
       }
     }
   }, []);

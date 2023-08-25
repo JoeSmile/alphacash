@@ -31,7 +31,7 @@ import { useI18n } from "@hooks/useI18n";
 import Spinner from "react-native-loading-spinner-overlay";
 import { Asset } from "expo-asset";
 import { doTrack } from "@utils/dataTrack";
-import { getWritingDirectionStyle } from '@styles';
+import { getWritingDirectionStyle } from "@styles";
 
 function buildGetRequest(url, params) {
   if (params) {
@@ -48,7 +48,12 @@ function buildGetRequest(url, params) {
 const baseURL = "https://alphacashapi.tangbull.com/api/app/laon/voice";
 
 export default function Apply() {
-  const [currentUserCardInfo,app,sign,token] = useSystemStore(s => [s.usersInfo[s.phone]?.cardInfo ?? {},s.app,s.sign,s.token]);
+  const [currentUserCardInfo, app, sign, token] = useSystemStore((s) => [
+    s.usersInfo[s.phone]?.cardInfo ?? {},
+    s.app,
+    s.sign,
+    s.token,
+  ]);
 
   const userStore = useUserQuota();
   const navigation = useNavigation();
@@ -159,7 +164,7 @@ export default function Apply() {
   }, [billData]);
 
   const clickLoanAgreement = useCallback(() => {
-    navigation.push('LoanAgreement');
+    navigation.push("LoanAgreement");
     // const url = "https://www.baidu.com";
     // Linking.canOpenURL(url)
     //   .then((supported) => {
@@ -375,7 +380,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingTop: 16,
     paddingBottom: 40,
-    position: 'absolute',
+    position: "absolute",
     backgroundColor: "white",
     width: "100%",
   },

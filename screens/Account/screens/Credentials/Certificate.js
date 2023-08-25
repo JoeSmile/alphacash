@@ -360,7 +360,7 @@ export default function Certificate({ route }) {
                   marginTop: 6,
                 }}
               >
-                CNIC Card Front
+                {i18n.t("CNIC Card Front")}
               </Text>
             </Pressable>
             <Pressable
@@ -396,7 +396,7 @@ export default function Certificate({ route }) {
                   marginTop: 6,
                 }}
               >
-                CNIC Card Back
+                {i18n.t("CNIC Card Back")}
               </Text>
             </Pressable>
           </View>

@@ -204,20 +204,16 @@ export default function VoiceModal({
 
             <View
               style={{
-                flexDirection: "column",
                 flex: 1,
-                justifyContent: "center",
-                marginTop: -6,
               }}
             >
               <MSlider
-                style={{ marginTop: 6 }}
                 value={currentTime}
                 minimumValue={0}
                 maximumValue={duration}
                 onValueChange={handleSliderChange}
                 minimumTrackTintColor="#00B295" // 设置走过的进度的颜色
-                maximumTrackTintColor="#00B2954D" // 设置进度条的颜色
+                maximumTrackTintColor="#00B295" // 设置进度条的颜色
                 thumbTintColor="transparent" // 将滑块颜色设为透明
                 thumbStyle={{ width: 0, height: 0 }} // 设置滑块样式为空对象，使其不占用空间
               />
@@ -225,7 +221,7 @@ export default function VoiceModal({
                 style={{
                   flexDirection: "row",
                   justifyContent: "space-between",
-                  marginHorizontal: 15,
+                  marginHorizontal: 16,
                   marginTop: -3,
                 }}
               >
@@ -248,7 +244,9 @@ export default function VoiceModal({
               lineHeight: 17,
             }}
           >
-            {i18n.t('I have read and fully understood the Markup charges and terms of the loan product, and I agree that when the loan is approved, the funds will be transferred directly to the account I provided!')}
+            {i18n.t(
+              "I have read and fully understood the Markup charges and terms of the loan product, and I agree that when the loan is approved, the funds will be transferred directly to the account I provided!"
+            )}
           </Text>
 
           <View
@@ -354,10 +352,10 @@ const styles = StyleSheet.create({
   },
 
   voicePlayStyle: {
-    height: 54,
+    height: 56,
     borderRadius: 4,
     backgroundColor: "#FFFFFF",
-    paddingHorizontal: 12,
+    paddingHorizontal: 16,
     marginTop: 12,
     flexDirection: "row",
     alignItems: "center",

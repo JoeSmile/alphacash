@@ -1,4 +1,4 @@
-import { Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, Pressable } from "react-native";
 import * as Device from "expo-device";
 //import * as ExpoApplist from "expo-applist";
 import { Text, View } from "../../components/Themed";
@@ -12,7 +12,6 @@ import { useGetUserFormStatus, usePushApplist } from "@apis";
 import { doTrack } from "@utils/dataTrack";
 import { getAesKey, encryptAES, encryptRSA } from "@utils/rsaCrypto";
 import { useIsFocused } from "@react-navigation/native";
-
 
 // 101-审核中
 // 102-已拒绝
@@ -73,10 +72,9 @@ function BillBrief({ bill }) {
             fontSize: 15,
           }}
         >
-          {
-            [301, 303].includes(bill.appStatus) ? i18n.t('Due Date') : 
-            i18n.t("Apply Date")
-          }
+          {[301, 303].includes(bill.appStatus)
+            ? i18n.t("Due Date")
+            : i18n.t("Apply Date")}
         </Text>
         <Text
           style={{
@@ -104,7 +102,7 @@ export function QuotaButtons() {
   const { mutate: getUserFormStatus, data } = useGetUserFormStatus();
   const { mutate: pushApplistMutate, data: pushApplistResp } = usePushApplist();
   const [isFormCompleted, setIsFormCompleted] = useState(false);
-  const [targeFormStep, setTargetFormStep] = useState('');
+  const [targeFormStep, setTargetFormStep] = useState("");
   const isFocused = useIsFocused();
   // useEffect(() => {
   //   //pushApplist();
@@ -125,15 +123,14 @@ export function QuotaButtons() {
           status.isCompletedIdentity
       );
       if (!status.isCompletedPersonal) {
-        setTargetFormStep('Personal')
+        setTargetFormStep("Personal");
       } else if (!status.isCompletedWork) {
-        setTargetFormStep('Job')
+        setTargetFormStep("Job");
       } else if (!status.isCompletedContact) {
-        setTargetFormStep('Emergency')
+        setTargetFormStep("Emergency");
       } else if (!status.isCompletedIdentity) {
-        setTargetFormStep('Certificate')
+        setTargetFormStep("Certificate");
       }
-
     }
   }, [data]);
 
@@ -202,7 +199,7 @@ export function QuotaButtons() {
         doTrack("pk22", 1);
         navigation.push("Apply");
       } else {
-        navigation.push(targeFormStep, {fromScreen: "Apply"});
+        navigation.push(targeFormStep, { fromScreen: "Apply" });
       }
     } else {
       navigation.push("Login", {
@@ -288,18 +285,29 @@ export function QuotaButtons() {
                 }}
               />
             )}
-            {displayDetailButton.includes(bill.appStatus) && (
-              <FButton
-                title="ViewDetails"
-                onPress={() => {
-                  doTrack("pk27", 1);
-                  navigation.push("BillDetail", { loanId: bill.loanId });
-                }}
-                style={{
-                  marginBottom: 10,
-                }}
-              />
-            )}
+            {displayDetailButton.includes(bill.appStatus) &&
+              (displayRepayNowButton.includes(bill.appStatus) ? (
+                <Pressable
+                  style={styles.viewDetailBtn}
+                  onPress={() => {
+                    doTrack("pk27", 1);
+                    navigation.push("BillDetail", { loanId: bill.loanId });
+                  }}
+                >
+                  <Text style={styles.text}>{i18n.t("ViewDetails")}</Text>
+                </Pressable>
+              ) : (
+                <FButton
+                  title="ViewDetails"
+                  onPress={() => {
+                    doTrack("pk27", 1);
+                    navigation.push("BillDetail", { loanId: bill.loanId });
+                  }}
+                  style={{
+                    marginBottom: 10,
+                  }}
+                />
+              ))}
           </View>
         )}
       </View>
@@ -326,5 +334,20 @@ const styles = StyleSheet.create({
     margin: 15,
     paddingBottom: 15,
     borderRadius: 4,
+  },
+  viewDetailBtn: {
+    paddingVertical: 12,
+    borderRadius: 3,
+    marginBottom: 10,
+    backgroundColor: "#0825B814",
+    borderWidth: 1,
+    borderColor: "#0825B8",
+  },
+  text: {
+    textAlign: "center",
+    fontSize: 16,
+    lineHeight: 22,
+    letterSpacing: 0.25,
+    color: "#0825B8",
   },
 });

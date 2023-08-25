@@ -1,5 +1,12 @@
 import React, { useCallback, useEffect } from "react";
-import { View, StyleSheet, Text, StatusBar, Image } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  SafeAreaView,
+  Image,
+  ScrollView,
+} from "react-native";
 import { LOAN_STATUS, getStatusImgByLocale } from "@const";
 import { FButton } from "@components/FButton";
 import {
@@ -57,123 +64,139 @@ export default function BillDetail({ route }) {
     console.log("locale=======", locale);
     return (
       <View style={styles.container}>
-        <View style={styles.infoSection}>
-          <Image
-            source={getStatusImgByLocale(item.appStatus, locale)}
-            contentFit="cover"
-            transition={1000}
-            style={[styles.imgTag, locale == "en" ? { right: 0 } : { left: 0 }]}
-          />
-          <View>
-            <Text style={styles.title}>{`${i18n.t("Loan Amount")}: `}</Text>
-            <Text style={styles.amount}>{fn2f(item.applyAmount)}</Text>
-          </View>
-          <View style={styles.line}></View>
-          <View style={styles.info}>
-            <Text style={styles.title}>{`${i18n.t("Apply Date")}: `}</Text>
-            <Text style={styles.titleValue}>{item.applyDate}</Text>
-          </View>
-          <View style={styles.line}></View>
-          <View style={styles.info}>
-            <Text style={styles.title}>{`${i18n.t("LoanTerm")}: `} </Text>
-            <Text style={styles.titleValue}>
-              {item.loanTerm} {i18n.t("Days")}
-            </Text>
-          </View>
-          <View style={styles.line}></View>
-          <View style={styles.info}>
-            <Text style={styles.title}>{`${i18n.t("DisburseAmount")}: `} </Text>
-            <Text style={styles.titleValue}>{fn2f(item.getAmount)}</Text>
-          </View>
-          {renderAccount()}
-          {hasDueDateBillStatus.includes(item.appStatus) && !!item.dueDate && (
-            <>
-              <View style={[styles.line, { marginTop: 16 }]}></View>
-              <View style={styles.info}>
-                <Text style={styles.title}>{`${i18n.t("Loan Date")}: `} </Text>
-                <Text style={styles.titleValue}>{item.disburseDate}</Text>
-              </View>
-              <View style={styles.line}></View>
-              <View style={styles.info}>
-                <Text style={styles.title}>{`${i18n.t("Markup")}: `}</Text>
-                <Text style={styles.titleValue}>
-                  {fn2f(item.totalInterest)}
-                </Text>
-              </View>
-              {item.appStatus !== LOAN_STATUS.using &&
-                !!parseInt(item.latePayFee) && (
-                  <>
-                    <View style={styles.line}></View>
-                    <View style={styles.info}>
-                      <Text style={styles.title}>
-                        {`${i18n.t("Late Payment Charges")}: `}
-                      </Text>
-                      <Text style={styles.titleValue}>
-                        {fn2f(item.latePayFee)}
-                      </Text>
-                    </View>
-                  </>
-                )}
-              <View style={styles.line}></View>
-              <View style={styles.info}>
-                <Text style={styles.title}>{`${i18n.t(
-                  "Lump Sum Repayment Amount"
-                )}: `}</Text>
-                <Text style={styles.titleValue}>
-                  {fn2f(item.currentAmountDue)}
-                </Text>
-              </View>
-              <View style={styles.line}></View>
-              <View style={styles.info}>
-                <Text style={styles.title}>{`${i18n.t("Due Date")}: `} </Text>
-                <Text style={styles.titleValue}>{item.dueDate}</Text>
-              </View>
-              {item.paymentDate && (
+        <ScrollView style={{ flex: 1 }}>
+          <View style={styles.infoSection}>
+            <Image
+              source={getStatusImgByLocale(item.appStatus, locale)}
+              contentFit="cover"
+              transition={1000}
+              style={[
+                styles.imgTag,
+                locale == "en" ? { right: 0 } : { left: 0 },
+              ]}
+            />
+            <View>
+              <Text style={styles.title}>{`${i18n.t("Loan Amount")}: `}</Text>
+              <Text style={styles.amount}>{fn2f(item.applyAmount)}</Text>
+            </View>
+            <View style={styles.line}></View>
+            <View style={styles.info}>
+              <Text style={styles.title}>{`${i18n.t("Apply Date")}: `}</Text>
+              <Text style={styles.titleValue}>{item.applyDate}</Text>
+            </View>
+            <View style={styles.line}></View>
+            <View style={styles.info}>
+              <Text style={styles.title}>{`${i18n.t("LoanTerm")}: `} </Text>
+              <Text style={styles.titleValue}>
+                {item.loanTerm} {i18n.t("Days")}
+              </Text>
+            </View>
+            <View style={styles.line}></View>
+            <View style={styles.info}>
+              <Text style={styles.title}>
+                {`${i18n.t("DisburseAmount")}: `}
+              </Text>
+              <Text style={styles.titleValue}>{fn2f(item.getAmount)}</Text>
+            </View>
+            {renderAccount()}
+            {hasDueDateBillStatus.includes(item.appStatus) &&
+              !!item.dueDate && (
                 <>
+                  <View style={[styles.line, { marginTop: 16 }]}></View>
+                  <View style={styles.info}>
+                    <Text style={styles.title}>
+                      {`${i18n.t("Loan Date")}: `}
+                    </Text>
+                    <Text style={styles.titleValue}>{item.disburseDate}</Text>
+                  </View>
+                  <View style={styles.line}></View>
+                  <View style={styles.info}>
+                    <Text style={styles.title}>{`${i18n.t("Markup")}: `}</Text>
+                    <Text style={styles.titleValue}>
+                      {fn2f(item.totalInterest)}
+                    </Text>
+                  </View>
+                  {item.appStatus !== LOAN_STATUS.using &&
+                    !!parseInt(item.latePayFee) && (
+                      <>
+                        <View style={styles.line}></View>
+                        <View style={styles.info}>
+                          <Text style={styles.title}>
+                            {`${i18n.t("Late Payment Charges")}: `}
+                          </Text>
+                          <Text style={styles.titleValue}>
+                            {fn2f(item.latePayFee)}
+                          </Text>
+                        </View>
+                      </>
+                    )}
+                  <View style={styles.line}></View>
+                  <View style={styles.info}>
+                    <Text style={styles.title}>{`${i18n.t(
+                      "Lump Sum Repayment Amount"
+                    )}: `}</Text>
+                    <Text style={styles.titleValue}>
+                      {fn2f(item.currentAmountDue)}
+                    </Text>
+                  </View>
                   <View style={styles.line}></View>
                   <View style={styles.info}>
                     <Text style={styles.title}>
-                      {`${i18n.t("Repayment Date")}: `}
+                      {`${i18n.t("Due Date")}: `}
                     </Text>
-                    <Text style={styles.titleValue}>{item.paymentDate}</Text>
+                    <Text style={styles.titleValue}>{item.dueDate}</Text>
                   </View>
+                  {item.paymentDate && (
+                    <>
+                      <View style={styles.line}></View>
+                      <View style={styles.info}>
+                        <Text style={styles.title}>
+                          {`${i18n.t("Repayment Date")}: `}
+                        </Text>
+                        <Text style={styles.titleValue}>
+                          {item.paymentDate}
+                        </Text>
+                      </View>
+                    </>
+                  )}
                 </>
               )}
-            </>
-          )}
-        </View>
+          </View>
+        </ScrollView>
         {hasRepayBillStatus.includes(item.appStatus) && (
-          <FButton
-            style={styles.repayBtn}
-            onPress={() => {
-              doTrack("pk24", 1);
-              navigation.push("RepayList");
-              //navigation.push("Apply");
-            }}
-            title="RepayNow"
-          />
+          <View style={styles.repayBtnWrap}>
+            <FButton
+              style={styles.repayBtn}
+              onPress={() => {
+                doTrack("pk24", 1);
+                navigation.push("RepayList");
+                //navigation.push("Apply");
+              }}
+              title="RepayNow"
+            />
+          </View>
         )}
       </View>
     );
   }, []);
 
   return (
-    <View>
+    <SafeAreaView style={{ flex: 1 }}>
       <Spinner
         visible={isLoading}
         textContent={i18n.t("Loading")}
         textStyle={{ color: "#FFF" }}
       />
       {renderDetail(detail)}
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: StatusBar.currentHeight || 0,
-    marginHorizontal: 15,
     marginTop: 16,
+    flex: 1,
+    justifyContent: "space-between",
   },
   infoSection: {
     backgroundColor: "#ffffff",
@@ -181,6 +204,8 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 18,
     paddingHorizontal: 15,
+    marginHorizontal: 15,
+    marginBottom: 20,
   },
   title: { textAlign: "left", color: "#4F5E6F", fontSize: 14, lineHeight: 20 },
   imgTag: {
@@ -210,10 +235,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     lineHeight: 20,
   },
+  repayBtnWrap: {
+    padding: 15,
+    backgroundColor: "white",
+  },
   repayBtn: {
     backgroundColor: "#0825B8",
-    marginTop: 32,
-    marginBottom: 25,
-    //marginHorizontal: 24,
   },
 });

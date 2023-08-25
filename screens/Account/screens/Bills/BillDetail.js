@@ -54,15 +54,15 @@ export default function BillDetail({ route }) {
         </>
       );
     }
-    console.log('locale=======', locale);
+    console.log("locale=======", locale);
     return (
       <View style={styles.container}>
         <View style={styles.infoSection}>
           <Image
-            source={ getStatusImgByLocale(item.appStatus, locale) }
+            source={getStatusImgByLocale(item.appStatus, locale)}
             contentFit="cover"
             transition={1000}
-            style={[styles.imgTag, locale == 'en'? {right: 0} : {left: 0}]}
+            style={[styles.imgTag, locale == "en" ? { right: 0 } : { left: 0 }]}
           />
           <View>
             <Text style={styles.title}>{`${i18n.t("Loan Amount")}: `}</Text>
@@ -148,6 +148,7 @@ export default function BillDetail({ route }) {
             onPress={() => {
               doTrack("pk24", 1);
               navigation.push("RepayList");
+              //navigation.push("Apply");
             }}
             title="RepayNow"
           />

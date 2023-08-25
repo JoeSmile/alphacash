@@ -16,8 +16,7 @@ import * as Yup from "yup";
 import { useI18n } from "@hooks/useI18n";
 import { useSystemStore } from "@store/useSystemStore";
 import { doTrack } from "@utils/dataTrack";
-import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
-import { locale } from "dayjs";
+import { getWritingDirectionStyle, getMarginRightOrLeft } from "@styles";
 
 const tabs = [
   {
@@ -115,7 +114,7 @@ export function AddNewAccount({ navigation, route }) {
   const [selectedTab, setSelectedTab] = useState({});
   const { mutate: addAccount, data: result } = useAddAccount();
   const { mutate: getBankList, data: rawList, isLoading } = useBankList();
-  const [fromScreen, setFromScreen] = useState('');
+  const [fromScreen, setFromScreen] = useState("");
 
   useEffect(() => {
     getBankList();
@@ -123,7 +122,7 @@ export function AddNewAccount({ navigation, route }) {
 
   React.useEffect(() => {
     const card = route.params ? route.params.card : {};
-    const fromScreen = route.params ? route.params.fromScreen : '';
+    const fromScreen = route.params ? route.params.fromScreen : "";
     setFromScreen(fromScreen);
     console.log("card---", card);
     setInitialData({
@@ -157,7 +156,7 @@ export function AddNewAccount({ navigation, route }) {
     if (!result) return;
     if (result.data.error_code == 1) {
       if (fromScreen) {
-        navigation.push(fromScreen)
+        navigation.push(fromScreen);
       } else {
         navigation.replace("Homepage");
       }
@@ -165,7 +164,12 @@ export function AddNewAccount({ navigation, route }) {
   }, [result]);
 
   return (
-    <ScrollView style={[{ flex: 1, backgroundColor: "white", padding: 15 }, getWritingDirectionStyle(locale)]}>
+    <ScrollView
+      style={[
+        { flex: 1, backgroundColor: "white", padding: 15, paddingTop: 24 },
+        getWritingDirectionStyle(locale),
+      ]}
+    >
       <View
         style={{
           minHeight: 570,
@@ -212,28 +216,21 @@ export function AddNewAccount({ navigation, route }) {
                 <View
                   style={{
                     flexDirection: "row",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: 15,
-                    height: 80,
-                    borderBottomColor: "#E0E3E8",
-                    borderBottomWidth: 2,
-                    marginBottom: 30,
+                    justifyContent: "space-between",
+                    marginBottom: 32,
                   }}
                 >
                   {tabs.map((tab) => {
                     return (
-                      <View key={tab.title}>
+                      <View key={tab.title} style={{ flex: 1 }}>
                         <Pressable
-                          style={[
-                            styles.tab,
-                            selectedTab.tabId === tab.tabId
-                              ? {
-                                  borderBottomWidth: 3,
-                                  borderBottomColor: "#0825B8",
-                                }
-                              : "",
-                          ]}
+                          style={{
+                            ...styles.tab,
+                            borderBottomColor:
+                              selectedTab.tabId === tab.tabId
+                                ? "#0825B8"
+                                : "#E0E3E8",
+                          }}
                           onPress={() => {
                             setSelectedTab({
                               tabId: tab.tabId,
@@ -253,7 +250,7 @@ export function AddNewAccount({ navigation, route }) {
                             source={tab.source}
                             contentFit="cover"
                             transition={200}
-                            style={{ width: 32, height: 32, marginBottom: 10 }}
+                            style={{ width: 32, height: 32, marginBottom: 8 }}
                           />
                           <Text
                             style={{
@@ -261,8 +258,7 @@ export function AddNewAccount({ navigation, route }) {
                                 selectedTab.tabId === tab.tabId
                                   ? "#0A233E"
                                   : "#8899AC",
-                              fontWeight: "bold",
-                              fontSize: 16,
+                              ...styles.tabTitle,
                             }}
                           >
                             {tab.title}
@@ -331,11 +327,17 @@ export function AddNewAccount({ navigation, route }) {
 
 const styles = StyleSheet.create({
   tab: {
-    height: "100%",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
-    paddingBottom: 15,
+    borderBottomColor: "#E0E3E8",
+    borderBottomWidth: 2,
+  },
+  tabTitle: {
+    fontWeight: "500",
+    fontSize: 16,
+    lineHeight: 22,
+    marginBottom: 8,
   },
   inputContainer: {
     marginBottom: 15,

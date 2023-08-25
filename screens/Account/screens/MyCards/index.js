@@ -21,13 +21,18 @@ import { useIsFocused } from "@react-navigation/native";
 import { useSystemStore } from "@store/useSystemStore";
 import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "@utils/dataTrack";
-import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
+import { getWritingDirectionStyle, getMarginRightOrLeft } from "@styles";
 
 function BankCard({ card, selected, isSelectAccount }) {
   const { i18n, locale } = useI18n();
 
   return (
-    <View style={styles.cardContainer}>
+    <View
+      style={[
+        styles.cardContainer,
+        isSelectAccount && selected ? styles.cardSelected : {},
+      ]}
+    >
       <View
         style={{
           width: "100%",
@@ -75,7 +80,12 @@ function BankCard({ card, selected, isSelectAccount }) {
 function EWalletCard({ card, selected, isSelectAccount }) {
   const { i18n, locale } = useI18n();
   return (
-    <View style={styles.cardContainer}>
+    <View
+      style={[
+        styles.cardContainer,
+        isSelectAccount && selected ? styles.cardSelected : {},
+      ]}
+    >
       <View
         style={{
           width: "100%",
@@ -137,8 +147,10 @@ export default function MyCards({ navigation, route }) {
   const [listData, setListData] = useState();
   const [isSelectAccount, setIsSelectAccount] = useState(false);
   const { mutate: getAccounts, data: cards, isLoading } = useGetAccounts();
-  const { mutate: deleteEWallet, isLoading: isRemovingEWallet} = useDeleteEWalletAccount();
-  const { mutate: deleteBankAccount, isLoading: isRemovingBankCard } = useDeleteBankAccount();
+  const { mutate: deleteEWallet, isLoading: isRemovingEWallet } =
+    useDeleteEWalletAccount();
+  const { mutate: deleteBankAccount, isLoading: isRemovingBankCard } =
+    useDeleteBankAccount();
   const { mutate: updateAccount } = useUpdateAccount();
   const { i18n, locale } = useI18n();
   // TODO: 1. 选择某个 wallet  2. confirm (xxxStore -> useXXXStore)
@@ -149,7 +161,13 @@ export default function MyCards({ navigation, route }) {
   const [loanId, setLoanId] = useState("");
 
   const store = useSystemStore();
-  const [currentUserCardInfo, setCardInfo, cleanCardInfo] = useSystemStore(s => [s.usersInfo[s.phone]?.cardInfo ?? {}, s.setCardInfo, s.cleanCardInfo]);
+  const [currentUserCardInfo, setCardInfo, cleanCardInfo] = useSystemStore(
+    (s) => [
+      s.usersInfo[s.phone]?.cardInfo ?? {},
+      s.setCardInfo,
+      s.cleanCardInfo,
+    ]
+  );
   React.useEffect(() => {
     // const editAccountId = route.params ? route.params.accountId : '';
     // const editAccountType = route.params ? route.params.type : '';
@@ -178,7 +196,7 @@ export default function MyCards({ navigation, route }) {
 
   useEffect(() => {
     if (cards && cards.data && Array.isArray(cards.data.data)) {
-      console.log('cards.----', cards.data.data);
+      console.log("cards.----", cards.data.data);
       setListData(
         cards.data.data.map((item, index) => {
           return {
@@ -223,7 +241,6 @@ export default function MyCards({ navigation, route }) {
               deleteBankAccount({
                 bankAccountId: card.bankAccountId,
               });
-             
             } else {
               deleteEWallet({
                 ewalletId: card.ewalletId,
@@ -311,7 +328,6 @@ export default function MyCards({ navigation, route }) {
     if (isUpdateAccount) {
       updateAccount({ loanId, ...currentCard });
     }
-
   };
 
   return (
@@ -342,20 +358,19 @@ export default function MyCards({ navigation, route }) {
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                marginBottom: 15,
               }}
             >
               <Image
                 source={require("@assets/images/loan_ic_add.png")}
                 contentFit="cover"
                 transition={200}
-                style={{ width: 15, height: 15, marginRight: 5 }}
+                style={{ width: 15, height: 15, marginRight: 8 }}
               />
               <Text
                 style={{
                   color: "#0A233E",
                   fontSize: 16,
-                  fontWeight: "bold",
+                  fontWeight: "600",
                 }}
               >
                 {i18n.t("Add Collection Account")}
@@ -388,7 +403,7 @@ export default function MyCards({ navigation, route }) {
             onPress={() => confirm()}
             style={{
               backgroundColor: "#0825B8",
-              height: 46,
+              height: 48,
               zIndex: 100,
               alignItems: "center",
               justifyContent: "center",
@@ -396,7 +411,7 @@ export default function MyCards({ navigation, route }) {
               borderRadius: 3,
             }}
           >
-            <Text style={{ color: "#FFFFFF", fontSize: 15 }}>
+            <Text style={{ color: "#FFFFFF", fontSize: 16 }}>
               {i18n.t("Confirm")}
             </Text>
             <Image
@@ -462,6 +477,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     width: "100%",
   },
+  cardSelected: { borderColor: "#0825B8", borderWidth: 2 },
   cardTitle: {
     color: "#4F5E6F",
     fontSize: 16,

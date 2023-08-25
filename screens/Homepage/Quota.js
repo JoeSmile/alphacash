@@ -44,7 +44,7 @@ export function Quota() {
   }, [data]);
 
   const setAmount = () => {
-    if(!hasBill){
+    if(!hasBill && !isFormCompleted){
       return "Rs.60,000";
     } else if([301,303].includes(bill.appStatus)){
       return fn2f(bill.currentAmountDue)

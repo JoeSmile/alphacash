@@ -84,7 +84,7 @@ function BillBrief({ bill }) {
             fontSize: 15,
           }}
         >
-          {bill.applyDate}
+          {[301, 303].includes(bill.appStatus) ? bill.dueDate : bill.applyDate}
         </Text>
       </View>
     </View>

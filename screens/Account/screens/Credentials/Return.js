@@ -11,7 +11,7 @@ export default function Return({ trackName }) {
     <Pressable
       onPress={() => {
         doTrack(trackName, 1);
-        navigation.replace("Credentials");
+        navigation.goBack();
       }}
     >
       <Text

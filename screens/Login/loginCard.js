@@ -77,9 +77,11 @@ export default function LoginCard() {
       });
       if (targetScreen && needFormCompleted) {
         getUserFormStatus();
-      } else if (targetScreen) {
-        navigation.replace(targetScreen);
-      } else {
+      }
+      //  else if (targetScreen) {
+      //   navigation.replace(targetScreen);
+      // } 
+      else {
         navigation.replace("Homepage");
       }
     }

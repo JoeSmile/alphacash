@@ -247,5 +247,6 @@ export const urdu = {
   "Click Search , enter AlphaCash, and select AlphaCash": "[تلاش] پر کلک کریں، [AlphaCash] درج کریں، اور [AlphaCash] کو منتخب کریں",
   "Enter Consumer ID, click Next, and then click PAY NOW": "[کنزیومر آئی ڈی] درج کریں، [اگلا] پر کلک کریں، اور پھر [ابھی ادائیگی کریں] پر کلک کریں",
   "Repayment method": "ادائیگی کا طریقہ",
-  "LoanAgreement":"Loan Agreement"
+  "LoanAgreement":"قرضے کا معاہدہ",
+  "Please fill in the authentication information first": "Please fill in the authentication information first",
   };

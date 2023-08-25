@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 import { Picker } from "@react-native-picker/picker";
@@ -28,6 +28,10 @@ export function FSelect({
   const meta = context.getFieldMeta(name);
   const { i18n, locale } = useI18n();
   const [focused, setFocused] = useState(false);
+
+  useEffect(() => {
+   console.log('Sun >>> context == ' + context.values[name])
+  }, []);
   return (
     <View style={[containerStyle, getWritingDirectionStyle(locale)]}>
       <View>

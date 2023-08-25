@@ -36,10 +36,18 @@ import { LoanAgreementScreen } from "./LoanAgreementNavigator";
 
 import { pageHeader } from "@styles";
 
-const HeaderLeft = ({navigation}) => {
+const HeaderLeft = ({navigation,screen = {}}) => {
   return  <Pressable
   onPress={() => {
-    navigation.goBack()
+    if(screen.name == "Apply"){
+      navigation.navigate('Homepage')
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Homepage' }],
+      });
+    } else {
+      navigation.goBack()
+    }
   }}
 >
   <Image
@@ -168,7 +176,7 @@ function RootNavigator() {
             return {
               headerTitle: i18n.t(screen.headerTitle),
               headerShown: !!screen.headerTitle,
-              headerLeft: () => <HeaderLeft navigation={navigation}/>,
+              headerLeft: () => <HeaderLeft navigation={navigation} screen={screen} />,
               ...pageHeader,
             };
           }}

@@ -320,6 +320,7 @@ export function AddNewAccount({ navigation, route }) {
           </Formik>
         )}
         <Notice />
+        <View style={{height: 24,width:'100%'}}></View>
       </View>
     </ScrollView>
   );

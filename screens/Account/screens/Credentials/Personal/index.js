@@ -127,8 +127,9 @@ export default function Personal({ navigation, route }) {
   }, [personFormOptions]);
 
   useEffect(() => {
-    if (data && data.data && data.data.error_code === 1) {
+    if (data?.data?.error_code === 1) {
       const userInfo = data.data.data.userInfo;
+      console.log('Sun >>>> ' + JSON.stringify(userInfo))
       getCityList({
         parentId: userInfo?.provinceId ?? "1",
       });

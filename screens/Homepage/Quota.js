@@ -43,6 +43,16 @@ export function Quota() {
     }
   }, [data]);
 
+  const setAmount = () => {
+    if(!hasBill){
+      return "Rs.60,000";
+    } else if([301,303].includes(bill.appStatus)){
+      return fn2f(bill.currentAmountDue)
+    } else {
+      return fn2f(bill.applyAmount)
+    }
+  }
+
   return (
     <View style={styles.container}>
       <View
@@ -84,7 +94,7 @@ export function Quota() {
             fontWeight: 600,
           }}
         >
-          {fn2f(bill.currentAmountDue) || fn2f(cashLoan.quota) || "Rs.60,000"}
+          {setAmount()}
         </Text>
       </View>
       <QuotaButtons />

@@ -4,6 +4,9 @@ import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "@utils/dataTrack";
 import { useSystemStore } from "@store/useSystemStore";
 import { getRevertImage } from '@styles';
+import { useGetUserFormStatus } from "@apis";
+import { useEffect, useState } from "react";
+import { Toast } from "@ant-design/react-native";
 
 
 
@@ -23,6 +26,22 @@ const Item = (props) => {
   const navigation = useNavigation();
   const { i18n, locale } = useI18n();
   const [isLogin, phone] = useSystemStore((s) => [!!s.token, s.phone]);
+  const { mutate: getUserFormStatus, data: formData, isLoading: isGetFormStatusLoading } = useGetUserFormStatus();
+
+  useEffect(() => {
+    if (formData?.data?.error_code == 1) {
+      const status = formData.data.data;
+      if(status.isCompletedPersonal && status.isCompletedWork && status.isCompletedContact && status.isCompletedIdentity){
+        navigation.push("MyCards", { ...parameters })
+      } else {
+        Toast.info({
+          content: i18n.t("Please fill in the authentication information first"),
+          duration: 3,
+        });
+        navigation.push("Credentials");
+      }
+    }
+  }, [formData]);
 
   return (
     <Pressable
@@ -43,7 +62,11 @@ const Item = (props) => {
             if (clickItem) {
               clickItem(props);
             } else {
-              screen && navigation.push(screen, { ...parameters });
+              if( screen && screen == "MyCards"){
+                getUserFormStatus();
+               } else {
+                 screen && navigation.push(screen, { ...parameters });
+               }
             }
           } else {
             // goto login

@@ -16,14 +16,12 @@ import {
   useDeleteBankAccount,
   useGetAccounts,
   useUpdateAccount,
-  useGetUserFormStatus
 } from "@apis";
 import { useIsFocused } from "@react-navigation/native";
 import { useSystemStore } from "@store/useSystemStore";
 import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "@utils/dataTrack";
 import { getWritingDirectionStyle, getMarginRightOrLeft } from "@styles";
-import { Toast } from "@ant-design/react-native";
 
 function BankCard({ card, selected, isSelectAccount }) {
   const { i18n, locale } = useI18n();
@@ -190,24 +188,7 @@ export default function MyCards({ navigation, route }) {
 
   useEffect(() => {
     getAccounts();
-    getUserFormStatus();
   }, [isFocused]);
-
-  const { mutate: getUserFormStatus, data: formData, isLoading: isGetUserFormStatusLoading } = useGetUserFormStatus();
-
-  useEffect(() => {
-    if (formData?.data?.error_code == 1) {
-      const status = formData.data.data;
-      console.log('Sun >>> status =' + JSON.stringify(status))
-      if(!status.isCompletedPersonal || !status.isCompletedWork || !status.isCompletedContact || !status.isCompletedIdentity){
-        Toast.info({
-          content: i18n.t("Please fill in the authentication information first"),
-          duration: 3,
-        });
-       navigation.replace("Credentials")
-      }
-    }
-  }, [formData]);
 
   // useEffect(() => {
 

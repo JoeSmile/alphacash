@@ -178,7 +178,11 @@ export default function Apply() {
   }, []);
 
   const getLoan = () => {
-    if (!isChecked || userStore.faceData.name === "" || (!currentUserCardInfo.bankAccount && !currentUserCardInfo.ewalletAccount)) {
+    if (
+      !isChecked ||
+      userStore.faceData.name === "" ||
+      (!currentUserCardInfo.bankAccount && !currentUserCardInfo.ewalletAccount)
+    ) {
       return;
     }
 
@@ -240,12 +244,18 @@ export default function Apply() {
         textContent={i18n.t("Loading")}
         textStyle={{ color: "#FFF" }}
       />
-      <ScrollView>
+      <ScrollView style={{ flex: 1 }}>
         <View style={styles.bgBanner} />
 
         {!!optWithDaysConfig[daysOption] &&
           !isGetCashLoanProductConfigLoading && (
-            <View style={{ padding: 15, paddingTop: 10 }}>
+            <View
+              style={{
+                paddingHorizontal: 15,
+                paddingTop: 10,
+                paddingBottom: 20,
+              }}
+            >
               <ApplyLoanCard
                 optWithDaysConfig={optWithDaysConfig}
                 setOptWithDaysConfig={setOptWithDaysConfig}
@@ -312,7 +322,6 @@ export default function Apply() {
                 {`${i18n.t("Address")}:XXXXXXXX`}
                 {"\n"}
               </Text>
-              <View style={{ height: 108 }}></View>
             </View>
           )}
       </ScrollView>
@@ -354,7 +363,7 @@ export default function Apply() {
 
 const styles = StyleSheet.create({
   container: {
-    position: "relative",
+    flex: 1,
     backgroundColor: "#F4F5F7",
   },
   bgBanner: {
@@ -376,11 +385,9 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   getLoan: {
-    bottom: 0,
     paddingHorizontal: 15,
     paddingTop: 16,
     paddingBottom: 40,
-    position: "absolute",
     backgroundColor: "white",
     width: "100%",
   },

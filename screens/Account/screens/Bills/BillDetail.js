@@ -196,7 +196,6 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 16,
     flex: 1,
-    justifyContent: "space-between",
   },
   infoSection: {
     backgroundColor: "#ffffff",

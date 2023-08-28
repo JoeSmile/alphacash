@@ -7,7 +7,7 @@ import { useUserQuota } from "@store/useUserQuota";
 import { FButton } from "../../../components/FButton";
 import { doTrack } from "@utils/dataTrack";
 import { useI18n } from "@hooks/useI18n";
-import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
+import { getWritingDirectionStyle, getMarginRightOrLeft } from "@styles";
 
 export const CHANNEL = {
   easypaisa: 1,
@@ -69,7 +69,7 @@ export default function Repay({ navigation, route }) {
           >
             <View style={{ flexDirection: "row" }}>
               <Text style={{ color: "#4F5E6F", fontSize: 16 }}>
-              {i18n.t("Account Name")}:{" "}
+                {i18n.t("Account Name")}:{" "}
               </Text>
               <Text style={{ color: "#0A233E", fontSize: 16 }}>
                 {paymentData?.channelText}
@@ -79,14 +79,14 @@ export default function Repay({ navigation, route }) {
             <Pressable
               onPress={() => {
                 doTrack("pk20", 1);
-                copyToClipboard("AlphaCash");
+                copyToClipboard(paymentData?.channelText);
               }}
             >
               <Text
                 style={{
                   color: "#0825B8",
                   fontSize: 16,
-                  textDecoration: "underline",
+                  textDecorationLine: "underline",
                 }}
               >
                 Copy
@@ -106,7 +106,9 @@ export default function Repay({ navigation, route }) {
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <View style={{ flexDirection: "row" }}>
-              <Text style={{ color: "#4F5E6F", fontSize: 16 }}>{i18n.t('Consumer ID')}:</Text>
+              <Text style={{ color: "#4F5E6F", fontSize: 16 }}>
+                {i18n.t("Consumer ID")}:
+              </Text>
               <Text style={{ color: "#0A233E", fontSize: 16 }}>
                 {paymentData?.paymentCode}
               </Text>
@@ -122,7 +124,7 @@ export default function Repay({ navigation, route }) {
                 style={{
                   color: "#0825B8",
                   fontSize: 16,
-                  textDecoration: "underline",
+                  textDecorationLine: "underline",
                 }}
               >
                 Copy
@@ -133,23 +135,27 @@ export default function Repay({ navigation, route }) {
 
         {/* Notice */}
         <View style={{ marginTop: 20 }}>
-          <Text style={{ color: "#8899AC", fontSize: 12 }}>{i18n.t("Kind Tips")}:</Text>
+          <Text style={{ color: "#8899AC", fontSize: 12 }}>
+            {i18n.t("Kind Tips")}:
+          </Text>
           <View
             style={{
               flexDirection: "row",
             }}
           >
-            <Text style={{ color: "#8899AC", fontSize: 12 }}>
-             {i18n.t('Use EasyPaisa to make repayment, the operation instructions')}{" "}
+            <Text style={{ color: "#8899AC", fontSize: 12, flexShrink: 1 }}>
+              {i18n.t(
+                "Use EasyPaisa to make repayment, the operation instructions"
+              )}{" "}
             </Text>
             <Pressable
               onPress={() => {
                 navigation.push("RepayDemo", { type: CHANNEL[channel] });
               }}
             >
-              <Text
-                style={{ color: "#0825B8", fontSize: 12 }}
-              >{i18n.t('click to view>>')}</Text>
+              <Text style={{ color: "#0825B8", fontSize: 12 }}>
+                {i18n.t("click to view>>")}
+              </Text>
             </Pressable>
           </View>
         </View>

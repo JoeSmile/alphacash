@@ -1,17 +1,18 @@
-import React from 'react';
-import { Text, View, StyleSheet, Pressable, Image } from 'react-native';
-import { useI18n, LocaleTypes } from "@hooks/useI18n";
-import { getRevertImage } from '@styles';
+import React from "react";
+import { Text, StyleSheet, Pressable, Image } from "react-native";
+import { useI18n } from "@hooks/useI18n";
+import { getRevertImage } from "@styles";
 
 export function FButton(props) {
-  const { onPress, title = 'Save', style = {}, ...restProps } = props;
-  const {i18n, locale} = useI18n();
+  const { onPress, title = "Save", style = {}, ...restProps } = props;
+  const { i18n, locale } = useI18n();
 
   return (
     <Pressable style={[styles.button, style]} onPress={onPress} {...restProps}>
       <Text style={styles.text}>{i18n.t(title)}</Text>
-      <Image source={require('@assets/images/btn_ic_right.png')} 
-        style={[{width: 12, height: 12}, getRevertImage(locale)]}
+      <Image
+        source={require("@assets/images/btn_ic_right.png")}
+        style={[{ width: 12, height: 12 }, getRevertImage(locale)]}
       />
     </Pressable>
   );
@@ -19,19 +20,19 @@ export function FButton(props) {
 
 const styles = StyleSheet.create({
   button: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     paddingVertical: 12,
     paddingHorizontal: 32,
-    borderRadius: 4,
-    flexDirection: 'row',
-    borderWidth: 0, 
-    backgroundColor: '#0825B8',
+    borderRadius: 3,
+    flexDirection: "row",
+    borderWidth: 0,
+    backgroundColor: "#0825B8",
   },
   text: {
     fontSize: 16,
-    lineHeight: 21,
+    lineHeight: 22,
     letterSpacing: 0.25,
-    color: 'white',
+    color: "white",
   },
 });

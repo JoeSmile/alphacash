@@ -10,6 +10,7 @@ import {
   Pressable,
   SafeAreaView,
   Linking,
+  BackHandler,
 } from "react-native";
 
 import {
@@ -86,6 +87,21 @@ export default function Apply() {
 
   useEffect(() => {
     getCashLoanProductConfig();
+  }, []);
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", handleBackPress);
+  },[])
+
+  const handleBackPress = useCallback(() => {
+    if (navigation.isFocused()) {
+      navigation.navigate('Homepage')
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Homepage' }],
+      });
+      return true;
+    }
   }, []);
 
   useEffect(() => {

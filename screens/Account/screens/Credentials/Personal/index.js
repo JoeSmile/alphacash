@@ -65,7 +65,7 @@ const PersonalFormSchema = Yup.object().shape({
 
 export default function Personal({ navigation, route }) {
   const { mutate: getPersonalDetail, data, isLoading } = useGetPersonalDetail();
-  const updatePersonalInfoMutation = useUpdatePersonalInfo();
+  const { mutate: updatePersonalInfoMutation, data: personalData,isLoading: isUpdatePersonalInfoLoading} = useUpdatePersonalInfo();
   const {
     mutate: getPersonalOptions,
     data: personFormOptions,
@@ -141,10 +141,7 @@ export default function Personal({ navigation, route }) {
   }, [data]);
 
   useEffect(() => {
-    if (
-      updatePersonalInfoMutation.data &&
-      updatePersonalInfoMutation.data.data.error_code === 1
-    ) {
+    if (personalData?.data?.error_code === 1 ) {
       doTrack("pk46", 1);
       if (isUpdate) {
         navigation.goBack();
@@ -152,7 +149,7 @@ export default function Personal({ navigation, route }) {
         navigation.push("Job", { fromScreen });
       }
     }
-  }, [updatePersonalInfoMutation]);
+  }, [personalData]);
 
   return (
     <SafeAreaView>
@@ -182,7 +179,7 @@ export default function Personal({ navigation, route }) {
                     (province) => province.code == cityId
                   )[0].name;
                   console.log("values---", values);
-                  updatePersonalInfoMutation.mutate({ ...parameters });
+                  updatePersonalInfoMutation(parameters);
                 }}
                 validateOnChange={true}
                 validateOnBlur={true}

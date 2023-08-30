@@ -107,6 +107,8 @@ export default function Apply() {
   useEffect(() => {
     if (loanProductConfigData?.data?.error_code == 1) {
       const loanConfigInfo = loanProductConfigData.data.data.cashLoan;
+      const isSpecialAccount = loanProductConfigData.data.data.cashLoan.isSpecialAccount;
+      console.log('Sun >>> loanProductConfigData.data.data.cashLoan.isSpecialAccount = = '+ isSpecialAccount)
       //产品配置信息
       setOptWithDaysConfig(loanConfigInfo.optWithDaysConfig);
       //是否审核账号
@@ -230,7 +232,8 @@ export default function Apply() {
     navigation.navigate("MyCards", { isApplySelect: true });
   }, []);
 
-  const clickFaceRecognition = useCallback(() => {
+  const clickFaceRecognition = () => {
+    console.log('Sun >>> clickFaceRecognition' + isSpecialAccount)
     if (isSpecialAccount) {
       //审核账号
       doTrack("pk29", 1);
@@ -247,7 +250,7 @@ export default function Apply() {
     } else {
       navigation.push("FaceDetectionScreen");
     }
-  }, []);
+  };
 
   const goBack = useCallback(() => {
     setToVoice(false);
@@ -347,7 +350,7 @@ export default function Apply() {
           onPress={getLoan}
           style={{
             ...styles.getLoanBtn,
-            backgroundColor: isChecked ? "#0825B8" : "#C0C4D6",
+            backgroundColor: (isChecked && userStore.faceData.name !== "" && (currentUserCardInfo.bankAccount || currentUserCardInfo.ewalletAccount)) ? "#0825B8" : "#C0C4D6",
           }}
         >
           <Text style={{ color: "#FFFFFF", fontSize: 16 }}>

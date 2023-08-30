@@ -130,7 +130,7 @@ export default function FaceDetectionScreen({ route }) {
           setTips(i18n.t("Please face the screen"));
           timerRef.current = setTimeout(() => {
             takePicture();
-          }, 2000);
+          }, 1000);
         }
       });
     } else {

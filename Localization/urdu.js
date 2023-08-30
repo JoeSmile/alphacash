@@ -249,4 +249,7 @@ export const urdu = {
   "Repayment method": "ادائیگی کا طریقہ",
   "LoanAgreement":"قرضے کا معاہدہ",
   "Please fill in the authentication information first": "Please fill in the authentication information first",
+  "Please Select": "براہ کرم منتخب کریں",
+  "Please perform face recognition": "Please perform face recognition",
+  "Please select the collection account": "Please select the collection account",
   };

@@ -18,8 +18,8 @@ export default function CollectionAccount() {
         <Text style={{ fontSize: 15, color: "#4F5E6F", fontWeight: 500 }}>
           {i18n.t("Collection Account")}
         </Text>
-        <Text style={account ? styles.accountStyle : { display: "none" }}>
-          {fa2f(account)}
+        <Text style={styles.accountStyle}>
+          {account ? fa2f(account): i18n.t("Please Select")}
         </Text>
       </View>
       <Image

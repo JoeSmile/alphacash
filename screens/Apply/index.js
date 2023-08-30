@@ -33,6 +33,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import { Asset } from "expo-asset";
 import { doTrack } from "@utils/dataTrack";
 import { getWritingDirectionStyle } from "@styles";
+import { Toast } from "@ant-design/react-native";
 
 function buildGetRequest(url, params) {
   if (params) {
@@ -196,11 +197,27 @@ export default function Apply() {
   }, []);
 
   const getLoan = () => {
-    if (
-      !isChecked ||
-      userStore.faceData.name === "" ||
-      (!currentUserCardInfo.bankAccount && !currentUserCardInfo.ewalletAccount)
-    ) {
+    if (!isChecked) {
+      Toast.info({
+        content: "Please Agree Loan Agreement",
+        duration: 3,
+      });
+      return;
+    }
+
+    if(!currentUserCardInfo.bankAccount && !currentUserCardInfo.ewalletAccount){
+      Toast.info({
+        content: i18n.t("Please select the collection account"),
+        duration: 3,
+      });
+      return;
+    }
+
+    if(userStore.faceData.name === "" ){
+      Toast.info({
+        content: i18n.t("Please perform face recognition"),
+        duration: 3,
+      });
       return;
     }
 
@@ -322,7 +339,7 @@ export default function Apply() {
                       fontWeight: "bold",
                     }}
                   >
-                    {i18n.t("Agree Loan Agreement")}
+                    {i18n.t("LoanAgreement")}
                   </Text>
                 </Pressable>
               </View>

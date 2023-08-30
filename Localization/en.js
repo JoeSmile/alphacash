@@ -248,4 +248,7 @@ export const en = {
 "Repayment method": "Repayment method",
 "LoanAgreement":"Loan Agreement",
 "Please fill in the authentication information first": "Please fill in the authentication information first",
+"Please Select": "Please Select",
+"Please perform face recognition": "Please perform face recognition",
+"Please select the collection account": "Please select the collection account",
 };

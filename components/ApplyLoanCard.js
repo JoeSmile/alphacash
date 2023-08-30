@@ -4,6 +4,11 @@ import { useI18n } from "@hooks/useI18n";
 import { formatNumberToFinancial as fn2f } from "@utils";
 import { doTrack } from "@utils/dataTrack";
 
+const image = require("@assets/applyLoan/loan_btn_minus_disabled.png");
+const image1 = require("@assets/applyLoan/loan_btn_minus_default.png");
+const image2 = require("@assets/applyLoan/loan_btn_plus_disabled.png");
+const image3 = require("@assets/applyLoan/loan_btn_plus_default.png");
+
 export default function ApplyLoanCard({
   optWithDaysConfig,
   daysOption,
@@ -71,11 +76,12 @@ export default function ApplyLoanCard({
       <View style={styles.loanAmountStyle}>
         <TouchableOpacity
           onPress={() => {
+            console.log('SUn >>> amountIndex ==' + amountIndex + "stepsLen == " + stepsLen)
             amountIndex && setAmountIndex(amountIndex - 1);
           }}
         >
           <Image
-            source={require("@assets/applyLoan/loan_btn_minus_disabled.png")}
+            source={(amountIndex > 0) ? image1: image}
             style={styles.imageStyle}
           />
         </TouchableOpacity>
@@ -88,7 +94,7 @@ export default function ApplyLoanCard({
           }}
         >
           <Image
-            source={require("@assets/applyLoan/loan_btn_plus_disabled.png")}
+            source={ amountIndex < stepsLen - 1 ? image2 : image3 }
             style={styles.imageStyle}
           />
         </TouchableOpacity>

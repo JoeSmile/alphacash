@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, Pressable, View, BackHandler } from "react-native";
+import { StyleSheet, Text, Pressable, ImageBackground, View, BackHandler } from "react-native";
 import FModal from "../../components/FModal";
 import { useSystemStore } from "../../store/useSystemStore";
 import { PrivatePolicy } from "@screens/Settings/PrivatePolicy";
 import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "@utils/dataTrack";
+import { getWritingDirectionStyle } from "@styles";
 
 export default function Start({ navigation }) {
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
 
   const [isReadPolicy, setReadPolicy] = useSystemStore((s) => [
     s.isReadPolicy,
@@ -20,8 +21,14 @@ export default function Start({ navigation }) {
     }
   }, []);
   return (
-    <View>
-      <FModal
+    <View style={styles.container}>
+    <ImageBackground
+      style={{ flex: 1 }}
+      source={require("@assets/splash.png")}
+    >
+      <Text style={[styles.license, getWritingDirectionStyle(locale)]}>License No: {`xxxxxxxxxxxxxx`}</Text>
+    </ImageBackground>
+     <FModal
         isOpen={modalVisible}
         header={<Text style={styles.title}>AlphaCash</Text>}
         body={<PrivatePolicy />}
@@ -50,11 +57,17 @@ export default function Start({ navigation }) {
           </>
         }
       />
-    </View>
+  </View>
+
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#0825B8",
+    position: "relative",
+  },
   title: {
     fontSize: 16,
     lineHeight: 22,
@@ -79,6 +92,15 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     color: "white",
     fontWeight: "bold",
+    textAlign: "center",
+  },
+  license: {
+    width: "100%",
+    color: "white",
+    fontSize: 14,
+    lineHeight: 20,
+    position: "absolute",
+    bottom: 60,
     textAlign: "center",
   },
 });

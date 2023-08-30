@@ -36,7 +36,7 @@ export const FDatePicker = ({ label, name }) => {
   const context = useFormikContext(name);
   const { i18n, locale } = useI18n();
   const [date, setDate] = useState(
-    dayjs(context.values[name] || new Date(), "YYYY-MM-DD").toDate()
+    context.values[name] ? dayjs(context.values[name]).toDate() : ''
   );
   const [focused, setFocused] = useState(false);
 
@@ -52,7 +52,7 @@ export const FDatePicker = ({ label, name }) => {
     () => ({
       okText: "OK",
       dismissText: "Dismiss",
-      extra: "extra",
+      extra: "",
       DatePickerLocale: {
         year: "Year",
         month: "Month",
@@ -88,7 +88,6 @@ export const FDatePicker = ({ label, name }) => {
         ]}
         value={date}
         mode="date"
-        defaultDate={date}
         minDate={new Date(1950, 0, 0)}
         maxDate={new Date()}
         onChange={onChange}

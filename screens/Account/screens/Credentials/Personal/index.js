@@ -29,7 +29,7 @@ import { getWritingDirectionStyle, getRevertImage } from "@styles";
 
 const emptyInitialValues = {
   name: "",
-  birth: "1990-01-01",
+  birth: "",
   gender: "",
   cnic: "",
   education: "",
@@ -217,6 +217,7 @@ export default function Personal({ navigation, route }) {
 
                     <View style={styles.module}>
                       <FTextInput
+                        keyboardType="numeric"
                         name="cnic"
                         label="CNIC"
                         displayDigit={13}

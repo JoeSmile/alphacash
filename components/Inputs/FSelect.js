@@ -70,14 +70,14 @@ export function FSelect({
           style={[
             {
               padding: 0,
-              paddingLeft: 15,
+              paddingLeft: 3,
               color: "#0A233E",
             },
             meta.touched && meta.error ? styles.error : {},
           ]}
         >
           {!context.values[name] && (
-            <Picker.Item label="Please select an option..." value="" />
+            <Picker.Item label="Please select an option" value=""/>
           )}
           {options.map((item, index) => (
             <Picker.Item

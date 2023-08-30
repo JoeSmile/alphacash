@@ -143,6 +143,17 @@ export default function LoginCard() {
         <Formik
           initialValues={{ phoneNumber: "", OTP: "" }}
           onSubmit={(values) => {
+            if(!isSelected) {
+              Toast.info({
+                content:
+                  "Please tick the privacy Agreement and Terms&Service",
+                duration: 3,
+              });
+              return
+            }
+
+
+
             setphoneNumber(values.phoneNumber);
             login({
               phoneNumber: values.phoneNumber,
@@ -260,7 +271,7 @@ export default function LoginCard() {
                   marginHorizontal: 8,
                 }}
                 onPress={handleSubmit}
-                disabled={!isSelected}
+                // disabled={!isSelected}
               >
                 <Text
                   style={{
@@ -269,9 +280,7 @@ export default function LoginCard() {
                     height: 46,
                     lineHeight: 46,
                     color: "#FFFFFF",
-                    backgroundColor: isSelected
-                      ? Colors.light.primary
-                      : "#C0C4D6",
+                    backgroundColor: Colors.light.primary,
                     fontSize: 15,
                   }}
                 >
@@ -326,13 +335,17 @@ export default function LoginCard() {
             }
           />
           <Text style={{ marginLeft: -16 }}>{i18n.t("Agree")}</Text>
-          <Pressable style={{ marginRight: 2, marginLeft: 2 }}>
+          <Pressable style={{ marginRight: 2, marginLeft: 2 }}
+            onPress={() => navigation.push("LoanAgreement", {uri: 'https://www.baidu.com'} )}
+          >
             <Text style={{ fontWeight: 600, color: Colors.light.primary }}>
               Privacy Agreement
             </Text>
           </Pressable>
           <Text>and</Text>
-          <Pressable style={{ marginRight: 2, marginLeft: 2 }}>
+          <Pressable style={{ marginRight: 2, marginLeft: 2 }}
+            onPress={() => navigation.push("LoanAgreement", {uri: 'https://www.baidu.com'} )}
+          >
             <Text style={{ fontWeight: 600, color: Colors.light.primary }}>
               Terms&Service
             </Text>

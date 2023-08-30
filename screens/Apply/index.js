@@ -197,6 +197,7 @@ export default function Apply() {
   }, []);
 
   const getLoan = () => {
+    console.log('Sun >>> goloan === isChecked= ' + isChecked + '!currentUserCardInfo.bankAccount && !currentUserCardInfo.ewalletAccount ==' + currentUserCardInfo.bankAccount + currentUserCardInfo.ewalletAccount + "userStore.faceData.name== " + userStore.faceData.name)
     if (!isChecked) {
       Toast.info({
         content: "Please Agree Loan Agreement",

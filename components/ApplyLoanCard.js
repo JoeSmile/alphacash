@@ -76,7 +76,6 @@ export default function ApplyLoanCard({
       <View style={styles.loanAmountStyle}>
         <TouchableOpacity
           onPress={() => {
-            console.log('SUn >>> amountIndex ==' + amountIndex + "stepsLen == " + stepsLen)
             amountIndex && setAmountIndex(amountIndex - 1);
           }}
         >
@@ -120,7 +119,14 @@ export default function ApplyLoanCard({
         {i18n.t("LoanTerm")}
       </Text>
 
-      <View style={styles.loanTermBgStyle}>
+      <View style={{ 
+        marginVertical: 18,
+        width: "100%",
+        flexDirection: "row",
+        alignItems: "center",
+        paddingHorizontal: 12,
+        justifyContent: optWithDaysConfig.length > 2 ? "flex-start" : "space-around",
+        flexWrap: "wrap",}}>
         {optWithDaysConfig.map((item, index) => (
           <TouchableOpacity
             key={item.days}
@@ -163,16 +169,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     paddingHorizontal: 12,
     alignItems: "center",
-  },
-
-  loanTermBgStyle: {
-    marginVertical: 18,
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 12,
-    justifyContent: "space-around",
-    flexWrap: "wrap",
   },
 
   loanTermCheckedStyle: {

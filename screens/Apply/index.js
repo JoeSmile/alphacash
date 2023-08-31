@@ -214,7 +214,7 @@ export default function Apply() {
       return;
     }
 
-    if(userStore.faceData.name === "" ){
+    if(!userStore.faceData.name){
       Toast.info({
         content: i18n.t("Please perform face recognition"),
         duration: 3,
@@ -368,7 +368,7 @@ export default function Apply() {
           onPress={getLoan}
           style={{
             ...styles.getLoanBtn,
-            backgroundColor: (isChecked && userStore.faceData.name !== "" && (currentUserCardInfo.bankAccount || currentUserCardInfo.ewalletAccount)) ? "#0825B8" : "#C0C4D6",
+            backgroundColor: (isChecked && userStore.faceData.name && (currentUserCardInfo.bankAccount || currentUserCardInfo.ewalletAccount)) ? "#0825B8" : "#C0C4D6",
           }}
         >
           <Text style={{ color: "#FFFFFF", fontSize: 16 }}>

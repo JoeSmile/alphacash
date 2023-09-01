@@ -252,4 +252,5 @@ export const en = {
 "Please perform face recognition": "Please perform face recognition",
 "Please select the collection account": "Please select the collection account",
 "Need modify": "Need modify",
+"Face Recognition Now": "Face Recognition Now",
 };

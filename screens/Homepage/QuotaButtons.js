@@ -232,7 +232,8 @@ export function QuotaButtons() {
             >
               <Text
                 style={{
-                  color: "#EF3C34",
+                  fontSize: 12,
+                  color: (hasBill && bill.appStatus == 202) ? "#EF3C34" : "#4F5E6F",
                   lineHeight: 20,
                 }}
               >
@@ -251,7 +252,7 @@ export function QuotaButtons() {
             </View>
 
             <FButton
-              title="EditNow"
+              title= {cashLoan.isModifyFaceImage ? "Face Recognition Now" : "EditNow" }
               onPress={() => {
                 if (hasBill && bill.appStatus == 202) {
                   navigation.push("MyCards", {

@@ -30,7 +30,8 @@ export default function FaceDetectionScreen({ route }) {
     isLoading: isUpdateBillUserImagesLoading,
   } = useUpdateBillUserImages();
 
-  const [isUpdate, setIsUpdate] = useState(false);
+  const [isModify, setIsModify] = useState(false);
+
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
@@ -39,8 +40,8 @@ export default function FaceDetectionScreen({ route }) {
   }, [permission]);
 
   useEffect(() => {
-    const isUpdate = route.params ? route.params.isUpdate : false;
-    setIsUpdate(!!isUpdate);
+    const isModify = route.params ? route.params.isModify : false;
+    setIsModify(isModify);
   }, [route]);
 
   // useEffect(() => {
@@ -102,7 +103,7 @@ export default function FaceDetectionScreen({ route }) {
         name: photo.uri.split("/").pop(),
       };
       store.setFaceData(img);
-      if (isUpdate) {
+      if (isModify) {
         updateBillUserImages({
           applyImage: img,
         });

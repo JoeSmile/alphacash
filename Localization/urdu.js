@@ -252,4 +252,5 @@ export const urdu = {
   "Please Select": "براہ کرم منتخب کریں",
   "Please perform face recognition": "Please perform face recognition",
   "Please select the collection account": "Please select the collection account",
+  "Need modify": "Need modify",
   };

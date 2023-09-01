@@ -307,7 +307,7 @@ export default function Certificate({ route }) {
         {/* CNIC card */}
         <View
           style={{
-            paddingHorizontal: 15,
+            paddingHorizontal: 12,
             marginTop: 20,
           }}
         >
@@ -340,11 +340,11 @@ export default function Certificate({ route }) {
               <View
                 style={{
                   width: 166,
-                  padding: 8,
-                  backgroundColor: "#F4F5F7",
+                  padding: 6,
+                  backgroundColor: modifycnicFront? "#EF3C3429" : "#F4F5F7",
+                  borderWidth: 2,
                   borderRadius: 4,
-                  borderWidth: 1,
-                  borderColor: modifycnicFront ? "#E53F31" : "white",
+                  borderColor: modifycnicFront ? "#EF3C34" : "white",
                 }}
               >
                 <Image
@@ -367,6 +367,16 @@ export default function Certificate({ route }) {
               >
                 {i18n.t("CNIC Card Front")}
               </Text>
+              { modifycnicFront && <Text
+               style={{
+                fontSize: 12,
+                color: "#EF3C34",
+                alignSelf: "center",
+                marginTop: 6,
+                fontWeight:'bold'
+              }}>
+                {i18n.t("Need modify")}
+              </Text>}
             </Pressable>
             <Pressable
               onPress={() => showPickImageModel(1)}
@@ -377,10 +387,11 @@ export default function Certificate({ route }) {
               <View
                 style={{
                   width: 166,
-                  padding: 8,
-                  backgroundColor: "#F4F5F7",
+                  padding: 6,
+                  backgroundColor: modifycnicBack ? "#EF3C3429" : "#F4F5F7",
+                  borderWidth: 2,
                   borderRadius: 4,
-                  borderColor: modifycnicBack ? "#E53F31" : "white",
+                  borderColor: modifycnicBack ? "#EF3C34" : "white",
                 }}
               >
                 <Image
@@ -403,6 +414,16 @@ export default function Certificate({ route }) {
               >
                 {i18n.t("CNIC Card Back")}
               </Text>
+              { modifycnicBack && <Text
+               style={{
+                fontSize: 12,
+                color: "#EF3C34",
+                alignSelf: "center",
+                marginTop: 6,
+                fontWeight:'bold'
+              }}>
+                {i18n.t("Need modify")}
+              </Text>}
             </Pressable>
           </View>
         </View>
@@ -430,10 +451,11 @@ export default function Certificate({ route }) {
           <Pressable
             style={{
               width: 166,
-              padding: 8,
-              backgroundColor: "#F4F5F7",
+              padding: 6,
+              backgroundColor: modifycnicInHand ? "#EF3C3429" : "#F4F5F7",
+              borderWidth: 2,
               borderRadius: 4,
-              borderColor: modifycnicInHand ? "#E53F31" : "white",
+              borderColor: modifycnicInHand ? "#EF3C34" : "white",
             }}
             onPress={() => showPickImageModel(2)}
           >
@@ -447,6 +469,16 @@ export default function Certificate({ route }) {
               transition={500}
             />
           </Pressable>
+          { modifycnicInHand && <Text
+               style={{
+                fontSize: 12,
+                color: "#EF3C34",
+                marginHorizontal: 48,
+                marginTop: 6,
+                fontWeight:'bold'
+              }}>
+                {i18n.t("Need modify")}
+              </Text>}
         </View>
 
         <View style={styles.shadowContent}></View>
@@ -472,10 +504,11 @@ export default function Certificate({ route }) {
           <Pressable
             style={{
               width: 166,
-              padding: 8,
-              backgroundColor: "#F4F5F7",
+              padding: 6,
+              backgroundColor: modifyemploymentProof ? "#EF3C3429" : "#F4F5F7",
+              borderWidth: 2,
               borderRadius: 4,
-              borderColor: modifyemploymentProof ? "#E53F31" : "white",
+              borderColor: modifyemploymentProof ? "#EF3C34" : "white",
             }}
             onPress={() => showPickImageModel(3)}
           >
@@ -489,6 +522,16 @@ export default function Certificate({ route }) {
               transition={500}
             />
           </Pressable>
+          { modifyemploymentProof && <Text
+               style={{
+                fontSize: 12,
+                color: "#EF3C34",
+                marginHorizontal: 48,
+                marginTop: 6,
+                fontWeight:'bold'
+              }}>
+                {i18n.t("Need modify")}
+              </Text>}
         </View>
 
         <Pressable

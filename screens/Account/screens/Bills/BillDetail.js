@@ -19,6 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 import Spinner from "react-native-loading-spinner-overlay";
 import { useBillDetail } from "@apis/hooks";
 import { doTrack } from "../../../../utils/dataTrack";
+import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
 
 export default function BillDetail({ route }) {
   const { loanId } = route.params;
@@ -50,11 +51,11 @@ export default function BillDetail({ route }) {
       return (
         <>
           <View style={[styles.line, { marginBottom: 12 }]} />
-          <View>
+          <View style={[getWritingDirectionStyle(locale)]}>
             <Text style={[styles.title, { marginBottom: 8 }]}>
               {`${i18n.t("Collection Account")}:`}
             </Text>
-            <Text style={styles.titleValue}>
+            <Text style={[styles.titleValue, getWritingDirectionStyle(locale)]}>
               {fa2f(type === 1 ? bankAccount : ewalletAccount)}
             </Text>
           </View>
@@ -76,23 +77,23 @@ export default function BillDetail({ route }) {
               ]}
             />
             <View>
-              <Text style={styles.title}>{`${i18n.t("Loan Amount")}: `}</Text>
-              <Text style={styles.amount}>{fn2f(item.applyAmount)}</Text>
+              <Text style={[styles.title, getWritingDirectionStyle(locale)]}>{`${i18n.t("Loan Amount")}: `}</Text>
+              <Text style={[styles.amount, getWritingDirectionStyle(locale)]}>{fn2f(item.applyAmount)}</Text>
             </View>
             <View style={styles.line}></View>
-            <View style={styles.info}>
+            <View style={[styles.info, getWritingDirectionStyle(locale)]}>
               <Text style={styles.title}>{`${i18n.t("Apply Date")}: `}</Text>
               <Text style={styles.titleValue}>{item.applyDate}</Text>
             </View>
             <View style={styles.line}></View>
-            <View style={styles.info}>
+            <View style={[styles.info, getWritingDirectionStyle(locale)]}>
               <Text style={styles.title}>{`${i18n.t("LoanTerm")}: `} </Text>
               <Text style={styles.titleValue}>
                 {item.loanTerm} {i18n.t("Days")}
               </Text>
             </View>
             <View style={styles.line}></View>
-            <View style={styles.info}>
+            <View style={[styles.info, getWritingDirectionStyle(locale)]}>
               <Text style={styles.title}>
                 {`${i18n.t("DisburseAmount")}: `}
               </Text>
@@ -103,14 +104,14 @@ export default function BillDetail({ route }) {
               !!item.dueDate && (
                 <>
                   <View style={[styles.line, { marginTop: 16 }]}></View>
-                  <View style={styles.info}>
+                  <View style={[styles.info, getWritingDirectionStyle(locale)]}>
                     <Text style={styles.title}>
                       {`${i18n.t("Loan Date")}: `}
                     </Text>
                     <Text style={styles.titleValue}>{item.disburseDate}</Text>
                   </View>
                   <View style={styles.line}></View>
-                  <View style={styles.info}>
+                  <View style={[styles.info, getWritingDirectionStyle(locale)]}>
                     <Text style={styles.title}>{`${i18n.t("Markup")}: `}</Text>
                     <Text style={styles.titleValue}>
                       {fn2f(item.totalInterest)}
@@ -120,7 +121,7 @@ export default function BillDetail({ route }) {
                     !!parseInt(item.latePayFee) && (
                       <>
                         <View style={styles.line}></View>
-                        <View style={styles.info}>
+                        <View style={[styles.info, getWritingDirectionStyle(locale)]}>
                           <Text style={styles.title}>
                             {`${i18n.t("Late Payment Charges")}: `}
                           </Text>
@@ -131,7 +132,7 @@ export default function BillDetail({ route }) {
                       </>
                     )}
                   <View style={styles.line}></View>
-                  <View style={styles.info}>
+                  <View style={[styles.info, getWritingDirectionStyle(locale)]}>
                     <Text style={styles.title}>{`${i18n.t(
                       "Lump Sum Repayment Amount"
                     )}: `}</Text>
@@ -140,7 +141,7 @@ export default function BillDetail({ route }) {
                     </Text>
                   </View>
                   <View style={styles.line}></View>
-                  <View style={styles.info}>
+                  <View style={[styles.info, getWritingDirectionStyle(locale)]}>
                     <Text style={styles.title}>
                       {`${i18n.t("Due Date")}: `}
                     </Text>
@@ -149,7 +150,7 @@ export default function BillDetail({ route }) {
                   {item.paymentDate && (
                     <>
                       <View style={styles.line}></View>
-                      <View style={styles.info}>
+                      <View style={[styles.info, getWritingDirectionStyle(locale)]}>
                         <Text style={styles.title}>
                           {`${i18n.t("Repayment Date")}: `}
                         </Text>
@@ -206,7 +207,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     marginBottom: 20,
   },
-  title: { textAlign: "left", color: "#4F5E6F", fontSize: 14, lineHeight: 20 },
+  title: { color: "#4F5E6F", fontSize: 14, lineHeight: 20 },
   imgTag: {
     width: 102,
     height: 73,

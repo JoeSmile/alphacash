@@ -72,7 +72,7 @@ function ExampleImage({ type, i18n }) {
         <ScrollView style={{ height: 476, overflow: "scroll" }}>
           <Text style={styles.label}>{i18n.t("Work Scene")}:</Text>
           <Image
-            source={require("@assets/example/info_example_work_card.png")}
+            source={require("@assets/example/info_example_work_scene.png")}
             contentFit="cover"
             transition={1000}
             style={{
@@ -84,7 +84,7 @@ function ExampleImage({ type, i18n }) {
             {i18n.t("Work Card")}:
           </Text>
           <Image
-            source={require("@assets/example/info_example_work_scene.png")}
+            source={require("@assets/example/info_example_work_card.png")}
             contentFit="cover"
             transition={1000}
             style={{
@@ -111,7 +111,7 @@ function ExampleImage({ type, i18n }) {
   }
   return (
     <View>
-      <Text style={styles.title}>{i18n.t("Example")}</Text>
+      <Text style={styles.title}>{type == EXAMPLE_TYPES.PROOF_EMPLOYMENT ? i18n.t("Just upload any proof") : i18n.t("Example")}</Text>
       {example}
     </View>
   );

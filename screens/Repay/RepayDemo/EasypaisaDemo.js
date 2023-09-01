@@ -8,8 +8,10 @@ import {
 } from "react-native";
 import { useI18n } from "@hooks/useI18n";
 import { FButton } from "@components/FButton";
+import { useNavigation } from "@react-navigation/native";
 
-export default function EasypaisaDemo({ navigation, type }) {
+export default function EasypaisaDemo({ type }) {
+  const navigation = useNavigation();
   const { i18n, locale } = useI18n();
   return (
     <ScrollView style={styles.container}>

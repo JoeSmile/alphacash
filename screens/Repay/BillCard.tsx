@@ -28,7 +28,7 @@ export default function BillCard ({navigation}) {
         fontSize: 32,
         textAlign:'center',
         marginBottom: 10
-      }}>{fn2f(bill.applyAmount)}</Text>
+      }}>{fn2f(bill.currentAmountDue)}</Text>
       <View style={{borderWidth: 1, borderColor: '#F4F5F7', width: '100%'}} />
       <View style={{
         flexDirection: 'row',

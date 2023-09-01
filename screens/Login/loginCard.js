@@ -78,9 +78,6 @@ export default function LoginCard() {
       if (targetScreen && needFormCompleted) {
         getUserFormStatus();
       }
-      //  else if (targetScreen) {
-      //   navigation.replace(targetScreen);
-      // } 
       else {
         navigation.replace("Homepage");
       }
@@ -151,8 +148,6 @@ export default function LoginCard() {
               });
               return
             }
-
-
 
             setphoneNumber(values.phoneNumber);
             login({

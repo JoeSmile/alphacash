@@ -1,9 +1,11 @@
 import { View, Text, ImageBackground } from "react-native";
 import { useI18n } from "@hooks/useI18n";
 import { getWritingDirectionStyle, getPaddingRightOrLeft } from '@styles';
+import { useSystemStore } from "@store/useSystemStore";
 
 export function Advantage() {
   const { i18n,locale } = useI18n();
+  const [isLogin, phone] = useSystemStore((s) => [!!s.token, s.phone]);
 
   return (
     <View
@@ -57,7 +59,7 @@ export function Advantage() {
           style={{ flex: 1, padding: 10 }}
         >
           <Text style={{ color: "#4F5E6F", fontSize: 14, width: 60 }}>
-            {i18n.t("FastDisburse")}
+            {isLogin ? i18n.t('OpportunityForExemption') : i18n.t("FastDisburse")}
           </Text>
         </ImageBackground>
         <ImageBackground
@@ -65,7 +67,7 @@ export function Advantage() {
           style={{ flex: 1, padding: 10 }}
         >
           <Text style={{ color: "#4F5E6F", fontSize: 14 }}>
-            {i18n.t("FlexibleRepayment")}
+            {isLogin ? i18n.t("UnlockMoreLoanTerm" ): i18n.t("FlexibleRepayment")}
           </Text>
         </ImageBackground>
       </View>

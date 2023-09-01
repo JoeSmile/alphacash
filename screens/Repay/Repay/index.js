@@ -161,11 +161,11 @@ export default function Repay({ navigation, route }) {
         </View>
       </View>
 
-      <FButton
+      {/* <FButton
         onPress={() => navigation.goBack()}
         title="Submit"
         style={{ bottom: 20 }}
-      />
+      /> */}
     </View>
   );
 }

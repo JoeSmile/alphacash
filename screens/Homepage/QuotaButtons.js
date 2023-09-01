@@ -233,7 +233,7 @@ export function QuotaButtons() {
               <Text
                 style={{
                   fontSize: 12,
-                  color: (hasBill && bill.appStatus == 202) ? "#EF3C34" : "#4F5E6F",
+                  color: "#EF3C34",
                   lineHeight: 20,
                 }}
               >

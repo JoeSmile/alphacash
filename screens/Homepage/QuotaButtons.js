@@ -140,7 +140,7 @@ export function QuotaButtons() {
       return i18n.t("FacePhotoErrorMessage");
     } else if (cashLoan.isModifyInfo) {
       //审核驳回 - 是否需要重传照片
-      return i18n.t("AccountErrorMessage");
+      return i18n.t("IDPhotoErrorMessage");
     } else if (hasBill && bill.appStatus == 202) {
       return i18n.t("AccountErrorMessage");
     } else {

@@ -104,11 +104,11 @@ export default function Certificate({ route }) {
   useEffect(() => {
     const isUpdate = route.params ? route.params.isUpdate : false;
     const isModify = route.params ? route.params.isModify : false;
-
+    console.log('Sun >>> isUpdate == ' + isUpdate + "isModify == " + isModify)
     const fromScreen = route.params ? route.params.fromScreen : "";
     setFromScreen(fromScreen);
     setIsUpdate(!!isUpdate);
-    setIsUpdate(!!isModify);
+    setIsModify(!!isModify);
   }, [route]);
 
   useEffect(() => {
@@ -279,7 +279,7 @@ export default function Certificate({ route }) {
       cnicInHand: imageList[2],
       employmentProof: imageList[3],
     };
-
+    console.log('Sun >>> isUpdate == ' + isUpdate + "isModify == " + isModify)
     if (isModify) {
       updateBillUserImages(params);
     } else {

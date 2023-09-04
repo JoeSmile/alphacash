@@ -254,4 +254,5 @@ export const urdu = {
   "Please select the collection account": "Please select the collection account",
   "Need modify": "ترمیم کی ضرورت ہے",
   "Face Recognition Now": "چہرے کی شناخت اب",
+  "此证件无问题，无需重新上传": "此证件无问题，无需重新上传",
   };

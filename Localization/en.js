@@ -253,4 +253,5 @@ export const en = {
 "Please select the collection account": "Please select the collection account",
 "Need modify": "Need modify",
 "Face Recognition Now": "Face Recognition Now",
+"此证件无问题，无需重新上传": "此证件无问题，无需重新上传",
 };

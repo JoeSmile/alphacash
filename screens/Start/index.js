@@ -6,6 +6,7 @@ import { PrivatePolicy } from "@screens/Settings/PrivatePolicy";
 import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "@utils/dataTrack";
 import { getWritingDirectionStyle } from "@styles";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function Start({ navigation }) {
   const { i18n, locale } = useI18n();
@@ -15,11 +16,15 @@ export default function Start({ navigation }) {
     s.setReadPolicy,
   ]);
   const [modalVisible, setModalVisible] = useState(!isReadPolicy);
+  
+  const isFocused = useIsFocused();
+  
   useEffect(() => {
     if (isReadPolicy) {
       navigation.replace("Homepage");
     }
   }, []);
+
   return (
     <View style={styles.container}>
     <ImageBackground
@@ -28,35 +33,35 @@ export default function Start({ navigation }) {
     >
       <Text style={[styles.license, getWritingDirectionStyle(locale)]}>License No: {`xxxxxxxxxxxxxx`}</Text>
     </ImageBackground>
-     <FModal
-        isOpen={modalVisible}
-        header={<Text style={styles.title}>AlphaCash</Text>}
-        body={<PrivatePolicy />}
-        footer={
-          <>
-            <Pressable
-              style={[styles.button, styles.buttonRefuse]}
-              onPress={() => {
-                doTrack("pk25", 1);
-                BackHandler.exitApp();
-              }}
-            >
-              <Text style={styles.textStyle}>{i18n.t("Reject")}</Text>
-            </Pressable>
-            <Pressable
-              style={[styles.button, styles.buttonAgree]}
-              onPress={() => {
-                setModalVisible(!modalVisible);
-                setReadPolicy();
-                doTrack("pk9", 1);
-                navigation.replace("Homepage");
-              }}
-            >
-              <Text style={styles.textStyle}>{i18n.t("Agree")}</Text>
-            </Pressable>
-          </>
-        }
-      />
+    <FModal
+      isOpen={modalVisible && isFocused}
+      header={<Text style={styles.title}>AlphaCash</Text>}
+      body={<PrivatePolicy />}
+      footer={
+        <>
+          <Pressable
+            style={[styles.button, styles.buttonRefuse]}
+            onPress={() => {
+              doTrack("pk25", 1);
+              BackHandler.exitApp();
+            }}
+          >
+            <Text style={styles.textStyle}>{i18n.t("Reject")}</Text>
+          </Pressable>
+          <Pressable
+            style={[styles.button, styles.buttonAgree]}
+            onPress={() => {
+              setModalVisible(!modalVisible);
+              setReadPolicy();
+              doTrack("pk9", 1);
+              navigation.replace("Homepage");
+            }}
+          >
+            <Text style={styles.textStyle}>{i18n.t("Agree")}</Text>
+          </Pressable>
+        </>
+      }
+    />
   </View>
 
   );

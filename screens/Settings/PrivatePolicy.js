@@ -4,9 +4,11 @@ import FModal from "@components/FModal";
 import { A } from "@expo/html-elements";
 import { useI18n } from "@hooks/useI18n";
 import { getWritingDirectionStyle } from '@styles';
+import { useNavigation } from "@react-navigation/native";
 
 export function PrivatePolicy() {
   const { i18n } = useI18n();
+  const navigation = useNavigation();
 
   return (
     <View>
@@ -28,27 +30,27 @@ export function PrivatePolicy() {
         }}
       >
           {i18n.t('For more information')}{" "}
-        <A
-          href="https://google.com"
-          style={{
-            color: "#0825B8",
-            textDecorationLine: "none",
-            fontWeight: "bold",
-          }}
-        >
-          {i18n.t('Privacy Policy')}
-        </A>{" "}
-        and{" "}
-        <A
-          href="https://google.com"
-          style={{
-            color: "#0825B8",
-            textDecorationLine: "none",
-            fontWeight: "bold",
-          }}
-        >
-         {i18n.t('Terms&Conditions')}
-        </A>
+          <Pressable onPress={() => navigation.push("LoanAgreement")}>
+            <Text style={{
+              color: "#0825B8",
+              textDecorationLine: "none",
+              fontWeight: "bold",
+            }}>
+              {i18n.t('Privacy Policy')}
+            </Text>
+          </Pressable>
+          
+          and{" "}
+
+          <Pressable onPress={() => navigation.push("LoanAgreement")}  >
+            <Text style={{
+              color: "#0825B8",
+              textDecorationLine: "none",
+              fontWeight: "bold",
+            }}>
+              {i18n.t('Terms&Conditions')}
+            </Text>
+          </Pressable>
         .
       </Text>
     </View>

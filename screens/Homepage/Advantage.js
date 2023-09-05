@@ -50,7 +50,7 @@ export function Advantage() {
           source={require("@assets/bills/home_advantage_bg1.png")}
           style={{ flex: 1, padding: 10 }}
         >
-          <Text style={{ color: "#4F5E6F", fontSize: 14, width: 55 }}>
+          <Text style={{ color: "#4F5E6F", fontSize: 14 }}>
             {i18n.t("HighAmount")}
           </Text>
         </ImageBackground>
@@ -58,7 +58,7 @@ export function Advantage() {
           source={require("@assets/bills/home_advantage_bg2.png")}
           style={{ flex: 1, padding: 10 }}
         >
-          <Text style={{ color: "#4F5E6F", fontSize: 14, width: 60 }}>
+          <Text style={{ color: "#4F5E6F", fontSize: 14 }}>
             {isLogin ? i18n.t('OpportunityForExemption') : i18n.t("FastDisburse")}
           </Text>
         </ImageBackground>

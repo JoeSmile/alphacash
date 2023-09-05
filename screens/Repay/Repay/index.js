@@ -8,6 +8,7 @@ import { FButton } from "../../../components/FButton";
 import { doTrack } from "@utils/dataTrack";
 import { useI18n } from "@hooks/useI18n";
 import { getWritingDirectionStyle, getMarginRightOrLeft } from "@styles";
+import { Toast } from "@ant-design/react-native";
 
 export const CHANNEL = {
   easypaisa: 1,
@@ -28,6 +29,11 @@ export default function Repay({ navigation, route }) {
 
   const copyToClipboard = async (copyText) => {
     await Clipboard.setStringAsync(copyText);
+    Toast.info({
+      content: 'Copy Success',
+      duration: 2,
+    });
+
   };
   const { mutate: getRepayCode, data } = useGetRepayCode();
 

@@ -91,7 +91,7 @@ export const FDatePicker = ({ label, name }) => {
         minDate={new Date(1950, 0, 0)}
         maxDate={new Date()}
         onChange={onChange}
-        format={(value) => dayjs(value, "YYYY-MM-DD").format("MM/DD/YYYY")}
+        format={(value) => dayjs(value, "YYYY-MM-DD").format("DD/MM/YYYY")}
         locale={local}
         onPress={() => setFocused(true)}
         onDismiss={() => setFocused(false)}

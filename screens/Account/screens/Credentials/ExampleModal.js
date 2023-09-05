@@ -93,7 +93,7 @@ function ExampleImage({ type, i18n }) {
             }}
           />
           <Text style={{ ...styles.label, marginTop: 16 }}>
-            {i18n.t("Salary Statement")}:
+            {i18n.t("Other Certificates")}:
           </Text>
           <Image
             source={require("@assets/example/info_example_business_card.png")}

@@ -3,6 +3,7 @@ import { useI18n } from "@hooks/useI18n";
 import { getWritingDirectionStyle, getPaddingRightOrLeft } from '@styles';
 import { useSystemStore } from "@store/useSystemStore";
 import { useUserQuota } from "@store";
+import React, { useEffect, useMemo, useState } from "react";
 
 export function Advantage() {
   const { i18n,locale } = useI18n();
@@ -13,7 +14,7 @@ export function Advantage() {
     s.hasBill,
   ]);
 
-  const displayAdvance = useMemo(() => {
+  const displayAdvance = React.useMemo(() => {
     if (isLogin && hasBill && [102,103,501].includes(bill.appStatus)) {
       return true
     } else {

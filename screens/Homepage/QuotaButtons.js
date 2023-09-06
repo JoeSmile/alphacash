@@ -104,10 +104,6 @@ export function QuotaButtons() {
   const [isFormCompleted, setIsFormCompleted] = useState(false);
   const [targeFormStep, setTargetFormStep] = useState("");
   const isFocused = useIsFocused();
-  // useEffect(() => {
-  //   //pushApplist();
-  //   getUserFormStatus();
-  // }, []);
 
   useEffect(() => {
     getUserFormStatus();
@@ -149,8 +145,8 @@ export function QuotaButtons() {
   }, [cashLoan]);
 
   useEffect(() => {
-    setHasError(cashLoan.isModifyInfo || cashLoan.isModifyFaceImage);
-  }, [cashLoan]);
+    setHasError(cashLoan.isModifyInfo || cashLoan.isModifyFaceImage || (hasBill && bill.appStatus == 202));
+  }, [cashLoan, hasBill, bill]);
 
   const pushApplist = useCallback(() => {
     const apiLevel = Device.platformApiLevel || 1;

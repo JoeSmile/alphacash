@@ -2,10 +2,24 @@ import { View, Text, ImageBackground } from "react-native";
 import { useI18n } from "@hooks/useI18n";
 import { getWritingDirectionStyle, getPaddingRightOrLeft } from '@styles';
 import { useSystemStore } from "@store/useSystemStore";
+import { useUserQuota } from "@store";
 
 export function Advantage() {
   const { i18n,locale } = useI18n();
   const [isLogin, phone] = useSystemStore((s) => [!!s.token, s.phone]);
+  const [cashLoan, bill, hasBill] = useUserQuota((s) => [
+    s.cashLoan,
+    s.bill,
+    s.hasBill,
+  ]);
+
+  const displayAdvance = useMemo(() => {
+    if (isLogin && hasBill && [102,103,501].includes(bill.appStatus)) {
+      return true
+    } else {
+      return false
+    }
+  }, [bill, hasBill, isLogin]);
 
   return (
     <View
@@ -59,7 +73,7 @@ export function Advantage() {
           style={{ flex: 1, padding: 10 }}
         >
           <Text style={{ color: "#4F5E6F", fontSize: 14 }}>
-            {isLogin ? i18n.t('OpportunityForExemption') : i18n.t("FastDisburse")}
+            {displayAdvance ? i18n.t("FastDisburse") : i18n.t('OpportunityForExemption') }
           </Text>
         </ImageBackground>
         <ImageBackground
@@ -67,7 +81,7 @@ export function Advantage() {
           style={{ flex: 1, padding: 10 }}
         >
           <Text style={{ color: "#4F5E6F", fontSize: 14 }}>
-            {isLogin ? i18n.t("UnlockMoreLoanTerm" ): i18n.t("FlexibleRepayment")}
+            {displayAdvance ? i18n.t("FlexibleRepayment") : i18n.t("UnlockMoreLoanTerm" ) }
           </Text>
         </ImageBackground>
       </View>

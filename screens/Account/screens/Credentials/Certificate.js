@@ -15,6 +15,7 @@ import {
   useUpdateIdentityInfo,
   useUpdateBillUserImages,
   useGetAccounts,
+  useGetUserFormStatus
 } from "@apis";
 import * as ImagePicker from "expo-image-picker";
 import { useI18n } from "@hooks/useI18n";
@@ -38,6 +39,7 @@ export default function Certificate({ route }) {
   const [cashLoan, bill] = useUserQuota((s) => [s.cashLoan, s.bill]);
   const navigation = useNavigation();
   const [showModalType, setShowModalType] = useState("");
+
   const {
     mutate: getIdentityInfo,
     data: identityInfo,
@@ -76,7 +78,6 @@ export default function Certificate({ route }) {
   const [hasCards, setHasCards] = useState(false);
   const editAble = useAbleImage();
   const [fromScreen, setFromScreen] = useState("");
-
   // const [permission, requestPermission] = Camera.useCameraPermissions();
 
   // useEffect(() => {
@@ -87,11 +88,9 @@ export default function Certificate({ route }) {
 
   useEffect(() => {
     getIdentityInfo();
-  }, []);
-
-  useEffect(() => {
     getAccounts();
   }, []);
+
 
   useEffect(() => {
     if (cards && cards.data && Array.isArray(cards.data.data) && cards.data.data.length > 0) {
@@ -210,11 +209,30 @@ export default function Certificate({ route }) {
   }, [updateBillUserImagesResponse]);
 
   const showPickImageModel = (id) => {
+    let hasError = false;
+
+    switch(id) {
+      case 0:
+        hasError = modifycnicBack;
+        break;
+      case 1:
+        hasError = modifycnicFront;
+        break;
+      case 2:
+        hasError = modifycnicInHand;
+      case 2:
+        hasError = true;
+        break;
+    }
+
     if (
-      !editAble &&
-      (id == 0 || id == 1 || id == 2) &&
+      !editAble && !hasError &&
       !cashLoan.isModifyInfo
     ) {
+      Toast.info({
+        content: "There is no problem with this image and no need re-upload",
+        duration: 2,
+      });
       //当有用户贷款行为时（审核中、打款中、使用中、逾期）或该用户变为老用户后，与姓名+CNIC+身份证正反面+手持照片不可修改
       return;
     }

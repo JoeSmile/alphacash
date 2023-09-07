@@ -90,7 +90,10 @@ export default function FaceDetectionScreen({ route }) {
 
   const takePicture = async () => {
     if (cameraRef.current) {
-      const options = { quality: 0 }; //设置为ImageType.png 还是jpg格式？
+      const options = { 
+        quality: 0.1,
+        skipProcessing: true
+      }; //设置为ImageType.png 还是jpg格式？
       const photo = await cameraRef.current.takePictureAsync(options);
       // Convert the captured photo to Base64 format
       // const base64Photo = `data:image/jpg;base64,${photo.base64}`;
@@ -170,9 +173,6 @@ export default function FaceDetectionScreen({ route }) {
             runClassifications: FaceDetector.FaceDetectorClassifications.all,
             minDetectionInterval: 100,
             tracking: true,
-          }}
-          pictureSize={{
-            quality: 0
           }}
         />
       </View>

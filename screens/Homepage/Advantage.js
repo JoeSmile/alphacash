@@ -13,7 +13,10 @@ export function Advantage() {
     s.bill,
     s.hasBill,
   ]);
-
+  
+  // 102-已拒绝
+  // 103-已取消
+  // 501-已还款
   const displayAdvance = React.useMemo(() => {
     if (isLogin && hasBill && [102,103,501].includes(bill.appStatus)) {
       return true
@@ -51,7 +54,9 @@ export function Advantage() {
             fontWeight: "600",
           }, getPaddingRightOrLeft(locale, 0, 6)]}
         >
-          {i18n.t("Advantage")}
+          {
+            isLogin ? displayAdvance ? i18n.t("Advantage") : i18n.t("BenefitsOfRepayOnTime") : ''
+          }
         </Text>
       </View>
       <View
@@ -74,7 +79,7 @@ export function Advantage() {
           style={{ flex: 1, padding: 10 }}
         >
           <Text style={{ color: "#4F5E6F", fontSize: 14 }}>
-            {displayAdvance ? i18n.t("FastDisburse") : i18n.t('OpportunityForExemption') }
+            {displayAdvance ? i18n.t("FastDisburse") : i18n.t('OpportunityForExemption') } 
           </Text>
         </ImageBackground>
         <ImageBackground
@@ -82,7 +87,7 @@ export function Advantage() {
           style={{ flex: 1, padding: 10 }}
         >
           <Text style={{ color: "#4F5E6F", fontSize: 14 }}>
-            {displayAdvance ? i18n.t("FlexibleRepayment") : i18n.t("UnlockMoreLoanTerm" ) }
+            {displayAdvance ? i18n.t("FlexibleRepayment") : i18n.t("UnlockMoreLoanTerm" )}
           </Text>
         </ImageBackground>
       </View>

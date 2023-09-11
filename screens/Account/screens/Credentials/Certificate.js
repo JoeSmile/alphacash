@@ -66,6 +66,7 @@ export default function Certificate({ route }) {
   const [imageList, setImage] = useState([]);
   const [showTips, setShowTips] = useState(false);
   const [index, setIndex] = useState();
+  const [pickedFromAlbum, setPickedFromAlbum] = useState(false);
   const [jumpPage, setJumpPage] = useState("MyCards");
   // 没有错误，直接更新
   const [isUpdate, setIsUpdate] = useState(false);
@@ -220,13 +221,14 @@ export default function Certificate({ route }) {
         break;
       case 2:
         hasError = modifycnicInHand;
-      case 2:
-        hasError = true;
+        break;
+      case 3:
+        hasError = modifyemploymentProof;
         break;
     }
 
     if (
-      !editAble && !hasError &&
+      !editAble || !hasError &&
       !cashLoan.isModifyInfo
     ) {
       Toast.info({
@@ -252,7 +254,7 @@ export default function Certificate({ route }) {
     if (result.canceled) {
       return;
     }
-
+    setPickedFromAlbum(true);
     let updatedImages = [...imageList];
     const imgUri = result.assets[0].uri;
     console.log("Sun imgUri =>>> " + imgUri);
@@ -289,8 +291,10 @@ export default function Certificate({ route }) {
   };
 
   const onClickUpdateIdentityInfo = () => {
+    if (!pickedFromAlbum) {
+      return;
+    }
     doTrack("pk40", 1);
-
     const params = {
       cnicFront: imageList[0],
       cnicBack: imageList[1],
@@ -557,7 +561,7 @@ export default function Certificate({ route }) {
             marginTop: 32,
             marginBottom: 15,
             marginHorizontal: 15,
-            backgroundColor: "#0825B8",
+            backgroundColor:  pickedFromAlbum ? "#0825B8" : '#C0C4D6',
             borderRadius: 3,
             alignItems: "center",
             justifyContent: "center",
@@ -573,7 +577,6 @@ export default function Certificate({ route }) {
               height: 48,
               lineHeight: 48,
               color: "#FFFFFF",
-              backgroundColor: "#0825B8",
               fontSize: 15,
             }}
           >

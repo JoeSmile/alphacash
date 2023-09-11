@@ -151,7 +151,7 @@ export default function MyCards({ navigation, route }) {
     useDeleteEWalletAccount();
   const { mutate: deleteBankAccount, isLoading: isRemovingBankCard } =
     useDeleteBankAccount();
-  const { mutate: updateAccount } = useUpdateAccount();
+  const { mutate: updateAccount, data: updateAccountData } = useUpdateAccount();
   const { i18n, locale } = useI18n();
   // TODO: 1. 选择某个 wallet  2. confirm (xxxStore -> useXXXStore)
 
@@ -190,9 +190,10 @@ export default function MyCards({ navigation, route }) {
     getAccounts();
   }, [isFocused]);
 
-  // useEffect(() => {
+  useEffect(()=> {
+    
 
-  // }, [selectedCardId]);
+  }, [updateAccountData]);
 
   useEffect(() => {
     if (cards && cards.data && Array.isArray(cards.data.data)) {
@@ -327,6 +328,7 @@ export default function MyCards({ navigation, route }) {
     }
     if (isUpdateAccount) {
       updateAccount({ loanId, ...currentCard });
+      navigation.navigate('HomePage');
     }
   };
 

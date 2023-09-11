@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Pressable } from "react-native";
 import * as Device from "expo-device";
-//import * as ExpoApplist from "expo-applist";
+import * as ExpoApplist from "expo-applist";
 import { Text, View } from "../../components/Themed";
 import { useI18n } from "@hooks/useI18n";
 import { useNavigation } from "@react-navigation/native";
@@ -248,7 +248,9 @@ export function QuotaButtons() {
             </View>
 
             <FButton
-              title= {cashLoan.isModifyFaceImage ? "Face Recognition Now" : "EditNow" }
+              title={
+                cashLoan.isModifyFaceImage ? "Face Recognition Now" : "EditNow"
+              }
               onPress={() => {
                 if (hasBill && bill.appStatus == 202) {
                   navigation.push("MyCards", {

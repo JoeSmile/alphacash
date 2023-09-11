@@ -44,7 +44,7 @@ export function doTrack(name, value) {
         console.log("appFlyer report success: ", JSON.stringify(res));
       },
       (err) => {
-        console.error("appFlyer report error: ", JSON.stringify(err));
+        //console.error("appFlyer report error: ", JSON.stringify(err));
       }
     ); // 3:success  4:error
   }

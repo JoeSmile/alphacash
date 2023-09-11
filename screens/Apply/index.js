@@ -92,14 +92,14 @@ export default function Apply() {
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", handleBackPress);
-  },[])
+  }, []);
 
   const handleBackPress = useCallback(() => {
     if (navigation.isFocused()) {
-      navigation.navigate('Homepage')
+      navigation.navigate("Homepage");
       navigation.reset({
         index: 0,
-        routes: [{ name: 'Homepage' }],
+        routes: [{ name: "Homepage" }],
       });
       return true;
     }
@@ -108,8 +108,12 @@ export default function Apply() {
   useEffect(() => {
     if (loanProductConfigData?.data?.error_code == 1) {
       const loanConfigInfo = loanProductConfigData.data.data.cashLoan;
-      const isSpecialAccount = loanProductConfigData.data.data.cashLoan.isSpecialAccount;
-      console.log('Sun >>> loanProductConfigData.data.data.cashLoan.isSpecialAccount = = '+ isSpecialAccount)
+      const isSpecialAccount =
+        loanProductConfigData.data.data.cashLoan.isSpecialAccount;
+      console.log(
+        "Sun >>> loanProductConfigData.data.data.cashLoan.isSpecialAccount = = " +
+          isSpecialAccount
+      );
       //产品配置信息
       setOptWithDaysConfig(loanConfigInfo.optWithDaysConfig);
       //是否审核账号
@@ -197,7 +201,15 @@ export default function Apply() {
   }, []);
 
   const getLoan = () => {
-    console.log('Sun >>> goloan === isChecked= ' + isChecked + '!currentUserCardInfo.bankAccount && !currentUserCardInfo.ewalletAccount ==' + currentUserCardInfo.bankAccount + currentUserCardInfo.ewalletAccount + "userStore.faceData.name== " + userStore.faceData.name)
+    console.log(
+      "Sun >>> goloan === isChecked= " +
+        isChecked +
+        "!currentUserCardInfo.bankAccount && !currentUserCardInfo.ewalletAccount ==" +
+        currentUserCardInfo.bankAccount +
+        currentUserCardInfo.ewalletAccount +
+        "userStore.faceData.name== " +
+        userStore.faceData.name
+    );
     if (!isChecked) {
       Toast.info({
         content: "Please Agree Loan Agreement",
@@ -206,7 +218,10 @@ export default function Apply() {
       return;
     }
 
-    if(!currentUserCardInfo.bankAccount && !currentUserCardInfo.ewalletAccount){
+    if (
+      !currentUserCardInfo.bankAccount &&
+      !currentUserCardInfo.ewalletAccount
+    ) {
       Toast.info({
         content: i18n.t("Please select the collection account"),
         duration: 3,
@@ -214,7 +229,7 @@ export default function Apply() {
       return;
     }
 
-    if(!userStore.faceData.name){
+    if (!userStore.faceData.name) {
       Toast.info({
         content: i18n.t("Please perform face recognition"),
         duration: 3,
@@ -251,7 +266,7 @@ export default function Apply() {
   }, []);
 
   const clickFaceRecognition = () => {
-    console.log('Sun >>> clickFaceRecognition' + isSpecialAccount)
+    console.log("Sun >>> clickFaceRecognition" + isSpecialAccount);
     if (isSpecialAccount) {
       //审核账号
       doTrack("pk29", 1);
@@ -332,7 +347,7 @@ export default function Apply() {
                 >
                   {i18n.t("Agree")}
                 </Text>
-                <Pressable onPress={() => clickLoanAgreement()}>
+                <Pressable onPress={clickLoanAgreement}>
                   <Text
                     style={{
                       fontSize: 12,
@@ -368,7 +383,13 @@ export default function Apply() {
           onPress={getLoan}
           style={{
             ...styles.getLoanBtn,
-            backgroundColor: (isChecked && userStore.faceData.name && (currentUserCardInfo.bankAccount || currentUserCardInfo.ewalletAccount)) ? "#0825B8" : "#C0C4D6",
+            backgroundColor:
+              isChecked &&
+              userStore.faceData.name &&
+              (currentUserCardInfo.bankAccount ||
+                currentUserCardInfo.ewalletAccount)
+                ? "#0825B8"
+                : "#C0C4D6",
           }}
         >
           <Text style={{ color: "#FFFFFF", fontSize: 16 }}>

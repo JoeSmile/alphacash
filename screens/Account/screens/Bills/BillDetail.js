@@ -19,7 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 import Spinner from "react-native-loading-spinner-overlay";
 import { useBillDetail } from "@apis/hooks";
 import { doTrack } from "../../../../utils/dataTrack";
-import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
+import { getWritingDirectionStyle, getMarginRightOrLeft } from "@styles";
 
 export default function BillDetail({ route }) {
   const { loanId } = route.params;
@@ -77,8 +77,12 @@ export default function BillDetail({ route }) {
               ]}
             />
             <View>
-              <Text style={[styles.title, getWritingDirectionStyle(locale)]}>{`${i18n.t("Loan Amount")}: `}</Text>
-              <Text style={[styles.amount, getWritingDirectionStyle(locale)]}>{fn2f(item.applyAmount)}</Text>
+              <Text
+                style={[styles.title, getWritingDirectionStyle(locale)]}
+              >{`${i18n.t("Loan Amount")}: `}</Text>
+              <Text style={[styles.amount, getWritingDirectionStyle(locale)]}>
+                {fn2f(item.applyAmount)}
+              </Text>
             </View>
             <View style={styles.line}></View>
             <View style={[styles.info, getWritingDirectionStyle(locale)]}>
@@ -121,7 +125,12 @@ export default function BillDetail({ route }) {
                     !!parseInt(item.latePayFee) && (
                       <>
                         <View style={styles.line}></View>
-                        <View style={[styles.info, getWritingDirectionStyle(locale)]}>
+                        <View
+                          style={[
+                            styles.info,
+                            getWritingDirectionStyle(locale),
+                          ]}
+                        >
                           <Text style={styles.title}>
                             {`${i18n.t("Late Payment Charges")}: `}
                           </Text>
@@ -150,7 +159,9 @@ export default function BillDetail({ route }) {
                   {item.paymentDate && (
                     <>
                       <View style={styles.line}></View>
-                      <View style={[styles.info, getWritingDirectionStyle(locale)]}>
+                      <View
+                        style={[styles.info, getWritingDirectionStyle(locale)]}
+                      >
                         <Text style={styles.title}>
                           {`${i18n.t("Repayment Date")}: `}
                         </Text>
@@ -170,8 +181,8 @@ export default function BillDetail({ route }) {
               style={styles.repayBtn}
               onPress={() => {
                 doTrack("pk24", 1);
-                navigation.push("RepayList");
-                //navigation.push("Apply");
+                //navigation.push("RepayList");
+                navigation.push("Apply");
               }}
               title="RepayNow"
             />

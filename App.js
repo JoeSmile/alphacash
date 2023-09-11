@@ -13,7 +13,7 @@ import { useAppState } from "@hooks/useAppState";
 import { useOnlineManager } from "@hooks/useOnlineManager";
 import { Provider } from "@ant-design/react-native";
 import { initDataTrack } from "@utils/dataTrack";
-import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
+import { getWritingDirectionStyle, getMarginRightOrLeft } from "@styles";
 import { useI18n } from "@hooks/useI18n";
 
 initDataTrack();
@@ -37,7 +37,7 @@ export default function App() {
   useInitialStore();
 
   const timer = useRef(null);
-  const [count, setCount] = useState(-1);
+  const [count, setCount] = useState(5);
   useEffect(() => {
     if (isLoadingComplete) {
       timer.current = setInterval(() => {
@@ -68,7 +68,9 @@ export default function App() {
             <View style={styles.countDown}>
               <Text style={styles.countText}>{count}</Text>
             </View>
-            <Text style={[styles.license, getWritingDirectionStyle(locale)]}>License No: {`xxxxxxxxxxxxxx`}</Text>
+            <Text style={[styles.license, getWritingDirectionStyle(locale)]}>
+              License No: {`xxxxxxxxxxxxxx`}
+            </Text>
           </ImageBackground>
         </View>
       ) : (

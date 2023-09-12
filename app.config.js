@@ -3,7 +3,7 @@ module.exports = ({ config }) => ({
   slug: "financeexpo", // 这个不要动，要跟expo网站上项目的名称一致
   version: "1.0.0",
   orientation: "portrait",
-  icon: "./assets/playstore-icon.png",
+  icon: "./assets/icon.png",
   userInterfaceStyle: "light",
   splash: {
     image: "./assets/splash.png",
@@ -17,7 +17,7 @@ module.exports = ({ config }) => ({
   },
   android: {
     adaptiveIcon: {
-      foregroundImage: "./assets/playstore-icon.png",
+      foregroundImage: "./assets/icon.png",
       backgroundColor: "#ffffff",
     },
     //splash: {
@@ -28,6 +28,8 @@ module.exports = ({ config }) => ({
     package: "com.alphacash.easy.credit.loan.paisa",
     permissions: [
       "ACCESS_COARSE_LOCATION",
+      //"ACCESS_FINE_LOCATION",
+      //"ACCESS_BACKGROUND_LOCATION",
       "READ_CALENDAR",
       "WRITE_CALENDAR",
       "QUERY_ALL_PACKAGES",

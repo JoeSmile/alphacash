@@ -107,6 +107,7 @@ export function QuotaButtons() {
 
   useEffect(() => {
     getUserFormStatus();
+    //pushApplist();
   }, [isFocused]);
 
   useEffect(() => {
@@ -145,7 +146,11 @@ export function QuotaButtons() {
   }, [cashLoan]);
 
   useEffect(() => {
-    setHasError(cashLoan.isModifyInfo || cashLoan.isModifyFaceImage || (hasBill && bill.appStatus == 202));
+    setHasError(
+      cashLoan.isModifyInfo ||
+        cashLoan.isModifyFaceImage ||
+        (hasBill && bill.appStatus == 202)
+    );
   }, [cashLoan, hasBill, bill]);
 
   const pushApplist = useCallback(() => {

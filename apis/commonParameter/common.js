@@ -58,13 +58,20 @@ export const getAsyncParams = async () => {
       return;
     }
 
+    console.log("location granted");
+
     // getCurrentPositionAsync有时候会stuck，等待3s，取不到就算了
     const loc = await Promise.race([
-      Location.getCurrentPositionAsync(),
+      Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.Balanced,
+      }),
       new Promise((resolve) => {
         setTimeout(() => resolve(), 3000);
       }),
     ]);
+
+    //const loc = await Location.getCurrentPositionAsync();
+    console.log("location got:", loc);
 
     if (loc) {
       commonParams.la = "" + loc.coords.latitude;

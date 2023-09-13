@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { useUserQuota } from "@store";
 import { useI18n } from "@hooks/useI18n";
+import { getWritingDirectionStyle, getMarginRightOrLeft, getRTLView } from '@styles';
 
 export default function BillCard ({navigation}) {
   const bill = useUserQuota((s) => s.bill);
@@ -30,11 +31,10 @@ export default function BillCard ({navigation}) {
         marginBottom: 10
       }}>{fn2f(bill.currentAmountDue)}</Text>
       <View style={{borderWidth: 1, borderColor: '#F4F5F7', width: '100%'}} />
-      <View style={{
-        flexDirection: 'row',
+      <View style={[{
         justifyContent: 'space-between',
         marginTop: 10
-      }}>
+      }, getRTLView(locale)]}>
         <Text style={{
           color: '#4F5E6F',
           fontSize: 14

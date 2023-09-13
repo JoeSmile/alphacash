@@ -2,13 +2,14 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import { useI18n } from "@hooks/useI18n";
 
 import { getWritingDirectionStyle, getMarginRightOrLeft } from "@styles";
+import { getRTLView } from "../../../../styles";
 
 export default function SafeIntro({ safeText }) {
   const { i18n, locale } = useI18n();
 
   return (
-    <View style={styles.safeTextContainer}>
-      <View>
+    <View style={[styles.safeTextContainer, getRTLView(locale)]}>
+      <View >
         <Image
           source={require("@assets/images/mine_info_ic_safe.png")}
           contentFit="cover"

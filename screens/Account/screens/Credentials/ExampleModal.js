@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import { useI18n } from "@hooks/useI18n";
 import { getWritingDirectionStyle } from "@styles";
+import { getTextAlign } from "../../../../styles";
+import { locale } from "dayjs";
 
 export const EXAMPLE_TYPES = {
   CNIC_CARD: "CNIC_CARD",
@@ -16,13 +18,13 @@ export const EXAMPLE_TYPES = {
   PROOF_EMPLOYMENT: "PROOF_EMPLOYMENT",
 };
 
-function ExampleImage({ type, i18n }) {
+function ExampleImage({ type, i18n, locale }) {
   let example = <></>;
   switch (type) {
     case EXAMPLE_TYPES.CNIC_CARD:
       example = (
         <View>
-          <Text style={styles.label}>{i18n.t("CNIC Card Front")}</Text>
+          <Text style={[styles.label, getTextAlign(locale)]}>{i18n.t("CNIC Card Front")}</Text>
           <Image
             source={require("@assets/example/info_example_cnic_card_positive.png")}
             contentFit="cover"
@@ -32,7 +34,7 @@ function ExampleImage({ type, i18n }) {
               height: 170,
             }}
           />
-          <Text style={{ ...styles.label, marginTop: 16 }}>
+          <Text style={[{ ...styles.label, marginTop: 16 }, getTextAlign(locale)]}>
             {i18n.t("CNIC Card Back")}
           </Text>
           <Image
@@ -70,7 +72,7 @@ function ExampleImage({ type, i18n }) {
     case EXAMPLE_TYPES.PROOF_EMPLOYMENT:
       example = (
         <ScrollView style={{ height: 476, overflow: "scroll" }}>
-          <Text style={styles.label}>{i18n.t("Work Scene")}:</Text>
+          <Text style={[styles.label, getTextAlign(locale)]}>{i18n.t("Work Scene")}</Text>
           <Image
             source={require("@assets/example/info_example_work_scene.png")}
             contentFit="cover"
@@ -80,8 +82,8 @@ function ExampleImage({ type, i18n }) {
               height: 170,
             }}
           />
-          <Text style={{ ...styles.label, marginTop: 16 }}>
-            {i18n.t("Work Card")}:
+          <Text style={[{ ...styles.label, marginTop: 16 }, getTextAlign(locale)]}>
+            {i18n.t("Work Card")}
           </Text>
           <Image
             source={require("@assets/example/info_example_work_card.png")}
@@ -92,8 +94,8 @@ function ExampleImage({ type, i18n }) {
               height: 170,
             }}
           />
-          <Text style={{ ...styles.label, marginTop: 16 }}>
-            {i18n.t("Other Certificates")}:
+          <Text style={[{ ...styles.label, marginTop: 16 }, getTextAlign(locale)]}>
+            {i18n.t("Other Certificates")}
           </Text>
           <Image
             source={require("@assets/example/info_example_business_card.png")}
@@ -123,7 +125,7 @@ export function ExampleModal({ isVisible, onClose, type }) {
     <Modal animationType="fade" transparent={true} visible={isVisible}>
       <View style={[styles.container, getWritingDirectionStyle(locale)]}>
         <View style={styles.content}>
-          <ExampleImage type={type} i18n={i18n} />
+          <ExampleImage type={type} i18n={i18n} locale={locale}/>
           <Pressable style={styles.closeBtnWrap} onPress={() => onClose("")}>
             <Text style={styles.closeBtn}>{i18n.t("I Know")}</Text>
           </Pressable>

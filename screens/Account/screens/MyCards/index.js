@@ -22,6 +22,7 @@ import { useSystemStore } from "@store/useSystemStore";
 import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "@utils/dataTrack";
 import { getWritingDirectionStyle, getMarginRightOrLeft } from "@styles";
+import { getRTLView } from "../../../../styles";
 
 function BankCard({ card, selected, isSelectAccount }) {
   const { i18n, locale } = useI18n();
@@ -34,11 +35,10 @@ function BankCard({ card, selected, isSelectAccount }) {
       ]}
     >
       <View
-        style={{
+        style={[{
           width: "100%",
-          flexDirection: "row",
           justifyContent: "space-between",
-        }}
+        }, getRTLView(locale)]}
       >
         <Text style={styles.cardTitle}>{card.bankName}</Text>
         {isSelectAccount && (
@@ -55,10 +55,10 @@ function BankCard({ card, selected, isSelectAccount }) {
         )}
       </View>
       <View
-        style={{
-          flexDirection: "row",
+        style={[{
           alignItems: "center",
-        }}
+          width: '100%',
+        }, getRTLView(locale)]}
       >
         <Image
           source={require("@assets/images/loan_ic_bank.png")}
@@ -87,11 +87,10 @@ function EWalletCard({ card, selected, isSelectAccount }) {
       ]}
     >
       <View
-        style={{
+        style={[{
           width: "100%",
-          flexDirection: "row",
           justifyContent: "space-between",
-        }}
+        }, getRTLView(locale)]}
       >
         <Text style={styles.cardTitle}>{card.ewalletName}</Text>
         {isSelectAccount && (
@@ -109,10 +108,10 @@ function EWalletCard({ card, selected, isSelectAccount }) {
       </View>
 
       <View
-        style={{
-          flexDirection: "row",
+        style={[{
+          width: '100%',
           alignItems: "center",
-        }}
+        }, getRTLView(locale)]}
       >
         <Image
           source={
@@ -137,8 +136,10 @@ function EWalletCard({ card, selected, isSelectAccount }) {
 
 function getCardKey(card) {
   if (card.type == 1) {
-    return `${card.type}_${card.bankId}`;
+    console.log('`${card.type}_${card.bankAccountId}`', `${card.type}_${card.bankAccountId}`)
+    return `${card.type}_${card.bankAccountId}`;
   }
+  console.log('`${card.type}_${card.ewalletId}`', `${card.type}_${card.ewalletId}`)
   return `${card.type}_${card.ewalletId}`;
 }
 
@@ -191,8 +192,9 @@ export default function MyCards({ navigation, route }) {
   }, [isFocused]);
 
   useEffect(()=> {
-    
-
+    if (updateAccountData?.data?.error_code == 1) {
+      navigation.navigate('HomePage');
+    }
   }, [updateAccountData]);
 
   useEffect(() => {
@@ -225,12 +227,12 @@ export default function MyCards({ navigation, route }) {
       } the repayment tips?`,
       [
         {
-          text: "Cancel",
+          text: i18n.t("Cancel"),
           onPress: () => console.log("cancel"),
           style: { color: "#C0C4D6" },
         },
         {
-          text: "Confirm",
+          text: i18n.t("Confirm"),
           onPress: async () => {
             if (
               card.bankAccountId == currentUserCardInfo.bankAccountId ||
@@ -328,7 +330,7 @@ export default function MyCards({ navigation, route }) {
     }
     if (isUpdateAccount) {
       updateAccount({ loanId, ...currentCard });
-      navigation.navigate('HomePage');
+
     }
   };
 
@@ -403,15 +405,14 @@ export default function MyCards({ navigation, route }) {
         {isSelectAccount && (
           <TouchableOpacity
             onPress={() => confirm()}
-            style={{
+            style={[{
               backgroundColor: "#0825B8",
               height: 48,
               zIndex: 100,
               alignItems: "center",
               justifyContent: "center",
-              flexDirection: "row",
               borderRadius: 3,
-            }}
+            }, getRTLView(locale)]}
           >
             <Text style={{ color: "#FFFFFF", fontSize: 16 }}>
               {i18n.t("Confirm")}

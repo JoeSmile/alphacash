@@ -68,7 +68,7 @@ export default function App() {
             <View style={styles.countDown}>
               <Text style={styles.countText}>{count}</Text>
             </View>
-            <Text style={[styles.license, getWritingDirectionStyle(locale)]}>
+            <Text style={[styles.license]}>
               License No: {`xxxxxxxxxxxxxx`}
             </Text>
           </ImageBackground>

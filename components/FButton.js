@@ -2,14 +2,15 @@ import React from "react";
 import { Text, StyleSheet, Pressable, Image } from "react-native";
 import { useI18n } from "@hooks/useI18n";
 import { getRevertImage } from "@styles";
+import { getRTLView } from '@styles';
 
 export function FButton(props) {
-  const { onPress, title = "Save", style = {}, ...restProps } = props;
+  const { onPress, title = "Save", style = {}, textStyle, ...restProps } = props;
   const { i18n, locale } = useI18n();
 
   return (
-    <Pressable style={[styles.button, style]} onPress={onPress} {...restProps}>
-      <Text style={styles.text}>{i18n.t(title)}</Text>
+    <Pressable style={[styles.button, style, getRTLView(locale)]} onPress={onPress} {...restProps}>
+      <Text style={[styles.text, textStyle]}>{i18n.t(title)}</Text>
       <Image
         source={require("@assets/images/btn_ic_right.png")}
         style={[{ width: 12, height: 12 }, getRevertImage(locale)]}

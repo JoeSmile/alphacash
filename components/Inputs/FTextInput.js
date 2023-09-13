@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, Image } from "react-native";
 import { useFormikContext, useField } from "formik";
 import { useI18n } from "@hooks/useI18n";
-import { getWritingDirectionStyle, getMarginRightOrLeft } from "@styles";
+import { getWritingDirectionStyle, getRTLView, getTextAlign } from "@styles";
 
 export const FTextInput = ({
   label,
@@ -21,13 +21,14 @@ export const FTextInput = ({
   const [focused, setFocused] = useState(false);
 
   return (
-    <View style={[containerStyle, getWritingDirectionStyle(locale)]}>
+    <View style={[containerStyle]}>
       <View>
         <Text
           style={[
             styles.label,
             getWritingDirectionStyle(locale),
             { color: focused ? "#0825B8" : "#4F5E6F" },
+            getTextAlign(locale)
           ]}
         >
           {`${i18n.t(label)} ${suffix}`}
@@ -47,6 +48,7 @@ export const FTextInput = ({
           style={[
             styles.textInput,
             meta.touched && meta.error ? styles.error : {},
+            getTextAlign(locale)
           ]}
           value={context.values[name]}
           onChangeText={(v) => {
@@ -57,12 +59,11 @@ export const FTextInput = ({
         />
         {!!displayDigit && (
           <Text
-            style={{
+            style={[{
               position: "absolute",
-              right: 10,
               lineHeight: 48,
               color: "#8899AC",
-            }}
+            }, locale == 'en' ? { right: 10 } : { left: 10 }]}
           >
             {`${context?.values[name]?.length ?? 0}/${displayDigit}`}
           </Text>

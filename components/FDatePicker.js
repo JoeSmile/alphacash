@@ -4,7 +4,7 @@ import { useFormikContext } from "formik";
 import dayjs from "dayjs";
 import { useI18n } from "@hooks/useI18n";
 import { DatePicker } from "@ant-design/react-native";
-import { getWritingDirectionStyle, getPaddingRightOrLeft } from "@styles";
+import { getWritingDirectionStyle, getPaddingRightOrLeft, getRTLView, getTextAlign } from "@styles";
 
 const CustomChildren = ({ onPress, extra, ...resetProps }) => {
   const { i18n, locale } = useI18n();
@@ -21,6 +21,7 @@ const CustomChildren = ({ onPress, extra, ...resetProps }) => {
               borderRadius: 10,
             },
             getPaddingRightOrLeft(locale, 0, 15),
+            getTextAlign(locale)
           ]}
         >
           <Text style={getWritingDirectionStyle(locale)}>
@@ -67,7 +68,7 @@ export const FDatePicker = ({ label, name }) => {
   );
 
   return (
-    <View style={getWritingDirectionStyle(locale)}>
+    <View>
       <View>
         <Text
           style={[
@@ -85,6 +86,7 @@ export const FDatePicker = ({ label, name }) => {
             borderWidth: 0,
           },
           getWritingDirectionStyle(locale),
+          getTextAlign(locale)
         ]}
         value={date}
         mode="date"

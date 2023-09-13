@@ -25,7 +25,7 @@ import { useI18n } from "@hooks/useI18n";
 import { useUserQuota } from "@store/useUserQuota";
 import { doTrack } from "@utils/dataTrack";
 import { useAbleImage } from "@hooks/useAbleImage";
-import { getWritingDirectionStyle, getRevertImage } from "@styles";
+import { getWritingDirectionStyle, getRevertImage, getRTLView } from "@styles";
 
 const emptyInitialValues = {
   name: "",
@@ -298,15 +298,14 @@ export default function Personal({ navigation, route }) {
                     </View>
 
                     <Pressable
-                      style={{
+                      style={[{
                         marginVertical: 20,
                         backgroundColor: "#0825B8",
                         borderRadius: 3,
                         alignItems: "center",
                         justifyContent: "center",
                         display: "flex",
-                        flexDirection: "row",
-                      }}
+                      }, getRTLView(locale)]}
                       onPress={handleSubmit}
                     >
                       <Text

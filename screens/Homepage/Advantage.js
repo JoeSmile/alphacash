@@ -1,6 +1,6 @@
 import { View, Text, ImageBackground } from "react-native";
 import { useI18n } from "@hooks/useI18n";
-import { getWritingDirectionStyle, getPaddingRightOrLeft } from '@styles';
+import { getWritingDirectionStyle, getPaddingRightOrLeft, getRTLView } from '@styles';
 import { useSystemStore } from "@store/useSystemStore";
 import { useUserQuota } from "@store";
 import React, { useEffect, useMemo, useState } from "react";
@@ -37,11 +37,10 @@ export function Advantage() {
       }}
     >
       <View
-        style={{
-          flexDirection: "row",
+        style={[{
           alignItems: "center",
           marginBottom: 10,
-        }}
+        }, getRTLView(locale)]}
       >
         <View
           style={{
@@ -72,25 +71,25 @@ export function Advantage() {
       >
         <ImageBackground
           source={require("@assets/bills/home_advantage_bg1.png")}
-          style={{ flex: 1, padding: 10 }}
+          style={{ flex: 1 }}
         >
-          <Text style={{ color: "#4F5E6F", fontSize: 14 }}>
-            {displayAdvance ? i18n.t("HighAmount") : i18n('HigherAmount')}
+          <Text style={{ color: "#4F5E6F", fontSize: 14, flex: 1, padding: 5 }}>
+            {displayAdvance ? i18n.t("HighAmount") : i18n.t('HigherAmount')}
           </Text>
         </ImageBackground>
         <ImageBackground
           source={require("@assets/bills/home_advantage_bg2.png")}
-          style={{ flex: 1, padding: 10 }}
+          style={{ flex: 1 }}
         >
-          <Text style={{ color: "#4F5E6F", fontSize: 14 }}>
+          <Text style={{ color: "#4F5E6F", fontSize: 14, flex: 1, padding: 5 }}>
             {displayAdvance ? i18n.t("FastDisburse") : i18n.t('OpportunityForExemption') } 
           </Text>
         </ImageBackground>
         <ImageBackground
           source={require("@assets/bills/home_advantage_bg3.png")}
-          style={{ flex: 1, padding: 10 }}
+          style={{ flex: 1 }}
         >
-          <Text style={{ color: "#4F5E6F", fontSize: 14 }}>
+          <Text style={{ color: "#4F5E6F", fontSize: 14, flex: 1, padding: 5 }}>
             {displayAdvance ? i18n.t("FlexibleRepayment") : i18n.t("UnlockMoreLoanTerm" )}
           </Text>
         </ImageBackground>

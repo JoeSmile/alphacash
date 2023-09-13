@@ -21,6 +21,7 @@ import { useEffect, useState } from "react";
 import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "@utils/dataTrack";
 import { getWritingDirectionStyle, getRevertImage } from "@styles";
+import { getRTLView } from "../../../../styles";
 
 const initialValues = {
   relationship1: "",
@@ -222,7 +223,7 @@ export default function Emergency({ navigation, route }) {
                   </View>
 
                   <Pressable
-                    style={{
+                    style={[{
                       marginHorizontal: 15,
                       marginVertical: 20,
                       backgroundColor: "#0825B8",
@@ -230,8 +231,7 @@ export default function Emergency({ navigation, route }) {
                       alignItems: "center",
                       justifyContent: "center",
                       display: "flex",
-                      flexDirection: "row",
-                    }}
+                    }, getRTLView(locale)]}
                     onPress={handleSubmit}
                   >
                     <Text

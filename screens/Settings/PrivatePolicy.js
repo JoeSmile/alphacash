@@ -5,19 +5,20 @@ import { A } from "@expo/html-elements";
 import { useI18n } from "@hooks/useI18n";
 import { getWritingDirectionStyle } from '@styles';
 import { useNavigation } from "@react-navigation/native";
+import { getTextAlign } from "../../styles";
 
 export function PrivatePolicy() {
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
   const navigation = useNavigation();
 
   return (
     <View>
       <Text
-        style={{
+        style={[{
           color: "#4F5E6F",
           lineHeight: 20,
           fontSize: 14,
-        }}
+        }, getTextAlign(locale)]}
       >
       {i18n.t('AlphaCashBrief')}
       </Text>

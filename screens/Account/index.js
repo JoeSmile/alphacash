@@ -4,12 +4,12 @@ import FList from "@components/FList";
 import UserLayout from "@components/UserLayout";
 import { useSystemStore } from "@store/useSystemStore";
 import { useI18n } from "@hooks/useI18n";
-import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
+import { getWritingDirectionStyle, getMarginRightOrLeft, getRTLView } from '@styles';
 
 const Item = (item) => {
   const { i18n, locale } = useI18n();
   return (
-    <View style={styles.item}>
+    <View style={[styles.item, getRTLView(locale)]}>
       <Image
         source={item.leftIcon}
         contentFit="cover"
@@ -127,7 +127,6 @@ const styles = StyleSheet.create({
     transform: [{ translateY: -50 }],
   },
   item: {
-    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
   },

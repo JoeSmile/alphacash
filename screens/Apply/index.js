@@ -34,6 +34,7 @@ import { Asset } from "expo-asset";
 import { doTrack } from "@utils/dataTrack";
 import { getWritingDirectionStyle } from "@styles";
 import { Toast } from "@ant-design/react-native";
+import { getRTLView, getRevertImage } from "../../styles";
 
 function buildGetRequest(url, params) {
   if (params) {
@@ -331,7 +332,7 @@ export default function Apply() {
                 <FaceRecognition />
               </Pressable>
 
-              <View style={styles.loanAgreementStyle}>
+              <View style={[styles.loanAgreementStyle, getRTLView(locale)]}>
                 <Checkbox
                   style={styles.checkbox}
                   value={isChecked}
@@ -339,11 +340,11 @@ export default function Apply() {
                   color={isChecked ? "#0825B8" : undefined}
                 />
                 <Text
-                  style={{
+                  style={[{
                     marginHorizontal: 6,
                     fontSize: 12,
                     color: "#4F5E6F",
-                  }}
+                  }]}
                 >
                   {i18n.t("Agree")}
                 </Text>
@@ -381,7 +382,7 @@ export default function Apply() {
       <View style={styles.getLoan}>
         <TouchableOpacity
           onPress={getLoan}
-          style={{
+          style={[{
             ...styles.getLoanBtn,
             backgroundColor:
               isChecked &&
@@ -390,14 +391,14 @@ export default function Apply() {
                 currentUserCardInfo.ewalletAccount)
                 ? "#0825B8"
                 : "#C0C4D6",
-          }}
+          },  getRTLView(locale)]}
         >
           <Text style={{ color: "#FFFFFF", fontSize: 16 }}>
             {i18n.t("GetLoan")}
           </Text>
           <Image
             source={require("@assets/applyLoan/btn_ic_right.png")}
-            style={{ width: 12, height: 12, marginLeft: 4 }}
+            style={[{ width: 12, height: 12, marginLeft: 4 }, getRevertImage(locale)]}
           />
         </TouchableOpacity>
       </View>

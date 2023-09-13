@@ -7,7 +7,7 @@ import { useUserQuota } from "@store/useUserQuota";
 import { FButton } from "../../../components/FButton";
 import { doTrack } from "@utils/dataTrack";
 import { useI18n } from "@hooks/useI18n";
-import { getWritingDirectionStyle, getMarginRightOrLeft } from "@styles";
+import { getWritingDirectionStyle, getRTLView } from "@styles";
 import { Toast } from "@ant-design/react-native";
 
 export const CHANNEL = {
@@ -71,9 +71,9 @@ export default function Repay({ navigation, route }) {
           }}
         >
           <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
+            style={[{ justifyContent: "space-between" }, getRTLView(locale)]}
           >
-            <View style={{ flexDirection: "row" }}>
+            <View style={[getRTLView(locale)]}>
               <Text style={{ color: "#4F5E6F", fontSize: 16 }}>
                 {i18n.t("Account Name")}:{" "}
               </Text>
@@ -100,18 +100,18 @@ export default function Repay({ navigation, route }) {
             </Pressable>
           </View>
 
-          <View
-            style={{
-              borderWidth: 1,
-              borderColor: "#F4F5F7",
-              marginVertical: 20,
-            }}
-          />
+            <View
+              style={{
+                borderWidth: 1,
+                borderColor: "#F4F5F7",
+                marginVertical: 20,
+              }}
+            />
 
           <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
+            style={[{ justifyContent: "space-between" }, getRTLView(locale)]}
           >
-            <View style={{ flexDirection: "row" }}>
+            <View style={[getRTLView(locale)]}>
               <Text style={{ color: "#4F5E6F", fontSize: 16 }}>
                 {i18n.t("Consumer ID")}:
               </Text>

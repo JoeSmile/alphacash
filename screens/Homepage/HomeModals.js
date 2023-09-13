@@ -6,6 +6,7 @@ import FModal from "@components/FModal";
 import { useSystemStore } from "@store/useSystemStore";
 import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "@utils/dataTrack";
+import { getTextAlign } from "../../styles";
 
 export const MODAL_TYPE = {
   RATE: "RATE",
@@ -14,7 +15,7 @@ export const MODAL_TYPE = {
 };
 
 function HomeModals({ showModal, type }) {
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
 
   const [isLogin, isRatePoped, isRepayReminderOn, setRatePoped, setReminderOn] =
     useSystemStore((s) => [
@@ -98,7 +99,7 @@ function HomeModals({ showModal, type }) {
         body = (
           <>
             <View>
-              <Text style={styles.tips}>
+              <Text style={[styles.tips, getTextAlign(locale)]}>
                 {i18n.t("RepaymentWords")}
                 {/* <Text style={styles.strong}>
               {" "}
@@ -114,10 +115,10 @@ function HomeModals({ showModal, type }) {
         );
         break;
       case MODAL_TYPE.RATE:
-        body = <Text style={styles.tips}>{i18n.t("GoodReview")}</Text>;
+        body = <Text style={[styles.tips, getTextAlign(locale)]}>{i18n.t("GoodReview")}</Text>;
         break;
       case MODAL_TYPE.ELIGIBLE:
-        body = <Text style={styles.tips}>{i18n.t("Terribly sorry")}</Text>;
+        body = <Text style={[styles.tips, getTextAlign(locale)]}>{i18n.t("Terribly sorry")}</Text>;
         break;
 
       default:

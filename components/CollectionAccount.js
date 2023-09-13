@@ -2,19 +2,20 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import { useSystemStore } from "@store/useSystemStore";
 import { useI18n } from "@hooks/useI18n";
 import { formatAccountToFinancial as fa2f } from "@utils";
+import { getRTLView, getRevertImage, getMarginRightOrLeft } from "../styles";
 
 export default function CollectionAccount() {
   const currentUserCardInfo = useSystemStore(s => s.usersInfo[s.phone]?.cardInfo ?? {});
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
   const account = currentUserCardInfo.bankAccount || currentUserCardInfo.ewalletAccount;
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, getRTLView(locale)]}>
       <Image
         source={require("@assets/applyLoan/loan_ic_collection_account.png")}
         style={{ width: 35, height: 35 }}
       />
-      <View style={styles.contentStyle}>
+      <View style={[styles.contentStyle, getMarginRightOrLeft(locale, 0, 12)]}>
         <Text style={{ fontSize: 15, color: "#4F5E6F", fontWeight: 500 }}>
           {i18n.t("Collection Account")}
         </Text>
@@ -24,7 +25,7 @@ export default function CollectionAccount() {
       </View>
       <Image
         source={require("@assets/applyLoan/com_ic_right.png")}
-        style={{ width: 15, height: 15 }}
+        style={[{ width: 15, height: 15 }, getRevertImage(locale)]}
       />
     </View>
   );
@@ -55,7 +56,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     flex: 1,
-    marginLeft: 12,
   },
 
   accountStyle: {

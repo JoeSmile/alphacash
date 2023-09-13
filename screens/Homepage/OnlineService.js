@@ -1,13 +1,14 @@
 import { View, Text, Image } from "react-native";
 import { useI18n } from "@hooks/useI18n";
 import { getRevertImage, getMarginRightOrLeft} from '@styles';
+import { getRTLView } from "../../styles";
 
 export function OnlineService () {
   const { i18n, locale } = useI18n();
 
   return (
     <View
-      style={{
+      style={[{
         marginBottom: 40,
         height: 40,
         borderRadius: 4,
@@ -22,10 +23,9 @@ export function OnlineService () {
         shadowOpacity: 0.16,
         shadowRadius: 3,
         backgroundColor: "white",
-        flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-      }}
+      }, getRTLView(locale)]}
     >
       <View
         style={{

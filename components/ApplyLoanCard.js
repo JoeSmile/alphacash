@@ -126,7 +126,8 @@ export default function ApplyLoanCard({
         alignItems: "center",
         paddingHorizontal: 12,
         justifyContent: optWithDaysConfig.length > 2 ? "flex-start" : "space-around",
-        flexWrap: "wrap",}}>
+        flexWrap: "wrap"}}
+      >
         {optWithDaysConfig.map((item, index) => (
           <TouchableOpacity
             key={item.days}

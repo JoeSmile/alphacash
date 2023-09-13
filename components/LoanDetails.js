@@ -10,6 +10,7 @@ import {
 import { useCallback, useState } from "react";
 import { useI18n } from "@hooks/useI18n";
 import { formatNumberToFinancial as fn2f } from "@utils";
+import { getRTLView } from "../styles";
 
 const imageDown = require("@assets/applyLoan/loan_ic_arrow_down.png");
 const imageUp = require("@assets/applyLoan/loan_ic_arrow_up.png");
@@ -19,7 +20,7 @@ export default function LoanDetails({
   daysOption,
   amountIndex,
 }) {
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
   const [isChecked, setIsChecked] = useState(false);
   const [showTips, setShowTips] = useState(false);
 
@@ -35,8 +36,8 @@ export default function LoanDetails({
 
   return (
     <View style={styles.container}>
-      <Pressable onPress={handleFeePress} style={styles.listItemStyle}>
-        <View style={styles.feeItemStyle}>
+      <Pressable onPress={handleFeePress} style={[styles.listItemStyle, getRTLView(locale)]}>
+        <View style={[styles.feeItemStyle, getRTLView(locale)]}>
           <Text style={styles.title}>{i18n.t("Fee")}</Text>
           <Text style={styles.listItemTitle}>{fn2f(loanData.manageFee)}</Text>
         </View>
@@ -49,7 +50,7 @@ export default function LoanDetails({
       {/* 费用明细 */}
       {isChecked && (
         <View style={styles.feeUnflodStyle}>
-          <View style={styles.feeUnflodItemStyle}>
+          <View style={[styles.feeUnflodItemStyle, getRTLView(locale)]}>
             <Text style={styles.textStyle}>
               {i18n.t("Credit Approval Fee")}
             </Text>
@@ -58,35 +59,35 @@ export default function LoanDetails({
             </Text>
           </View>
 
-          <View style={styles.feeUnflodItemStyle}>
+          <View style={[styles.feeUnflodItemStyle, getRTLView(locale)]}>
             <Text style={styles.textStyle}>{i18n.t("Service Fee")}</Text>
             <Text style={styles.textStyle}>
               {fn2f(loanData.manageFeeDetail.serviceFee)}
             </Text>
           </View>
 
-          <View style={styles.feeUnflodItemStyle}>
+          <View style={[styles.feeUnflodItemStyle, getRTLView(locale)]}>
             <Text style={styles.textStyle}>{i18n.t("System fee")}</Text>
             <Text style={styles.textStyle}>
               {fn2f(loanData.manageFeeDetail.manageFee)}
             </Text>
           </View>
 
-          <View style={styles.feeUnflodItemStyle}>
+          <View style={[styles.feeUnflodItemStyle, getRTLView(locale)]}>
             <Text style={styles.textStyle}>
               {i18n.t("Processing Fee Charges")}
             </Text>
             <Text style={styles.textStyle}>Rs.0</Text>
           </View>
 
-          <View style={styles.feeUnflodItemStyle}>
+          <View style={[styles.feeUnflodItemStyle, getRTLView(locale)]}>
             <Text style={styles.textStyle}>{i18n.t("Any other charges")}</Text>
             <Text style={styles.textStyle}>Rs.0</Text>
           </View>
         </View>
       )}
 
-      <View style={styles.listItemStyle}>
+      <View style={[styles.listItemStyle, getRTLView(locale)]}>
         <Text style={styles.title}>{i18n.t("Markup")}</Text>
         {optWithDaysConfig[daysOption].days === 30 && (
           <Text style={{ ...styles.title, flex: 1, marginLeft: 6 }}>{`(${i18n.t(
@@ -96,25 +97,25 @@ export default function LoanDetails({
         <Text style={styles.listItemTitle}>{fn2f(loanData.totalInterest)}</Text>
       </View>
 
-      <View style={styles.listItemStyle}>
+      <View style={[styles.listItemStyle, getRTLView(locale)]}>
         <Text style={styles.title}>{i18n.t("DisburseAmount")}</Text>
         <Text style={styles.listItemTitle}>{fn2f(loanData.disburseMoney)}</Text>
       </View>
 
-      <View style={styles.listItemStyle}>
+      <View style={[styles.listItemStyle, getRTLView(locale)]}>
         <Text style={styles.title}>{i18n.t("Lump Sum Repayment Amount")}</Text>
         <Text style={styles.listItemTitle}>
           {fn2f(loanData.dueRepayAmount)}
         </Text>
       </View>
 
-      <View style={styles.listItemStyle}>
+      <View style={[styles.listItemStyle, getRTLView(locale)]}>
         <Text style={styles.title}>{i18n.t("Due Date")}</Text>
         <Text style={styles.listItemTitle}>{loanData.repaymentDate}</Text>
       </View>
 
       {optWithDaysConfig[daysOption].days === 30 && (
-        <View style={styles.listItemStyle}>
+        <View style={[styles.listItemStyle, getRTLView(locale)]}>
           <Text style={{ color: "#00B295", fontWeight: "bold" }}>
             {i18n.t("Late Payment Charges")}
           </Text>

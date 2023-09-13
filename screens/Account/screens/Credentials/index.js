@@ -34,24 +34,28 @@ const DefaultListItems = [
     screen: "Personal",
     leftIcon: require("@assets/images/mine_ic_personal_info.png"),
     leftItem: Item,
+    iconKeepDirection: true
   },
   {
     title: "Work Info",
     screen: "Job",
     leftIcon: require("@assets/images/mine_ic_wok_info.png"),
     leftItem: Item,
+    iconKeepDirection: true
   },
   {
     title: "Reference Contact",
     screen: "Emergency",
     leftIcon: require("@assets/images/mine_ic_reference_contact.png"),
     leftItem: Item,
+    iconKeepDirection: true
   },
   {
     title: "Identity Info",
     screen: "Certificate",
     leftIcon: require("@assets/images/mine_ic_identity_info.png"),
     leftItem: Item,
+    iconKeepDirection: true
   },
 ];
 

@@ -7,8 +7,7 @@ import { getRevertImage } from '@styles';
 import { useGetUserFormStatus } from "@apis";
 import { useEffect, useState } from "react";
 import { Toast } from "@ant-design/react-native";
-
-
+import { getWritingDirectionStyle, getMarginRightOrLeft, getRTLView } from '@styles';
 
 const Item = (props) => {
   const {
@@ -22,6 +21,7 @@ const Item = (props) => {
     parameters = {},
     requireLogin = false,
     clickItem,
+    iconKeepDirection
   } = props;
   const navigation = useNavigation();
   const { i18n, locale } = useI18n();
@@ -47,12 +47,12 @@ const Item = (props) => {
     <Pressable
       style={[
         {
-          flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
           marginBottom: 12,
         },
         itemStyle,
+        getRTLView(locale)
       ]}
       onPress={() => {
         trackName && doTrack(trackName, 1);
@@ -95,7 +95,7 @@ const Item = (props) => {
           contentFit="cover"
           transition={200}
           style={
-            rightIcon ? [{ width: 20, height: 20 }, getRevertImage(locale)] : [{ width: 16, height: 16 }, getRevertImage(locale)]
+            rightIcon ? [{ width: 20, height: 20 }, getRevertImage(locale, iconKeepDirection)] : [{ width: 16, height: 16 }, getRevertImage(locale, iconKeepDirection)]
           }
         />
       )}

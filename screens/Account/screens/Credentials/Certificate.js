@@ -28,7 +28,8 @@ import { useNavigation } from "@react-navigation/native";
 import { useUserQuota } from "@store/useUserQuota";
 import { Toast } from "@ant-design/react-native";
 import { doTrack } from "@utils/dataTrack";
-import { getWritingDirectionStyle, getRevertImage } from "@styles";
+import { getWritingDirectionStyle, getRevertImage, getRTLView } from "@styles";
+import { FButton } from "@components/FButton";
 
 const imageUri = require("@assets/images/info_pic_cnic_card_positive.png");
 const imageUri1 = require("@assets/images/info_pic_cnic_card_negative.png");
@@ -334,11 +335,10 @@ export default function Certificate({ route }) {
           }}
         >
           <View
-            style={{
-              flexDirection: "row",
+            style={[{
               justifyContent: "space-between",
               marginBottom: 12,
-            }}
+            },  getRTLView(locale)]}
           >
             <Text style={styles.boldTextStyle}>{i18n.t("CNIC Card")}</Text>
             <Pressable
@@ -455,11 +455,10 @@ export default function Certificate({ route }) {
         {/* in hand */}
         <View style={{ paddingHorizontal: 15, marginTop: 20 }}>
           <View
-            style={{
-              flexDirection: "row",
+            style={[{
               justifyContent: "space-between",
               marginBottom: 12,
-            }}
+            },  getRTLView(locale)]}
           >
             <Text style={styles.boldTextStyle}>
               {i18n.t("Take photo with CNIC card in hand")}
@@ -508,11 +507,10 @@ export default function Certificate({ route }) {
         {/* proof employment */}
         <View style={{ paddingHorizontal: 15, marginTop: 20 }}>
           <View
-            style={{
-              flexDirection: "row",
+            style={[{
               justifyContent: "space-between",
               marginBottom: 12,
-            }}
+            }, getRTLView(locale)]}
           >
             <Text style={styles.boldTextStyle}>
               {i18n.t("Proof Employment")}
@@ -555,38 +553,15 @@ export default function Certificate({ route }) {
                 {i18n.t("Need modify")}
               </Text>}
         </View>
-
-        <Pressable
-          style={{
-            marginTop: 32,
-            marginBottom: 15,
-            marginHorizontal: 15,
-            backgroundColor:  pickedFromAlbum ? "#0825B8" : '#C0C4D6',
-            borderRadius: 3,
-            alignItems: "center",
-            justifyContent: "center",
-            display: "flex",
-            flexDirection: "row",
-          }}
+        <FButton 
+          title = "Submit"
           onPress={onClickUpdateIdentityInfo}
-        >
-          <Text
-            style={{
-              textAlign: "center",
-              borderRadius: 3,
-              height: 48,
-              lineHeight: 48,
-              color: "#FFFFFF",
-              fontSize: 15,
-            }}
-          >
-            {i18n.t("Submit")}{" "}
-          </Text>
-          <Image
-            source={require("@assets/images/btn_ic_right.png")}
-            style={[{ width: 12, height: 12 }, getRevertImage(locale)]}
-          />
-        </Pressable>
+          style={{
+            backgroundColor:  pickedFromAlbum ? "#0825B8" : '#C0C4D6',
+            marginHorizontal: 15,
+            marginVertical: 20
+          }}
+        />
       </View>
       <ExampleModal
         isVisible={!!showModalType}

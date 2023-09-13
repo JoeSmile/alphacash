@@ -12,7 +12,7 @@ import Avatar from "@components/Avatar";
 import { useNavigation } from "@react-navigation/native";
 import { LanguageSwitcher } from "@components/LanguageSwitcher";
 import { Asset } from "expo-asset";
-import { getWritingDirectionStyle } from '@styles';
+import { getWritingDirectionStyle, getRTLView } from '@styles';
 import { useI18n } from "@hooks/useI18n";
 
 export default function UserLayout({
@@ -56,9 +56,9 @@ export default function UserLayout({
           </Pressable>
         )}
         <View
-          style={{
+          style={[{
             flex: 1,
-          }}
+          }, getRTLView(locale)]}
         >
           <ImageBackground
             source={{

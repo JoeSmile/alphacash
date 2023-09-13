@@ -1,8 +1,9 @@
 import { ImageBackground, View, Text } from "react-native";
 import { useI18n } from "@hooks/useI18n";
+import { getRTLView } from "@styles";
 
 export function AntiFraudTips() {
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
 
   return (
     <View
@@ -27,11 +28,10 @@ export function AntiFraudTips() {
           }}
         />
         <View
-          style={{
-            flexDirection: "row",
+          style={[{
             alignItems: "center",
             paddingTop: 8,
-          }}
+          }, getRTLView(locale)]}
         >
           <View
             style={{

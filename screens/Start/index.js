@@ -27,42 +27,42 @@ export default function Start({ navigation }) {
 
   return (
     <View style={styles.container}>
-    <ImageBackground
-      style={{ flex: 1 }}
-      source={require("@assets/splash.png")}
-    >
-      <Text style={[styles.license, getWritingDirectionStyle(locale)]}>License No: {`xxxxxxxxxxxxxx`}</Text>
-    </ImageBackground>
-    <FModal
-      isOpen={modalVisible && isFocused}
-      header={<Text style={styles.title}>AlphaCash</Text>}
-      body={<PrivatePolicy />}
-      footer={
-        <>
-          <Pressable
-            style={[styles.button, styles.buttonRefuse]}
-            onPress={() => {
-              doTrack("pk25", 1);
-              BackHandler.exitApp();
-            }}
-          >
-            <Text style={styles.textStyle}>{i18n.t("Reject")}</Text>
-          </Pressable>
-          <Pressable
-            style={[styles.button, styles.buttonAgree]}
-            onPress={() => {
-              setModalVisible(!modalVisible);
-              setReadPolicy();
-              doTrack("pk9", 1);
-              navigation.replace("Homepage");
-            }}
-          >
-            <Text style={styles.textStyle}>{i18n.t("Agree")}</Text>
-          </Pressable>
-        </>
-      }
-    />
-  </View>
+      <ImageBackground
+        style={{ flex: 1 }}
+        source={require("@assets/splash.png")}
+      >
+        <Text style={[styles.license]}>License No: {`xxxxxxxxxxxxxx`}</Text>
+      </ImageBackground>
+      <FModal
+        isOpen={modalVisible && isFocused}
+        header={<Text style={styles.title}>AlphaCash</Text>}
+        body={<PrivatePolicy />}
+        footer={
+          <>
+            <Pressable
+              style={[styles.button, styles.buttonRefuse]}
+              onPress={() => {
+                doTrack("pk25", 1);
+                BackHandler.exitApp();
+              }}
+            >
+              <Text style={styles.textStyle}>{i18n.t("Reject")}</Text>
+            </Pressable>
+            <Pressable
+              style={[styles.button, styles.buttonAgree]}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+                setReadPolicy();
+                doTrack("pk9", 1);
+                navigation.replace("Homepage");
+              }}
+            >
+              <Text style={styles.textStyle}>{i18n.t("Agree")}</Text>
+            </Pressable>
+          </>
+        }
+      />
+    </View>
 
   );
 }

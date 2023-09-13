@@ -8,6 +8,8 @@ import {
   getWritingDirectionStyle,
   getMarginRightOrLeft,
   getPaddingRightOrLeft,
+  getRTLView, 
+  getTextAlign
 } from "@styles";
 
 // const defaultOptions = [{ label: '男', value: '1' }, { label: '女', value: '2' }]
@@ -74,13 +76,15 @@ export function FSelect({
               color: "#0A233E",
             },
             meta.touched && meta.error ? styles.error : {},
+            getTextAlign(locale)
           ]}
         >
           {!context.values[name] && (
-            <Picker.Item label="Please select an option" value=""/>
+            <Picker.Item  style={[getRTLView(locale)]} label="Please select an option" value=""/>
           )}
           {options.map((item, index) => (
             <Picker.Item
+              style={[getRTLView(locale)]}
               label={labelKey ? item[labelKey] : item.label}
               value={valueKey ? item[valueKey] : item.value}
               key={`${item.value}_${index}`}

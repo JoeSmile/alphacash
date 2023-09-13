@@ -101,17 +101,18 @@ function RootNavigator() {
           component={FaceDetectionScreen}
           options={{
             ...pageHeader,
-            headerTitle: "Face Recognition",
+            headerTitle: i18n.t("Face Recognition"),
             headerShown: true,
           }}
         />
+
         <Stack.Screen
           name="AddNewAccount"
           component={AddNewAccount}
           options={({ navigation }) => {
             return  {
             ...pageHeader,
-            headerTitle: "Add Collection Account",
+            headerTitle: i18n.t("Add Collection Account"),
             headerLeft: () => <HeaderLeft navigation={navigation}/>,
             headerShown: true,
           }

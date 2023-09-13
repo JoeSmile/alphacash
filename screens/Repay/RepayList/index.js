@@ -11,7 +11,7 @@ import { useUserQuota } from "@store";
 import BillCard from '../BillCard';
 import { CHANNEL } from '../Repay';
 import { useI18n } from "@hooks/useI18n";
-import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
+import { getWritingDirectionStyle, getMarginRightOrLeft, getRTLView } from '@styles';
 
 // bill: {
 //   //贷款id
@@ -88,7 +88,7 @@ export default function RepayList({navigation, route}) {
       <BillCard />
       {/* Repay List */}
       <View style={{marginTop: 15}}>
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      <View style={[{ alignItems: 'center'}, getRTLView(locale)]}>
         <View style={{
           borderColor: '#0825B8',
           borderLeftWidth: 2,

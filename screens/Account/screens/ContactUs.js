@@ -4,14 +4,14 @@ import * as Linking from "expo-linking";
 import { A } from "@expo/html-elements";
 import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "../../../utils/dataTrack";
-import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
+import { getWritingDirectionStyle, getMarginRightOrLeft, getRTLView } from '@styles';
 
 const Item = (item) => {
   const { i18n, locale } = useI18n();
 
   return (
     <Pressable>
-      <View style={styles.item}>
+      <View style={[styles.item, getRTLView(locale)]}>
         <Image
           source={item.leftIcon}
           contentFit="cover"
@@ -44,10 +44,10 @@ const data = [
           }}
         >
           <View
-            style={{
+            style={[{
               flexDirection: "row",
               alignItems: "center",
-            }}
+            }, getRTLView(locale)]}
           >
             <Image
               source={item.leftIcon}
@@ -141,16 +141,40 @@ export default function ContactUs() {
     >
       <View style={styles.container}>
         <FList data={data} itemStyle={styles.FList} />
-        <Text
-          style={{
+
+        <View style={[getRTLView(locale)]}>
+          <Text style={{
             color: "#8899AC",
             fontSize: 12,
             lineHeight: 18,
-          }}
-        >
-          Key Executive For Loan Handling officer Name: xxxxxxx Contact
-          Email:XXXXXX@com
-        </Text>
+          }}>
+              {`${i18n.t('Key Executive For Loan Handling officer Name')}: `}
+          </Text>
+          <Text style={{
+            color: "#8899AC",
+            fontSize: 12,
+            lineHeight: 18,
+          }}>
+              xxxxxxx 
+          </Text>
+        </View>
+
+        <View style={[getRTLView(locale)]}>
+          <Text style={{
+            color: "#8899AC",
+            fontSize: 12,
+            lineHeight: 18,
+          }}>
+              {`${i18n.t('Contact Email')}: `}
+          </Text>
+          <Text style={{
+            color: "#8899AC",
+            fontSize: 12,
+            lineHeight: 18,
+          }}>
+            XXXXXX@com
+          </Text>
+        </View>
       </View>
     </View>
   );

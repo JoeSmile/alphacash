@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Pressable } from "react-native";
 import * as Device from "expo-device";
-// import * as ExpoApplist from "expo-applist";
+import * as ExpoApplist from "expo-applist";
 import { Text, View } from "../../components/Themed";
 import { useI18n } from "@hooks/useI18n";
 import { useNavigation } from "@react-navigation/native";
@@ -12,6 +12,7 @@ import { useGetUserFormStatus, usePushApplist } from "@apis";
 import { doTrack } from "@utils/dataTrack";
 import { getAesKey, encryptAES, encryptRSA } from "@utils/rsaCrypto";
 import { useIsFocused } from "@react-navigation/native";
+import { getRTLView } from '@styles';
 
 // 101-审核中
 // 102-已拒绝
@@ -26,7 +27,7 @@ const displayDetailButton = [101, 201, 202, 301, 303, 501];
 const displayRepayNowButton = [301, 303];
 
 function BillBrief({ bill }) {
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
 
   if (!bill) return <></>;
   return (
@@ -37,11 +38,10 @@ function BillBrief({ bill }) {
       }}
     >
       <View
-        style={{
-          flexDirection: "row",
+        style={[{
           justifyContent: "space-between",
           marginBottom: 10,
-        }}
+        }, getRTLView(locale)]}
       >
         <Text
           style={{
@@ -61,10 +61,9 @@ function BillBrief({ bill }) {
         </Text>
       </View>
       <View
-        style={{
-          flexDirection: "row",
+        style={[{
           justifyContent: "space-between",
-        }}
+        }, getRTLView(locale)]}
       >
         <Text
           style={{
@@ -157,12 +156,12 @@ export function QuotaButtons() {
     const apiLevel = Device.platformApiLevel || 1;
     let applist = [];
 
-    // try {
-    //   applist = ExpoApplist.getApps(apiLevel).filter((app) => !app.isSystemApp);
-    //   console.log("applist: ", JSON.stringify(applist));
-    // } catch (e) {
-    //   console.log("get applist faile: ", JSON.stringify(e));
-    // }
+    try {
+      applist = ExpoApplist.getApps(apiLevel).filter((app) => !app.isSystemApp);
+      console.log("applist: ", JSON.stringify(applist));
+    } catch (e) {
+      console.log("get applist faile: ", JSON.stringify(e));
+    }
 
     // 拿到信息后，需要传给后端
     //const applist = [

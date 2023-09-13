@@ -13,7 +13,7 @@ import { LOAN_STATUS, getStatusImgByLocale } from "@const";
 import { formatNumberToFinancial as fn2f } from "@utils";
 import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "@utils/dataTrack";
-import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
+import { getWritingDirectionStyle, getRTLView, getTextAlign } from '@styles';
 
 const Item = ({ item }) => {
   const { i18n, locale } = useI18n();
@@ -34,23 +34,23 @@ const Item = ({ item }) => {
           style={[styles.imgTag, locale == 'en' ? {right: 0} : {left: 0}]}
         />
         <View>
-          <Text style={[styles.title, getWritingDirectionStyle(locale)]}>{`${i18n.t("Loan Amount")}: `} </Text>
-          <Text style={[styles.amount, getWritingDirectionStyle(locale)]}>{fn2f(item.applyAmount)}</Text>
+          <Text style={[styles.title, getTextAlign(locale)]}>{`${i18n.t("Loan Amount")}: `} </Text>
+          <Text style={[styles.amount, getTextAlign(locale)]}>{fn2f(item.applyAmount)}</Text>
         </View>
         <View style={styles.line}></View>
         <View>
-          <View style={{ ...styles.info, marginBottom: 12 }}>
+          <View style={[{ ...styles.info, marginBottom: 12 }, getRTLView(locale)]}>
             <Text style={[styles.title, getWritingDirectionStyle(locale)]}>{`${i18n.t("LoanTerm")}: `} </Text>
             <Text style={[styles.titleValue, getWritingDirectionStyle(locale)]}>
               {item.loanTerm + " " + i18n.t("Days")}
             </Text>
           </View>
-          <View style={styles.info}>
+          <View style={[styles.info, getRTLView(locale)]}>
             <Text style={[styles.title, getWritingDirectionStyle(locale)]}>{`${i18n.t("Apply Date")}: `} </Text>
             <Text style={[styles.titleValue, getWritingDirectionStyle(locale)]}>{item.applyDate}</Text>
           </View>
           {!!item.repaymentDate && (
-            <View style={{ ...styles.info, marginTop: 12 }}>
+            <View style={[{ ...styles.info, marginTop: 12 }, getRTLView(locale)]}>
               <Text style={[styles.title, getWritingDirectionStyle(locale)]}>
                 {`${i18n.t("Repayment Date")}: `}
               </Text>
@@ -58,7 +58,7 @@ const Item = ({ item }) => {
             </View>
           )}
           {hasDueDateBillStatus.includes(item.appStatus) && !!item.dueDate && (
-            <View style={{ ...styles.info, marginTop: 12 }}>
+            <View style={[{ ...styles.info, marginTop: 12 }, getRTLView(locale)]}>
               <Text style={[styles.title, getWritingDirectionStyle(locale)]}>{`${i18n.t("Due Date")}: `} </Text>
               <Text style={[styles.titleValue, getWritingDirectionStyle(locale)]}>{item.dueDate}</Text>
             </View>

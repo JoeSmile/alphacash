@@ -4,7 +4,7 @@ import { useSystemStore } from "@store/useSystemStore";
 import FModal from "@components/FModal";
 import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "@utils/dataTrack";
-import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
+import { getWritingDirectionStyle, getMarginRightOrLeft, getRTLView } from '@styles';
 
 export const RepayRemind = (item) => {
   const { i18n, locale } = useI18n();
@@ -34,17 +34,19 @@ export const RepayRemind = (item) => {
 
   return (
     <View
-      style={[{
+      style={[
+      {
         justifyContent: "space-between",
-        flexDirection: "row",
         width: "100%",
-      }, getWritingDirectionStyle(locale)]}
+      }, 
+      getWritingDirectionStyle(locale),
+      getRTLView(locale)
+    ]}
     >
       <View
-        style={{
-          flexDirection: "row",
+        style={[{
           alignItems: "center",
-        }}
+        }, getRTLView(locale)]}
       >
         <Image
           source={item.leftIcon}

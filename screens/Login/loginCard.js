@@ -20,6 +20,7 @@ import * as Yup from "yup";
 import { useRoute } from "@react-navigation/native";
 import { doTrack } from "@utils/dataTrack";
 import { Toast } from "@ant-design/react-native";
+import { getWritingDirectionStyle, getMarginRightOrLeft, getRTLView, getTextAlign } from '@styles';
 
 // encodeSHA();
 // getNetInfo();
@@ -38,7 +39,7 @@ export default function LoginCard() {
   const [isSelected, setSelection] = useState(true);
   const navigation = useNavigation();
   const setUserInfo = useSystemStore((s) => s.setUserInfo);
-  const { i18n } = useI18n();
+  const { i18n, locale } = useI18n();
   const route = useRoute();
 
   const { mutate: login, data, isLoading } = useLogin();
@@ -172,7 +173,7 @@ export default function LoginCard() {
                   name="phoneNumber"
                   placeholder="03x xxxx xxxx"
                   placeholderTextColor={"#8899AC"}
-                  style={styles.textInput}
+                  style={[styles.textInput, getTextAlign(locale)]}
                   onChangeText={handleChange("phoneNumber")}
                   onBlur={() => {
                     doTrack("pk44", 1);
@@ -192,12 +193,12 @@ export default function LoginCard() {
                   </Text>
                 ) : null}
               </View>
-              <View style={styles.inputContainer}>
-                <Text style={styles.label}>OTP</Text>
-                <View style={{ position: "relative" }}>
+              <View style={[styles.inputContainer]}>
+                <Text style={[styles.label, locale == 'en' ? {textAlign: 'left'} : {textAlign: 'right'}]}>OTP</Text>
+                <View style={[{ position: "relative" }]}>
                   <TextInput
                     name="OTP"
-                    style={styles.textInput}
+                    style={[styles.textInput, getTextAlign(locale)]}
                     onChangeText={handleChange("OTP")}
                     onBlur={() => {
                       doTrack("pk12", 1);
@@ -224,19 +225,18 @@ export default function LoginCard() {
                         });
                       }
                     }}
-                    style={{
+                    style={[{
                       position: "absolute",
-                      right: 15,
+                      
                       marginTop: 2
-                    }}
+                    }, locale == 'en' ? {right: 15}: {left: 15}]}
                   >
                     <View
-                      style={{
+                      style={[{
                         display: "flex",
-                        flexDirection: "row",
                         gap: 5,
                         alignItems: "center",
-                      }}
+                      }, getRTLView(locale)]}
                     >
                       <Text
                         style={{
@@ -302,13 +302,12 @@ export default function LoginCard() {
       </View>
       <View>
         <View
-          style={{
+          style={[{
             fontSize: 12,
-            flexDirection: "row",
             alignItems: "center",
             marginTop: -36,
             gap: 2,
-          }}
+          }, getRTLView(locale)]}
         >
           <CheckBox
             checked={isSelected}
@@ -329,7 +328,7 @@ export default function LoginCard() {
               />
             }
           />
-          <Text style={{ marginLeft: -16 }}>{i18n.t("Agree")}</Text>
+          <Text style={{ marginLeft: 0 }}>{i18n.t("Agree")}</Text>
           <Pressable style={{ marginRight: 2, marginLeft: 2 }}
             onPress={() => navigation.push("LoanAgreement", {uri: 'https://www.baidu.com'} )}
           >

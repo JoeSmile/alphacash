@@ -10,11 +10,12 @@ import { useNavigation } from "@react-navigation/native";
 import FModal from "@components/FModal";
 import { doTrack } from "@utils/dataTrack";
 import { getWritingDirectionStyle, getMarginRightOrLeft } from '@styles';
+import { getRTLView } from "../../styles";
 
 const Item = (item) => {
   const { i18n, locale } = useI18n();
   return (
-    <View style={styles.item}>
+    <View style={[styles.item, getRTLView(locale)]}>
       <Image
         source={item.leftIcon}
         contentFit="cover"
@@ -48,11 +49,10 @@ const getListData = ({ locale, isLogin, i18n, setModalVisible }) => {
       leftItem: (item) => {
         return (
           <View
-            style={{
-              flexDirection: "row",
+            style={[{
               flex: 1,
               alignItems: "center",
-            }}
+            },  getRTLView(locale)]}
           >
             <Image
               source={item.leftIcon}
@@ -64,11 +64,10 @@ const getListData = ({ locale, isLogin, i18n, setModalVisible }) => {
               }, getMarginRightOrLeft(locale, 12)]}
             />
             <View
-              style={{
-                flexDirection: "row",
+              style={[{
                 justifyContent: "space-between",
                 flex: 1,
-              }}
+              }, getRTLView(locale)]}
             >
               <Text style={{ color: "#0A233E", fontSize: 16 }}>
                 {i18n.t(item.title)}
@@ -97,29 +96,25 @@ const getListData = ({ locale, isLogin, i18n, setModalVisible }) => {
       leftItem: (item) => {
         return (
           <View
-            style={{
-              flexDirection: "row",
+            style={[{
               width: "100%",
               alignItems: "center",
-            }}
+            },  getRTLView(locale)]}
           >
             <Image
               source={item.leftIcon}
               contentFit="cover"
               transition={1000}
-              style={{
+              style={[{
                 width: 24,
                 height: 24,
-                marginRight: 12,
-                marginLeft: 12
-              }}
+              }, getMarginRightOrLeft(locale, 12)]}
             />
             <View
-              style={{
-                flexDirection: "row",
+              style={[{
                 justifyContent: "space-between",
                 flex: 1,
-              }}
+              }, getRTLView(locale)]}
             >
               <Text style={{ color: "#0A233E", fontSize: 16 }}>
                 {i18n.t(item.title)}

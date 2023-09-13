@@ -5,6 +5,7 @@ import { A } from "@expo/html-elements";
 import { useI18n } from "@hooks/useI18n";
 import { doTrack } from "../../../utils/dataTrack";
 import { getWritingDirectionStyle, getMarginRightOrLeft, getRTLView } from '@styles';
+import { useNavigation } from "@react-navigation/native";
 
 const Item = (item) => {
   const { i18n, locale } = useI18n();
@@ -33,10 +34,11 @@ const data = [
     leftIcon: require("@assets/images/mine_ic_online_service.png"),
     leftItem: (item) => {
       const { i18n, locale } = useI18n();
-
+      const navigation = useNavigation();
+      
       return (
-        <A
-          href="https://google.com"
+        <Pressable
+          onPress={() => navigation.push("LoanAgreement")}
           style={{
             color: "#0825B8",
             textDecorationLine: "none",
@@ -69,7 +71,7 @@ const data = [
               {i18n.t("Recommend")}
             </Text>
           </View>
-        </A>
+        </Pressable>
       );
     },
   },

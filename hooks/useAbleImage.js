@@ -12,6 +12,7 @@ export const useAbleImage = () => {
     if ((hasBill && (bill.appStatus == 101 || bill.appStatus == 201 || bill.appStatus == 301 || bill.appStatus == 303)) || cashLoan?.userType  == 2  ) {
       setAbleEdit(false)
     }
-  }, []);
+  }, [hasBill, bill, cashLoan]);
+  
   return ableEdit
 }

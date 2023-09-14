@@ -6,7 +6,7 @@ export const useUserQuota = create((set, get) => ({
     // quota: 60000,
     // //是否有资格申请
     // isEligible: true,
-    // //用户类型 1 新客户 2 老客户
+    // //用户类型 0 新客户 1 老客户
     // userType: 1,
     // //审核驳回 - 是否需要重传照片
     // isModifyInfo: true,

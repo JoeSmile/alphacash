@@ -215,10 +215,10 @@ export default function Certificate({ route }) {
 
     switch(id) {
       case 0:
-        hasError = modifycnicBack;
+        hasError = modifycnicFront;
         break;
       case 1:
-        hasError = modifycnicFront;
+        hasError = modifycnicBack ;
         break;
       case 2:
         hasError = modifycnicInHand;
@@ -233,10 +233,7 @@ export default function Certificate({ route }) {
       return;
     }
 
-    if (
-      !editAble || !hasError &&
-      !cashLoan.isModifyInfo
-    ) {
+    if (!editAble) {
       Toast.info({
         content: "There is no problem with this image and no need re-upload",
         duration: 2,

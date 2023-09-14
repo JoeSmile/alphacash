@@ -19,10 +19,11 @@ export function Advantage() {
   // 103-已取消
   // 501-已还款
   const displayAdvance = React.useMemo(() => {
-    if (!isLogin) {
+    if (!isLogin || !hasBill) {
       return true;
     }
-    if (hasBill && [102,103,501].includes(bill.appStatus)) {
+  
+    if ([102,103,501].includes(bill.appStatus)) {
       return true
     } else {
       return false
@@ -66,7 +67,7 @@ export function Advantage() {
         style={{
           height: 56,
           flexDirection: "row",
-          gap: 15,
+          gap: 8,
         }}
       >
         <ImageBackground

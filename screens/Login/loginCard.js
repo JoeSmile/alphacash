@@ -21,6 +21,8 @@ import { useRoute } from "@react-navigation/native";
 import { doTrack } from "@utils/dataTrack";
 import { Toast } from "@ant-design/react-native";
 import { getWritingDirectionStyle, getMarginRightOrLeft, getRTLView, getTextAlign } from '@styles';
+import { useUserQuota } from "@store";
+import { useGetUserQuota } from "@apis/hooks";
 
 // encodeSHA();
 // getNetInfo();
@@ -42,6 +44,7 @@ export default function LoginCard() {
   const { i18n, locale } = useI18n();
   const route = useRoute();
 
+  const { mutate: getUserQuota, data: userQuotaData } = useGetUserQuota();
   const { mutate: login, data, isLoading } = useLogin();
   const { mutate: getOTP } = useGetOTP();
   const [text, setText] = useState("Get OTP");
@@ -54,6 +57,9 @@ export default function LoginCard() {
     data: formStatus,
     isLoading: formStatusLoading,
   } = useGetUserFormStatus();
+  const [cashLoan, setCashLoan, loanIds, setLoanIdInTips] = useUserQuota(
+    (s) => [s.cashLoan, s.setCashLoan, s.loanIdInTips, s.setLoanIdInTips]
+  );
 
   let timer = null;
 
@@ -76,6 +82,16 @@ export default function LoginCard() {
         phone: phoneNumber,
         token: data.data.data.token,
       });
+      getUserQuota();
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (userQuotaData?.data?.error_code == 1) {
+      const cashLoan = userQuotaData?.data?.data?.cashLoan;
+      if (cashLoan && JSON.stringify(cashLoan) !== JSON.stringify(cashLoan)) {
+        setCashLoan(cashLoan);
+      }
       if (targetScreen && needFormCompleted) {
         getUserFormStatus();
       }
@@ -83,7 +99,7 @@ export default function LoginCard() {
         navigation.replace("Homepage");
       }
     }
-  }, [data]);
+  }, [userQuotaData]);
 
   useEffect(() => {
     if (formStatus?.data?.error_code == 1) {

@@ -227,6 +227,11 @@ export default function Certificate({ route }) {
         hasError = modifyemploymentProof;
         break;
     }
+    if (hasError) {
+      setShowTips(true);
+      setIndex(id);
+      return;
+    }
 
     if (
       !editAble || !hasError &&

@@ -263,6 +263,8 @@ export default function Personal({ navigation, route }) {
                               valueKey="code"
                               labelKey="name"
                               afterChange={({ name, value }) => {
+                                // 省份修改后，城市自动清空
+                                values["cityId"]=0,
                                 getCityList({
                                   parentId: value,
                                 });

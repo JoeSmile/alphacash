@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
-
-import { Picker } from "@react-native-picker/picker";
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { List, Picker } from '@ant-design/react-native'
 import { useFormikContext } from "formik";
 import { useI18n } from "@hooks/useI18n";
 import {
@@ -13,6 +12,17 @@ import {
 } from "@styles";
 
 // const defaultOptions = [{ label: '男', value: '1' }, { label: '女', value: '2' }]
+
+
+const CustomChildren = (props) => (
+  <TouchableOpacity onPress={props.onPress}>
+    <View>
+      <Text style={{ textAlign: 'right', color: '#888', marginRight: 15 }}>
+        {props.extra}
+      </Text>
+    </View>
+  </TouchableOpacity>
+)
 
 export function FSelect({
   label,
@@ -30,6 +40,20 @@ export function FSelect({
   const meta = context.getFieldMeta(name);
   const { i18n, locale } = useI18n();
   const [focused, setFocused] = useState(false);
+  const [_options, setOptions]= useState([]);
+
+  useEffect(() => {
+    const newOptions = options.map(option => {
+      return {
+        value: valueKey ? option[valueKey] : option['value'],
+        label: labelKey ? option[labelKey] : option['label'],
+      }
+    })
+
+    setOptions(newOptions)
+
+  }, [options]);
+
 
   return (
     <View style={[containerStyle, getWritingDirectionStyle(locale)]}>
@@ -54,21 +78,25 @@ export function FSelect({
         }}
       >
         <Picker
-          enabled={enabledKey ? !!context.values[enabledKey] : true}
-          mode="dropdown"
-          onValueChange={(v) => {
-            console.log("name, v", name, v);
-            context.setFieldValue(name, v);
+          extra=""
+          cols={1}
+          data={_options}
+          value={context.values[name] || ""}
+          // onChange={(v) => this.setState({ pickerValue: v })}
+          onOk={(v) => {
+            context.setFieldValue(name, v)
             if (afterChange) {
               afterChange({
                 name,
                 value: v,
-              });
+              })
             }
           }}
+          title=""
+          disabled={enabledKey ? !context.values[enabledKey] : false}
+          mode="dropdown"
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          selectedValue={context.values[name] || "sos"}
           style={[
             {
               padding: 0,
@@ -79,17 +107,7 @@ export function FSelect({
             getTextAlign(locale),
           ]}
         >
-          {options.map((item, index) => (
-            <Picker.Item
-              style={[getRTLView(locale)]}
-              label={labelKey ? item[labelKey] : item.label}
-              value={valueKey ? item[valueKey] : item.value}
-              key={`${item.value}_${index}`}
-            />
-          ))}
-          {!context.values[name] && !focused && (
-            <Picker.Item style={{ lineHeight: 0 }} label="" value="sos" />
-          )}
+        <CustomChildren />
         </Picker>
       </View>
       {meta.touched && meta.error ? (

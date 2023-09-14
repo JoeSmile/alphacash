@@ -247,6 +247,8 @@ export default function Job({ navigation, route }) {
                         valueKey="code"
                         labelKey="name"
                         afterChange={({ name, value }) => {
+                            // 省份修改后，城市自动清空
+                           values["companyCityId"]=0,
                           getCityList({
                             parentId: value,
                           });

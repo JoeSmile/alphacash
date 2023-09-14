@@ -1,6 +1,7 @@
 import { Dimensions } from "react-native";
 import * as Device from "expo-device";
 import * as Location from "expo-location";
+import * as ExpoApplist from "expo-applist";
 import * as Battery from "expo-battery";
 //import { Camera } from "expo-camera";
 
@@ -58,24 +59,22 @@ export const getAsyncParams = async () => {
       return;
     }
 
-    console.log("location granted");
-
     // getCurrentPositionAsync有时候会stuck，等待3s，取不到就算了
     const loc = await Promise.race([
-      Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Balanced,
-      }),
+      //Location.getCurrentPositionAsync({
+      //  accuracy: Location.Accuracy.Balanced,
+      //}),
+      ExpoApplist.getLocation(),
       new Promise((resolve) => {
         setTimeout(() => resolve(), 3000);
       }),
     ]);
 
-    //const loc = await Location.getCurrentPositionAsync();
     console.log("location got:", loc);
 
     if (loc) {
-      commonParams.la = "" + loc.coords.latitude;
-      commonParams.lo = "" + loc.coords.longitude;
+      commonParams.la = "" + loc.latitude;
+      commonParams.lo = "" + loc.longitude;
     }
   } catch (err) {}
 };

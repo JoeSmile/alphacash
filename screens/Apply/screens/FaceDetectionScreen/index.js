@@ -1,10 +1,9 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { Camera, CameraType } from "expo-camera";
 import * as FaceDetector from "expo-face-detector";
-import { useEffect, useState, useRef } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { useUserQuota } from "@store";
-import * as ImagePicker from "expo-image-picker";
+//import * as ImagePicker from "expo-image-picker";
 import mime from "mime";
 import { useI18n } from "@hooks/useI18n";
 import { useUpdateBillUserImages } from "@apis";
@@ -12,17 +11,25 @@ import Spinner from "react-native-loading-spinner-overlay";
 import { Toast } from "@ant-design/react-native";
 import { doTrack } from "@utils/dataTrack";
 
-export default function FaceDetectionScreen({ route }) {
-  const cameraRef = useRef(null);
-  const [permission, requestPermission] = Camera.useCameraPermissions();
-  const [leftShake, setLeftShake] = useState(false);
-  const [rightShake, setRightShake] = useState(false);
-  const [tips, setTips] = useState();
-  const navigation = useNavigation();
-  // Add a variable to hold the timer ID
-  const timerRef = useRef(null);
-  const store = useUserQuota();
+let leftShake = false;
+let rightShake = false;
+let timer;
+
+export default function FaceDetectionScreen({ route, navigation }) {
   const { i18n } = useI18n();
+  const [shakeTip, faceTip] = useMemo(
+    () => [
+      i18n.t("Please shake left, then right"),
+      i18n.t("Please face the screen"),
+    ],
+    []
+  );
+
+  const cameraRef = useRef(null);
+  const [permission] = Camera.useCameraPermissions();
+  const [tips, setTips] = useState(shakeTip);
+  const [size, setSize] = useState(); // 相机默认用最大的size
+  const store = useUserQuota();
 
   const {
     mutate: updateBillUserImages,
@@ -30,31 +37,28 @@ export default function FaceDetectionScreen({ route }) {
     isLoading: isUpdateBillUserImagesLoading,
   } = useUpdateBillUserImages();
 
-  const [isModify, setIsModify] = useState(false);
+  const isModify = route.params ? route.params.isModify : false;
 
   useEffect(() => {
-    (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-    })();
-    cameraRef.current.resumePreview();
+    const getAvailablePictureSizes = async () => {
+      const sizes = await cameraRef.current?.getAvailablePictureSizesAsync(
+        "1:1"
+      );
+
+      console.log("AvailablePictureSizes: ", sizes);
+      setSize(sizes[Math.floor(sizes.length / 3)]); // 选择大小适中的
+    };
+
+    if (permission) {
+      cameraRef.current?.resumePreview();
+      setTimeout(getAvailablePictureSizes, 800);
+    } else {
+      Camera.requestCameraPermissionsAsync();
+    }
   }, [permission]);
 
   useEffect(() => {
-    const isModify = route.params ? route.params.isModify : false;
-    setIsModify(isModify);
-  }, [route]);
-
-  // useEffect(() => {
-  //   return () => {
-  //     // 在组件卸载时停止相机预览
-  //     if (cameraRef.current) {
-  //       cameraRef.current.pausePreview();
-  //     }
-  //   };
-  // })
-  useEffect(() => {
     if (updateBillUserImagesResponse?.data?.error_code == 1) {
-      console.log("0.0 >>>>>>>>>> updateBillUserImagesResponse");
       Toast.info({
         content: i18n.t("Successful face recognition"),
         duration: 3,
@@ -90,20 +94,18 @@ export default function FaceDetectionScreen({ route }) {
 
   const takePicture = async () => {
     if (cameraRef.current) {
-      const options = { 
+      const options = {
         quality: 0.1,
-        skipProcessing: true
+        skipProcessing: true,
       }; //设置为ImageType.png 还是jpg格式？
       const photo = await cameraRef.current.takePictureAsync(options);
-      // Convert the captured photo to Base64 format
-      // const base64Photo = `data:image/jpg;base64,${photo.base64}`;
       const parts = photo.uri.split("/").pop();
-      console.log("Sun >>> photo ==" + photo.uri);
+      console.log("Sun >>> photo ==" + photo.width);
       console.log("Sun >>> photo parts ==" + parts);
       const img = {
         uri: photo.uri,
         type: mime.getType(photo.uri),
-        name: photo.uri.split("/").pop(),
+        name: parts,
       };
       store.setFaceData(img);
       if (isModify) {
@@ -112,38 +114,52 @@ export default function FaceDetectionScreen({ route }) {
         });
       } else {
         doTrack("pk29", 1);
-        setTimeout(() => {
-          navigation.goBack();
-        }, 1000);
+        navigation.goBack();
       }
+    }
+  };
+
+  const setTipIfNeed = (tip) => {
+    if (tips !== tip) {
+      setTips(tip);
     }
   };
 
   const handleFacesDetected = ({ faces }) => {
     if (faces.length > 0) {
       if (!leftShake || !rightShake) {
-        setTips(i18n.t("Please shake left, then right"));
+        setTipIfNeed(shakeTip);
       }
-      faces.map((face) => {
-        console.log("Sun >>> face.yawAngle === " + face.yawAngle);
-        if (!leftShake && isLeftShakeFace(face)) {
-          setLeftShake(true);
+
+      for (let i = 0; i < faces.length; i++) {
+        if (leftShake && rightShake) {
+          break;
         }
-        if (leftShake && isRightShakeFace(face) && !rightShake) {
-          setRightShake(true);
-          setTips(i18n.t("Please face the screen"));
-          timerRef.current = setTimeout(() => {
+
+        let face = faces[i];
+        //console.log("Sun >>> face.yawAngle === " + face.yawAngle);
+        if (!leftShake && isLeftShakeFace(face)) {
+          leftShake = true;
+        }
+        if (leftShake && !rightShake && isRightShakeFace(face)) {
+          rightShake = true;
+
+          setTipIfNeed(faceTip);
+          timer = setTimeout(() => {
             takePicture();
           }, 1000);
         }
-      });
+      }
     } else {
-      setTips(i18n.t("Please face the screen"));
-      setRightShake(false);
-      setLeftShake(false);
-      clearTimeout(timerRef.current);
+      setTipIfNeed(faceTip);
+      timer && clearTimeout(timer);
+      leftShake = false;
+      rightShake = false;
+      timer = undefined;
     }
   };
+
+  const cameraSize = size && { pictureSize: size };
 
   return (
     <View style={styles.container}>
@@ -167,6 +183,7 @@ export default function FaceDetectionScreen({ route }) {
           style={{ flex: 1 }}
           type={CameraType.front}
           onFacesDetected={handleFacesDetected}
+          ratio="1:1"
           faceDetectorSettings={{
             mode: FaceDetector.FaceDetectorMode.fast,
             detectLandmarks: FaceDetector.FaceDetectorLandmarks.all,
@@ -174,6 +191,7 @@ export default function FaceDetectionScreen({ route }) {
             minDetectionInterval: 100,
             tracking: true,
           }}
+          {...cameraSize}
         />
       </View>
 

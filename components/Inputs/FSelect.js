@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 import { Picker } from "@react-native-picker/picker";
@@ -8,8 +8,8 @@ import {
   getWritingDirectionStyle,
   getMarginRightOrLeft,
   getPaddingRightOrLeft,
-  getRTLView, 
-  getTextAlign
+  getRTLView,
+  getTextAlign,
 } from "@styles";
 
 // const defaultOptions = [{ label: '男', value: '1' }, { label: '女', value: '2' }]
@@ -57,7 +57,7 @@ export function FSelect({
           enabled={enabledKey ? !!context.values[enabledKey] : true}
           mode="dropdown"
           onValueChange={(v) => {
-            console.log('name, v', name, v)
+            console.log("name, v", name, v);
             context.setFieldValue(name, v);
             if (afterChange) {
               afterChange({
@@ -76,11 +76,11 @@ export function FSelect({
               color: "#0A233E",
             },
             meta.touched && meta.error ? styles.error : {},
-            getTextAlign(locale)
+            getTextAlign(locale),
           ]}
         >
-          {!context.values[name] && (
-            <Picker.Item  style={[getRTLView(locale)]} label="Please select an option" value=""/>
+          {!context.values[name] && !focused && (
+            <Picker.Item style={[getRTLView(locale)]} label="" value="" />
           )}
           {options.map((item, index) => (
             <Picker.Item

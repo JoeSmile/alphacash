@@ -194,8 +194,9 @@ export function QuotaButtons() {
 
   const clickGetLoan = useCallback(() => {
     if (isLogin) {
+      // navigation.push("FaceDetectionScreen");
+      pushApplist();
       if (isFormCompleted) {
-        pushApplist();
         doTrack("pk22", 1);
         navigation.push("Apply");
       } else {

@@ -12,7 +12,7 @@ import { useGetUserFormStatus, usePushApplist } from "@apis";
 import { doTrack } from "@utils/dataTrack";
 import { getAesKey, encryptAES, encryptRSA } from "@utils/rsaCrypto";
 import { useIsFocused } from "@react-navigation/native";
-import { getRTLView } from '@styles';
+import { getRTLView } from "@styles";
 
 // 101-审核中
 // 102-已拒绝
@@ -38,10 +38,13 @@ function BillBrief({ bill }) {
       }}
     >
       <View
-        style={[{
-          justifyContent: "space-between",
-          marginBottom: 10,
-        }, getRTLView(locale)]}
+        style={[
+          {
+            justifyContent: "space-between",
+            marginBottom: 10,
+          },
+          getRTLView(locale),
+        ]}
       >
         <Text
           style={{
@@ -61,9 +64,12 @@ function BillBrief({ bill }) {
         </Text>
       </View>
       <View
-        style={[{
-          justifyContent: "space-between",
-        }, getRTLView(locale)]}
+        style={[
+          {
+            justifyContent: "space-between",
+          },
+          getRTLView(locale),
+        ]}
       >
         <Text
           style={{

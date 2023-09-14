@@ -42,11 +42,18 @@ export default function FaceDetectionScreen({ route, navigation }) {
   useEffect(() => {
     const getAvailablePictureSizes = async () => {
       const sizes = await cameraRef.current?.getAvailablePictureSizesAsync(
-        "1:1"
+        "4:3"
       );
 
       console.log("AvailablePictureSizes: ", sizes);
-      setSize(sizes[Math.floor(sizes.length / 3)]); // 选择大小适中的
+      // 选择大小适中的
+      for (let i = sizes.length - 1; i >= 0; i--) {
+        let size = sizes[i];
+        if (parseInt(size) < 1000) {
+          setSize(size);
+          break;
+        }
+      }
     };
 
     if (permission) {
@@ -95,12 +102,12 @@ export default function FaceDetectionScreen({ route, navigation }) {
   const takePicture = async () => {
     if (cameraRef.current) {
       const options = {
-        quality: 0.1,
-        skipProcessing: true,
+        quality: 1,
+        //skipProcessing: true,
       }; //设置为ImageType.png 还是jpg格式？
       const photo = await cameraRef.current.takePictureAsync(options);
       const parts = photo.uri.split("/").pop();
-      console.log("Sun >>> photo ==" + photo.width);
+      console.log("Sun >>> photo ==", photo.height, "x", photo.width);
       console.log("Sun >>> photo parts ==" + parts);
       const img = {
         uri: photo.uri,

@@ -68,7 +68,7 @@ export function FSelect({
           }}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          selectedValue={context.values[name]}
+          selectedValue={context.values[name] || "sos"}
           style={[
             {
               padding: 0,
@@ -79,9 +79,6 @@ export function FSelect({
             getTextAlign(locale),
           ]}
         >
-          {!context.values[name] && !focused && (
-            <Picker.Item style={[getRTLView(locale)]} label="" value="" />
-          )}
           {options.map((item, index) => (
             <Picker.Item
               style={[getRTLView(locale)]}
@@ -90,6 +87,9 @@ export function FSelect({
               key={`${item.value}_${index}`}
             />
           ))}
+          {!context.values[name] && !focused && (
+            <Picker.Item style={{ lineHeight: 0 }} label="" value="sos" />
+          )}
         </Picker>
       </View>
       {meta.touched && meta.error ? (

@@ -223,6 +223,10 @@ export default function Certificate({ route }) {
       case 2:
         hasError = modifycnicInHand;
         break;
+      case 3:
+        setShowTips(true);
+        setIndex(id);
+        return;
     }
     if (hasError) {
       setShowTips(true);

@@ -223,9 +223,6 @@ export default function Certificate({ route }) {
       case 2:
         hasError = modifycnicInHand;
         break;
-      case 3:
-        hasError = modifyemploymentProof;
-        break;
     }
     if (hasError) {
       setShowTips(true);

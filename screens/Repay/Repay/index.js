@@ -50,7 +50,7 @@ export default function Repay({ navigation, route }) {
   useEffect(() => {
     getRepayCode({
       businessId: bill.loanId,
-      amount: bill.applyAmount,
+      amount: bill.currentAmountDue,
       channel: channel || 1,
     });
   }, [channel]);

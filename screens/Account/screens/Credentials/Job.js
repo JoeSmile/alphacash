@@ -185,7 +185,7 @@ export default function Job({ navigation, route }) {
             )[0].name;
             parameters["companyCityName"] = cityOptions.filter(
               (province) => province.code == cityId
-            )[0].name;
+            )[0]?.name;
             updateWorkInfo(parameters);
           }}
           validateOnChange={true}
@@ -247,8 +247,9 @@ export default function Job({ navigation, route }) {
                         valueKey="code"
                         labelKey="name"
                         afterChange={({ name, value }) => {
-                            // 省份修改后，城市自动清空
-                           values["companyCityId"]=0,
+                          // 省份修改后，城市自动清空
+                          //values["companyCityId"] = 0;
+                          setFieldValue("companyCityId", 0);
                           getCityList({
                             parentId: value,
                           });
@@ -260,6 +261,7 @@ export default function Job({ navigation, route }) {
                     {provinceOptions && cityOptions && (
                       <FSelect
                         name="companyCityId"
+                        enabledKey="companyProviceId"
                         label="City"
                         options={cityOptions}
                         valueKey="code"

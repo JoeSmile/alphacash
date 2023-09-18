@@ -65,7 +65,11 @@ const PersonalFormSchema = Yup.object().shape({
 
 export default function Personal({ navigation, route }) {
   const { mutate: getPersonalDetail, data, isLoading } = useGetPersonalDetail();
-  const { mutate: updatePersonalInfoMutation, data: personalData,isLoading: isUpdatePersonalInfoLoading} = useUpdatePersonalInfo();
+  const {
+    mutate: updatePersonalInfoMutation,
+    data: personalData,
+    isLoading: isUpdatePersonalInfoLoading,
+  } = useUpdatePersonalInfo();
   const {
     mutate: getPersonalOptions,
     data: personFormOptions,
@@ -129,7 +133,7 @@ export default function Personal({ navigation, route }) {
   useEffect(() => {
     if (data?.data?.error_code === 1) {
       const userInfo = data.data.data.userInfo;
-      console.log('Sun >>>> ' + JSON.stringify(userInfo))
+      console.log("Sun >>>> " + JSON.stringify(userInfo));
       getCityList({
         parentId: userInfo?.provinceId ?? "1",
       });
@@ -141,7 +145,7 @@ export default function Personal({ navigation, route }) {
   }, [data]);
 
   useEffect(() => {
-    if (personalData?.data?.error_code === 1 ) {
+    if (personalData?.data?.error_code === 1) {
       doTrack("pk46", 1);
       if (isUpdate) {
         navigation.goBack();
@@ -185,7 +189,7 @@ export default function Personal({ navigation, route }) {
                 validateOnBlur={true}
                 validationSchema={PersonalFormSchema}
               >
-                {({ handleChange, handleBlur, handleSubmit, values }) => (
+                {({ setFieldValue, handleSubmit, values }) => (
                   <>
                     <View style={styles.module}>
                       <FTextInput
@@ -264,7 +268,8 @@ export default function Personal({ navigation, route }) {
                               labelKey="name"
                               afterChange={({ name, value }) => {
                                 // 省份修改后，城市自动清空
-                                values["cityId"]=0,
+                                //values["cityId"] = 0;
+                                setFieldValue("cityId", 0);
                                 getCityList({
                                   parentId: value,
                                 });
@@ -300,14 +305,17 @@ export default function Personal({ navigation, route }) {
                     </View>
 
                     <Pressable
-                      style={[{
-                        marginVertical: 20,
-                        backgroundColor: "#0825B8",
-                        borderRadius: 3,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        display: "flex",
-                      }, getRTLView(locale)]}
+                      style={[
+                        {
+                          marginVertical: 20,
+                          backgroundColor: "#0825B8",
+                          borderRadius: 3,
+                          alignItems: "center",
+                          justifyContent: "center",
+                          display: "flex",
+                        },
+                        getRTLView(locale),
+                      ]}
                       onPress={handleSubmit}
                     >
                       <Text

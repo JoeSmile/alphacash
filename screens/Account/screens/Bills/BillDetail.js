@@ -181,8 +181,8 @@ export default function BillDetail({ route }) {
               style={styles.repayBtn}
               onPress={() => {
                 doTrack("pk24", 1);
-                //navigation.push("RepayList");
-                navigation.push("Apply");
+                navigation.push("RepayList");
+                // navigation.push("Apply");
               }}
               title="RepayNow"
             />

@@ -19,7 +19,12 @@ import { useNavigation } from "@react-navigation/native";
 import Spinner from "react-native-loading-spinner-overlay";
 import { useBillDetail } from "@apis/hooks";
 import { doTrack } from "../../../../utils/dataTrack";
-import { getWritingDirectionStyle, getMarginRightOrLeft, getRTLView, getTextAlign } from "@styles";
+import {
+  getWritingDirectionStyle,
+  getMarginRightOrLeft,
+  getRTLView,
+  getTextAlign,
+} from "@styles";
 
 export default function BillDetail({ route }) {
   const { loanId } = route.params;
@@ -55,7 +60,12 @@ export default function BillDetail({ route }) {
             <Text style={[styles.title, { marginBottom: 8 }]}>
               {`${i18n.t("Collection Account")}:`}
             </Text>
-            <Text style={[[styles.titleValue, getTextAlign(locale, true)], getWritingDirectionStyle(locale)]}>
+            <Text
+              style={[
+                [styles.titleValue, getTextAlign(locale, true)],
+                getWritingDirectionStyle(locale),
+              ]}
+            >
               {fa2f(type === 1 ? bankAccount : ewalletAccount)}
             </Text>
           </View>
@@ -87,7 +97,9 @@ export default function BillDetail({ route }) {
             <View style={styles.line}></View>
             <View style={[styles.info, getRTLView(locale)]}>
               <Text style={styles.title}>{`${i18n.t("Apply Date")}: `}</Text>
-              <Text style={[styles.titleValue, getTextAlign(locale, true)]}>{item.applyDate}</Text>
+              <Text style={[styles.titleValue, getTextAlign(locale, true)]}>
+                {item.applyDate}
+              </Text>
             </View>
             <View style={styles.line}></View>
             <View style={[styles.info, getRTLView(locale)]}>
@@ -101,7 +113,9 @@ export default function BillDetail({ route }) {
               <Text style={styles.title}>
                 {`${i18n.t("DisburseAmount")}: `}
               </Text>
-              <Text style={[styles.titleValue, getTextAlign(locale, true)]}>{fn2f(item.getAmount)}</Text>
+              <Text style={[styles.titleValue, getTextAlign(locale, true)]}>
+                {fn2f(item.getAmount)}
+              </Text>
             </View>
             {renderAccount()}
             {hasDueDateBillStatus.includes(item.appStatus) &&
@@ -112,12 +126,18 @@ export default function BillDetail({ route }) {
                     <Text style={styles.title}>
                       {`${i18n.t("Loan Date")}: `}
                     </Text>
-                    <Text style={[styles.titleValue, getTextAlign(locale, true)]}>{item.disburseDate}</Text>
+                    <Text
+                      style={[styles.titleValue, getTextAlign(locale, true)]}
+                    >
+                      {item.disburseDate}
+                    </Text>
                   </View>
                   <View style={styles.line}></View>
                   <View style={[styles.info, getRTLView(locale)]}>
                     <Text style={styles.title}>{`${i18n.t("Markup")}: `}</Text>
-                    <Text style={[styles.titleValue, getTextAlign(locale, true)]}>
+                    <Text
+                      style={[styles.titleValue, getTextAlign(locale, true)]}
+                    >
                       {fn2f(item.totalInterest)}
                     </Text>
                   </View>
@@ -134,7 +154,12 @@ export default function BillDetail({ route }) {
                           <Text style={styles.title}>
                             {`${i18n.t("Late Payment Charges")}: `}
                           </Text>
-                          <Text style={[styles.titleValue, getTextAlign(locale, true)]}>
+                          <Text
+                            style={[
+                              styles.titleValue,
+                              getTextAlign(locale, true),
+                            ]}
+                          >
                             {fn2f(item.latePayFee)}
                           </Text>
                         </View>
@@ -145,8 +170,14 @@ export default function BillDetail({ route }) {
                     <Text style={styles.title}>{`${i18n.t(
                       "Lump Sum Repayment Amount"
                     )}: `}</Text>
-                    <Text style={[styles.titleValue, getTextAlign(locale, true)]}>
-                      {fn2f(item.currentAmountDue)}
+                    <Text
+                      style={[styles.titleValue, getTextAlign(locale, true)]}
+                    >
+                      {fn2f(
+                        hasRepayBillStatus.includes(item.appStatus)
+                          ? item.currentAmountDue
+                          : item.repaidAmount
+                      )}
                     </Text>
                   </View>
                   <View style={styles.line}></View>
@@ -154,18 +185,25 @@ export default function BillDetail({ route }) {
                     <Text style={styles.title}>
                       {`${i18n.t("Due Date")}: `}
                     </Text>
-                    <Text style={[styles.titleValue, getTextAlign(locale, true)]}>{item.dueDate}</Text>
+                    <Text
+                      style={[styles.titleValue, getTextAlign(locale, true)]}
+                    >
+                      {item.dueDate}
+                    </Text>
                   </View>
                   {item.paymentDate && (
                     <>
                       <View style={styles.line}></View>
-                      <View
-                        style={[styles.info, getRTLView(locale)]}
-                      >
+                      <View style={[styles.info, getRTLView(locale)]}>
                         <Text style={styles.title}>
                           {`${i18n.t("Repayment Date")}: `}
                         </Text>
-                        <Text style={[styles.titleValue, getTextAlign(locale, true)]}>
+                        <Text
+                          style={[
+                            styles.titleValue,
+                            getTextAlign(locale, true),
+                          ]}
+                        >
                           {item.paymentDate}
                         </Text>
                       </View>
@@ -245,7 +283,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
     lineHeight: 20,
-    flex: 1
+    flex: 1,
   },
   repayBtnWrap: {
     padding: 15,

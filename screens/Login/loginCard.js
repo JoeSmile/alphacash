@@ -213,6 +213,7 @@ export default function LoginCard() {
                 <Text style={[styles.label, locale == 'en' ? {textAlign: 'left'} : {textAlign: 'right'}]}>OTP</Text>
                 <View style={[{ position: "relative" }]}>
                   <TextInput
+                    keyboardType="numeric"
                     name="OTP"
                     style={[styles.textInput, getTextAlign(locale)]}
                     onChangeText={handleChange("OTP")}

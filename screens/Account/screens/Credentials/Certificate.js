@@ -80,6 +80,9 @@ export default function Certificate({ route }) {
   const [hasCards, setHasCards] = useState(false);
   const editAble = useAbleImage();
   const [fromScreen, setFromScreen] = useState("");
+  const [canSubmit, setCanSubmit] = useState(false);
+  const [isUploading, setUploading] = useState(false);
+
   // const [permission, requestPermission] = Camera.useCameraPermissions();
 
   // useEffect(() => {
@@ -93,6 +96,13 @@ export default function Certificate({ route }) {
     getAccounts();
   }, []);
 
+  useEffect(() => {
+    if(!modifycnicBack && !modifycnicFront && !modifycnicInHand && !modifyemploymentProof && imageList.length == 4``) {
+      setCanSubmit(true);
+    } else {
+      setCanSubmit(false);
+    }
+  }, [])
 
   useEffect(() => {
     if (cards && cards.data && Array.isArray(cards.data.data) && cards.data.data.length > 0) {
@@ -174,6 +184,7 @@ export default function Certificate({ route }) {
   // 首次添加 或 更改图片
   useEffect(() => {
     if (updateIdentityInfoResponse?.data?.error_code == 1) {
+      setUploading(false);
       console.log("Sun >>>>>>>>>> updateIdentityInfoResponse");
       if (isUpdate) {
         navigation.goBack();
@@ -206,6 +217,7 @@ export default function Certificate({ route }) {
         content: i18n.t("modify successfully"),
         duration: 3,
       });
+      setUploading(false);
       navigation.push("Homepage");
     }
   }, [updateBillUserImagesResponse]);
@@ -258,7 +270,6 @@ export default function Certificate({ route }) {
     if (result.canceled) {
       return;
     }
-    setPickedFromAlbum(true);
     let updatedImages = [...imageList];
     const imgUri = result.assets[0].uri;
     console.log("Sun imgUri =>>> " + imgUri);
@@ -268,6 +279,21 @@ export default function Certificate({ route }) {
       name: imgUri.split("/").pop(),
     };
     updatedImages[index] = img;
+
+    switch(index) {
+      case 0:
+        setModifycnicFront(false);
+        break;
+      case 1:
+        setModifycnicBack(false);
+        break;
+      case 2:
+        setModifycnicInHand(false);
+        break;
+      case 3:
+        setModifyemploymentProof(false);
+        break;
+    }
     setImage(updatedImages);
   };
 
@@ -291,13 +317,25 @@ export default function Certificate({ route }) {
       name: imgUri.split("/").pop(),
     };
     updatedImages[index] = img;
+    switch(index) {
+      case 0:
+        setModifycnicFront(false);
+        break;
+      case 1:
+        setModifycnicBack(false);
+        break;
+      case 2:
+        setModifycnicInHand(false);
+        break;
+      case 3:
+        setModifyemploymentProof(false);
+        break;
+    }
     setImage(updatedImages);
   };
 
   const onClickUpdateIdentityInfo = () => {
-    if (!pickedFromAlbum) {
-      return;
-    }
+    setUploading(true);
     doTrack("pk40", 1);
     const params = {
       cnicFront: imageList[0],
@@ -557,10 +595,11 @@ export default function Certificate({ route }) {
               </Text>}
         </View>
         <FButton 
+          disabled={isUploading && canSubmit}
           title = "Submit"
           onPress={onClickUpdateIdentityInfo}
           style={{
-            backgroundColor:  pickedFromAlbum ? "#0825B8" : '#C0C4D6',
+            backgroundColor:  !isUploading && canSubmit ? "#0825B8" : '#C0C4D6',
             marginHorizontal: 15,
             marginVertical: 20
           }}

@@ -165,7 +165,7 @@ export const en = {
     "2. You can apply for the first loan after the receiving account is successfully added;",
   Notice3:
     "3. When you fill in Jazzcash as the receiving account number, please fill in the Jazzcash account number that matches your CNIC, otherwise the payment will not be successful.",
-  "bank account name": "bank account name",
+  "bank account name": "Bank account name",
   "Bank Account": "Bank Account",
   "Bank name": "Bank name",
   "Add Collection Account": "Add Collection Account",

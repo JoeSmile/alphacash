@@ -291,6 +291,7 @@ export function AddNewAccount({ navigation, route }) {
                         name="bankAccountName"
                         label="bank account name"
                         type="text"
+                        rightIcon={require("@assets/images/loan_ic_edit.png")}
                       />
                     </View>
                     <View style={styles.inputContainer}>
@@ -298,7 +299,6 @@ export function AddNewAccount({ navigation, route }) {
                         name="bankAccount"
                         label="Bank Account"
                         type="text"
-                        rightIcon={require("@assets/images/loan_ic_edit.png")}
                       />
                     </View>
                     {!isLoading && rawList && (

@@ -109,8 +109,10 @@ export function QuotaButtons() {
   const [isFormCompleted, setIsFormCompleted] = useState(false);
   const [targeFormStep, setTargetFormStep] = useState("");
   const isFocused = useIsFocused();
+  const [getLoaning, setGetLoaning] = useState(false);
 
   useEffect(() => {
+    setGetLoaning(false);
     getUserFormStatus();
     //pushApplist();
   }, [isFocused]);
@@ -200,6 +202,7 @@ export function QuotaButtons() {
 
   const clickGetLoan = useCallback(() => {
     if (isLogin) {
+      setGetLoaning(true);
       // navigation.push("FaceDetectionScreen");
       pushApplist();
       if (isFormCompleted) {
@@ -333,7 +336,7 @@ export function QuotaButtons() {
         }}
         onPress={clickGetLoan}
         title="GetLoan"
-        disabled={!cashLoan.isEligible}
+        disabled={!cashLoan.isEligible && !getLoaning}
       />
     </View>
   );

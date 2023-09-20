@@ -206,7 +206,7 @@ export default function Job({ navigation, route }) {
                 <FTextInput name="companyName" label="Company Name" />
               </View>
               <View style={styles.module}>
-                <FTextInput name="companyPhone" label="Company Phone" />
+                <FTextInput name="companyPhone" label="Company Phone" keyboardType="numeric"/>
               </View>
               <View style={styles.module}>
                 <FSelect

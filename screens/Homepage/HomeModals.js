@@ -163,7 +163,7 @@ function HomeModals({ showModal, type }) {
               // TODO, 跳到APP商店评分
             }}
           >
-            <Text style={styles.btnText}>{i18n.t("I Know")}</Text>
+            <Text style={styles.btnText}>Rate Now</Text>
           </Pressable>
         );
         break;

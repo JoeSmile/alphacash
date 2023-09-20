@@ -97,12 +97,12 @@ export default function Certificate({ route }) {
   }, []);
 
   useEffect(() => {
-    if(!modifycnicBack && !modifycnicFront && !modifycnicInHand && !modifyemploymentProof && imageList.length == 4``) {
+    if(!modifycnicBack && !modifycnicFront && !modifycnicInHand && !modifyemploymentProof && imageList.length == 4) {
       setCanSubmit(true);
     } else {
       setCanSubmit(false);
     }
-  }, [])
+  }, [modifycnicBack, modifycnicFront, modifycnicInHand, modifyemploymentProof, imageList])
 
   useEffect(() => {
     if (cards && cards.data && Array.isArray(cards.data.data) && cards.data.data.length > 0) {

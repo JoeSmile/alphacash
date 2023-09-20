@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Formik } from "formik";
 import { FTextInput, FSelect } from "@components/Inputs";
-import { useAddAccount, useBankList } from "@apis";
+import { useAddAccount, useBankList, useGetPersonalDetail } from "@apis";
 import { FButton } from "@components/FButton";
 import * as Yup from "yup";
 import { useI18n } from "@hooks/useI18n";
@@ -115,9 +115,11 @@ export function AddNewAccount({ navigation, route }) {
   const { mutate: addAccount, data: result } = useAddAccount();
   const { mutate: getBankList, data: rawList, isLoading } = useBankList();
   const [fromScreen, setFromScreen] = useState("");
+  const { mutate: getPersonalDetail, data: personalDetail } = useGetPersonalDetail();
 
   useEffect(() => {
     getBankList();
+    getPersonalDetail();
   }, []);
 
   React.useEffect(() => {
@@ -125,25 +127,30 @@ export function AddNewAccount({ navigation, route }) {
     const fromScreen = route.params ? route.params.fromScreen : "";
     setFromScreen(fromScreen);
     console.log("card---", card);
-    setInitialData({
-      account: card.ewalletAccount || defaultEmptyForm.account || phone,
-      bankAccount: card.bankAccount || defaultEmptyForm.bankAccount,
-      // bank
-      bankId: card.bankId || defaultEmptyForm.bankId,
-      bankAccountName: card.bankAccountName || defaultEmptyForm.bankAccountName,
-      // common
-      name: card.ewalletName || "EasyPaisa",
-      type: card.type || defaultEmptyForm.type,
-      ewalletType: card.ewalletId || "EasyPaisa".ewalletType,
-      id: card.bankAccountId || card.ewalletId || "",
-    });
-    setSelectedTab({
-      type: card.type || 2,
-      ewalletType: card.ewalletType || 1,
-      name: card.ewalletName || "EasyPaisa",
-      tabId: card.type ? (card.type == 1 ? 3 : card.ewalletType) : 1,
-    });
-  }, [route]);
+
+    if (personalDetail?.data?.error_code === 1) {
+      const userInfo = personalDetail.data.data.userInfo;
+      setInitialData({
+        account: card.ewalletAccount || defaultEmptyForm.account || phone,
+        bankAccount: card.bankAccount || defaultEmptyForm.bankAccount,
+        // bank
+        bankId: card.bankId || defaultEmptyForm.bankId,
+        bankAccountName: card.bankAccountName || userInfo.name || '',
+        // common
+        name: card.ewalletName || "EasyPaisa",
+        type: card.type || defaultEmptyForm.type,
+        ewalletType: card.ewalletId || "EasyPaisa".ewalletType,
+        id: card.bankAccountId || card.ewalletId || "",
+      });
+      setSelectedTab({
+        type: card.type || 2,
+        ewalletType: card.ewalletType || 1,
+        name: card.ewalletName || "EasyPaisa",
+        tabId: card.type ? (card.type == 1 ? 3 : card.ewalletType) : 1,
+      });
+    }
+   
+  }, [personalDetail, route]);
 
   const bankOptions = useMemo(() => {
     if (!isLoading && rawList) {

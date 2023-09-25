@@ -203,6 +203,10 @@ export function QuotaButtons() {
 
   const clickGetLoan = useCallback(() => {
     setFaceData({ uri: "", type: "", name: "" }); // 清除人脸识别数据
+    if (getLoaning) {
+      return;
+    }
+
     if (isLogin) {
       setGetLoaning(true);
       // navigation.push("FaceDetectionScreen");

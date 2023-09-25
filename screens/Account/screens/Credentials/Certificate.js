@@ -272,6 +272,24 @@ export default function Certificate({ route }) {
     }
     let updatedImages = [...imageList];
     const imgUri = result.assets[0].uri;
+    if(!imgUri.includes('image/png') && !imgUri.includes('image/jpeg') && !imgUri.includes('image/jpg')) {
+      switch(index) {
+        case 0:
+          setModifycnicFront(true);
+          break;
+        case 1:
+          setModifycnicBack(true);
+          break;
+        case 2:
+          setModifycnicInHand(true);
+          break;
+        case 3:
+          setModifyemploymentProof(true);
+          break;
+      }
+      return;
+    }
+
     console.log("Sun imgUri =>>> " + imgUri);
     const img = {
       uri: imgUri,
@@ -335,6 +353,9 @@ export default function Certificate({ route }) {
   };
 
   const onClickUpdateIdentityInfo = () => {
+    if(!canSubmit || isUploading) {
+      return;
+    }
     setUploading(true);
     doTrack("pk40", 1);
     const params = {
@@ -595,7 +616,6 @@ export default function Certificate({ route }) {
               </Text>}
         </View>
         <FButton 
-          disabled={isUploading && canSubmit}
           title = "Submit"
           onPress={onClickUpdateIdentityInfo}
           style={{

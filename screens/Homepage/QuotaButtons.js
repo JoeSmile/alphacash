@@ -97,10 +97,11 @@ function BillBrief({ bill }) {
 export function QuotaButtons() {
   const { i18n } = useI18n();
   const navigation = useNavigation();
-  const [cashLoan, bill, hasBill] = useUserQuota((s) => [
+  const [cashLoan, bill, hasBill, setFaceData] = useUserQuota((s) => [
     s.cashLoan,
     s.bill,
     s.hasBill,
+    s.setFaceData,
   ]);
   const [hasError, setHasError] = useState(false);
   const isLogin = useSystemStore((s) => !!s.token);
@@ -201,6 +202,7 @@ export function QuotaButtons() {
   }, []);
 
   const clickGetLoan = useCallback(() => {
+    setFaceData({ uri: "", type: "", name: "" }); // 清除人脸识别数据
     if (isLogin) {
       setGetLoaning(true);
       // navigation.push("FaceDetectionScreen");

@@ -37,6 +37,9 @@ module.exports = ({ config }) => ({
     blockedPermissions: [
       "android.permission.READ_EXTERNAL_STORAGE",
       "android.permission.ACCESS_FINE_LOCATION",
+      "android.permission.WRITE_EXTERNAL_STORAGE",
+      "android.permission.RECORD_AUDIO",
+      "android.permission.MODIFY_AUDIO_SETTINGS",
     ],
   },
   web: {

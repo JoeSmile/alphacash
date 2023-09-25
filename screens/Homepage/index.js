@@ -23,14 +23,16 @@ import { OnlineService } from "./OnlineService";
 import HomeModals, { MODAL_TYPE } from "./HomeModals";
 import { useIsFocused } from "@react-navigation/native";
 import { doTrack } from "../../utils/dataTrack";
-import { getWritingDirectionStyle } from '@styles';
+import { getWritingDirectionStyle } from "@styles";
 
 export default function Homepage({ route, navigation }) {
   const { i18n, locale } = useI18n();
   const { showModal = false } = route?.params || {};
 
   const { mutate: getUserQuota, data: axiosRes } = useGetUserQuota();
-  const isRepayReminderOn = useSystemStore((s) => s.usersInfo[s.phone]?.isRepayReminderOn ?? false);
+  const isRepayReminderOn = useSystemStore(
+    (s) => s.usersInfo[s.phone]?.isRepayReminderOn ?? false
+  );
   const [cashLoan, setCashLoan, loanIds, setLoanIdInTips] = useUserQuota(
     (s) => [s.cashLoan, s.setCashLoan, s.loanIdInTips, s.setLoanIdInTips]
   );
@@ -192,8 +194,6 @@ export default function Homepage({ route, navigation }) {
     //}
   }, []);
 
-
-
   return (
     <ScrollView style={[styles.container, getWritingDirectionStyle(locale)]}>
       <View style={styles.banner} />
@@ -213,7 +213,6 @@ const styles = StyleSheet.create({
     position: "relative",
     backgroundColor: "white",
     paddingBottom: 20,
-
   },
   banner: {
     top: 0,
@@ -241,4 +240,3 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
-

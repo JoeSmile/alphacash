@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { View, Text, Pressable, StyleSheet, Image } from "react-native";
+import * as Linking from "expo-linking";
 import * as Calendar from "expo-calendar";
 import { Toast } from "@ant-design/react-native";
 import FModal from "@components/FModal";
@@ -29,7 +30,7 @@ function HomeModals({ showModal, type }) {
   useEffect(() => {
     let initModalType, initVisible;
     if (!isLogin) {
-      return
+      return;
     }
     if (showModal) {
       if (type === MODAL_TYPE.ELIGIBLE) {
@@ -115,10 +116,18 @@ function HomeModals({ showModal, type }) {
         );
         break;
       case MODAL_TYPE.RATE:
-        body = <Text style={[styles.tips, getTextAlign(locale)]}>{i18n.t("GoodReview")}</Text>;
+        body = (
+          <Text style={[styles.tips, getTextAlign(locale)]}>
+            {i18n.t("GoodReview")}
+          </Text>
+        );
         break;
       case MODAL_TYPE.ELIGIBLE:
-        body = <Text style={[styles.tips, getTextAlign(locale)]}>{i18n.t("Terribly sorry")}</Text>;
+        body = (
+          <Text style={[styles.tips, getTextAlign(locale)]}>
+            {i18n.t("Terribly sorry")}
+          </Text>
+        );
         break;
 
       default:
@@ -160,10 +169,12 @@ function HomeModals({ showModal, type }) {
             onPress={() => {
               setRatePoped();
               setModalType(MODAL_TYPE.REPAY_TIP);
-              // TODO, 跳到APP商店评分
+              Linking.openURL(
+                "https://play.google.com/store/apps/details?id=com.alphacash.easy.credit.loan.paisa&hl=en-gb&gl=pk"
+              );
             }}
           >
-            <Text style={styles.btnText}>Rate Now</Text>
+            <Text style={styles.btnText}>{i18n.t("RateNow")}</Text>
           </Pressable>
         );
         break;

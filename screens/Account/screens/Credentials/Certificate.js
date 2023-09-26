@@ -181,9 +181,24 @@ export default function Certificate({ route }) {
     }
   }, [identityInfo]);
 
+  const setImageError = (data) => {
+    const needModifyInfo = {
+      cnicBack: false,
+      cnicFront: false,
+      cnicInHand: false,
+      employmentProof: false,
+      ...(identityInfo.data.data?.needModifyInfo || {}),
+    };
+    setModifycnicBack(needModifyInfo.cnicBack);
+    setModifycnicFront(needModifyInfo.cnicFront);
+    setModifycnicInHand(needModifyInfo.cnicInHand);
+    setModifyemploymentProof(needModifyInfo.employmentProof);
+  }
+
   // 首次添加 或 更改图片
   useEffect(() => {
-    if (updateIdentityInfoResponse?.data?.error_code == 1) {
+    const errorCode = updateIdentityInfoResponse?.data?.error_code
+    if ( errorCode == 1) {
       setUploading(false);
       console.log("Sun >>>>>>>>>> updateIdentityInfoResponse");
       if (isUpdate) {
@@ -206,6 +221,8 @@ export default function Certificate({ route }) {
           }
         }
       }
+    } else if (errorCode == 3) {
+      setImageError(updateIdentityInfoResponse);
     }
   }, [updateIdentityInfoResponse]);
 
@@ -219,6 +236,8 @@ export default function Certificate({ route }) {
       });
       setUploading(false);
       navigation.push("Homepage");
+    } else if (errorCode == 3) {
+      setImageError(updateBillUserImagesResponse);
     }
   }, [updateBillUserImagesResponse]);
 
@@ -272,23 +291,23 @@ export default function Certificate({ route }) {
     }
     let updatedImages = [...imageList];
     const imgUri = result.assets[0].uri;
-    if(!imgUri.includes('image/png') && !imgUri.includes('image/jpeg') && !imgUri.includes('image/jpg')) {
-      switch(index) {
-        case 0:
-          setModifycnicFront(true);
-          break;
-        case 1:
-          setModifycnicBack(true);
-          break;
-        case 2:
-          setModifycnicInHand(true);
-          break;
-        case 3:
-          setModifyemploymentProof(true);
-          break;
-      }
-      return;
-    }
+    // if(!imgUri.includes('image/png') && !imgUri.includes('image/jpeg') && !imgUri.includes('image/jpg')) {
+    //   switch(index) {
+    //     case 0:
+    //       setModifycnicFront(true);
+    //       break;
+    //     case 1:
+    //       setModifycnicBack(true);
+    //       break;
+    //     case 2:
+    //       setModifycnicInHand(true);
+    //       break;
+    //     case 3:
+    //       setModifyemploymentProof(true);
+    //       break;
+    //   }
+    //   return;
+    // }
 
     console.log("Sun imgUri =>>> " + imgUri);
     const img = {

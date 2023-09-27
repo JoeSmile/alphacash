@@ -635,7 +635,7 @@ export default function Certificate({ route }) {
             >
               {i18n.t("Need modify")}
             </Text>
-          )}
+          }
         </View>
 
         <View style={styles.shadowContent}></View>

@@ -1,15 +1,26 @@
 import React from "react";
 import { Text, StyleSheet, Pressable, Image } from "react-native";
+import { debounce } from "lodash";
 import { useI18n } from "@hooks/useI18n";
 import { getRevertImage } from "@styles";
-import { getRTLView } from '@styles';
+import { getRTLView } from "@styles";
 
 export function FButton(props) {
-  const { onPress, title = "Save", style = {}, textStyle, ...restProps } = props;
+  const {
+    onPress,
+    title = "Save",
+    style = {},
+    textStyle,
+    ...restProps
+  } = props;
   const { i18n, locale } = useI18n();
 
   return (
-    <Pressable style={[styles.button, style, getRTLView(locale)]} onPress={onPress} {...restProps}>
+    <Pressable
+      style={[styles.button, style, getRTLView(locale)]}
+      onPress={debounce(onPress, 280)}
+      {...restProps}
+    >
       <Text style={[styles.text, textStyle]}>{i18n.t(title)}</Text>
       <Image
         source={require("@assets/images/btn_ic_right.png")}

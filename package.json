@@ -8,7 +8,7 @@
     "web": "cross-env ENV=dev expo start --web",
     "build:preview": "cross-env ENV=production eas build -p android --profile preview",
     "build:live": "cross-env ENV=production eas build -p android --profile production",
-    "update:preview": "cross-env ENV=production eas update --branch preview --message 'update preview to 0.0.7-7'",
+    "update:preview": "cross-env ENV=production eas update --branch preview --message 'update preview to 0.0.8-0'",
     "update:live": "cross-env ENV=production eas update --branch production --message 'update preview to 0.1.0-2'"
   },
   "dependencies": {
@@ -47,7 +47,6 @@
     "expo-file-system": "~15.2.2",
     "expo-font": "^11.1.1",
     "expo-image": "~1.0.1",
-    "expo-image-picker": "~14.1.1",
     "expo-linear-gradient": "~12.1.2",
     "expo-linking": "~4.0.1",
     "expo-localization": "~14.1.1",
@@ -81,7 +80,8 @@
     "react-native-webview": "11.23.0",
     "react-query": "^3.39.3",
     "yup": "^1.2.0",
-    "zustand": "^4.3.8"
+    "zustand": "^4.3.8",
+    "fork-expo-image-picker": "https://github.com/qinghuama320/fork-expo-image-picker"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

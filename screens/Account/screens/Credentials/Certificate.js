@@ -15,9 +15,9 @@ import {
   useUpdateIdentityInfo,
   useUpdateBillUserImages,
   useGetAccounts,
-  useGetUserFormStatus
+  useGetUserFormStatus,
 } from "@apis";
-import * as ImagePicker from "expo-image-picker";
+import * as ImagePicker from "fork-expo-image-picker";
 import { useI18n } from "@hooks/useI18n";
 import { useAbleImage } from "@hooks/useAbleImage";
 import mime from "mime";
@@ -97,15 +97,27 @@ export default function Certificate({ route }) {
   }, []);
 
   useEffect(() => {
-    if(!modifycnicBack && !modifycnicFront && !modifycnicInHand && !modifyemploymentProof && imageList.length == 4) {
+    if (
+      !modifycnicBack &&
+      !modifycnicFront &&
+      !modifycnicInHand &&
+      !modifyemploymentProof &&
+      imageList.length == 4
+    ) {
       setCanSubmit(true);
     } else {
       setCanSubmit(false);
     }
-  }, [modifycnicBack, modifycnicFront, modifycnicInHand, modifyemploymentProof, imageList])
+  }, [
+    modifycnicBack,
+    modifycnicFront,
+    modifycnicInHand,
+    modifyemploymentProof,
+    imageList,
+  ]);
 
   useEffect(() => {
-    if (cards && cards.data && Array.isArray(cards.data.data) && cards.data.data.length > 0) {
+    if (Array.isArray(cards?.data?.data) && cards.data.data.length > 0) {
       setHasCards(true);
     } else {
       setHasCards(false);
@@ -115,7 +127,7 @@ export default function Certificate({ route }) {
   useEffect(() => {
     const isUpdate = route.params ? route.params.isUpdate : false;
     const isModify = route.params ? route.params.isModify : false;
-    console.log('Sun >>> isUpdate == ' + isUpdate + "isModify == " + isModify)
+    console.log("Sun >>> isUpdate == " + isUpdate + "isModify == " + isModify);
     const fromScreen = route.params ? route.params.fromScreen : "";
     setFromScreen(fromScreen);
     setIsUpdate(!!isUpdate);
@@ -186,23 +198,23 @@ export default function Certificate({ route }) {
 
     const data = response.data.data;
     if (data.cnicBack && data.cnicBack.length) {
-        setModifycnicBack(true);
+      setModifycnicBack(true);
     }
     if (data.cnicFront && data.cnicFront.length) {
-        setModifycnicFront(true);
+      setModifycnicFront(true);
     }
     if (data.cnicInHand && data.cnicInHand.length) {
-        setModifycnicInHand(true);
+      setModifycnicInHand(true);
     }
     if (data.employmentProof && data.employmentProof.length) {
-        setModifyemploymentProof(true);
+      setModifyemploymentProof(true);
     }
-  }
+  };
 
   // 首次添加 或 更改图片
   useEffect(() => {
-    const errorCode = updateIdentityInfoResponse?.data?.error_code
-    if ( errorCode == 1) {
+    const errorCode = updateIdentityInfoResponse?.data?.error_code;
+    if (errorCode === 1) {
       setUploading(false);
       console.log("Sun >>>>>>>>>> updateIdentityInfoResponse");
       if (isUpdate) {
@@ -214,18 +226,18 @@ export default function Certificate({ route }) {
             navigation.push("Apply");
           } else {
             // 如果没有收款账号，就跳转到 添加新收款账号
-            navigation.push("AddNewAccount", { fromScreen: "Apply",card: {} });
+            navigation.push("AddNewAccount", { fromScreen: "Apply", card: {} });
           }
         } else {
           if (hasCards) {
             navigation.push("Credentials");
           } else {
-             // 如果没有收款账号，就跳转到 添加新收款账号
-             navigation.push("AddNewAccount", { fromScreen: "",card: {} });
+            // 如果没有收款账号，就跳转到 添加新收款账号
+            navigation.push("AddNewAccount", { fromScreen: "", card: {} });
           }
         }
       }
-    } else if (errorCode == 3) {
+    } else if (errorCode === 3) {
       setImageError(updateIdentityInfoResponse);
     }
   }, [updateIdentityInfoResponse]);
@@ -233,7 +245,7 @@ export default function Certificate({ route }) {
   //bill中有错 修改错误图片
   useEffect(() => {
     const errorCode = updateBillUserImagesResponse?.data?.error_code;
-    if (errorCode == 1) {
+    if (errorCode === 1) {
       console.log("0.0 >>>>>>>>>> updateBillUserImagesResponse");
       Toast.info({
         content: i18n.t("modify successfully"),
@@ -241,8 +253,7 @@ export default function Certificate({ route }) {
       });
       setUploading(false);
       navigation.push("Homepage");
-    } else if (errorCode == 3) {
-
+    } else if (errorCode === 3) {
       setImageError(updateBillUserImagesResponse);
     }
   }, [updateBillUserImagesResponse]);
@@ -250,12 +261,12 @@ export default function Certificate({ route }) {
   const showPickImageModel = (id) => {
     let hasError = false;
 
-    switch(id) {
+    switch (id) {
       case 0:
         hasError = modifycnicFront;
         break;
       case 1:
-        hasError = modifycnicBack ;
+        hasError = modifycnicBack;
         break;
       case 2:
         hasError = modifycnicInHand;
@@ -323,7 +334,7 @@ export default function Certificate({ route }) {
     };
     updatedImages[index] = img;
 
-    switch(index) {
+    switch (index) {
       case 0:
         setModifycnicFront(false);
         break;
@@ -343,6 +354,11 @@ export default function Certificate({ route }) {
   const takePhoto = async () => {
     setShowTips(false);
 
+    const granted = await ImagePicker.requestCameraPermissionsAsync();
+    if (!granted.granted) {
+      return;
+    }
+
     const result = await ImagePicker.launchCameraAsync({
       // allowsEditing: true,
     });
@@ -360,7 +376,7 @@ export default function Certificate({ route }) {
       name: imgUri.split("/").pop(),
     };
     updatedImages[index] = img;
-    switch(index) {
+    switch (index) {
       case 0:
         setModifycnicFront(false);
         break;
@@ -378,7 +394,7 @@ export default function Certificate({ route }) {
   };
 
   const onClickUpdateIdentityInfo = () => {
-    if(!canSubmit || isUploading) {
+    if (!canSubmit || isUploading) {
       return;
     }
     setUploading(true);
@@ -389,7 +405,7 @@ export default function Certificate({ route }) {
       cnicInHand: imageList[2],
       employmentProof: imageList[3],
     };
-    console.log('Sun >>> isUpdate == ' + isUpdate + "isModify == " + isModify)
+    console.log("Sun >>> isUpdate == " + isUpdate + "isModify == " + isModify);
     if (isModify) {
       updateBillUserImages(params);
     } else {
@@ -422,10 +438,13 @@ export default function Certificate({ route }) {
           }}
         >
           <View
-            style={[{
-              justifyContent: "space-between",
-              marginBottom: 12,
-            },  getRTLView(locale)]}
+            style={[
+              {
+                justifyContent: "space-between",
+                marginBottom: 12,
+              },
+              getRTLView(locale),
+            ]}
           >
             <Text style={styles.boldTextStyle}>{i18n.t("CNIC Card")}</Text>
             <Pressable
@@ -450,7 +469,7 @@ export default function Certificate({ route }) {
                 style={{
                   width: 166,
                   padding: 6,
-                  backgroundColor: modifycnicFront? "#EF3C3429" : "#F4F5F7",
+                  backgroundColor: modifycnicFront ? "#EF3C3429" : "#F4F5F7",
                   borderWidth: 2,
                   borderRadius: 4,
                   borderColor: modifycnicFront ? "#EF3C34" : "white",
@@ -476,16 +495,19 @@ export default function Certificate({ route }) {
               >
                 {i18n.t("CNIC Card Front")}
               </Text>
-              { modifycnicFront && <Text
-               style={{
-                fontSize: 12,
-                color: "#EF3C34",
-                alignSelf: "center",
-                marginTop: 6,
-                fontWeight:'bold'
-              }}>
-                {i18n.t("Need modify")}
-              </Text>}
+              {modifycnicFront && (
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: "#EF3C34",
+                    alignSelf: "center",
+                    marginTop: 6,
+                    fontWeight: "bold",
+                  }}
+                >
+                  {i18n.t("Need modify")}
+                </Text>
+              )}
             </Pressable>
             <Pressable
               onPress={() => showPickImageModel(1)}
@@ -523,16 +545,19 @@ export default function Certificate({ route }) {
               >
                 {i18n.t("CNIC Card Back")}
               </Text>
-              { modifycnicBack && <Text
-               style={{
-                fontSize: 12,
-                color: "#EF3C34",
-                alignSelf: "center",
-                marginTop: 6,
-                fontWeight:'bold'
-              }}>
-                {i18n.t("Need modify")}
-              </Text>}
+              {modifycnicBack && (
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: "#EF3C34",
+                    alignSelf: "center",
+                    marginTop: 6,
+                    fontWeight: "bold",
+                  }}
+                >
+                  {i18n.t("Need modify")}
+                </Text>
+              )}
             </Pressable>
           </View>
         </View>
@@ -542,10 +567,13 @@ export default function Certificate({ route }) {
         {/* in hand */}
         <View style={{ paddingHorizontal: 15, marginTop: 20 }}>
           <View
-            style={[{
-              justifyContent: "space-between",
-              marginBottom: 12,
-            },  getRTLView(locale)]}
+            style={[
+              {
+                justifyContent: "space-between",
+                marginBottom: 12,
+              },
+              getRTLView(locale),
+            ]}
           >
             <Text style={styles.boldTextStyle}>
               {i18n.t("Take photo with CNIC card in hand")}
@@ -577,16 +605,19 @@ export default function Certificate({ route }) {
               transition={500}
             />
           </Pressable>
-          { modifycnicInHand && <Text
-               style={{
+          {modifycnicInHand && (
+            <Text
+              style={{
                 fontSize: 12,
                 color: "#EF3C34",
                 marginHorizontal: 48,
                 marginTop: 6,
-                fontWeight:'bold'
-              }}>
-                {i18n.t("Need modify")}
-              </Text>}
+                fontWeight: "bold",
+              }}
+            >
+              {i18n.t("Need modify")}
+            </Text>
+          )}
         </View>
 
         <View style={styles.shadowContent}></View>
@@ -594,10 +625,13 @@ export default function Certificate({ route }) {
         {/* proof employment */}
         <View style={{ paddingHorizontal: 15, marginTop: 20 }}>
           <View
-            style={[{
-              justifyContent: "space-between",
-              marginBottom: 12,
-            }, getRTLView(locale)]}
+            style={[
+              {
+                justifyContent: "space-between",
+                marginBottom: 12,
+              },
+              getRTLView(locale),
+            ]}
           >
             <Text style={styles.boldTextStyle}>
               {i18n.t("Proof Employment")}
@@ -629,24 +663,27 @@ export default function Certificate({ route }) {
               transition={500}
             />
           </Pressable>
-          { modifyemploymentProof && <Text
-               style={{
+          {modifyemploymentProof && (
+            <Text
+              style={{
                 fontSize: 12,
                 color: "#EF3C34",
                 marginHorizontal: 48,
                 marginTop: 6,
-                fontWeight:'bold'
-              }}>
-                {i18n.t("Need modify")}
-              </Text>}
+                fontWeight: "bold",
+              }}
+            >
+              {i18n.t("Need modify")}
+            </Text>
+          )}
         </View>
-        <FButton 
-          title = "Submit"
+        <FButton
+          title="Submit"
           onPress={onClickUpdateIdentityInfo}
           style={{
-            backgroundColor:  !isUploading && canSubmit ? "#0825B8" : '#C0C4D6',
+            backgroundColor: !isUploading && canSubmit ? "#0825B8" : "#C0C4D6",
             marginHorizontal: 15,
-            marginVertical: 20
+            marginVertical: 20,
           }}
         />
       </View>
@@ -660,7 +697,7 @@ export default function Certificate({ route }) {
         <View style={styles.otherContainer}>
           <View style={styles.photoViewStyle}>
             <Pressable
-              onPress={() => takePhoto()}
+              onPress={takePhoto}
               style={{
                 flex: 1,
                 borderTopLeftRadius: 8,
@@ -682,7 +719,7 @@ export default function Certificate({ route }) {
             ></View>
 
             <Pressable
-              onPress={() => pickImage()}
+              onPress={pickImage}
               style={{
                 flex: 1,
                 justifyContent: "center",

@@ -181,18 +181,22 @@ export default function Certificate({ route }) {
     }
   }, [identityInfo]);
 
-  const setImageError = (data) => {
-    const needModifyInfo = {
-      cnicBack: false,
-      cnicFront: false,
-      cnicInHand: false,
-      employmentProof: false,
-      ...(identityInfo.data.data?.needModifyInfo || {}),
-    };
-    setModifycnicBack(needModifyInfo.cnicBack);
-    setModifycnicFront(needModifyInfo.cnicFront);
-    setModifycnicInHand(needModifyInfo.cnicInHand);
-    setModifyemploymentProof(needModifyInfo.employmentProof);
+  const setImageError = (response) => {
+    setUploading(false);
+
+    const data = response.data.data;
+    if (data.cnicBack && data.cnicBack.length) {
+        setModifycnicBack(true);
+    }
+    if (data.cnicFront && data.cnicFront.length) {
+        setModifycnicFront(true);
+    }
+    if (data.cnicInHand && data.cnicInHand.length) {
+        setModifycnicInHand(true);
+    }
+    if (data.employmentProof && data.employmentProof.length) {
+        setModifyemploymentProof(true);
+    }
   }
 
   // 首次添加 或 更改图片
@@ -228,7 +232,8 @@ export default function Certificate({ route }) {
 
   //bill中有错 修改错误图片
   useEffect(() => {
-    if (updateBillUserImagesResponse?.data?.error_code == 1) {
+    const errorCode = updateBillUserImagesResponse?.data?.error_code;
+    if (errorCode == 1) {
       console.log("0.0 >>>>>>>>>> updateBillUserImagesResponse");
       Toast.info({
         content: i18n.t("modify successfully"),
@@ -237,6 +242,7 @@ export default function Certificate({ route }) {
       setUploading(false);
       navigation.push("Homepage");
     } else if (errorCode == 3) {
+
       setImageError(updateBillUserImagesResponse);
     }
   }, [updateBillUserImagesResponse]);
@@ -294,16 +300,16 @@ export default function Certificate({ route }) {
     // if(!imgUri.includes('image/png') && !imgUri.includes('image/jpeg') && !imgUri.includes('image/jpg')) {
     //   switch(index) {
     //     case 0:
-    //       setModifycnicFront(true);
+    //       setModifycnicFront(false);
     //       break;
     //     case 1:
-    //       setModifycnicBack(true);
+    //       setModifycnicBack(false);
     //       break;
     //     case 2:
-    //       setModifycnicInHand(true);
+    //       setModifycnicInHand(false);
     //       break;
     //     case 3:
-    //       setModifyemploymentProof(true);
+    //       setModifyemploymentProof(false);
     //       break;
     //   }
     //   return;

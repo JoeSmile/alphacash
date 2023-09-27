@@ -15,7 +15,8 @@ import {
   useUpdateIdentityInfo,
   useUpdateBillUserImages,
   useGetAccounts,
-  useGetUserFormStatus
+  useGetUserFormStatus,
+  useGetUserQuota
 } from "@apis";
 import * as ImagePicker from "expo-image-picker";
 import { useI18n } from "@hooks/useI18n";
@@ -31,6 +32,7 @@ import { doTrack } from "@utils/dataTrack";
 import { getWritingDirectionStyle, getRevertImage, getRTLView } from "@styles";
 import { FButton } from "@components/FButton";
 
+
 const imageUri = require("@assets/images/info_pic_cnic_card_positive.png");
 const imageUri1 = require("@assets/images/info_pic_cnic_card_negative.png");
 const imageUri2 = require("@assets/images/info_pic_holding_id_card.png");
@@ -40,6 +42,8 @@ export default function Certificate({ route }) {
   const [cashLoan, bill] = useUserQuota((s) => [s.cashLoan, s.bill]);
   const navigation = useNavigation();
   const [showModalType, setShowModalType] = useState("");
+  const { mutate: getUserQuota, data: axiosRes } = useGetUserQuota();
+  const { mutate: getUserFormStatus, data: formStatus} = useGetUserFormStatus();
 
   const {
     mutate: getIdentityInfo,
@@ -62,7 +66,9 @@ export default function Certificate({ route }) {
   } = useUpdateBillUserImages();
 
   const { mutate: getAccounts, data: cards, isLoading } = useGetAccounts();
-
+  const [setCashLoan] = useUserQuota(
+    (s) => [s.setCashLoan]
+  );
   const { i18n, locale } = useI18n();
   const [imageList, setImage] = useState([]);
   const [showTips, setShowTips] = useState(false);
@@ -73,16 +79,23 @@ export default function Certificate({ route }) {
   const [isUpdate, setIsUpdate] = useState(false);
   // 申请bill中有错误，需要修改
   const [isModify, setIsModify] = useState(false);
+  // 服务器错误提示
   const [modifycnicBack, setModifycnicBack] = useState(false);
   const [modifycnicFront, setModifycnicFront] = useState(false);
   const [modifycnicInHand, setModifycnicInHand] = useState(false);
   const [modifyemploymentProof, setModifyemploymentProof] = useState(false);
+  // 是否修改了图片，如果修改了，则不用显示红框
+  const [reloadCnicBack, setReloadCnicBack] = useState(false);
+  const [reloadCnicFront, setReloadCnicFront] = useState(false);
+  const [reloadCnicInHand, setReloadCnicInHand] = useState(false);
+  const [reloadEmploymentProof, setReloadEmploymentProof] = useState(false);
+
   const [hasCards, setHasCards] = useState(false);
   const editAble = useAbleImage();
   const [fromScreen, setFromScreen] = useState("");
   const [canSubmit, setCanSubmit] = useState(false);
   const [isUploading, setUploading] = useState(false);
-
+  const [isCompletedIdentity, setIsCompletedIdentity] = useState(false);
   // const [permission, requestPermission] = Camera.useCameraPermissions();
 
   // useEffect(() => {
@@ -94,15 +107,36 @@ export default function Certificate({ route }) {
   useEffect(() => {
     getIdentityInfo();
     getAccounts();
+    getUserQuota();
+    getUserFormStatus();
   }, []);
 
   useEffect(() => {
-    if(!modifycnicBack && !modifycnicFront && !modifycnicInHand && !modifyemploymentProof && imageList.length == 4) {
+
+    if (formStatus?.data?.error_code == 1) {
+      const status = formStatus?.data?.data || {};
+      setIsCompletedIdentity(status.isCompletedIdentity);
+    }
+  }, [formStatus]);
+
+  useEffect(() => {
+    const cl = axiosRes?.data?.data?.cashLoan;
+    if (cl && JSON.stringify(cashLoan) !== JSON.stringify(cl)) {
+      setCashLoan(cl);
+    }
+  }, [axiosRes]);
+
+
+  useEffect(() => {
+    if((!modifycnicBack || reloadCnicBack) && (!modifycnicFront || reloadCnicFront) && (!modifycnicInHand  || reloadCnicInHand )&& (!modifyemploymentProof || reloadEmploymentProof) && imageList.length == 4) {
       setCanSubmit(true);
     } else {
       setCanSubmit(false);
     }
-  }, [modifycnicBack, modifycnicFront, modifycnicInHand, modifyemploymentProof, imageList])
+  }, [modifycnicBack, modifycnicFront, modifycnicInHand,
+     modifyemploymentProof, imageList, reloadCnicBack,
+     reloadCnicFront, reloadCnicInHand, 
+     reloadEmploymentProof, editAble]);
 
   useEffect(() => {
     if (cards && cards.data && Array.isArray(cards.data.data) && cards.data.data.length > 0) {
@@ -187,15 +221,19 @@ export default function Certificate({ route }) {
     const data = response.data.data;
     if (data.cnicBack && data.cnicBack.length) {
         setModifycnicBack(true);
+        setReloadCnicBack(false);
     }
     if (data.cnicFront && data.cnicFront.length) {
         setModifycnicFront(true);
+        setReloadCnicFront(false);
     }
     if (data.cnicInHand && data.cnicInHand.length) {
         setModifycnicInHand(true);
+        setReloadCnicInHand(false);
     }
     if (data.employmentProof && data.employmentProof.length) {
         setModifyemploymentProof(true);
+        setReloadEmploymentProof(false);
     }
   }
 
@@ -297,23 +335,6 @@ export default function Certificate({ route }) {
     }
     let updatedImages = [...imageList];
     const imgUri = result.assets[0].uri;
-    // if(!imgUri.includes('image/png') && !imgUri.includes('image/jpeg') && !imgUri.includes('image/jpg')) {
-    //   switch(index) {
-    //     case 0:
-    //       setModifycnicFront(false);
-    //       break;
-    //     case 1:
-    //       setModifycnicBack(false);
-    //       break;
-    //     case 2:
-    //       setModifycnicInHand(false);
-    //       break;
-    //     case 3:
-    //       setModifyemploymentProof(false);
-    //       break;
-    //   }
-    //   return;
-    // }
 
     console.log("Sun imgUri =>>> " + imgUri);
     const img = {
@@ -325,16 +346,16 @@ export default function Certificate({ route }) {
 
     switch(index) {
       case 0:
-        setModifycnicFront(false);
+        setReloadCnicFront(true);
         break;
       case 1:
-        setModifycnicBack(false);
+        setReloadCnicBack(true);
         break;
       case 2:
-        setModifycnicInHand(false);
+        setReloadCnicInHand(true);
         break;
       case 3:
-        setModifyemploymentProof(false);
+        setReloadEmploymentProof(true);
         break;
     }
     setImage(updatedImages);
@@ -362,23 +383,33 @@ export default function Certificate({ route }) {
     updatedImages[index] = img;
     switch(index) {
       case 0:
-        setModifycnicFront(false);
+        setReloadCnicFront(true);
         break;
       case 1:
-        setModifycnicBack(false);
+        setReloadCnicBack(true);
         break;
       case 2:
-        setModifycnicInHand(false);
+        setReloadCnicInHand(true);
         break;
       case 3:
-        setModifyemploymentProof(false);
+        setReloadEmploymentProof(true);
         break;
     }
     setImage(updatedImages);
   };
 
   const onClickUpdateIdentityInfo = () => {
-    if(!canSubmit || isUploading) {
+    if(!canSubmit) {
+      if (modifycnicBack || modifycnicFront || modifycnicInHand || modifyemploymentProof) {
+        Toast.info({
+          content: 'please complete the info',
+          duration: 3,
+        });
+      }
+      return;
+    }
+    
+    if (!SubmitButtonClickable()) {
       return;
     }
     setUploading(true);
@@ -397,6 +428,24 @@ export default function Certificate({ route }) {
     }
   };
 
+
+    // 蓝色 可以提交 
+    // 1. 表单完成，如果有错 对应的 reload 为true  --- canSubmit
+    // 灰色 不能提交 
+    // 1. 如果有错，提交时显示 complete the info
+    // 2. 初次进入，可以修改，但表单未完成
+    // 3. 不能修改 editAble == false 且 没有错误
+    // 4. 表单完成，没有错，当前状态
+  const SubmitButtonClickable = () => {
+
+    // 表单已完成，没有错，且"不能修改"状态 
+    if (imageList.length == 4 && !modifycnicBack && !modifycnicFront && !modifycnicInHand && !modifyemploymentProof && !editAble) {
+      return false;
+    }
+
+    return !isUploading && canSubmit
+
+  }
   return (
     <ScrollView style={[styles.container, getWritingDirectionStyle(locale)]}>
       <Spinner
@@ -450,10 +499,10 @@ export default function Certificate({ route }) {
                 style={{
                   width: 166,
                   padding: 6,
-                  backgroundColor: modifycnicFront? "#EF3C3429" : "#F4F5F7",
+                  backgroundColor: (modifycnicFront && !reloadCnicFront)? "#EF3C3429" : "#F4F5F7",
                   borderWidth: 2,
                   borderRadius: 4,
-                  borderColor: modifycnicFront ? "#EF3C34" : "white",
+                  borderColor: (modifycnicFront && !reloadCnicFront) ? "#EF3C34" : "white",
                 }}
               >
                 <Image
@@ -476,7 +525,7 @@ export default function Certificate({ route }) {
               >
                 {i18n.t("CNIC Card Front")}
               </Text>
-              { modifycnicFront && <Text
+              { (modifycnicFront && !reloadCnicFront) && <Text
                style={{
                 fontSize: 12,
                 color: "#EF3C34",
@@ -497,10 +546,10 @@ export default function Certificate({ route }) {
                 style={{
                   width: 166,
                   padding: 6,
-                  backgroundColor: modifycnicBack ? "#EF3C3429" : "#F4F5F7",
+                  backgroundColor: (modifycnicBack && !reloadCnicBack) ? "#EF3C3429" : "#F4F5F7",
                   borderWidth: 2,
                   borderRadius: 4,
-                  borderColor: modifycnicBack ? "#EF3C34" : "white",
+                  borderColor: (modifycnicBack && !reloadCnicBack) ? "#EF3C34" : "white",
                 }}
               >
                 <Image
@@ -523,7 +572,7 @@ export default function Certificate({ route }) {
               >
                 {i18n.t("CNIC Card Back")}
               </Text>
-              { modifycnicBack && <Text
+              { (modifycnicBack && !reloadCnicBack) && <Text
                style={{
                 fontSize: 12,
                 color: "#EF3C34",
@@ -560,10 +609,10 @@ export default function Certificate({ route }) {
             style={{
               width: 166,
               padding: 6,
-              backgroundColor: modifycnicInHand ? "#EF3C3429" : "#F4F5F7",
+              backgroundColor: (modifycnicInHand && !reloadCnicInHand) ? "#EF3C3429" : "#F4F5F7",
               borderWidth: 2,
               borderRadius: 4,
-              borderColor: modifycnicInHand ? "#EF3C34" : "white",
+              borderColor: (modifycnicInHand && !reloadCnicInHand) ? "#EF3C34" : "white",
             }}
             onPress={() => showPickImageModel(2)}
           >
@@ -577,7 +626,7 @@ export default function Certificate({ route }) {
               transition={500}
             />
           </Pressable>
-          { modifycnicInHand && <Text
+          { (modifycnicInHand && !reloadCnicInHand) && <Text
                style={{
                 fontSize: 12,
                 color: "#EF3C34",
@@ -612,10 +661,10 @@ export default function Certificate({ route }) {
             style={{
               width: 166,
               padding: 6,
-              backgroundColor: modifyemploymentProof ? "#EF3C3429" : "#F4F5F7",
+              backgroundColor: (modifyemploymentProof && !reloadEmploymentProof) ? "#EF3C3429" : "#F4F5F7",
               borderWidth: 2,
               borderRadius: 4,
-              borderColor: modifyemploymentProof ? "#EF3C34" : "white",
+              borderColor: (modifyemploymentProof && !reloadEmploymentProof) ? "#EF3C34" : "white",
             }}
             onPress={() => showPickImageModel(3)}
           >
@@ -629,7 +678,7 @@ export default function Certificate({ route }) {
               transition={500}
             />
           </Pressable>
-          { modifyemploymentProof && <Text
+          { (modifyemploymentProof && !reloadEmploymentProof) && <Text
                style={{
                 fontSize: 12,
                 color: "#EF3C34",
@@ -644,7 +693,7 @@ export default function Certificate({ route }) {
           title = "Submit"
           onPress={onClickUpdateIdentityInfo}
           style={{
-            backgroundColor:  !isUploading && canSubmit ? "#0825B8" : '#C0C4D6',
+            backgroundColor:  SubmitButtonClickable() ? "#0825B8" : '#C0C4D6',
             marginHorizontal: 15,
             marginVertical: 20
           }}

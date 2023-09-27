@@ -28,8 +28,6 @@ module.exports = ({ config }) => ({
     package: "com.alphacash.easy.credit.loan.paisa",
     permissions: [
       "ACCESS_COARSE_LOCATION",
-      //"ACCESS_FINE_LOCATION",
-      //"ACCESS_BACKGROUND_LOCATION",
       "READ_CALENDAR",
       "WRITE_CALENDAR",
       "QUERY_ALL_PACKAGES",
@@ -37,6 +35,11 @@ module.exports = ({ config }) => ({
     blockedPermissions: [
       "android.permission.READ_EXTERNAL_STORAGE",
       "android.permission.ACCESS_FINE_LOCATION",
+      "android.permission.READ_MEDIA_IMAGES",
+      "android.permission.READ_CONTACTS",
+      "android.permission.READ_PHONE_NUMBERS",
+      "android.permission.READ_MEDIA_VIDEO",
+      "android.permission.READ_MEDIA_AUDIO",
       "android.permission.WRITE_EXTERNAL_STORAGE",
       "android.permission.RECORD_AUDIO",
       "android.permission.MODIFY_AUDIO_SETTINGS",
@@ -51,7 +54,7 @@ module.exports = ({ config }) => ({
       ? {
           policy: "sdkVersion",
         }
-      : "0.0.7",
+      : "0.0.8",
   updates: {
     fallbackToCacheTimeout: 0,
     url: "https://u.expo.dev/462bceb9-15ba-4d76-bcad-d93ef54c4c31",

@@ -15,10 +15,9 @@ import {
   useUpdateIdentityInfo,
   useUpdateBillUserImages,
   useGetAccounts,
-  useGetUserFormStatus,
   useGetUserQuota
 } from "@apis";
-import * as ImagePicker from "expo-image-picker";
+import * as ImagePicker from "fork-expo-image-picker";
 import { useI18n } from "@hooks/useI18n";
 import { useAbleImage } from "@hooks/useAbleImage";
 import mime from "mime";
@@ -43,7 +42,6 @@ export default function Certificate({ route }) {
   const navigation = useNavigation();
   const [showModalType, setShowModalType] = useState("");
   const { mutate: getUserQuota, data: axiosRes } = useGetUserQuota();
-  const { mutate: getUserFormStatus, data: formStatus} = useGetUserFormStatus();
 
   const {
     mutate: getIdentityInfo,
@@ -95,7 +93,6 @@ export default function Certificate({ route }) {
   const [fromScreen, setFromScreen] = useState("");
   const [canSubmit, setCanSubmit] = useState(false);
   const [isUploading, setUploading] = useState(false);
-  const [isCompletedIdentity, setIsCompletedIdentity] = useState(false);
   // const [permission, requestPermission] = Camera.useCameraPermissions();
 
   // useEffect(() => {
@@ -108,16 +105,7 @@ export default function Certificate({ route }) {
     getIdentityInfo();
     getAccounts();
     getUserQuota();
-    getUserFormStatus();
   }, []);
-
-  useEffect(() => {
-
-    if (formStatus?.data?.error_code == 1) {
-      const status = formStatus?.data?.data || {};
-      setIsCompletedIdentity(status.isCompletedIdentity);
-    }
-  }, [formStatus]);
 
   useEffect(() => {
     const cl = axiosRes?.data?.data?.cashLoan;
@@ -139,7 +127,7 @@ export default function Certificate({ route }) {
      reloadEmploymentProof, editAble]);
 
   useEffect(() => {
-    if (cards && cards.data && Array.isArray(cards.data.data) && cards.data.data.length > 0) {
+    if (Array.isArray(cards?.data?.data) && cards.data.data.length > 0) {
       setHasCards(true);
     } else {
       setHasCards(false);
@@ -149,7 +137,7 @@ export default function Certificate({ route }) {
   useEffect(() => {
     const isUpdate = route.params ? route.params.isUpdate : false;
     const isModify = route.params ? route.params.isModify : false;
-    console.log('Sun >>> isUpdate == ' + isUpdate + "isModify == " + isModify)
+    console.log("Sun >>> isUpdate == " + isUpdate + "isModify == " + isModify);
     const fromScreen = route.params ? route.params.fromScreen : "";
     setFromScreen(fromScreen);
     setIsUpdate(!!isUpdate);
@@ -235,12 +223,12 @@ export default function Certificate({ route }) {
         setModifyemploymentProof(true);
         setReloadEmploymentProof(false);
     }
-  }
+  };
 
   // 首次添加 或 更改图片
   useEffect(() => {
-    const errorCode = updateIdentityInfoResponse?.data?.error_code
-    if ( errorCode == 1) {
+    const errorCode = updateIdentityInfoResponse?.data?.error_code;
+    if (errorCode === 1) {
       setUploading(false);
       console.log("Sun >>>>>>>>>> updateIdentityInfoResponse");
       if (isUpdate) {
@@ -252,18 +240,18 @@ export default function Certificate({ route }) {
             navigation.push("Apply");
           } else {
             // 如果没有收款账号，就跳转到 添加新收款账号
-            navigation.push("AddNewAccount", { fromScreen: "Apply",card: {} });
+            navigation.push("AddNewAccount", { fromScreen: "Apply", card: {} });
           }
         } else {
           if (hasCards) {
             navigation.push("Credentials");
           } else {
-             // 如果没有收款账号，就跳转到 添加新收款账号
-             navigation.push("AddNewAccount", { fromScreen: "",card: {} });
+            // 如果没有收款账号，就跳转到 添加新收款账号
+            navigation.push("AddNewAccount", { fromScreen: "", card: {} });
           }
         }
       }
-    } else if (errorCode == 3) {
+    } else if (errorCode === 3) {
       setImageError(updateIdentityInfoResponse);
     }
   }, [updateIdentityInfoResponse]);
@@ -271,7 +259,7 @@ export default function Certificate({ route }) {
   //bill中有错 修改错误图片
   useEffect(() => {
     const errorCode = updateBillUserImagesResponse?.data?.error_code;
-    if (errorCode == 1) {
+    if (errorCode === 1) {
       console.log("0.0 >>>>>>>>>> updateBillUserImagesResponse");
       Toast.info({
         content: i18n.t("modify successfully"),
@@ -279,8 +267,7 @@ export default function Certificate({ route }) {
       });
       setUploading(false);
       navigation.push("Homepage");
-    } else if (errorCode == 3) {
-
+    } else if (errorCode === 3) {
       setImageError(updateBillUserImagesResponse);
     }
   }, [updateBillUserImagesResponse]);
@@ -288,12 +275,12 @@ export default function Certificate({ route }) {
   const showPickImageModel = (id) => {
     let hasError = false;
 
-    switch(id) {
+    switch (id) {
       case 0:
         hasError = modifycnicFront;
         break;
       case 1:
-        hasError = modifycnicBack ;
+        hasError = modifycnicBack;
         break;
       case 2:
         hasError = modifycnicInHand;
@@ -344,7 +331,7 @@ export default function Certificate({ route }) {
     };
     updatedImages[index] = img;
 
-    switch(index) {
+    switch (index) {
       case 0:
         setReloadCnicFront(true);
         break;
@@ -364,6 +351,11 @@ export default function Certificate({ route }) {
   const takePhoto = async () => {
     setShowTips(false);
 
+    const granted = await ImagePicker.requestCameraPermissionsAsync();
+    if (!granted.granted) {
+      return;
+    }
+
     const result = await ImagePicker.launchCameraAsync({
       // allowsEditing: true,
     });
@@ -381,7 +373,7 @@ export default function Certificate({ route }) {
       name: imgUri.split("/").pop(),
     };
     updatedImages[index] = img;
-    switch(index) {
+    switch (index) {
       case 0:
         setReloadCnicFront(true);
         break;
@@ -420,7 +412,7 @@ export default function Certificate({ route }) {
       cnicInHand: imageList[2],
       employmentProof: imageList[3],
     };
-    console.log('Sun >>> isUpdate == ' + isUpdate + "isModify == " + isModify)
+    console.log("Sun >>> isUpdate == " + isUpdate + "isModify == " + isModify);
     if (isModify) {
       updateBillUserImages(params);
     } else {
@@ -471,10 +463,13 @@ export default function Certificate({ route }) {
           }}
         >
           <View
-            style={[{
-              justifyContent: "space-between",
-              marginBottom: 12,
-            },  getRTLView(locale)]}
+            style={[
+              {
+                justifyContent: "space-between",
+                marginBottom: 12,
+              },
+              getRTLView(locale),
+            ]}
           >
             <Text style={styles.boldTextStyle}>{i18n.t("CNIC Card")}</Text>
             <Pressable
@@ -591,10 +586,13 @@ export default function Certificate({ route }) {
         {/* in hand */}
         <View style={{ paddingHorizontal: 15, marginTop: 20 }}>
           <View
-            style={[{
-              justifyContent: "space-between",
-              marginBottom: 12,
-            },  getRTLView(locale)]}
+            style={[
+              {
+                justifyContent: "space-between",
+                marginBottom: 12,
+              },
+              getRTLView(locale),
+            ]}
           >
             <Text style={styles.boldTextStyle}>
               {i18n.t("Take photo with CNIC card in hand")}
@@ -632,10 +630,12 @@ export default function Certificate({ route }) {
                 color: "#EF3C34",
                 marginHorizontal: 48,
                 marginTop: 6,
-                fontWeight:'bold'
-              }}>
-                {i18n.t("Need modify")}
-              </Text>}
+                fontWeight: "bold",
+              }}
+            >
+              {i18n.t("Need modify")}
+            </Text>
+          )}
         </View>
 
         <View style={styles.shadowContent}></View>
@@ -643,10 +643,13 @@ export default function Certificate({ route }) {
         {/* proof employment */}
         <View style={{ paddingHorizontal: 15, marginTop: 20 }}>
           <View
-            style={[{
-              justifyContent: "space-between",
-              marginBottom: 12,
-            }, getRTLView(locale)]}
+            style={[
+              {
+                justifyContent: "space-between",
+                marginBottom: 12,
+              },
+              getRTLView(locale),
+            ]}
           >
             <Text style={styles.boldTextStyle}>
               {i18n.t("Proof Employment")}
@@ -678,24 +681,26 @@ export default function Certificate({ route }) {
               transition={500}
             />
           </Pressable>
-          { (modifyemploymentProof && !reloadEmploymentProof) && <Text
+          {(modifyemploymentProof && !reloadEmploymentProof) && <Text
                style={{
                 fontSize: 12,
                 color: "#EF3C34",
                 marginHorizontal: 48,
                 marginTop: 6,
-                fontWeight:'bold'
-              }}>
-                {i18n.t("Need modify")}
-              </Text>}
+                fontWeight: "bold",
+              }}
+            >
+              {i18n.t("Need modify")}
+            </Text>
+          }
         </View>
-        <FButton 
-          title = "Submit"
+        <FButton
+          title="Submit"
           onPress={onClickUpdateIdentityInfo}
           style={{
             backgroundColor:  SubmitButtonClickable() ? "#0825B8" : '#C0C4D6',
             marginHorizontal: 15,
-            marginVertical: 20
+            marginVertical: 20,
           }}
         />
       </View>
@@ -709,7 +714,7 @@ export default function Certificate({ route }) {
         <View style={styles.otherContainer}>
           <View style={styles.photoViewStyle}>
             <Pressable
-              onPress={() => takePhoto()}
+              onPress={takePhoto}
               style={{
                 flex: 1,
                 borderTopLeftRadius: 8,
@@ -731,7 +736,7 @@ export default function Certificate({ route }) {
             ></View>
 
             <Pressable
-              onPress={() => pickImage()}
+              onPress={pickImage}
               style={{
                 flex: 1,
                 justifyContent: "center",

@@ -110,10 +110,8 @@ export function QuotaButtons() {
   const [isFormCompleted, setIsFormCompleted] = useState(false);
   const [targeFormStep, setTargetFormStep] = useState("");
   const isFocused = useIsFocused();
-  const [getLoaning, setGetLoaning] = useState(false);
 
   useEffect(() => {
-    setGetLoaning(false);
     getUserFormStatus();
     //pushApplist();
   }, [isFocused]);
@@ -173,16 +171,6 @@ export function QuotaButtons() {
     }
 
     // 拿到信息后，需要传给后端
-    //const applist = [
-    //  {
-    //    packageName: "aa.bb.cc",
-    //    firstInstallTime: 1691998080454,
-    //    lastUpdateTime: 1691999080454,
-    //    appName: "abc",
-    //    appType: 1,
-    //  },
-    //];
-
     if (applist.length <= 0) {
       return;
     }
@@ -203,13 +191,8 @@ export function QuotaButtons() {
 
   const clickGetLoan = useCallback(() => {
     setFaceData({ uri: "", type: "", name: "" }); // 清除人脸识别数据
-    if (getLoaning) {
-      return;
-    }
 
     if (isLogin) {
-      setGetLoaning(true);
-      // navigation.push("FaceDetectionScreen");
       pushApplist();
       if (isFormCompleted) {
         doTrack("pk22", 1);
@@ -342,7 +325,7 @@ export function QuotaButtons() {
         }}
         onPress={clickGetLoan}
         title="GetLoan"
-        disabled={!cashLoan.isEligible && !getLoaning}
+        disabled={!cashLoan.isEligible}
       />
     </View>
   );

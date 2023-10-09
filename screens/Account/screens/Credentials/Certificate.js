@@ -392,7 +392,7 @@ export default function Certificate({ route }) {
 
   const onClickUpdateIdentityInfo = () => {
     if(!canSubmit) {
-      if (modifycnicBack || modifycnicFront || modifycnicInHand || modifyemploymentProof) {
+      if (modifycnicBack || modifycnicFront || modifycnicInHand || modifyemploymentProof || imageList.length < 4) {
         Toast.info({
           content: 'please complete the info',
           duration: 3,

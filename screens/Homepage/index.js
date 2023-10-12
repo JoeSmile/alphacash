@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, BackHandler } from "react-native";
+import { ScrollView, StyleSheet, BackHandler, Text } from "react-native";
 import { View } from "../../components/Themed";
 import {
   widthPercentageToDP as wp,
@@ -83,11 +83,11 @@ export default function Homepage({ route, navigation }) {
     //console.log("cashloan: ", cl);
     if (cl && JSON.stringify(cashLoan) !== JSON.stringify(cl)) {
       setCashLoan(cl);
-      if (!cl.isEligible) {
-        setVisible(true);
-        setType(MODAL_TYPE.ELIGIBLE);
-        return;
-      }
+      // if (!cl.isEligible) {
+      //   setVisible(true);
+      //   setType(MODAL_TYPE.ELIGIBLE);
+      //   return;
+      // }
 
       if (cl.bill?.appStatus === LOAN_STATUS.using) {
         doTrack("pk33", 1);
@@ -194,15 +194,21 @@ export default function Homepage({ route, navigation }) {
     //}
   }, []);
 
+
   return (
     <ScrollView style={[styles.container, getWritingDirectionStyle(locale)]}>
       <View style={styles.banner} />
       <CompanyIntro />
-      <Quota />
+      <Quota setVisible={(flag) => {
+        setVisible(flag);
+      }} setType={(type) => setType(type)} />
       <Advantage />
       <AntiFraudTips />
       <OnlineService />
-      <HomeModals showModal={modalVisible} type={modalType} />
+      <HomeModals showModal={modalVisible} setVisible={(flag) => {
+          setVisible(false);
+        }} type={modalType} />
+      
     </ScrollView>
   );
 }

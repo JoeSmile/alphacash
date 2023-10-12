@@ -17,7 +17,10 @@ const displayLumpSumRepaymentAmount = [
   301, 303
 ]
 
-export function Quota() {
+export function Quota({
+  setVisible,
+  setType
+}) {
   const { i18n, locale } = useI18n();
   const [isFormCompleted, setIsFormCompleted] = useState(false);
   const { mutate: getUserFormStatus, data, isLoading } = useGetUserFormStatus();
@@ -97,7 +100,7 @@ export function Quota() {
           {setAmount()}
         </Text>
       </View>
-      <QuotaButtons />
+      <QuotaButtons  setVisible={setVisible} setType={setType} />
       {(hasBill ? false : isFormCompleted ? false : true) && <Process />}
     </View>
   );

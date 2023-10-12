@@ -15,7 +15,7 @@ export const MODAL_TYPE = {
   ELIGIBLE: "ELIGIBLE",
 };
 
-function HomeModals({ showModal, type }) {
+function HomeModals({ showModal, type, setVisible }) {
   const { i18n, locale } = useI18n();
 
   const [isLogin, isRatePoped, isRepayReminderOn, setRatePoped, setReminderOn] =
@@ -149,6 +149,7 @@ function HomeModals({ showModal, type }) {
               style={[styles.button, styles.buttonRefuse]}
               onPress={() => {
                 setModalVisible(false);
+               
               }}
             >
               <Text style={styles.btnText}>{i18n.t("NoOpen")}</Text>
@@ -185,6 +186,7 @@ function HomeModals({ showModal, type }) {
             onPress={() => {
               doTrack("pk7", 1);
               setModalVisible(false);
+              setVisible(false);
             }}
           >
             <Text style={styles.btnText}>{i18n.t("I Know")}</Text>
@@ -214,7 +216,7 @@ function HomeModals({ showModal, type }) {
 
     setModalVisible(false);
   }, []);
-
+  
   return (
     <FModal
       isOpen={modalVisible}

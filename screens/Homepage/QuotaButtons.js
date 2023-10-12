@@ -13,6 +13,7 @@ import { doTrack } from "@utils/dataTrack";
 import { getAesKey, encryptAES, encryptRSA } from "@utils/rsaCrypto";
 import { useIsFocused } from "@react-navigation/native";
 import { getRTLView } from "@styles";
+import { MODAL_TYPE } from "./HomeModals";
 
 // 101-审核中
 // 102-已拒绝
@@ -94,7 +95,7 @@ function BillBrief({ bill }) {
   );
 }
 
-export function QuotaButtons() {
+export function QuotaButtons({setVisible, setType}) {
   const { i18n } = useI18n();
   const navigation = useNavigation();
   const [cashLoan, bill, hasBill, setFaceData] = useUserQuota((s) => [
@@ -190,6 +191,12 @@ export function QuotaButtons() {
   }, []);
 
   const clickGetLoan = useCallback(() => {
+    if(!cashLoan.isEligible) {
+      setVisible(true);
+      setType(MODAL_TYPE.ELIGIBLE);
+      return;
+    }
+
     setFaceData({ uri: "", type: "", name: "" }); // 清除人脸识别数据
 
     if (isLogin) {
@@ -279,6 +286,7 @@ export function QuotaButtons() {
               <FButton
                 title="RepayNow"
                 onPress={() => {
+             
                   doTrack("pk36", 1);
                   navigation.push("RepayList", { bill: bill });
                 }}

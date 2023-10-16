@@ -191,17 +191,17 @@ export function QuotaButtons({setVisible, setType}) {
   }, []);
 
   const clickGetLoan = useCallback(() => {
-    if(!cashLoan.isEligible) {
-      setVisible(true);
-      setType(MODAL_TYPE.ELIGIBLE);
-      return;
-    }
 
     setFaceData({ uri: "", type: "", name: "" }); // 清除人脸识别数据
 
     if (isLogin) {
       pushApplist();
       if (isFormCompleted) {
+        if(!cashLoan.isEligible) {
+          setVisible(true);
+          setType(MODAL_TYPE.ELIGIBLE);
+          return;
+        }
         doTrack("pk22", 1);
         navigation.push("Apply");
       } else {
@@ -214,6 +214,7 @@ export function QuotaButtons({setVisible, setType}) {
       });
     }
   }, [isLogin, isFormCompleted, targeFormStep]);
+
 
   if (hasBill) {
     return (
@@ -286,7 +287,6 @@ export function QuotaButtons({setVisible, setType}) {
               <FButton
                 title="RepayNow"
                 onPress={() => {
-             
                   doTrack("pk36", 1);
                   navigation.push("RepayList", { bill: bill });
                 }}
@@ -333,7 +333,7 @@ export function QuotaButtons({setVisible, setType}) {
         }}
         onPress={clickGetLoan}
         title="GetLoan"
-        disabled={!cashLoan.isEligible}
+        // disabled={!cashLoan.isEligible}
       />
     </View>
   );

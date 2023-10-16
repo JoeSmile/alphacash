@@ -100,7 +100,7 @@ export function Quota({
           {setAmount()}
         </Text>
       </View>
-      <QuotaButtons  setVisible={setVisible} setType={setType} />
+      <QuotaButtons setVisible={setVisible} setType={setType} />
       {(hasBill ? false : isFormCompleted ? false : true) && <Process />}
     </View>
   );

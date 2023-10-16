@@ -18,7 +18,7 @@ export function FButton(props) {
   return (
     <Pressable
       style={[styles.button, style, getRTLView(locale)]}
-      onPress={debounce(onPress, 280)}
+      onPress={debounce(onPress, 500)}
       {...restProps}
     >
       <Text style={[styles.text, textStyle]}>{i18n.t(title)}</Text>

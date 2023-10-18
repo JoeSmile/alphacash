@@ -15,9 +15,10 @@ import {
   useUpdateIdentityInfo,
   useUpdateBillUserImages,
   useGetAccounts,
-  useGetUserQuota
+  useGetUserQuota,
 } from "@apis";
 import * as ImagePicker from "fork-expo-image-picker";
+import { Image as ImageCompressor } from "react-native-compressor";
 import { useI18n } from "@hooks/useI18n";
 import { useAbleImage } from "@hooks/useAbleImage";
 import mime from "mime";
@@ -30,7 +31,6 @@ import { Toast } from "@ant-design/react-native";
 import { doTrack } from "@utils/dataTrack";
 import { getWritingDirectionStyle, getRevertImage, getRTLView } from "@styles";
 import { FButton } from "@components/FButton";
-
 
 const imageUri = require("@assets/images/info_pic_cnic_card_positive.png");
 const imageUri1 = require("@assets/images/info_pic_cnic_card_negative.png");
@@ -64,9 +64,7 @@ export default function Certificate({ route }) {
   } = useUpdateBillUserImages();
 
   const { mutate: getAccounts, data: cards, isLoading } = useGetAccounts();
-  const [setCashLoan] = useUserQuota(
-    (s) => [s.setCashLoan]
-  );
+  const [setCashLoan] = useUserQuota((s) => [s.setCashLoan]);
   const { i18n, locale } = useI18n();
   const [imageList, setImage] = useState([]);
   const [showTips, setShowTips] = useState(false);
@@ -114,17 +112,30 @@ export default function Certificate({ route }) {
     }
   }, [axiosRes]);
 
-
   useEffect(() => {
-    if((!modifycnicBack || reloadCnicBack) && (!modifycnicFront || reloadCnicFront) && (!modifycnicInHand  || reloadCnicInHand )&& (!modifyemploymentProof || reloadEmploymentProof) && imageList.length == 4) {
+    if (
+      (!modifycnicBack || reloadCnicBack) &&
+      (!modifycnicFront || reloadCnicFront) &&
+      (!modifycnicInHand || reloadCnicInHand) &&
+      (!modifyemploymentProof || reloadEmploymentProof) &&
+      imageList.length == 4
+    ) {
       setCanSubmit(true);
     } else {
       setCanSubmit(false);
     }
-  }, [modifycnicBack, modifycnicFront, modifycnicInHand,
-     modifyemploymentProof, imageList, reloadCnicBack,
-     reloadCnicFront, reloadCnicInHand, 
-     reloadEmploymentProof, editAble]);
+  }, [
+    modifycnicBack,
+    modifycnicFront,
+    modifycnicInHand,
+    modifyemploymentProof,
+    imageList,
+    reloadCnicBack,
+    reloadCnicFront,
+    reloadCnicInHand,
+    reloadEmploymentProof,
+    editAble,
+  ]);
 
   useEffect(() => {
     if (Array.isArray(cards?.data?.data) && cards.data.data.length > 0) {
@@ -208,20 +219,20 @@ export default function Certificate({ route }) {
 
     const data = response.data.data;
     if (data.cnicBack && data.cnicBack.length) {
-        setModifycnicBack(true);
-        setReloadCnicBack(false);
+      setModifycnicBack(true);
+      setReloadCnicBack(false);
     }
     if (data.cnicFront && data.cnicFront.length) {
-        setModifycnicFront(true);
-        setReloadCnicFront(false);
+      setModifycnicFront(true);
+      setReloadCnicFront(false);
     }
     if (data.cnicInHand && data.cnicInHand.length) {
-        setModifycnicInHand(true);
-        setReloadCnicInHand(false);
+      setModifycnicInHand(true);
+      setReloadCnicInHand(false);
     }
     if (data.employmentProof && data.employmentProof.length) {
-        setModifyemploymentProof(true);
-        setReloadEmploymentProof(false);
+      setModifyemploymentProof(true);
+      setReloadEmploymentProof(false);
     }
   };
 
@@ -357,8 +368,9 @@ export default function Certificate({ route }) {
     }
 
     const result = await ImagePicker.launchCameraAsync({
-      // allowsEditing: true,
+      //quality: 0.3,
     });
+    console.log("Sun imgUri =>>> " + 0.3);
 
     if (result.canceled) {
       return;
@@ -367,10 +379,22 @@ export default function Certificate({ route }) {
     let updatedImages = [...imageList];
     const imgUri = result.assets[0].uri;
     console.log("Sun imgUri =>>> " + imgUri);
+    let compressorImgUri;
+    try {
+      compressorImgUri = await ImageCompressor.compress(imgUri, {
+        maxHeight: 960,
+        maxHeight: 960,
+        quality: 0.8,
+      });
+    } catch (error) {
+      console.log("image compress error: ", error);
+    }
+    console.log("Sun compressorImgUri =>>> " + compressorImgUri);
+    const rawImgUri = compressorImgUri || imgUri;
     const img = {
-      uri: imgUri,
-      type: mime.getType(imgUri),
-      name: imgUri.split("/").pop(),
+      uri: rawImgUri,
+      type: mime.getType(rawImgUri),
+      name: rawImgUri.split("/").pop(),
     };
     updatedImages[index] = img;
     switch (index) {
@@ -391,16 +415,22 @@ export default function Certificate({ route }) {
   };
 
   const onClickUpdateIdentityInfo = () => {
-    if(!canSubmit) {
-      if (modifycnicBack || modifycnicFront || modifycnicInHand || modifyemploymentProof || imageList.length < 4) {
+    if (!canSubmit) {
+      if (
+        modifycnicBack ||
+        modifycnicFront ||
+        modifycnicInHand ||
+        modifyemploymentProof ||
+        imageList.length < 4
+      ) {
         Toast.info({
-          content: 'please complete the info',
+          content: "please complete the info",
           duration: 3,
         });
       }
       return;
     }
-    
+
     if (!SubmitButtonClickable()) {
       return;
     }
@@ -420,24 +450,28 @@ export default function Certificate({ route }) {
     }
   };
 
-
-    // 蓝色 可以提交 
-    // 1. 表单完成，如果有错 对应的 reload 为true  --- canSubmit
-    // 灰色 不能提交 
-    // 1. 如果有错，提交时显示 complete the info
-    // 2. 初次进入，可以修改，但表单未完成
-    // 3. 不能修改 editAble == false 且 没有错误
-    // 4. 表单完成，没有错，当前状态
+  // 蓝色 可以提交
+  // 1. 表单完成，如果有错 对应的 reload 为true  --- canSubmit
+  // 灰色 不能提交
+  // 1. 如果有错，提交时显示 complete the info
+  // 2. 初次进入，可以修改，但表单未完成
+  // 3. 不能修改 editAble == false 且 没有错误
+  // 4. 表单完成，没有错，当前状态
   const SubmitButtonClickable = () => {
-
-    // 表单已完成，没有错，且"不能修改"状态 
-    if (imageList.length == 4 && !modifycnicBack && !modifycnicFront && !modifycnicInHand && !modifyemploymentProof && !editAble) {
+    // 表单已完成，没有错，且"不能修改"状态
+    if (
+      imageList.length == 4 &&
+      !modifycnicBack &&
+      !modifycnicFront &&
+      !modifycnicInHand &&
+      !modifyemploymentProof &&
+      !editAble
+    ) {
       return false;
     }
 
-    return !isUploading && canSubmit
-
-  }
+    return !isUploading && canSubmit;
+  };
   return (
     <ScrollView style={[styles.container, getWritingDirectionStyle(locale)]}>
       <Spinner
@@ -494,10 +528,14 @@ export default function Certificate({ route }) {
                 style={{
                   width: 166,
                   padding: 6,
-                  backgroundColor: (modifycnicFront && !reloadCnicFront)? "#EF3C3429" : "#F4F5F7",
+                  backgroundColor:
+                    modifycnicFront && !reloadCnicFront
+                      ? "#EF3C3429"
+                      : "#F4F5F7",
                   borderWidth: 2,
                   borderRadius: 4,
-                  borderColor: (modifycnicFront && !reloadCnicFront) ? "#EF3C34" : "white",
+                  borderColor:
+                    modifycnicFront && !reloadCnicFront ? "#EF3C34" : "white",
                 }}
               >
                 <Image
@@ -520,16 +558,19 @@ export default function Certificate({ route }) {
               >
                 {i18n.t("CNIC Card Front")}
               </Text>
-              { (modifycnicFront && !reloadCnicFront) && <Text
-               style={{
-                fontSize: 12,
-                color: "#EF3C34",
-                alignSelf: "center",
-                marginTop: 6,
-                fontWeight:'bold'
-              }}>
-                {i18n.t("Need modify")}
-              </Text>}
+              {modifycnicFront && !reloadCnicFront && (
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: "#EF3C34",
+                    alignSelf: "center",
+                    marginTop: 6,
+                    fontWeight: "bold",
+                  }}
+                >
+                  {i18n.t("Need modify")}
+                </Text>
+              )}
             </Pressable>
             <Pressable
               onPress={() => showPickImageModel(1)}
@@ -541,10 +582,12 @@ export default function Certificate({ route }) {
                 style={{
                   width: 166,
                   padding: 6,
-                  backgroundColor: (modifycnicBack && !reloadCnicBack) ? "#EF3C3429" : "#F4F5F7",
+                  backgroundColor:
+                    modifycnicBack && !reloadCnicBack ? "#EF3C3429" : "#F4F5F7",
                   borderWidth: 2,
                   borderRadius: 4,
-                  borderColor: (modifycnicBack && !reloadCnicBack) ? "#EF3C34" : "white",
+                  borderColor:
+                    modifycnicBack && !reloadCnicBack ? "#EF3C34" : "white",
                 }}
               >
                 <Image
@@ -567,16 +610,19 @@ export default function Certificate({ route }) {
               >
                 {i18n.t("CNIC Card Back")}
               </Text>
-              { (modifycnicBack && !reloadCnicBack) && <Text
-               style={{
-                fontSize: 12,
-                color: "#EF3C34",
-                alignSelf: "center",
-                marginTop: 6,
-                fontWeight:'bold'
-              }}>
-                {i18n.t("Need modify")}
-              </Text>}
+              {modifycnicBack && !reloadCnicBack && (
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: "#EF3C34",
+                    alignSelf: "center",
+                    marginTop: 6,
+                    fontWeight: "bold",
+                  }}
+                >
+                  {i18n.t("Need modify")}
+                </Text>
+              )}
             </Pressable>
           </View>
         </View>
@@ -607,10 +653,12 @@ export default function Certificate({ route }) {
             style={{
               width: 166,
               padding: 6,
-              backgroundColor: (modifycnicInHand && !reloadCnicInHand) ? "#EF3C3429" : "#F4F5F7",
+              backgroundColor:
+                modifycnicInHand && !reloadCnicInHand ? "#EF3C3429" : "#F4F5F7",
               borderWidth: 2,
               borderRadius: 4,
-              borderColor: (modifycnicInHand && !reloadCnicInHand) ? "#EF3C34" : "white",
+              borderColor:
+                modifycnicInHand && !reloadCnicInHand ? "#EF3C34" : "white",
             }}
             onPress={() => showPickImageModel(2)}
           >
@@ -624,8 +672,9 @@ export default function Certificate({ route }) {
               transition={500}
             />
           </Pressable>
-          { (modifycnicInHand && !reloadCnicInHand) && <Text
-               style={{
+          {modifycnicInHand && !reloadCnicInHand && (
+            <Text
+              style={{
                 fontSize: 12,
                 color: "#EF3C34",
                 marginHorizontal: 48,
@@ -635,7 +684,7 @@ export default function Certificate({ route }) {
             >
               {i18n.t("Need modify")}
             </Text>
-          }
+          )}
         </View>
 
         <View style={styles.shadowContent}></View>
@@ -664,10 +713,16 @@ export default function Certificate({ route }) {
             style={{
               width: 166,
               padding: 6,
-              backgroundColor: (modifyemploymentProof && !reloadEmploymentProof) ? "#EF3C3429" : "#F4F5F7",
+              backgroundColor:
+                modifyemploymentProof && !reloadEmploymentProof
+                  ? "#EF3C3429"
+                  : "#F4F5F7",
               borderWidth: 2,
               borderRadius: 4,
-              borderColor: (modifyemploymentProof && !reloadEmploymentProof) ? "#EF3C34" : "white",
+              borderColor:
+                modifyemploymentProof && !reloadEmploymentProof
+                  ? "#EF3C34"
+                  : "white",
             }}
             onPress={() => showPickImageModel(3)}
           >
@@ -681,8 +736,9 @@ export default function Certificate({ route }) {
               transition={500}
             />
           </Pressable>
-          {(modifyemploymentProof && !reloadEmploymentProof) && <Text
-               style={{
+          {modifyemploymentProof && !reloadEmploymentProof && (
+            <Text
+              style={{
                 fontSize: 12,
                 color: "#EF3C34",
                 marginHorizontal: 48,
@@ -692,13 +748,13 @@ export default function Certificate({ route }) {
             >
               {i18n.t("Need modify")}
             </Text>
-          }
+          )}
         </View>
         <FButton
           title="Submit"
           onPress={onClickUpdateIdentityInfo}
           style={{
-            backgroundColor:  SubmitButtonClickable() ? "#0825B8" : '#C0C4D6',
+            backgroundColor: SubmitButtonClickable() ? "#0825B8" : "#C0C4D6",
             marginHorizontal: 15,
             marginVertical: 20,
           }}

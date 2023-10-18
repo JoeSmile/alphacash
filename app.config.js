@@ -90,6 +90,7 @@ module.exports = ({ config }) => ({
           "This identifier will be used to deliver personalized ads to you.",
       },
     ],
+    "react-native-compressor",
   ],
   extra: {
     ENV: process.env.ENV,
